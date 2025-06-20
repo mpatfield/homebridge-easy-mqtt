@@ -6,19 +6,23 @@
       "ES2022"
     ],
     "rootDir": "src",
-    "module": "ES2022",
-    "moduleResolution": "node",
+    "module": "nodenext",
     "strict": true,
     "declaration": true,
     "outDir": "dist",
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
   },
   "include": [
     "eslint.config.js",
-    "homebridge-ui",
     "src"
+  ],
+  "exclude": [
+    "eslint.config.ts",
+    "node_modules",
+    "src/homebridge-ui/ui.ts"
   ]
 }
