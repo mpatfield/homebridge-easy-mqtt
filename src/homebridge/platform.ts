@@ -2,7 +2,7 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig }
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings.js';
 
-import { setLanguage, strings } from '../i18n/i18n.js';
+import { setLanguage } from '../i18n/i18n.js';
 
 import { Log } from '../tools/log.js';
 import getVersion from '../tools/version.js';
