@@ -84,7 +84,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
       this.accessories.set(id, accessory);
     }
 
-    new LockAccessory(this.log, accessory, this.api.hap.Service, this.api.hap.Characteristic, this.api.user.persistPath());
+    new LockAccessory(this.log, accessory, this.api.hap.Service, this.api.hap.Characteristic);
     // });
 
     this.accessories.forEach(accessory => {

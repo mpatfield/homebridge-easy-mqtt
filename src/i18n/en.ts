@@ -1,7 +1,9 @@
 const en = {
 
   config: {
-    todo: 'TODO',
+    thankYou: '',
+    support: '',
+    continue: '%s',
   },
 
 };
