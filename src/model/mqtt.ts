@@ -1,16 +1,22 @@
 import mqtt from 'mqtt';
 
-// import { strings } from '../i18n/i18n.js';
+import { MQTTConfig, Primitive } from './types.js';
 
-import { Log } from '../tools/log.js';
+import { strings } from '../i18n/i18n.js';
+
+import { Log, LogType } from '../tools/log.js';
 import { SECOND, MINUTE } from '../tools/time.js';
-
-const BROKER_URL = 'mqtt://192.168.0.5';
 
 const KEEPALIVE = 90;
 
-const DELAYS = [5 * SECOND, 15 * SECOND, MINUTE, 2 * MINUTE, 5 * MINUTE];
-const IDLE_CONNECTION_TIMER_INTERVAL = 16 * MINUTE;
+const DELAYS = [5 * SECOND, 10 * SECOND, 15 * SECOND, 30 * SECOND, MINUTE, 2 * MINUTE];
+const IDLE_CONNECTION_TIMER_INTERVAL = 5 * MINUTE;
+
+type MQTTListener = (topic: string, value: Primitive) => void;
+
+interface MQTTError extends Error {
+  code?: string | number;
+}
 
 export class MQTT {
   private client: mqtt.MqttClient | null = null;
@@ -19,13 +25,15 @@ export class MQTT {
   private reconnectCount = 0;
   private idleMQTTTimer: NodeJS.Timeout | null = null;
 
-  private listeners = new Map<string, any>();
+  private listeners = new Map<string, MQTTListener>();
 
   constructor(
-    public readonly log: Log,
+    private readonly log: Log,
+    private readonly config: MQTTConfig,
+    private readonly onConnect: ()=>(void),
+    private readonly caller: string,
   ) {}
 
-  // TODO call this externally?
   teardown(): void {
     this.shouldReconnect = false;
     if (this.client) {
@@ -34,55 +42,49 @@ export class MQTT {
     }
   }
 
-  public connect(callback: ()=>(void)): void {
-    
-    // const timeString = Date.now().toString().replace('.', '').slice(0, 13);
-    // const clientId = `${this.email}${timeString}_android`;
+  public connect(): void {
 
     const options = {
       keepalive: KEEPALIVE,
       reconnectPeriod: 0,
     };
 
-    this.client = mqtt.connect(BROKER_URL, options);
+    this.client = mqtt.connect(this.config.broker, options);
 
     this.client.on('connect', () => {
-      this.log.always('connected'); // TODO strings.mqtt.connected);
-      callback();
+      this.log.ifVerbose(strings.mqtt.connected, this.caller);
+      this.onConnect();
     });
 
     this.client.on('message', (topic, message) => this.messageReceived(topic, message.toString()));
 
     this.client.on('close', () => this.connectionClosed());
 
-    //this.client.on('error', (error: Types.MQTTError) => this.log.ifVerbose(LogType.WARNING, strings.mqtt.clientError, error));
-    this.client.on('error', (error: Error) => this.log.error(error.message)); // TODO
+    this.client.on('error', (error: MQTTError) => this.log.ifVerbose(LogType.WARNING, strings.mqtt.clientError,  this.caller, error));
   }
 
-  public subscribe(topic: string, listener: ((topic: string, data: any)=>(void))) {
+  public subscribe(topic: string, listener: MQTTListener) {
     
     if (!this.client) {
-      // TODO this.log.error(strings.mqtt.connectionError);
+      this.log.error(strings.mqtt.notConnected,  this.caller);
       return;
     }
 
-    this.client.subscribe(topic);
+    this.client.subscribe(this.split(topic).topic);
 
     this.listeners.set(topic, listener);
   }
 
-  publish(topic: string, data: any): void {
+  publish(topic: string, value: Primitive): void {
     
     if (!this.client || !this.client.connected) {
-      // TODO this.log.error(strings.mqtt.notConnected);
+      this.log.error(strings.mqtt.notConnected, this.caller);
       return;
     }
 
-    const message = JSON.stringify(data);
+    this.client.publish(topic, value.toString());
 
-    this.client.publish(topic, message);
-
-    // TODO this.logDebug(this.publish.name, topic, data);
+    this.log.ifVerbose(strings.mqtt.publish, this.caller, value, topic);
   }
 
   private messageReceived(topic: string, message: string) {
@@ -92,20 +94,33 @@ export class MQTT {
 
     try {
 
-      const data = JSON.parse(message);
+      let value: unknown = JSON.parse(message);
+      const jsonPath = this.split(topic).jsonPath;
+
+      for (const pathPart in jsonPath) {
+        if (value && typeof value === 'object' && pathPart in value) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          value = (value as any)[pathPart];
+        } else {
+          value = undefined;
+          break;
+        }
+      }
 
       const listener = this.listeners.get(topic);
       if (listener) {
-        listener(topic, data);
+        listener(topic, this.toPrimitive(value));
       }
 
+      this.log.ifVerbose(strings.mqtt.receivedMessage, this.caller, topic, message);
+
     } catch (e) {
-      // TODO this.log.warning(strings.mqtt.parseFailed, this.desensitize(message));
+      this.log.warning(strings.mqtt.parseFailed, this.caller, message);
     }
   }
 
   private connectionClosed() {
-    // TODO this.log.ifVerbose(strings.mqtt.connectionClosed);
+    this.log.ifVerbose(strings.mqtt.connectionClosed, this.caller);
     this.reconnect();
   }
 
@@ -116,7 +131,7 @@ export class MQTT {
     }
 
     this.idleMQTTTimer = setTimeout(()=>{
-      // TODO this.log.ifVerbose(strings.mqtt.idleConnection);
+      this.log.ifVerbose(strings.mqtt.idleConnection, this.caller);
       this.reconnect();
     }, IDLE_CONNECTION_TIMER_INTERVAL); 
   }
@@ -136,14 +151,42 @@ export class MQTT {
 
     const reconnectDelay = DELAYS[Math.min(this.reconnectCount, DELAYS.length - 1)];
     if (reconnectDelay < MINUTE) {
-      //this.log.ifVerbose(strings.mqtt.reconnectInSeconds, reconnectDelay / SECOND);
+      this.log.ifVerbose(strings.mqtt.reconnectInSeconds, this.caller, reconnectDelay / SECOND);
     } else {
-      //this.log.ifVerbose(strings.mqtt.reconnectInMinutes, reconnectDelay / MINUTE);
+      this.log.ifVerbose(strings.mqtt.reconnectInMinutes, this.caller, reconnectDelay / MINUTE);
     }
 
     setTimeout(() => {
       this.isReconnecting = false;
-      // TODO this.connect();
+      this.connect();
+      this.connect();
     }, reconnectDelay);
+  }
+
+  private split(topic: string): { topic: string, jsonPath: string[] } {
+    const index = topic.indexOf('$');
+    if (index === -1) {
+      return { topic: topic, jsonPath: [] };
+    }
+    return { topic: topic.slice(0, index),  jsonPath: topic.slice(index).replace(/^\$?\.?/, '').split('.') };
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private toPrimitive(value: any): Primitive {
+
+    if (value === 'true') {
+      return true;
+    }
+
+    if (value === 'false') {
+      return false;
+    }
+
+    const num = Number(value);
+    if (!isNaN(num) && value.trim() !== '') {
+      return num;
+    }
+
+    return value.toString();
   }
 }
