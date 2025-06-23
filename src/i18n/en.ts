@@ -31,6 +31,19 @@ const en = {
     reconnectInMinutes: '%s will attempt to reconnect in %s minutes…',
     reconnectInSeconds: '%s will attempt to reconnect in %s seconds…',
   },
+
+  startup: {
+    complete: '✓ Setup complete.',
+    newAccessory: 'Adding new accessory %s',
+    removeAccessory: 'Removing accessory %s',
+    restoringAccessory: 'Restoring accessory %s',
+    welcome: [
+      'Please ★ this plugin on GitHub if you\'re finding it useful! https://github.com/mpatfield/homebridge-easy-mqtt',
+      'Would you like to sponsor this plugin? https://github.com/sponsors/mpatfield',
+      // TODO 'Please rate us on HOOBS! https://plugins.hoobs.org/plugin/homebridge-easy-mqtt',
+      'Want to see this plugin in your own language? Please visit https://github.com/mpatfield/homebridge-easy-mqtt/issues/4',
+    ],
+  },
 };
 
 export default en;

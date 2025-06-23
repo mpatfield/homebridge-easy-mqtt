@@ -6,13 +6,168 @@
   "customUiPath": "./dist/homebridge-ui",
   "schema": {
     "type": "object",
+    "definitions": {
+      "info": {
+        "type": "object",
+        "properties": {
+          "name": {
+              "type": "string",
+              "title": "${config.title.name}",
+              "required": true
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "LockMechanism",
+              "Switch"
+            ],
+            "required": true
+          },
+          "manufacturer": {
+            "type": "string",
+            "title": "${config.title.manufacturer}"
+          },
+          "model": {
+            "type": "string",
+            "title": "${config.title.model}"
+          },
+          "serialNumber": {
+            "type": "string",
+            "title": "${config.title.serialNumber}"
+          },
+          "version": {
+            "type": "string",
+            "title": "${config.title.version}"
+          }
+        }
+      },
+      "mqtt": {
+        "type": "object",
+        "properties": {
+          "broker": {
+            "type": "string",
+            "title": "${config.title.broker}"
+          }
+        }
+      }
+    },    
     "properties": {
       "name": {
-        "title": "Name",
         "type": "string",
-        "required": true,
-        "default": "Example Dynamic Platform"
+        "default": "Easy MQTT"
+      },
+      "accessories": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "info": { "$ref": "#/definitions/info" },
+            "mqtt": { "$ref": "#/definitions/mqtt" },
+            "topicGetCurrent": {
+              "type": "string",
+              "title": "${config.title.topicGetCurrent}",
+              "required": true
+            },
+            "topicGetTarget": {
+              "type": "string",
+              "title": "${config.title.topicGetTarget}",
+              "required": true
+            },
+            "topicSetTarget": {
+              "type": "string",
+              "title": "${config.title.topicSetTarget}",
+              "required": true
+            },
+            "topicGetStatus": {
+              "type": "string",
+              "title": "${config.title.topicGetStatus}"
+            },
+            "valueSecured": {
+              "type": "string",
+              "title": "${config.title.valueSecured}",
+              "required": true
+            },
+            "valueUnsecured": {
+              "type": "string",
+              "title": "${config.title.valueUnsecured}",
+              "required": true
+            },
+            "valueJammed": {
+              "type": "string",
+              "title": "${config.title.valueJammed}"
+            },
+            "valueActive": {
+              "type": "string",
+              "title": "${config.title.valueActive}",
+              "description": "${required if topicGetStatus not empty}"
+            }
+          }
+        },
+        "default": []
+      },
+      "verbose": {
+        "type": "boolean",
+        "title": "${config.title.verbose}",
+        "description": "${config.title.description}"
       }
     }
-  }
+  },
+  "layout": [
+    {
+      "type": "array",
+      "key": "accessories",
+      "expandable": true,
+      "title": "${config.title.accessories}",
+      "items": [
+        {
+          "type": "fieldset",
+          "expandable": true,
+          "title": "${config.title.accessory}",
+          "items": [
+            "accessories[].info.name",
+            "accessories[].info.type",
+            {
+              "type": "fieldset",
+              "title": "${config.title.info}",
+              "expandable": true,
+              "items": [
+                "accessories[].info.manufacturer",
+                "accessories[].info.model",
+                "accessories[].info.serialNumber",
+                "accessories[].info.version"
+              ]
+            },
+            {
+              "type": "fieldset",
+              "title": "${config.title.mqtt}",
+              "items": [
+                "accessories[].mqtt.broker"
+              ]
+            },
+            {
+              "type": "fieldset",
+              "title": "${config.title.topics}",
+              "items": [
+                "accessories[].topicGetCurrent",
+                "accessories[].topicGetTarget",
+                "accessories[].topicSetTarget",
+                "accessories[].topicGetStatus"
+              ]
+            },
+            {
+              "type": "fieldset",
+              "title": "${config.title.values}",
+              "items": [
+                "accessories[].valueSecured",
+                "accessories[].valueUnsecured",
+                "accessories[].valueJammed",
+                "accessories[].valueActive"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "verbose"
+  ]
 }

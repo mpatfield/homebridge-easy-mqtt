@@ -2,6 +2,7 @@ export type Primitive = string | number | boolean;
 
 export type InfoConfig = {
   name: string,
+  type: string,
   manufacturer?: string,
   model?: string,
   serialNumber?: string,

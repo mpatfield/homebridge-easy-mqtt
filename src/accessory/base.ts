@@ -27,7 +27,7 @@ export abstract class MQTTAccessory {
     caller: string,
   ) {
    
-    this.mqttClient = new MQTT(log, config.mqtt, this.onMQTTConnect.bind(this));
+    this.mqttClient = new MQTT(log, config.mqtt, this.onMQTTConnect.bind(this), caller);
     this.mqttClient.connect();
 
     accessory.getService(Service.AccessoryInformation)!

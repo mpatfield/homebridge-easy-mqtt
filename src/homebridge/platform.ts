@@ -2,20 +2,22 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig }
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings.js';
 
-import { setLanguage } from '../i18n/i18n.js';
+import { MQTTAccessory } from '../accessory/base.js';
+import { LockAccessory } from '../accessory/lock.js';
+
+import { setLanguage, strings } from '../i18n/i18n.js';
+
+import { AccessoryConfig, LockConfig } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
 import getVersion from '../tools/version.js';
-import { LockAccessory } from '../accessory/lock.js';
 
 export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
   private readonly log: Log;
 
-  private readonly Service;
-  private readonly Characteristic;
-
-  private readonly accessories: Map<string, PlatformAccessory> = new Map();
+  private readonly cachedAccessories: Map<string, PlatformAccessory> = new Map();
+  private readonly mqttAccessories: Set<MQTTAccessory> = new Set();
 
   constructor(
     logger: Logger,
@@ -25,9 +27,6 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
     const userLang = Intl.DateTimeFormat().resolvedOptions().locale.split('-')[0];
     setLanguage(userLang);
-
-    this.Service = this.api.hap.Service;
-    this.Characteristic = this.api.hap.Characteristic;
 
     this.log = new Log(logger, config.verbose);
 
@@ -50,57 +49,65 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
   }
 
   configureAccessory(accessory: PlatformAccessory): void {
-    // TODO this.log.always(strings.startup.restoringDevice, accessory.displayName);
-    this.accessories.set(accessory.context.identifier, accessory);
+    this.log.always(strings.startup.restoringAccessory, accessory.displayName);
+    this.cachedAccessories.set(accessory.context.identifier, accessory);
   }
 
   private teardown() {
-    // TODO stop timers?
+    this.mqttAccessories.forEach( accessory => {
+      accessory.teardown();
+    });
   }
 
   private async setup(): Promise<void> {
    
     const keepIdentifiers = new Set<string>();
 
-    // const locks = this.config.locks;
-    
-    // locks?.forEach( (legacyConfig: LegacyAccessoryConfig) => {
-    const id = 'foobar'; // LegacyAccessory.identifier(legacyConfig);
-    keepIdentifiers.add(id);
+    for (const accessoryConfig of this.config.accessories as AccessoryConfig[]) {
 
-    let accessory = this.accessories.get(id);
-    if (!accessory) {
+      const uuid = this.api.hap.uuid.generate(`${PLUGIN_NAME}:${accessoryConfig.info.type}:${accessoryConfig.info.name}`);
 
-      const name = 'Bathroom Lock'; // legacyConfig.name;
-      // TODO this.log.always(strings.startup.newAccessory, name);
+      let accessory = this.cachedAccessories.get(uuid);
+      if (!accessory) {
 
-      const uuid = this.api.hap.uuid.generate(id);
+        accessory = new this.api.platformAccessory(accessoryConfig.info.name, uuid);
+        accessory.context.identifier = uuid;
 
-      accessory = new this.api.platformAccessory(name, uuid);
-      accessory.context.identifier = id;
+        this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
 
-      this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+        this.cachedAccessories.set(uuid, accessory);
+      }
 
-      this.accessories.set(id, accessory);
+      let mqttAccessory: MQTTAccessory;
+      switch(accessoryConfig.info.type) {
+      case this.api.hap.Service.LockMechanism.name:
+        mqttAccessory = new LockAccessory(this.api.hap.Service, this.api.hap.Characteristic, accessory, accessoryConfig as LockConfig, this.log);
+        break;
+      default:
+        // TODO error
+        continue;
+      }
+
+      keepIdentifiers.add(uuid);
+
+      this.mqttAccessories.add(mqttAccessory);
+
+      this.log.always(strings.startup.newAccessory, accessoryConfig.info.name);
     }
 
-    new LockAccessory(this.log, accessory, this.api.hap.Service, this.api.hap.Characteristic);
-    // });
-
-    this.accessories.forEach(accessory => {
+    this.cachedAccessories.forEach(accessory => {
       if (!keepIdentifiers.has(accessory.context.identifier)) {
         this.removeAccessory(accessory);
       }
     });
 
-    // TODO
-    // const randIndex = Math.floor(Math.random() * strings.startup.welcome.length);
-    // this.log.always(strings.startup.setupComplete, strings.startup.welcome[randIndex]);
+    const randIndex = Math.floor(Math.random() * strings.startup.welcome.length);
+    this.log.always(strings.startup.complete, strings.startup.welcome[randIndex]);
   }
   
   private removeAccessory(accessory: PlatformAccessory) {
-    // TODO this.log.always(strings.startup.removeAccessory, accessory.displayName);
+    this.log.always(strings.startup.removeAccessory, accessory.displayName);
     this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
-    this.accessories.delete(accessory.context.identifier);
+    this.cachedAccessories.delete(accessory.context.identifier);
   }
 }
