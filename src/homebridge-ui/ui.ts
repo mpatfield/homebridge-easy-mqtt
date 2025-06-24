@@ -22,8 +22,7 @@ const translateHtml = (strings: Translation) => {
   });
 };
 
-const translateSchema = (strings: Translation, observer?: MutationObserver) => {
-  let replaced = false;
+const translateSchema = (strings: Translation) => {
   const tags = ['span', 'label', 'legend', 'option', 'p'];
   const elements = Array.from(
     window.parent.document.querySelectorAll(tags.join(',')),
@@ -48,12 +47,21 @@ const translateSchema = (strings: Translation, observer?: MutationObserver) => {
     );
     if (element.innerHTML !== newHtml) {
       element.innerHTML = newHtml;
-      replaced = true;
     }
   });
+};
 
-  if (replaced) {
-    observer?.disconnect();
+const updateAccessoryNames = (strings: Translation) => {
+
+  const legend = Array.from(window.parent.document.querySelectorAll('fieldset legend'))
+    .find(el => el.textContent?.includes(strings.config.title.accessory));
+
+  if (legend) {
+    const fieldset = legend.closest('fieldset');
+    const input = fieldset?.querySelector('input[type="text"][name="name"]') as HTMLInputElement | null;
+    if (input && input.value) {
+      legend.textContent = input.value;
+    }
   }
 };
 
@@ -63,7 +71,8 @@ const showSettings = async (strings: Translation) => {
   document.getElementById('support')!.style.display = 'block';
 
   const observer = new MutationObserver(() => {
-    translateSchema(strings, observer);
+    translateSchema(strings);
+    updateAccessoryNames(strings);
   });
 
   observer.observe(

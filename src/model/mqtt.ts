@@ -1,18 +1,36 @@
 import mqtt from 'mqtt';
 
-import { MQTTConfig, Primitive } from './types.js';
+import { MQTTConfig, Primitive, toPrimitive } from './types.js';
 
 import { strings } from '../i18n/i18n.js';
 
 import { Log, LogType } from '../tools/log.js';
 import { SECOND, MINUTE } from '../tools/time.js';
 
-const KEEPALIVE = 90;
-
 const DELAYS = [5 * SECOND, 10 * SECOND, 15 * SECOND, 30 * SECOND, MINUTE, 2 * MINUTE];
 const IDLE_CONNECTION_TIMER_INTERVAL = 5 * MINUTE;
 
-type MQTTListener = (topic: string, value: Primitive) => void;
+type MQTTMessageHandler = (topic: string, value: Primitive) => void;
+
+class MQTTListener {
+
+  topic: string;
+  jsonPath: string[]; 
+
+  constructor(
+    topic: string,
+    readonly handler: MQTTMessageHandler,
+  ) {
+    const index = topic.indexOf('$');
+    if (index === -1) {
+      this.topic = topic;
+      this.jsonPath = [];
+    } else {
+      this.topic = topic.slice(0, index);
+      this.jsonPath = topic.slice(index).replace(/^\$?\.?/, '').split('.');
+    }
+  }
+}
 
 interface MQTTError extends Error {
   code?: string | number;
@@ -43,9 +61,19 @@ export class MQTT {
   }
 
   public connect(): void {
+    this.shouldReconnect = true;
+
+    let additionalOptions = {};
+    try {
+      if (this.config.options) {
+        additionalOptions = JSON.parse(this.config.options);
+      }
+    } catch (err) {
+      this.log.error(`${strings.mqtt.badOptions}:\n"${this.config.options}"`, this.caller);
+    }
 
     const options = {
-      keepalive: KEEPALIVE,
+      ...additionalOptions,
       reconnectPeriod: 0,
     };
 
@@ -60,19 +88,23 @@ export class MQTT {
 
     this.client.on('close', () => this.connectionClosed());
 
-    this.client.on('error', (error: MQTTError) => this.log.ifVerbose(LogType.WARNING, strings.mqtt.clientError,  this.caller, error));
+    this.client.on('error', (error: MQTTError) => {
+      this.log.ifVerbose(LogType.WARNING, strings.mqtt.clientError,  this.caller, error);
+    });
   }
 
-  public subscribe(topic: string, listener: MQTTListener) {
+  public subscribe(topic: string, handler: MQTTMessageHandler) {
     
     if (!this.client) {
       this.log.error(strings.mqtt.notConnected,  this.caller);
       return;
     }
 
-    this.client.subscribe(this.split(topic).topic);
+    const mqttListener = new MQTTListener(topic, handler);
 
-    this.listeners.set(topic, listener);
+    this.client.subscribe(mqttListener.topic);
+
+    this.listeners.set(mqttListener.topic, mqttListener);
   }
 
   publish(topic: string, value: Primitive): void {
@@ -94,10 +126,17 @@ export class MQTT {
 
     try {
 
-      let value: unknown = JSON.parse(message);
-      const jsonPath = this.split(topic).jsonPath;
+      this.log.ifVerbose(strings.mqtt.receivedMessage, this.caller, topic, message);
 
-      for (const pathPart in jsonPath) {
+      const listener = this.listeners.get(topic);
+      if (!listener) {
+        this.log.ifVerbose(strings.mqtt.noListeners, this.caller, topic);
+        return;
+      }
+
+      let value = JSON.parse(message);
+
+      for (const pathPart of listener.jsonPath) {
         if (value && typeof value === 'object' && pathPart in value) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           value = (value as any)[pathPart];
@@ -107,15 +146,10 @@ export class MQTT {
         }
       }
 
-      const listener = this.listeners.get(topic);
-      if (listener) {
-        listener(topic, this.toPrimitive(value));
-      }
-
-      this.log.ifVerbose(strings.mqtt.receivedMessage, this.caller, topic, message);
+      listener.handler(topic, toPrimitive(value));
 
     } catch (e) {
-      this.log.warning(strings.mqtt.parseFailed, this.caller, message);
+      this.log.error(strings.mqtt.parseFailed, this.caller, message);
     }
   }
 
@@ -159,34 +193,6 @@ export class MQTT {
     setTimeout(() => {
       this.isReconnecting = false;
       this.connect();
-      this.connect();
     }, reconnectDelay);
-  }
-
-  private split(topic: string): { topic: string, jsonPath: string[] } {
-    const index = topic.indexOf('$');
-    if (index === -1) {
-      return { topic: topic, jsonPath: [] };
-    }
-    return { topic: topic.slice(0, index),  jsonPath: topic.slice(index).replace(/^\$?\.?/, '').split('.') };
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private toPrimitive(value: any): Primitive {
-
-    if (value === 'true') {
-      return true;
-    }
-
-    if (value === 'false') {
-      return false;
-    }
-
-    const num = Number(value);
-    if (!isNaN(num) && value.trim() !== '') {
-      return num;
-    }
-
-    return value.toString();
   }
 }

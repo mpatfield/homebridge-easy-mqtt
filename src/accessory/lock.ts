@@ -4,41 +4,62 @@ import { makeHandler, MQTTAccessory, TopicHandler } from './base.js';
 
 import { strings } from '../i18n/i18n.js';
 
-import { LockConfig, Primitive } from '../model/types.js';
+import { LockConfig, Primitive, toPrimitive } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
 
 export class LockAccessory extends MQTTAccessory {
   private readonly accessoryService: Service;
 
-  private active: CharacteristicValue | undefined = undefined;
-  private current: CharacteristicValue | undefined = undefined;
-  private target: CharacteristicValue | undefined = undefined;
+  private active: CharacteristicValue;
+  private current: CharacteristicValue;
+  private target: CharacteristicValue;
 
-  constructor(
+  static async new( 
+    Service: typeof import('homebridge').Service,
+    Characteristic: typeof import('homebridge').Characteristic,
+    accessory: PlatformAccessory,
+    config: LockConfig,
+    persistPath: string,
+    log: Log,
+  ) : Promise<LockAccessory> {
+    const instance = new LockAccessory(Service, Characteristic, accessory, config, persistPath, log);
+    await instance.finishSetup();
+    return instance;
+  }
+
+  private constructor(
     Service: typeof import('homebridge').Service,
     Characteristic: typeof import('homebridge').Characteristic,
     accessory: PlatformAccessory,
     private readonly config: LockConfig,
+    private readonly persistPath: string,
     log: Log,
   ) {
-
     super(Service, Characteristic, accessory, config, log, LockAccessory.name);
 
     this.accessoryService = accessory.getService(Service.LockMechanism) || accessory.addService(Service.LockMechanism);
 
-    this.accessoryService.setCharacteristic(Characteristic.LockCurrentState, Characteristic.LockCurrentState.SECURED);
+    this.active = false;
+    this.current = this.Characteristic.LockCurrentState.UNKNOWN;
+    this.target = this.Characteristic.LockTargetState.SECURED;
+  }
 
-    this.accessoryService.getCharacteristic(Characteristic.LockCurrentState)
+  private async finishSetup() {
+
+    // TODO fetch these values from storage
+    this.active = true;
+    this.current = this.Characteristic.LockCurrentState.UNKNOWN;
+    this.target = this.Characteristic.LockTargetState.SECURED;
+
+    this.accessoryService.getCharacteristic(this.Characteristic.LockCurrentState)
       .onGet(this.getCurrentState.bind(this));
 
-    this.accessoryService.setCharacteristic(Characteristic.LockTargetState, Characteristic.LockTargetState.SECURED);
-
-    this.accessoryService.getCharacteristic(Characteristic.LockTargetState)
+    this.accessoryService.getCharacteristic(this.Characteristic.LockTargetState)
       .onGet(this.getTargetState.bind(this))
       .onSet(this.setTargetState.bind(this));
 
-    this.accessoryService.updateCharacteristic(Characteristic.StatusActive, false);
+    this.accessoryService.updateCharacteristic(this.Characteristic.StatusActive, false);
   }
 
   protected get topicHandlers(): TopicHandler[] {
@@ -51,7 +72,7 @@ export class LockAccessory extends MQTTAccessory {
   
   private async onStatusUpdate(topic: string, status: Primitive): Promise<void> {
 
-    const active = status === this.config.valueActive;
+    const active = status === toPrimitive(this.config.valueActive);
     if (active === this.active) {
       return;
     }
@@ -60,7 +81,7 @@ export class LockAccessory extends MQTTAccessory {
     this.accessoryService.updateCharacteristic(this.Characteristic.StatusActive, this.active);
 
     if (this.active) {
-      this.log.always(strings.lock.statusActive, this.config.info.name);
+      this.logIfDesired(strings.lock.statusActive, this.config.info.name);
     } else {
       this.log.warning(strings.lock.statusInactive, this.config.info.name);
     }
@@ -68,20 +89,24 @@ export class LockAccessory extends MQTTAccessory {
 
   private async onCurrentUpdate(topic: string, value: Primitive): Promise<void> {
 
-    const current = this.stateFromValue(value);
+    const current = this.currentStateFromValue(value);
     if (current === this.current) {
       return;
     }
 
-    this.current = value;
+    this.current = current;
     this.accessoryService.updateCharacteristic(this.Characteristic.LockCurrentState, this.current);
 
-    this.log.ifVerbose(strings.lock.stateCurrent, this.config.info.name, this.stringForState(this.current));
+    if (this.current === this.Characteristic.LockCurrentState.JAMMED) {
+      this.log.error(this.stringForState(this.current), this.config.info.name);
+    } else {
+      this.logIfDesired(this.stringForState(this.current), this.config.info.name);
+    }
   }
 
   private async onTargetUpdate(topic: string, value: Primitive): Promise<void> {
 
-    const target = this.stateFromValue(value);
+    const target = this.targetStateFromValue(value);
     if (target === this.target) {
       return;
     }
@@ -89,72 +114,100 @@ export class LockAccessory extends MQTTAccessory {
     this.target = target;
     this.accessoryService.updateCharacteristic(this.Characteristic.LockTargetState, this.target);
 
-    this.log.ifVerbose(strings.lock.stateTarget, this.config.info.name, this.stringForState(this.target));
+    this.logIfDesired(this.stringForState(this.target, true), this.config.info.name);
   }
 
   private async getCurrentState(): Promise<CharacteristicValue> {
-    return this.current ?? this.Characteristic.LockCurrentState.UNKNOWN;
+    return this.current;
   }
 
   private async getTargetState(): Promise<CharacteristicValue> {
-    return this.target ?? this.Characteristic.LockCurrentState.UNKNOWN;
+    return this.target;
   }
 
   private async setTargetState(value: CharacteristicValue) {
 
     const target = this.valueFromState(value);
-    if (!target) {
-      this.log.error(strings.lock.badTarget, value);
+    if (target === undefined) {
+      this.log.error(strings.lock.badTarget, this.config.info.name, value);
       return;
     }
 
-    this.target = target;
+    this.target = value;
 
-    this.log.ifVerbose(strings.lock.stateSet, this.config.info.name, this.stringForState(this.target));
+    this.logIfDesired(this.stringForState(this.target, true), this.config.info.name);
 
-    this.accessoryService.updateCharacteristic(this.Characteristic.LockTargetState, this.stateFromValue(this.target));
-    this.publish(this.config.topicSetTarget, this.target);
+    this.accessoryService.updateCharacteristic(this.Characteristic.LockTargetState, this.target);
+
+    this.current = this.target;
+    this.accessoryService.updateCharacteristic(this.Characteristic.LockCurrentState, this.current);
+
+    this.publish(this.config.topicSetTarget, target);
   }
 
-  private valueFromState(value: CharacteristicValue): string | undefined {
+  private valueFromState(value: CharacteristicValue): Primitive | undefined {
     switch (value) {
     case this.Characteristic.LockTargetState.SECURED:
-      return this.config.valueSecured;
+      return toPrimitive(this.config.valueSecured);
     case this.Characteristic.LockTargetState.UNSECURED:
-      return this.config.valueUnsecured;
+      return toPrimitive(this.config.valueUnsecured);
     default:
       return undefined;
     }
   }
 
-  private stateFromValue(value: Primitive | undefined): CharacteristicValue {
+  private currentStateFromValue(value: Primitive | undefined): CharacteristicValue {
 
-    if (!value) {
+    if (value === undefined) {
       return this.Characteristic.LockCurrentState.UNKNOWN;
     }
 
     switch (value) {
-    case this.config.valueSecured:
+    case toPrimitive(this.config.valueSecured):
       return this.Characteristic.LockCurrentState.SECURED;
-    case this.config.valueUnsecured:
+    case toPrimitive(this.config.valueUnsecured):
       return this.Characteristic.LockCurrentState.UNSECURED;
-    case this.config.valueJammed:
+    case toPrimitive(this.config.valueJammed):
       return this.Characteristic.LockCurrentState.JAMMED;
     default:
       return this.Characteristic.LockCurrentState.UNKNOWN;
     }
   }
 
-  private stringForState(state: CharacteristicValue): string {
+  private targetStateFromValue(value: Primitive | undefined): CharacteristicValue {
+
+    if (value === undefined) {
+      return this.Characteristic.LockTargetState.SECURED;
+    }
+
+    switch (value) {
+    case toPrimitive(this.config.valueUnsecured):
+      return this.Characteristic.LockTargetState.UNSECURED;
+    case toPrimitive(this.config.valueSecured):
+    default:
+      return this.Characteristic.LockTargetState.SECURED;
+    }
+  }
+
+  private stringForState(state: CharacteristicValue, future: boolean = false): string {
     switch(state) {      
-    case this.config.valueSecured:
-      return strings.lock.stateSecured;
-    case this.config.valueUnsecured:
-      return strings.lock.stateUnsecured;
-    case this.config.valueJammed:
+    case this.Characteristic.LockCurrentState.SECURED:
+      return future ? strings.lock.stateFutureSecured : strings.lock.stateCurrentSecured;
+    case this.Characteristic.LockCurrentState.UNSECURED:
+      return future ? strings.lock.stateFutureUnsecured : strings.lock.stateCurrentUnsecured;
+    case this.Characteristic.LockCurrentState.JAMMED:
       return strings.lock.stateJammed;
     default:
       return strings.lock.stateUnknown;
     }
+  }
+
+  private logIfDesired(message: string, ...parameters: string[]) {
+
+    if (this.config.disableLogging) {
+      return;
+    }
+
+    this.log.always(message, ...parameters);
   }
 }
