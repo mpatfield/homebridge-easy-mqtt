@@ -1,9 +1,45 @@
 const en = {
 
   config: {
-    thankYou: 'Thank you for installing homebridge-easy-mqtt',
-    support: 'For help and support please visit %s',
     continue: 'Continue %s',
+    optional: 'All fields are required unless noted as being "Optional"',
+    support: 'For documentation and support please visit %s',
+    thankYou: 'Thank you for installing homebridge-easy-mqtt',
+
+    description: {
+      disableLogging: 'If true, only critical events will be logged for this accessory.',
+      options: 'Additional MQTT parameters such as username and password. Must be valid JSON.',
+      topics: 'Supports JSONPath using dot notation, i.e. "my/topic$.path.to.value"',
+      valueActive: 'Required if using "Get Availability" above.',
+      verbose: 'If true, additional MQTT info will be logged for debugging purposes.',
+    },
+
+    title: {
+      accessories: 'Accessories',
+      accessory: 'Accessory',
+      broker: 'Broker',
+      disableLogging: 'Disable Logging',
+      info: 'Optional Details',
+      name: 'Name',
+      manufacturer: 'Manufacturer',
+      model: 'Model',
+      mqtt: 'MQTT Settings',
+      options: 'Options',
+      serialNumber: 'Serial Number',
+      topicGetCurrent: 'Get Current State',
+      topicGetTarget: 'Get Target State',
+      topicGetStatus: 'Get Availability (Optional)',
+      topicSetTarget: 'Set Target State',
+      topics: 'Topics',
+      type: 'Type',
+      valueActive: 'Available/Active',
+      valueSecured: 'Secured/Locked',
+      valueUnsecured: 'Unsecured/Unlocked',
+      valueJammed: 'Jammed (Optional)',
+      values: 'Values',
+      verbose: 'Additional Logging',
+      version: 'Version',
+    },
   },
 
   lock: {

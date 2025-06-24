@@ -17,6 +17,7 @@
           },
           "type": {
             "type": "string",
+            "title": "${config.title.type}",
             "enum": [
               "LockMechanism",
               "Switch"
@@ -46,7 +47,15 @@
         "properties": {
           "broker": {
             "type": "string",
-            "title": "${config.title.broker}"
+            "title": "${config.title.broker}",
+            "placeholder": "mqtts://192.168.0.1:1883",
+            "required": true
+          },
+          "options": {
+            "type": "string",
+            "title": "${config.title.options}",
+            "description": "${config.description.options}",
+            "placeholder": " { \"username\": \"fake@email.com\", \"password\": \"password123\" , \"rejectUnauthorized\": true }"
           }
         }
       }
@@ -66,31 +75,30 @@
             "topicGetCurrent": {
               "type": "string",
               "title": "${config.title.topicGetCurrent}",
-              "required": true
+              "placeholder": "zwave/door_lock/front_door/currentMode"
             },
             "topicGetTarget": {
               "type": "string",
               "title": "${config.title.topicGetTarget}",
-              "required": true
+              "placeholder": "zwave/door_lock/front_door/targetMode"
             },
             "topicSetTarget": {
               "type": "string",
               "title": "${config.title.topicSetTarget}",
-              "required": true
+              "placeholder": "zwave/door_lock/front_door/targetMode/set"
             },
             "topicGetStatus": {
               "type": "string",
-              "title": "${config.title.topicGetStatus}"
+              "title": "${config.title.topicGetStatus}",
+              "placeholder": "zwave/door_lock/front_door/status"
             },
             "valueSecured": {
               "type": "string",
-              "title": "${config.title.valueSecured}",
-              "required": true
+              "title": "${config.title.valueSecured}"
             },
             "valueUnsecured": {
               "type": "string",
-              "title": "${config.title.valueUnsecured}",
-              "required": true
+              "title": "${config.title.valueUnsecured}"
             },
             "valueJammed": {
               "type": "string",
@@ -99,7 +107,12 @@
             "valueActive": {
               "type": "string",
               "title": "${config.title.valueActive}",
-              "description": "${required if topicGetStatus not empty}"
+              "description": "${config.description.valueActive}"
+            },
+            "disableLogging": {
+              "type": "boolean",
+              "title": "${config.title.disableLogging}",
+              "description": "${config.description.disableLogging}"
             }
           }
         },
@@ -108,7 +121,7 @@
       "verbose": {
         "type": "boolean",
         "title": "${config.title.verbose}",
-        "description": "${config.title.description}"
+        "description": "${config.description.verbose}"
       }
     }
   },
@@ -116,7 +129,6 @@
     {
       "type": "array",
       "key": "accessories",
-      "expandable": true,
       "title": "${config.title.accessories}",
       "items": [
         {
@@ -141,16 +153,34 @@
               "type": "fieldset",
               "title": "${config.title.mqtt}",
               "items": [
-                "accessories[].mqtt.broker"
+                "accessories[].mqtt.broker",
+                "accessories[].mqtt.options"
               ]
             },
+            "accessories[].disableLogging",
             {
               "type": "fieldset",
               "title": "${config.title.topics}",
+              "description": "${config.description.topics}",
               "items": [
-                "accessories[].topicGetCurrent",
-                "accessories[].topicGetTarget",
-                "accessories[].topicSetTarget",
+                {
+                  "key": "accessories[].topicGetCurrent",
+                  "condition": {
+                    "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'LockMechanism';"
+                  }
+                },
+                {
+                  "key": "accessories[].topicGetTarget",
+                  "condition": {
+                    "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'LockMechanism';"
+                  }
+                },
+                {
+                  "key": "accessories[].topicSetTarget",
+                  "condition": {
+                    "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'LockMechanism';"
+                  }
+                },
                 "accessories[].topicGetStatus"
               ]
             },
@@ -158,9 +188,24 @@
               "type": "fieldset",
               "title": "${config.title.values}",
               "items": [
-                "accessories[].valueSecured",
-                "accessories[].valueUnsecured",
-                "accessories[].valueJammed",
+                {
+                  "key": "accessories[].valueSecured",
+                  "condition": {
+                    "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'LockMechanism';"
+                  }
+                },
+                {
+                  "key": "accessories[].valueUnsecured",
+                  "condition": {
+                    "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'LockMechanism';"
+                  }
+                },
+                {
+                  "key": "accessories[].valueJammed",
+                  "condition": {
+                    "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'LockMechanism';"
+                  }
+                },
                 "accessories[].valueActive"
               ]
             }

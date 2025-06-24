@@ -53,14 +53,19 @@ const translateSchema = (strings: Translation) => {
 
 const updateAccessoryNames = (strings: Translation) => {
 
-  const legend = Array.from(window.parent.document.querySelectorAll('fieldset legend'))
-    .find(el => el.textContent?.includes(strings.config.title.accessory));
+  const legends = Array.from(window.parent.document.querySelectorAll('fieldset legend'))
+    .filter(el => !el.textContent?.includes(strings.config.title.accessories));
 
-  if (legend) {
+  for(const legend of legends) {
     const fieldset = legend.closest('fieldset');
     const input = fieldset?.querySelector('input[type="text"][name="name"]') as HTMLInputElement | null;
-    if (input && input.value) {
-      legend.textContent = input.value;
+    if (input && legend.textContent !== (input.value || strings.config.title.accessory)) {
+      legend.textContent = input.value !== '' ? input.value : strings.config.title.accessory;
+    }
+
+    if (input && !input.dataset.accessoryNameListener) {
+      input.addEventListener('input', () => updateAccessoryNames(strings));
+      input.dataset.accessoryNameListener = 'true';
     }
   }
 };
@@ -80,7 +85,7 @@ const showSettings = async (strings: Translation) => {
     { childList: true, subtree: true },
   );
 
-  await homebridge.showSchemaForm();
+  homebridge.showSchemaForm();
   homebridge.hideSpinner();
 };
 
