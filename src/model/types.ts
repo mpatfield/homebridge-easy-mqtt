@@ -47,9 +47,18 @@ export type LockConfig = AccessoryConfig & {
   topicGetCurrent: string,
   topicGetTarget: string,
   topicSetTarget: string,
-  topicGetStatus?: string,
+  topicGetActive?: string,
   valueSecured: string,
   valueUnsecured: string,
   valueJammed?: string,
   valueActive?: string,
 };
+
+export type SwitchConfig = AccessoryConfig & {
+  topicGetOn: string,
+  topicSetOn: string,
+  topicGetActive?: string,
+  valueOn: string,
+  valueOff: string,
+  valueActive?: string,
+}

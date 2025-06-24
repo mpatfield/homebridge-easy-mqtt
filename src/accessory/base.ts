@@ -2,6 +2,8 @@ import { PlatformAccessory } from 'homebridge';
 
 import { PLATFORM_NAME } from '../homebridge/settings.js';
 
+import { strings } from '../i18n/i18n.js';
+
 import { MQTT } from '../model/mqtt.js';
 import { AccessoryConfig, Primitive } from '../model/types.js';
 
@@ -53,5 +55,17 @@ export abstract class MQTTAccessory {
 
   public teardown() {
     this.mqttClient.teardown();
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  protected require(config: AccessoryConfig, ...keys: (keyof any)[]): boolean {
+    let valid = true;
+    for (const key of keys) {
+      if ((config as Record<string, unknown>)[key as string] === undefined) {
+        this.log.error(strings.accessory.missingRequired, config.info.name, key);
+        valid = false;
+      }
+    }
+    return valid;
   }
 }

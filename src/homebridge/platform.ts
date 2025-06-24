@@ -4,10 +4,11 @@ import { PLATFORM_NAME, PLUGIN_NAME } from './settings.js';
 
 import { MQTTAccessory } from '../accessory/base.js';
 import { LockAccessory } from '../accessory/lock.js';
+import { SwitchAccessory } from '../accessory/switch.js';
 
 import { setLanguage, strings } from '../i18n/i18n.js';
 
-import { AccessoryConfig, LockConfig } from '../model/types.js';
+import { AccessoryConfig, LockConfig, SwitchConfig } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
 import getVersion from '../tools/version.js';
@@ -61,6 +62,10 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
   private async setup(): Promise<void> {
    
+    if (!this.config.accessories) {
+      this.config.accessories = [];
+    }
+
     const keepIdentifiers = new Set<string>();
 
     for (const accessoryConfig of this.config.accessories as AccessoryConfig[]) {
@@ -85,6 +90,9 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
       switch(accessoryConfig.info.type) {
       case this.api.hap.Service.LockMechanism.name:
         mqttAccessory = new LockAccessory(Service, Characteristic, accessory, accessoryConfig as LockConfig, this.log);
+        break;
+      case this.api.hap.Service.Switch.name:
+        mqttAccessory = new SwitchAccessory(Service, Characteristic, accessory, accessoryConfig as SwitchConfig, this.log);
         break;
       default:
         this.log.error(strings.startup.unsupportedType, accessoryConfig.info.type);

@@ -1,5 +1,11 @@
 const en = {
 
+  accessory: {
+    missingRequired: '%s is missing required config variable %s',
+    statusActive: '%s is now available',
+    statusInactive: '%s is unavailable',
+  },
+  
   config: {
     continue: 'Continue %s',
     optional: 'All fields are required unless noted as being "Optional"',
@@ -26,16 +32,20 @@ const en = {
       mqtt: 'MQTT Settings',
       options: 'Options',
       serialNumber: 'Serial Number',
-      topicGetCurrent: 'Get Current State',
-      topicGetTarget: 'Get Target State',
       topicGetActive: 'Get Availability (Optional)',
+      topicGetCurrent: 'Get Current State',
+      topicGetOn: 'Get On/Off State',
+      topicGetTarget: 'Get Target State',
+      topicSetOn: 'Set On/Off State',
       topicSetTarget: 'Set Target State',
       topics: 'Topics',
       type: 'Type',
       valueActive: 'Available/Active',
+      valueJammed: 'Jammed (Optional)',
+      valueOff: 'Off',
+      valueOn: 'On',
       valueSecured: 'Secured/Locked',
       valueUnsecured: 'Unsecured/Unlocked',
-      valueJammed: 'Jammed (Optional)',
       values: 'Values',
       verbose: 'Additional Logging',
       version: 'Version',
@@ -44,8 +54,6 @@ const en = {
 
   lock: {
     badTarget: '%s unable to get target from state %s',
-    statusActive: '%s is now available',
-    statusInactive: '%s is unavailable',
     stateCurrentSecured: '%s is locked',
     stateCurrentUnsecured: '%s is unlocked',
     stateFutureSecured: '%s is locking…',
@@ -81,6 +89,13 @@ const en = {
       // TODO 'Please rate us on HOOBS! https://plugins.hoobs.org/plugin/homebridge-easy-mqtt',
       'Want to see this plugin in your own language? Please visit https://github.com/mpatfield/homebridge-easy-mqtt/issues/4',
     ],
+  },
+
+  switch: {
+    stateFutureOff: '%s is turning off…',
+    stateFutureOn: '%s is turning on…',
+    stateOn: '%s is on',
+    stateOff: '%s is off',
   },
 };
 

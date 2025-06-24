@@ -72,6 +72,11 @@
           "properties": {
             "info": { "$ref": "#/definitions/info" },
             "mqtt": { "$ref": "#/definitions/mqtt" },
+            "topicGetActive": {
+              "type": "string",
+              "title": "${config.title.topicGetActive}",
+              "placeholder": "zwave/door_lock/front_door/status"
+            },
             "topicGetCurrent": {
               "type": "string",
               "title": "${config.title.topicGetCurrent}",
@@ -87,10 +92,20 @@
               "title": "${config.title.topicSetTarget}",
               "placeholder": "zwave/door_lock/front_door/targetMode/set"
             },
-            "topicGetActive": {
+            "topicGetOn": {
               "type": "string",
-              "title": "${config.title.topicGetActive}",
-              "placeholder": "zwave/door_lock/front_door/status"
+              "title": "${config.title.topicGetOn}",
+              "placeholder": "home/living_room/lamp/state"
+            },
+            "topicSetOn": {
+              "type": "string",
+              "title": "${config.title.topicSetOn}",
+              "placeholder": "home/living_room/lamp/state/set"
+            },
+            "valueActive": {
+              "type": "string",
+              "title": "${config.title.valueActive}",
+              "description": "${config.description.valueActive}"
             },
             "valueSecured": {
               "type": "string",
@@ -104,10 +119,13 @@
               "type": "string",
               "title": "${config.title.valueJammed}"
             },
-            "valueActive": {
+            "valueOn": {
               "type": "string",
-              "title": "${config.title.valueActive}",
-              "description": "${config.description.valueActive}"
+              "title": "${config.title.valueOn}"
+            },
+            "valueOff": {
+              "type": "string",
+              "title": "${config.title.valueOff}"
             },
             "disableLogging": {
               "type": "boolean",
@@ -181,6 +199,18 @@
                     "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'LockMechanism';"
                   }
                 },
+                {
+                  "key": "accessories[].topicGetOn",
+                  "condition": {
+                    "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'Switch';"
+                  }
+                },
+                {
+                  "key": "accessories[].topicSetOn",
+                  "condition": {
+                    "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'Switch';"
+                  }
+                },
                 "accessories[].topicGetActive"
               ]
             },
@@ -204,6 +234,18 @@
                   "key": "accessories[].valueJammed",
                   "condition": {
                     "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'LockMechanism';"
+                  }
+                },
+                {
+                  "key": "accessories[].valueOn",
+                  "condition": {
+                    "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'Switch';"
+                  }
+                },
+                {
+                  "key": "accessories[].valueOff",
+                  "condition": {
+                    "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'Switch';"
                   }
                 },
                 "accessories[].valueActive"

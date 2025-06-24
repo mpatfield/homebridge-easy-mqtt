@@ -60,9 +60,9 @@ export class LockAccessory extends MQTTAccessory {
     this.accessoryService.updateCharacteristic(this.Characteristic.StatusActive, this.active);
 
     if (this.active) {
-      this.logIfDesired(strings.lock.statusActive, this.config.info.name);
+      this.logIfDesired(strings.accessory.statusActive, this.config.info.name);
     } else {
-      this.log.warning(strings.lock.statusInactive, this.config.info.name);
+      this.log.warning(strings.accessory.statusInactive, this.config.info.name);
     }
   }
 
