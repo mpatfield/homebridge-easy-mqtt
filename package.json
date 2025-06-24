@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@homebridge/plugin-ui-utils": "^2.0.2",
-    "homebridge-lib": "^7.1.4",
+    "homebridge-lib": "^7.1.6",
     "lodash.merge": "^4.6.2",
     "mqtt": "^5.7.0",
     "node-persist": "^4.0.4"
