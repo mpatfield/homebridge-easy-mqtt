@@ -6,6 +6,7 @@ import { strings } from '../i18n/i18n.js';
 
 import { Log, LogType } from '../tools/log.js';
 import { SECOND, MINUTE } from '../tools/time.js';
+import { assert } from '../tools/validation.js';
 
 const DELAYS = [5 * SECOND, 10 * SECOND, 15 * SECOND, 30 * SECOND, MINUTE, 2 * MINUTE];
 const IDLE_CONNECTION_TIMER_INTERVAL = 5 * MINUTE;
@@ -61,6 +62,11 @@ export class MQTT {
   }
 
   public connect(): void {
+
+    if (!assert(this.log, this.caller, this.config, 'broker')) {
+      return;
+    }
+
     this.shouldReconnect = true;
 
     let additionalOptions = {};

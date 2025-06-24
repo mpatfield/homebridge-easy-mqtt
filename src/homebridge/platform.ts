@@ -12,6 +12,7 @@ import { AccessoryConfig, LockConfig, SwitchConfig } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
 import getVersion from '../tools/version.js';
+import { assert } from '../tools/validation.js';
 
 export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
@@ -69,6 +70,11 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
     const keepIdentifiers = new Set<string>();
 
     for (const accessoryConfig of this.config.accessories as AccessoryConfig[]) {
+
+      if (!assert(this.log, PLATFORM_NAME, accessoryConfig, 'info') ||
+        !assert(this.log, PLATFORM_NAME, accessoryConfig.info, 'name', 'type')) {
+        continue;
+      }
 
       const uuid = this.api.hap.uuid.generate(`${PLUGIN_NAME}:${accessoryConfig.info.type}:${accessoryConfig.info.name}`);
 

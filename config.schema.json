@@ -4,6 +4,7 @@
   "singular": true,
   "customUi": true,
   "customUiPath": "./dist/homebridge-ui",
+  "strictValidation": true,
   "schema": {
     "type": "object",
     "definitions": {

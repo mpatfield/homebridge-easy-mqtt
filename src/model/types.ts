@@ -23,7 +23,11 @@ export function toPrimitive(value: any): Primitive {
   return value;
 }
 
-export type InfoConfig = {
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export type Assertable = {
+}
+
+export type InfoConfig = Assertable & {
   name: string,
   type: string,
   manufacturer?: string,
@@ -32,18 +36,18 @@ export type InfoConfig = {
   version?: string,
 }
 
-export type MQTTConfig = {
+export type MQTTConfig = Assertable & {
   broker: string,
-  options: string,
+  options?: string,
 }
 
-export type AccessoryConfig = {
+export type AccessoryConfig = Assertable & {
   mqtt: MQTTConfig,
   info: InfoConfig,
   disableLogging: boolean,
 }
 
-export type LockConfig = AccessoryConfig & {
+export type LockConfig = Assertable & AccessoryConfig & {
   topicGetCurrent: string,
   topicGetTarget: string,
   topicSetTarget: string,
@@ -54,7 +58,7 @@ export type LockConfig = AccessoryConfig & {
   valueActive?: string,
 };
 
-export type SwitchConfig = AccessoryConfig & {
+export type SwitchConfig = Assertable& AccessoryConfig & {
   topicGetOn: string,
   topicSetOn: string,
   topicGetActive?: string,

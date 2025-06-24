@@ -38,7 +38,7 @@ export class SwitchAccessory extends MQTTAccessory {
 
   protected get topicHandlers(): TopicHandler[] {
 
-    if (!this.require(this.config, 'topicGetOn')) {
+    if (!this.assert('topicGetOn')) {
       return [];
     }
 
@@ -67,7 +67,7 @@ export class SwitchAccessory extends MQTTAccessory {
 
   private async onStateUpdate(topic: string, value: Primitive): Promise<void> {
 
-    if (!this.require(this.config, 'valueOn')) {
+    if (!this.assert('valueOn')) {
       return;
     }
 
@@ -92,7 +92,7 @@ export class SwitchAccessory extends MQTTAccessory {
 
   private async setOn(value: CharacteristicValue) {
 
-    if (!this.require(this.config, 'topicSetOn', 'valueOn', 'valueOff')) {
+    if (!this.assert('topicSetOn', 'valueOn', 'valueOff')) {
       return;
     }
 

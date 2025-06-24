@@ -42,6 +42,11 @@ export class LockAccessory extends MQTTAccessory {
   }
 
   protected get topicHandlers(): TopicHandler[] {
+
+    if (!this.assert('topicGetCurrent', 'topicGetTarget')) {
+      return [];
+    }
+
     return [
       makeHandler(this.config.topicGetCurrent, this.onCurrentUpdate.bind(this)),
       makeHandler(this.config.topicGetTarget, this.onTargetUpdate.bind(this)),
@@ -110,6 +115,10 @@ export class LockAccessory extends MQTTAccessory {
 
   private async setTargetState(value: CharacteristicValue) {
 
+    if (!this.assert('topicSetTarget')) {
+      return;
+    }
+
     const target = this.valueFromState(value);
     if (target === undefined) {
       this.log.error(strings.lock.badTarget, this.config.info.name, value);
@@ -129,6 +138,11 @@ export class LockAccessory extends MQTTAccessory {
   }
 
   private valueFromState(value: CharacteristicValue): Primitive | undefined {
+
+    if (value === undefined || !this.assert('valueSecured', 'valueUnsecured')) {
+      return undefined;
+    }
+
     switch (value) {
     case this.Characteristic.LockTargetState.SECURED:
       return toPrimitive(this.config.valueSecured);
@@ -141,7 +155,7 @@ export class LockAccessory extends MQTTAccessory {
 
   private currentStateFromValue(value: Primitive | undefined): CharacteristicValue {
 
-    if (value === undefined) {
+    if (value === undefined || !this.assert('valueSecured', 'valueUnsecured')) {
       return this.Characteristic.LockCurrentState.UNKNOWN;
     }
 
@@ -159,7 +173,7 @@ export class LockAccessory extends MQTTAccessory {
 
   private targetStateFromValue(value: Primitive | undefined): CharacteristicValue {
 
-    if (value === undefined) {
+    if (value === undefined || !this.assert('valueSecured', 'valueUnsecured')) {
       return this.Characteristic.LockTargetState.SECURED;
     }
 
