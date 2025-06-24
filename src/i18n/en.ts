@@ -28,7 +28,7 @@ const en = {
       serialNumber: 'Serial Number',
       topicGetCurrent: 'Get Current State',
       topicGetTarget: 'Get Target State',
-      topicGetStatus: 'Get Availability (Optional)',
+      topicGetActive: 'Get Availability (Optional)',
       topicSetTarget: 'Set Target State',
       topics: 'Topics',
       type: 'Type',

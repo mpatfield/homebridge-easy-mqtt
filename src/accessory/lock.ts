@@ -15,42 +15,23 @@ export class LockAccessory extends MQTTAccessory {
   private current: CharacteristicValue;
   private target: CharacteristicValue;
 
-  static async new( 
-    Service: typeof import('homebridge').Service,
-    Characteristic: typeof import('homebridge').Characteristic,
-    accessory: PlatformAccessory,
-    config: LockConfig,
-    persistPath: string,
-    log: Log,
-  ) : Promise<LockAccessory> {
-    const instance = new LockAccessory(Service, Characteristic, accessory, config, persistPath, log);
-    await instance.finishSetup();
-    return instance;
-  }
-
-  private constructor(
+  constructor(
     Service: typeof import('homebridge').Service,
     Characteristic: typeof import('homebridge').Characteristic,
     accessory: PlatformAccessory,
     private readonly config: LockConfig,
-    private readonly persistPath: string,
     log: Log,
   ) {
     super(Service, Characteristic, accessory, config, log, LockAccessory.name);
 
     this.accessoryService = accessory.getService(Service.LockMechanism) || accessory.addService(Service.LockMechanism);
 
-    this.active = false;
-    this.current = this.Characteristic.LockCurrentState.UNKNOWN;
-    this.target = this.Characteristic.LockTargetState.SECURED;
-  }
-
-  private async finishSetup() {
-
-    // TODO fetch these values from storage
     this.active = true;
     this.current = this.Characteristic.LockCurrentState.UNKNOWN;
     this.target = this.Characteristic.LockTargetState.SECURED;
+
+    this.accessoryService.getCharacteristic(this.Characteristic.StatusActive)
+      .onGet(this.getActive.bind(this));
 
     this.accessoryService.getCharacteristic(this.Characteristic.LockCurrentState)
       .onGet(this.getCurrentState.bind(this));
@@ -58,21 +39,19 @@ export class LockAccessory extends MQTTAccessory {
     this.accessoryService.getCharacteristic(this.Characteristic.LockTargetState)
       .onGet(this.getTargetState.bind(this))
       .onSet(this.setTargetState.bind(this));
-
-    this.accessoryService.updateCharacteristic(this.Characteristic.StatusActive, false);
   }
 
   protected get topicHandlers(): TopicHandler[] {
     return [
       makeHandler(this.config.topicGetCurrent, this.onCurrentUpdate.bind(this)),
       makeHandler(this.config.topicGetTarget, this.onTargetUpdate.bind(this)),
-      ...(this.config.topicGetStatus ? [makeHandler(this.config.topicGetStatus, this.onStatusUpdate.bind(this))]: []),
+      ...(this.config.topicGetActive ? [makeHandler(this.config.topicGetActive, this.onActiveUpdate.bind(this))]: []),
     ];
   }
   
-  private async onStatusUpdate(topic: string, status: Primitive): Promise<void> {
+  private async onActiveUpdate(topic: string, value: Primitive): Promise<void> {
 
-    const active = status === toPrimitive(this.config.valueActive);
+    const active = value === toPrimitive(this.config.valueActive);
     if (active === this.active) {
       return;
     }
@@ -115,6 +94,10 @@ export class LockAccessory extends MQTTAccessory {
     this.accessoryService.updateCharacteristic(this.Characteristic.LockTargetState, this.target);
 
     this.logIfDesired(this.stringForState(this.target, true), this.config.info.name);
+  }
+
+  private async getActive(): Promise<CharacteristicValue> {
+    return this.active;
   }
 
   private async getCurrentState(): Promise<CharacteristicValue> {

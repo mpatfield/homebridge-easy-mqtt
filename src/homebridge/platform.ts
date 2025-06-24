@@ -80,12 +80,11 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
       const Service = this.api.hap.Service;
       const Characteristic = this.api.hap.Characteristic;
-      const persistPath = this.api.user.persistPath();
 
       let mqttAccessory: MQTTAccessory;
       switch(accessoryConfig.info.type) {
       case this.api.hap.Service.LockMechanism.name:
-        mqttAccessory = await LockAccessory.new(Service, Characteristic, accessory, accessoryConfig as LockConfig, persistPath, this.log);
+        mqttAccessory = new LockAccessory(Service, Characteristic, accessory, accessoryConfig as LockConfig, this.log);
         break;
       default:
         this.log.error(strings.startup.unsupportedType, accessoryConfig.info.type);

@@ -87,9 +87,9 @@
               "title": "${config.title.topicSetTarget}",
               "placeholder": "zwave/door_lock/front_door/targetMode/set"
             },
-            "topicGetStatus": {
+            "topicGetActive": {
               "type": "string",
-              "title": "${config.title.topicGetStatus}",
+              "title": "${config.title.topicGetActive}",
               "placeholder": "zwave/door_lock/front_door/status"
             },
             "valueSecured": {
@@ -181,7 +181,7 @@
                     "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'LockMechanism';"
                   }
                 },
-                "accessories[].topicGetStatus"
+                "accessories[].topicGetActive"
               ]
             },
             {
