@@ -79,8 +79,10 @@ export class MQTT {
     }
 
     const options = {
-      ...additionalOptions,
       reconnectPeriod: 0,
+      username: this.config.username,
+      password: this.config.password,
+      ...additionalOptions,
     };
 
     this.client = mqtt.connect(this.config.broker, options);

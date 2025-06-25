@@ -44,6 +44,8 @@ Using the Homebridge Config UI is the easiest way to set up this plugin. However
       },
       "mqtt": {
         "broker": "string",
+        "username": "string",
+        "password": "string",
         "options": "string"
       },
       "topicGetActive": "string",
@@ -79,6 +81,8 @@ Info:
 
 MQTT:
 - `broker` - The URL and port to use for communicating with your MQTT device
+- `username` - (Optional) Username
+- `password` - (Optional) Password
 - `options` - (Optional) See [MQTT Options](#mqtt-options) below
 
 Topics:
@@ -129,10 +133,10 @@ You may also turn on additional logging if you'd like to see the MQTT messages p
 
 ## MQTT Options
 
-You are able to pass in any arbitrary MQTT options via `mqtt.options` in the config. This can include, among other things, username/password, keepalive, rejectUnauthorized, etc. Just make sure the value provided is valid JSON. For example:
+You are able to pass in any arbitrary MQTT options via `mqtt.options` in the config. This can include, for example, such as clientId, protocolVersion, etc. Just make sure the value provided is valid JSON. For example:
 
 ```
-"options": "{ \"username\": \"fake@email.com\", \"password\": \"password123\", \"rejectUnauthorized\": true }"
+"options": "{ \"protocolVersion\": \"4\", \"clientId\": \"my-client-id\", \"rejectUnauthorized\": true }"
 ```
 
 ## JSONPaths

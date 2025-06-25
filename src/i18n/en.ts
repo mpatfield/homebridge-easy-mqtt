@@ -14,7 +14,7 @@ const en = {
 
     description: {
       disableLogging: 'If true, only critical events will be logged for this accessory.',
-      options: 'Additional MQTT parameters such as username and password. Must be valid JSON.',
+      options: 'Additional MQTT parameters such as clientId or protocolVersion. Must be valid JSON.',
       topics: 'Supports JSONPath using dot notation, i.e. "my/topic$.path.to.value"',
       valueActive: 'Required if "Get Availability" topic is defined above.',
       verbose: 'If true, additional MQTT info will be logged for debugging purposes.',
@@ -31,6 +31,7 @@ const en = {
       model: 'Model',
       mqtt: 'MQTT Settings',
       options: 'Options',
+      password: 'Password (Optional)',
       serialNumber: 'Serial Number',
       topicGetActive: 'Get Availability (Optional)',
       topicGetCurrent: 'Get Current State',
@@ -40,6 +41,7 @@ const en = {
       topicSetTarget: 'Set Target State',
       topics: 'Topics',
       type: 'Type',
+      username: 'Username (Optional)',
       valueActive: 'Available/Reachable',
       valueJammed: 'Jammed (Optional)',
       valueOff: 'Off',

@@ -38,6 +38,8 @@ export type InfoConfig = Assertable & {
 
 export type MQTTConfig = Assertable & {
   broker: string,
+  username?: string,
+  password?: string,
   options?: string,
 }
 

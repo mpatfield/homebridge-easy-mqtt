@@ -52,11 +52,19 @@
             "placeholder": "mqtts://192.168.0.1:1883",
             "required": true
           },
+          "username": {
+            "type": "string",
+            "title": "${config.title.username}"
+          },
+          "password": {
+            "type": "string",
+            "title": "${config.title.password}"
+          },
           "options": {
             "type": "string",
             "title": "${config.title.options}",
             "description": "${config.description.options}",
-            "placeholder": "{ \"username\": \"fake@email.com\", \"password\": \"password123\" , \"rejectUnauthorized\": true }"
+            "placeholder": "{ \"protocolVersion\": \"4\", \"clientId\": \"my-client-id\", \"rejectUnauthorized\": true }"
           }
         }
       }
@@ -212,6 +220,21 @@
               "title": "${config.title.mqtt}",
               "items": [
                 "accessories[].mqtt.broker",
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "items": [
+                    {
+                      "key": "accessories[].username",
+                      "flex": "1 1 0"
+                    },
+                    {
+                      "key": "accessories[].password",
+                      "flex": "1 1 0"
+                    }
+                  ]
+                },
                 "accessories[].mqtt.options"
               ]
             },
