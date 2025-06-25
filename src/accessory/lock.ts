@@ -56,6 +56,10 @@ export class LockAccessory extends MQTTAccessory {
   
   private async onActiveUpdate(topic: string, value: Primitive): Promise<void> {
 
+    if (!this.assert('valueActive')) {
+      return;
+    }
+
     const active = value === toPrimitive(this.config.valueActive);
     if (active === this.active) {
       return;
