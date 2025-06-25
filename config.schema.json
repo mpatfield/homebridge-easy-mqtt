@@ -56,7 +56,7 @@
             "type": "string",
             "title": "${config.title.options}",
             "description": "${config.description.options}",
-            "placeholder": " { \"username\": \"fake@email.com\", \"password\": \"password123\" , \"rejectUnauthorized\": true }"
+            "placeholder": "{ \"username\": \"fake@email.com\", \"password\": \"password123\" , \"rejectUnauthorized\": true }"
           }
         }
       }
