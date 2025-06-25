@@ -4,7 +4,6 @@
   "singular": true,
   "customUi": true,
   "customUiPath": "./dist/homebridge-ui",
-  "strictValidation": true,
   "schema": {
     "type": "object",
     "definitions": {
@@ -13,8 +12,7 @@
         "properties": {
           "name": {
               "type": "string",
-              "title": "${config.title.name}",
-              "required": true
+              "title": "${config.title.name}"
           },
           "type": {
             "type": "string",
@@ -22,8 +20,7 @@
             "enum": [
               "LockMechanism",
               "Switch"
-            ],
-            "required": true
+            ]
           },
           "manufacturer": {
             "type": "string",
@@ -49,8 +46,7 @@
           "broker": {
             "type": "string",
             "title": "${config.title.broker}",
-            "placeholder": "mqtts://192.168.0.1:1883",
-            "required": true
+            "placeholder": "mqtts://192.168.0.1:1883"
           },
           "username": {
             "type": "string",
