@@ -74,6 +74,7 @@ const showSettings = async (strings: Translation) => {
   homebridge.showSpinner();
   document.getElementById('pageIntro')!.style.display = 'none';
   document.getElementById('support')!.style.display = 'block';
+  document.getElementById('footer')!.style.display = 'block';
 
   const observer = new MutationObserver(() => {
     translateSchema(strings);
