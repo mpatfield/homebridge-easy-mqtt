@@ -23,7 +23,7 @@ Any issues or damage resulting from use of this plugin are not the fault of the 
 
 This plugin is designed to be a simple replacement for the fantastic [homebridge-mqttthing](https://github.com/arachnetech/homebridge-mqttthing) plugin which appears as though it's [no longer](https://github.com/arachnetech/homebridge-mqttthing/commits/master/) being actively developed.
 
-**HomebridgeEasyMQTT** currently supports just two types of accessories, `LockMechanism` and `Switch`, but will be expanded over time as more use cases are discovered. If there is an accessory type you'd like to see supported, please feel free to [create an issue in GitHub](https://github.com/mpatfield/homebridge-easy-mqtt/issues).
+**HomebridgeEasyMQTT** currently supports just two types of accessories, `LockMechanism` and `Switch`, but will be expanded over time as more use cases are discovered. If there is an accessory type you'd like to see supported, please feel free to [create an issue in GitHub](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
 
 ## Configuration
 
@@ -79,13 +79,13 @@ Info:
 
 MQTT:
 - `broker` - The URL and port to use for communicating with your MQTT device
-- `options` - (Optional) See [MQTT Options](https://github.com/mpatfield/homebridge-easy-mqtt#mqtt-options) below
+- `options` - (Optional) See [MQTT Options](#mqtt-options) below
 
 Topics:
 
 You will need to make sure to populate the appropriate topics based on the type.
 
-You may define topics using a JSONPath dot notation to assist the parser in finding the right value within the message. See [JSONPaths](https://github.com/mpatfield/homebridge-easy-mqtt#jsonpaths) below for more details.
+You may define topics using a JSONPath dot notation to assist the parser in finding the right value within the message. See [JSONPaths](#jsonpaths) below for more details.
 
 - General Purpose
   - `topicGetActive` - (Optional) Whether or not the accessory is connected/reachable
@@ -172,5 +172,4 @@ would use the topic
 
 [@arachnetech](https://github.com/arachnetech) for the fantastic [homebridge-mqttthing](https://github.com/arachnetech/homebridge-mqttthing) plugin which serves as the main inspiration for this project
 
-And to the amazing creators/contributors of [Homebridge](https://homebridge.io) who made this plugin possible!
 And to the amazing creators/contributors of [Homebridge](https://homebridge.io) who made this plugin possible!
