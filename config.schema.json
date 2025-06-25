@@ -155,17 +155,56 @@
           "expandable": true,
           "title": "${config.title.accessory}",
           "items": [
-            "accessories[].info.name",
-            "accessories[].info.type",
+            {
+              "type": "div",
+              "displayFlex": true,
+              "flex-direction": "row",
+              "items": [
+                {
+                  "key": "accessories[].info.name",
+                  "flex": "1 1 0"
+                },
+                {
+                  "key": "accessories[].info.type",
+                  "flex": "1 1 0"
+                }
+              ]
+            },
             {
               "type": "fieldset",
               "title": "${config.title.info}",
               "expandable": true,
               "items": [
-                "accessories[].info.manufacturer",
-                "accessories[].info.model",
-                "accessories[].info.serialNumber",
-                "accessories[].info.version"
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "items": [
+                    {
+                      "key": "accessories[].info.manufacturer",
+                      "flex": "1 1 0"
+                    },
+                    {
+                      "key": "accessories[].info.model",
+                      "flex": "1 1 0"
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "items": [
+                    {
+                      "key": "accessories[].info.serialNumber",
+                      "flex": "1 1 0"
+                    },
+                    {
+                      "key": "accessories[].info.version",
+                      "flex": "1 1 0"
+                    }
+                  ]
+                }
               ]
             },
             {
@@ -180,7 +219,6 @@
             {
               "type": "fieldset",
               "title": "${config.title.topics}",
-              "description": "${config.description.topics}",
               "items": [
                 {
                   "key": "accessories[].topicGetCurrent",
@@ -220,38 +258,65 @@
               "title": "${config.title.values}",
               "items": [
                 {
-                  "key": "accessories[].valueSecured",
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
                   "condition": {
                     "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'LockMechanism';"
-                  }
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].valueSecured",
+                      "flex": "1 1 0"
+                    },
+                    {
+                      "key": "accessories[].valueUnsecured",
+                      "flex": "1 1 0"
+                    }
+                  ]
                 },
                 {
-                  "key": "accessories[].valueUnsecured",
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
                   "condition": {
                     "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'LockMechanism';"
-                  }
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].valueJammed",
+                      "flex": "1 1 0"
+                    },
+                    {
+                      "key": "accessories[].valueActive",
+                      "flex": "1 1 0"
+                    }
+                  ]
                 },
                 {
-                  "key": "accessories[].valueJammed",
-                  "condition": {
-                    "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'LockMechanism';"
-                  }
-                },
-                {
-                  "key": "accessories[].valueOn",
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
                   "condition": {
                     "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'Switch';"
-                  }
-                },
-                {
-                  "key": "accessories[].valueOff",
-                  "condition": {
-                    "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'Switch';"
-                  }
-                },
-                "accessories[].valueActive"
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].valueOn",
+                      "flex": "1 1 0"
+                    },
+                    {
+                      "key": "accessories[].valueOff",
+                      "flex": "1 1 0"
+                    },
+                    {
+                      "key": "accessories[].valueActive",
+                      "flex": "1 1 0"
+                    }
+                  ]
+                }
               ]
-            }
+            }          
           ]
         }
       ]
