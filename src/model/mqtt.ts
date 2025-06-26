@@ -9,7 +9,6 @@ import { SECOND, MINUTE } from '../tools/time.js';
 import { assert } from '../tools/validation.js';
 
 const DELAYS = [5 * SECOND, 10 * SECOND, 15 * SECOND, 30 * SECOND, MINUTE, 2 * MINUTE];
-const IDLE_CONNECTION_TIMER_INTERVAL = 5 * MINUTE;
 
 type MQTTMessageHandler = (topic: string, value: Primitive) => void;
 
@@ -42,7 +41,6 @@ export class MQTT {
   private shouldReconnect = false;
   private isReconnecting = false;
   private reconnectCount = 0;
-  private idleMQTTTimer: NodeJS.Timeout | null = null;
 
   private listeners = new Map<string, MQTTListener>();
 
@@ -130,7 +128,6 @@ export class MQTT {
   private messageReceived(topic: string, message: string) {
 
     this.reconnectCount = 0;
-    this.resetIdleMQTTTimer();
 
     try {
 
@@ -164,18 +161,6 @@ export class MQTT {
   private connectionClosed() {
     this.log.ifVerbose(strings.mqtt.connectionClosed, this.caller);
     this.reconnect();
-  }
-
-  private resetIdleMQTTTimer() {
-
-    if (this.idleMQTTTimer) {
-      clearTimeout(this.idleMQTTTimer);
-    }
-
-    this.idleMQTTTimer = setTimeout(()=>{
-      this.log.ifVerbose(strings.mqtt.idleConnection, this.caller);
-      this.reconnect();
-    }, IDLE_CONNECTION_TIMER_INTERVAL); 
   }
 
   private async reconnect() {
