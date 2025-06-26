@@ -4,6 +4,9 @@ All notable changes to homebridge-dummy will be documented in this file.
 
 ## 1.0.0-beta.1 (2025-06-26)
 
+### ⚠️ BREAKING
+- Several topics were renamed for consistency so some accessories may have to be reconfigured
+
 ### Added
 - Username/password can now be set in the UI or supplied via config
 - Outlet accessory type
