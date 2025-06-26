@@ -8,11 +8,12 @@ import { SwitchAccessory } from '../accessory/switch.js';
 
 import { setLanguage, strings } from '../i18n/i18n.js';
 
-import { AccessoryConfig, LockConfig, SwitchConfig } from '../model/types.js';
+import { AccessoryConfig, LockConfig, OutletConfig, SwitchConfig } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
 import getVersion from '../tools/version.js';
 import { assert } from '../tools/validation.js';
+import { OutletAccessory } from '../accessory/outlet.js';
 
 export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
@@ -94,10 +95,13 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
       let mqttAccessory: MQTTAccessory;
       switch(accessoryConfig.info.type) {
-      case this.api.hap.Service.LockMechanism.name:
+      case Service.LockMechanism.name:
         mqttAccessory = new LockAccessory(Service, Characteristic, accessory, accessoryConfig as LockConfig, this.log);
         break;
-      case this.api.hap.Service.Switch.name:
+      case Service.Outlet.name:
+        mqttAccessory = new OutletAccessory(Service, Characteristic, accessory, accessoryConfig as OutletConfig, this.log);
+        break;
+      case Service.Switch.name:
         mqttAccessory = new SwitchAccessory(Service, Characteristic, accessory, accessoryConfig as SwitchConfig, this.log);
         break;
       default:

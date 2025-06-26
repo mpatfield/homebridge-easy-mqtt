@@ -23,7 +23,7 @@ Any issues or damage resulting from use of this plugin are not the fault of the 
 
 This plugin is designed to be a simple replacement for the fantastic [homebridge-mqttthing](https://github.com/arachnetech/homebridge-mqttthing) plugin which appears as though it's [no longer](https://github.com/arachnetech/homebridge-mqttthing/commits/master/) being actively developed.
 
-**HomebridgeEasyMQTT** currently supports just two types of accessories, `LockMechanism` and `Switch`, but will be expanded over time as more use cases are discovered. If there is an accessory type you'd like to see supported, please feel free to [create an issue in GitHub](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
+**HomebridgeEasyMQTT** currently supports `LockMechanism`, `Outlet`, and `Switch`, but will be expanded over time as more use cases are discovered. If there is an accessory type you'd like to see supported, please feel free to [create an issue in GitHub](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
 
 ## Configuration
 
@@ -73,7 +73,7 @@ All fields are required unless noted as "(Optional)"
 
 Info:
 - `name` - The display name for the accessory in HomeKit
-- `type` - The type of accessory, currently only LockMechanism and Switch are supported
+- `type` - The type of accessory, currently LockMechanism, Outlet, and Switch are supported
 - `manufacturer` - (Optional) The accessory manufacturer which will display in HomeKit device details
 - `model` - (Optional) The accessory model which will display in HomeKit device details
 - `serialNumber` - (Optional) The accessory serial number which will display in HomeKit device details
@@ -99,9 +99,15 @@ You may define topics using a JSONPath dot notation to assist the parser in find
   - `topicGetTarget` - The target (i.e. desired) state of the lock
   - `topicSetTarget` - For setting the target (i.e. desired) state of the lock
 
+- Outlet
+  - `topicGetOn` - The current state of the outlet, i.e. on/off
+  - `topicSetOn` - For setting the state of the outlet
+  - `topicGetInUse` - Whether or not the outlet is currently being used
+  - `topicSetInUse` - For setting whether the outlet is currently being used
+
 - Switch
   - `topicGetOn` - The current state of the switch, i.e. on/off
-  - `topicSetOn` - For setting the desired state of the switch
+  - `topicSetOn` - For setting the state of the switch
 
 Values:
 
@@ -114,6 +120,12 @@ As with Topics, you will need to populate the appropriate values based on the ty
   - `valueSecured` - Locked state, e.g. "true", "255", or "Locked"
   - `valueUnsecured` - Unlocked state, e.g. "false", "0", or "Unlocked"
   - `valueJammed` - (Optional) Lock is jammed, e.g. "254" or "Jammed"
+
+- Outlet
+  - `valueOn` - Turned on, e.g. "true", or "1", or "On" 
+  - `valueOff` - Turned off, e.g. "false", or "0", or "Off" 
+  - `valueInUse` - Currently being used, e.g. "true", or "1", or "On" 
+  - `valueNotInUse` - Currently not being used, e.g. "false", or "0", or "Off" 
 
 - Switch
   - `valueOn` - Turned on, e.g. "true", or "1", or "On" 
