@@ -4,7 +4,7 @@ import { makeHandler, MQTTAccessory, TopicHandler } from './base.js';
 
 import { strings } from '../i18n/i18n.js';
 
-import { LockConfig, Primitive, toPrimitive } from '../model/types.js';
+import { CharacteristicType, LockConfig, Primitive, ServiceType, toPrimitive } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
 
@@ -16,8 +16,8 @@ export class LockAccessory extends MQTTAccessory {
   private target: CharacteristicValue;
 
   constructor(
-    Service: typeof import('homebridge').Service,
-    Characteristic: typeof import('homebridge').Characteristic,
+    Service: ServiceType,
+    Characteristic: CharacteristicType,
     accessory: PlatformAccessory,
     private readonly config: LockConfig,
     log: Log,

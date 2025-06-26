@@ -1,3 +1,6 @@
+export type ServiceType = typeof import('homebridge').Service;
+export type CharacteristicType = typeof import('homebridge').Characteristic;
+
 export type Primitive = string | number | boolean;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -49,7 +52,7 @@ export type AccessoryConfig = Assertable & {
   disableLogging: boolean,
 }
 
-export type LockConfig = Assertable & AccessoryConfig & {
+export type LockConfig = AccessoryConfig & {
   topicGetCurrent: string,
   topicGetTarget: string,
   topicSetTarget: string,
@@ -60,11 +63,21 @@ export type LockConfig = Assertable & AccessoryConfig & {
   valueActive?: string,
 };
 
-export type SwitchConfig = Assertable& AccessoryConfig & {
+export type OnOffConfig = AccessoryConfig & {
   topicGetOn: string,
   topicSetOn: string,
   topicGetActive?: string,
   valueOn: string,
   valueOff: string,
   valueActive?: string,
+}
+
+export type SwitchConfig = OnOffConfig & {
+}
+
+export type OutletConfig = OnOffConfig & {
+  topicGetInUse?: string,
+  topicSetInUse?: string,
+  valueInUse?: string,
+  valueNotInUse?: string,
 }

@@ -3,7 +3,7 @@ import { PlatformAccessory } from 'homebridge';
 import { PLATFORM_NAME } from '../homebridge/settings.js';
 
 import { MQTT } from '../model/mqtt.js';
-import { AccessoryConfig, Primitive } from '../model/types.js';
+import { AccessoryConfig, CharacteristicType, Primitive, ServiceType } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
 import getVersion from '../tools/version.js';
@@ -20,9 +20,9 @@ export abstract class MQTTAccessory {
   private readonly mqttClient: MQTT | undefined;
 
   constructor(
-    protected readonly Service: typeof import('homebridge').Service,
-    protected readonly Characteristic: typeof import('homebridge').Characteristic,
-    accessory: PlatformAccessory,
+    protected readonly Service: ServiceType,
+    protected readonly Characteristic: CharacteristicType,
+    protected readonly accessory: PlatformAccessory,
     private readonly _config: AccessoryConfig,
     protected readonly log: Log,    
     caller: string,

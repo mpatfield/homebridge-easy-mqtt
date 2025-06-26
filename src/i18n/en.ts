@@ -35,8 +35,10 @@ const en = {
       serialNumber: 'Serial Number',
       topicGetActive: 'Get Availability (Optional)',
       topicGetCurrent: 'Get Current State',
+      topicGetInUse: 'Get In Use State',
       topicGetOn: 'Get On/Off State',
       topicGetTarget: 'Get Target State',
+      topicSetInUse: 'Set In Use State',
       topicSetOn: 'Set On/Off State',
       topicSetTarget: 'Set Target State',
       topics: 'Topics',
@@ -44,6 +46,8 @@ const en = {
       username: 'Username (Optional)',
       valueActive: 'Available/Reachable',
       valueJammed: 'Jammed (Optional)',
+      valueInUse: 'In Use',
+      valueNotInUse: 'Not In Use',
       valueOff: 'Off',
       valueOn: 'On',
       valueSecured: 'Secured/Locked',
@@ -79,6 +83,20 @@ const en = {
     reconnectInSeconds: '%s will attempt to reconnect in %s seconds…',
   },
 
+  onOff: {
+    stateFutureOff: '%s is turning off…',
+    stateFutureOn: '%s is turning on…',
+    stateOn: '%s is on',
+    stateOff: '%s is off',
+  },
+
+  outlet: {
+    futureInUse: 'Setting %s to in use…',
+    futureNotInUse: 'Setting %s to not in use…',
+    inUse: '%s is in use',
+    notInUse: '%s is not in use',
+  },
+
   startup: {
     complete: '✓ Setup complete.',
     newAccessory: 'Adding %s',
@@ -91,13 +109,6 @@ const en = {
       // TODO 'Please rate us on HOOBS! https://plugins.hoobs.org/plugin/homebridge-easy-mqtt',
       'Want to see this plugin in your own language? Please visit https://github.com/mpatfield/homebridge-easy-mqtt/issues/4',
     ],
-  },
-
-  switch: {
-    stateFutureOff: '%s is turning off…',
-    stateFutureOn: '%s is turning on…',
-    stateOn: '%s is on',
-    stateOff: '%s is off',
   },
 };
 

@@ -12,15 +12,18 @@
         "properties": {
           "name": {
               "type": "string",
-              "title": "${config.title.name}"
-          },
+              "title": "${config.title.name}" ,         
+              "required": true
+            },
           "type": {
             "type": "string",
             "title": "${config.title.type}",
             "enum": [
               "LockMechanism",
+              "Outlet",
               "Switch"
-            ]
+            ],
+            "required": true
           },
           "manufacturer": {
             "type": "string",
@@ -46,7 +49,8 @@
           "broker": {
             "type": "string",
             "title": "${config.title.broker}",
-            "placeholder": "mqtts://192.168.0.1:1883"
+            "placeholder": "mqtts://192.168.0.1:1883",
+            "required": true
           },
           "username": {
             "type": "string",
@@ -80,32 +84,42 @@
             "topicGetActive": {
               "type": "string",
               "title": "${config.title.topicGetActive}",
-              "placeholder": "zwave/door_lock/front_door/status"
+              "placeholder": "zwave/door_lock/status"
             },
             "topicGetCurrent": {
               "type": "string",
               "title": "${config.title.topicGetCurrent}",
-              "placeholder": "zwave/door_lock/front_door/currentMode"
+              "placeholder": "zwave/door_lock/currentMode"
             },
             "topicGetTarget": {
               "type": "string",
               "title": "${config.title.topicGetTarget}",
-              "placeholder": "zwave/door_lock/front_door/targetMode"
+              "placeholder": "zwave/door_lock/targetMode"
             },
             "topicSetTarget": {
               "type": "string",
               "title": "${config.title.topicSetTarget}",
-              "placeholder": "zwave/door_lock/front_door/targetMode/set"
+              "placeholder": "zwave/door_lock/targetMode/set"
             },
             "topicGetOn": {
               "type": "string",
               "title": "${config.title.topicGetOn}",
-              "placeholder": "home/living_room/lamp/state"
+              "placeholder": "home/kitchen_lights/state"
             },
             "topicSetOn": {
               "type": "string",
               "title": "${config.title.topicSetOn}",
-              "placeholder": "home/living_room/lamp/state/set"
+              "placeholder": "home/kitchen_lights/state/set"
+            },
+            "topicGetInUse": {
+              "type": "string",
+              "title": "${config.title.topicGetInUse}",
+              "placeholder": "home/bedroom_outlet/state"
+            },
+            "topicSetInUse": {
+              "type": "string",
+              "title": "${config.title.topicSetInUse}",
+              "placeholder": "home/bedroom_outlet/state/set"
             },
             "valueActive": {
               "type": "string",
@@ -131,6 +145,14 @@
             "valueOff": {
               "type": "string",
               "title": "${config.title.valueOff}"
+            },
+            "valueInUse": {
+              "type": "string",
+              "title": "${config.title.valueInUse}"
+            },
+            "valueNotInUse": {
+              "type": "string",
+              "title": "${config.title.valueNotInUse}"
             },
             "disableLogging": {
               "type": "boolean",
@@ -222,11 +244,11 @@
                   "flex-direction": "row",
                   "items": [
                     {
-                      "key": "accessories[].username",
+                      "key": "accessories[].mqtt.username",
                       "flex": "1 1 0"
                     },
                     {
-                      "key": "accessories[].password",
+                      "key": "accessories[].mqtt.password",
                       "flex": "1 1 0"
                     }
                   ]
@@ -242,31 +264,43 @@
                 {
                   "key": "accessories[].topicGetCurrent",
                   "condition": {
-                    "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'LockMechanism';"
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'LockMechanism';"
                   }
                 },
                 {
                   "key": "accessories[].topicGetTarget",
                   "condition": {
-                    "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'LockMechanism';"
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'LockMechanism';"
                   }
                 },
                 {
                   "key": "accessories[].topicSetTarget",
                   "condition": {
-                    "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'LockMechanism';"
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'LockMechanism';"
                   }
                 },
                 {
                   "key": "accessories[].topicGetOn",
                   "condition": {
-                    "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'Switch';"
+                    "functionBody": "return ['Outlet', 'Switch'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   }
                 },
                 {
                   "key": "accessories[].topicSetOn",
                   "condition": {
-                    "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'Switch';"
+                    "functionBody": "return ['Outlet', 'Switch'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                  }
+                },
+                                {
+                  "key": "accessories[].topicGetInUse",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Outlet';"
+                  }
+                },
+                {
+                  "key": "accessories[].topicSetInUse",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Outlet';"
                   }
                 },
                 "accessories[].topicGetActive"
@@ -281,7 +315,7 @@
                   "displayFlex": true,
                   "flex-direction": "row",
                   "condition": {
-                    "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'LockMechanism';"
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'LockMechanism';"
                   },
                   "items": [
                     {
@@ -291,25 +325,11 @@
                     {
                       "key": "accessories[].valueUnsecured",
                       "flex": "1 1 0"
-                    }
-                  ]
-                },
-                {
-                  "type": "div",
-                  "displayFlex": true,
-                  "flex-direction": "row",
-                  "condition": {
-                    "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'LockMechanism';"
-                  },
-                  "items": [
+                    },
                     {
                       "key": "accessories[].valueJammed",
                       "flex": "1 1 0"
-                    },
-                    {
-                      "key": "accessories[].valueActive",
-                      "flex": "1 1 0"
-                    }
+                    }                    
                   ]
                 },
                 {
@@ -317,7 +337,7 @@
                   "displayFlex": true,
                   "flex-direction": "row",
                   "condition": {
-                    "functionBody": "const index = arguments[1]; return model.accessories[index]?.info.type === 'Switch';"
+                    "functionBody": "return ['Outlet', 'Switch'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {
@@ -327,13 +347,28 @@
                     {
                       "key": "accessories[].valueOff",
                       "flex": "1 1 0"
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Outlet';"
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].valueInUse",
+                      "flex": "1 1 0"
                     },
                     {
-                      "key": "accessories[].valueActive",
+                      "key": "accessories[].valueNotInUse",
                       "flex": "1 1 0"
                     }
                   ]
-                }
+                },
+                "accessories[].valueActive"
               ]
             }          
           ]
