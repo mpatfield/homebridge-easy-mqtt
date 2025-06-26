@@ -23,7 +23,7 @@ Any issues or damage resulting from use of this plugin are not the fault of the 
 
 This plugin is designed to be a simple replacement for the fantastic [homebridge-mqttthing](https://github.com/arachnetech/homebridge-mqttthing) plugin which appears as though it's [no longer](https://github.com/arachnetech/homebridge-mqttthing/commits/master/) being actively developed.
 
-**HomebridgeEasyMQTT** currently supports `LockMechanism`, `Outlet`, and `Switch`, but will be expanded over time as more use cases are discovered. If there is an accessory type you'd like to see supported, please feel free to [create an issue in GitHub](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
+**HomebridgeEasyMQTT** currently supports `Lightbulb`, `LockMechanism`, `Outlet`, and `Switch`, but will be expanded over time as more use cases are discovered. If there is an accessory type you'd like to see supported, please feel free to [create an issue in GitHub](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
 
 ## Configuration
 
@@ -48,16 +48,16 @@ Using the Homebridge Config UI is the easiest way to set up this plugin. However
         "password": "string",
         "options": "string"
       },
-      "topicGetActive": "string",
-      "topicGetCurrent": "string",
-      "topicGetTarget": "string",
-      "topicSetTarget": "string",
+      "topicGetStatusActive": "string",
+      "topicGetLockCurrentState": "string",
+      "topicGetLockTargetState": "string",
+      "topicSetTargetState": "string",
       "topicGetOn": "string",
       "topicSetOn": "string",
-      "valueActive": "string",
-      "valueSecured": "string",
-      "valueUnsecured": "string",
-      "valueJammed": "string",
+      "valueStatusActive": "string",
+      "valueLockStateSecured": "string",
+      "valueLockStateUnsecured": "string",
+      "valueLockStateJammed": "string",
       "valueOn": "string",
       "valueOff": "string",
       "disableLogging": false
@@ -73,7 +73,7 @@ All fields are required unless noted as "(Optional)"
 
 Info:
 - `name` - The display name for the accessory in HomeKit
-- `type` - The type of accessory, currently LockMechanism, Outlet, and Switch are supported
+- `type` - The type of accessory, currently Lightbulb, LockMechanism, Outlet, and Switch are supported
 - `manufacturer` - (Optional) The accessory manufacturer which will display in HomeKit device details
 - `model` - (Optional) The accessory model which will display in HomeKit device details
 - `serialNumber` - (Optional) The accessory serial number which will display in HomeKit device details
@@ -92,18 +92,28 @@ You will need to make sure to populate the appropriate topics based on the type.
 You may define topics using a JSONPath dot notation to assist the parser in finding the right value within the message. See [JSONPaths](#jsonpaths) below for more details.
 
 - General Purpose
-  - `topicGetActive` - (Optional) Whether or not the accessory is connected/reachable
+  - `topicGetStatusActive` - (Optional) Whether or not the accessory is connected/reachable
+
+- Lightbulb
+  - `topicGetBrightness` - The current brightness as a percent
+  - `topicSetBrightness` - For setting the brightness
+  - `topicGetHue` - The lightbulb's current hue
+  - `topicSetHue` - For setting the lightbulb's current hue
+  - `topicGetColorTemperature` - The current color temperature of the lightbulb
+  - `topicSetColorTemperature` - For setting the color temperature of the lightbulb
+  - `topicGetSaturation` - The current saturation setting of the lightbulb
+  - `topicSetSaturation` - For setting the saturation setting of the lightbulb
 
 - LockMechanism
-  - `topicGetCurrent` - The current state of the lock, i.e. locked/unlocked
-  - `topicGetTarget` - The target (i.e. desired) state of the lock
-  - `topicSetTarget` - For setting the target (i.e. desired) state of the lock
+  - `topicGetLockCurrentState` - The current state of the lock, i.e. locked/unlocked
+  - `topicGetLockTargetState` - The target (i.e. desired) state of the lock
+  - `topicSetTargetState` - For setting the target (i.e. desired) state of the lock
 
 - Outlet
   - `topicGetOn` - The current state of the outlet, i.e. on/off
   - `topicSetOn` - For setting the state of the outlet
-  - `topicGetInUse` - Whether or not the outlet is currently being used
-  - `topicSetInUse` - For setting whether the outlet is currently being used
+  - `topicGetOutletInUse` - Whether or not the outlet is currently being used
+  - `topicSetOutletInUse` - For setting whether the outlet is currently being used
 
 - Switch
   - `topicGetOn` - The current state of the switch, i.e. on/off
@@ -114,18 +124,22 @@ Values:
 As with Topics, you will need to populate the appropriate values based on the type. Note that while they are defined as strings, they will be auto-converted to the appropriate primitives (e.g. boolean or number) where appropriate.
 
 - General Purpose
-  - `valueActive` - Accessory is connected/reachable, e.g. "true", "1", or "Alive"
+  - `valueStatusActive` - Accessory is connected/reachable, e.g. "true", "1", or "Alive"
+
+- Lightbulb
+  - `valueOn` - Turned on, e.g. "true", or "1", or "On" 
+  - `valueOff` - Turned off, e.g. "false", or "0", or "Off" 
 
 - LockMechanism
-  - `valueSecured` - Locked state, e.g. "true", "255", or "Locked"
-  - `valueUnsecured` - Unlocked state, e.g. "false", "0", or "Unlocked"
-  - `valueJammed` - (Optional) Lock is jammed, e.g. "254" or "Jammed"
+  - `valueLockStateSecured` - Locked state, e.g. "true", "255", or "Locked"
+  - `valueLockStateUnsecured` - Unlocked state, e.g. "false", "0", or "Unlocked"
+  - `valueLockStateJammed` - (Optional) Lock is jammed, e.g. "254" or "Jammed"
 
 - Outlet
   - `valueOn` - Turned on, e.g. "true", or "1", or "On" 
   - `valueOff` - Turned off, e.g. "false", or "0", or "Off" 
-  - `valueInUse` - Currently being used, e.g. "true", or "1", or "On" 
-  - `valueNotInUse` - Currently not being used, e.g. "false", or "0", or "Off" 
+  - `valueOutletInUse` - Currently being used, e.g. "true", or "1", or "On" 
+  - `valueOutletNotInUse` - Currently not being used, e.g. "false", or "0", or "Off" 
 
 - Switch
   - `valueOn` - Turned on, e.g. "true", or "1", or "On" 

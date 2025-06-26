@@ -19,6 +19,7 @@
             "type": "string",
             "title": "${config.title.type}",
             "enum": [
+              "Lightbulb",
               "LockMechanism",
               "Outlet",
               "Switch"
@@ -81,62 +82,86 @@
           "properties": {
             "info": { "$ref": "#/definitions/info" },
             "mqtt": { "$ref": "#/definitions/mqtt" },
-            "topicGetActive": {
+            "topicGetStatusActive": {
               "type": "string",
-              "title": "${config.title.topicGetActive}",
-              "placeholder": "zwave/door_lock/status"
+              "title": "${config.title.topicGetStatusActive}"
             },
-            "topicGetCurrent": {
+            "topicGetBrightness": {
               "type": "string",
-              "title": "${config.title.topicGetCurrent}",
-              "placeholder": "zwave/door_lock/currentMode"
+              "title": "${config.title.topicGetBrightness}"
             },
-            "topicGetTarget": {
+            "topicSetBrightness": {
               "type": "string",
-              "title": "${config.title.topicGetTarget}",
-              "placeholder": "zwave/door_lock/targetMode"
+              "title": "${config.title.topicSetBrightness}"
             },
-            "topicSetTarget": {
+            "topicGetHue": {
               "type": "string",
-              "title": "${config.title.topicSetTarget}",
-              "placeholder": "zwave/door_lock/targetMode/set"
+              "title": "${config.title.topicGetHue}"
+            },
+            "topicSetHue": {
+              "type": "string",
+              "title": "${config.title.topicSetHue}"
+            },
+            "topicGetColorTemperature": {
+              "type": "string",
+              "title": "${config.title.topicGetColorTemperature}"
+            },
+            "topicSetColorTemperature": {
+              "type": "string",
+              "title": "${config.title.topicSetColorTemperature}"
+            },
+            "topicGetSaturation": {
+              "type": "string",
+              "title": "${config.title.topicGetSaturation}"
+            },
+            "topicSetSaturation": {
+              "type": "string",
+              "title": "${config.title.topicSetSaturation}"
+            },
+            "topicGetLockCurrentState": {
+              "type": "string",
+              "title": "${config.title.topicGetLockCurrentState}"
+            },
+            "topicGetLockTargetState": {
+              "type": "string",
+              "title": "${config.title.topicGetLockTargetState}"
+            },
+            "topicSetTargetState": {
+              "type": "string",
+              "title": "${config.title.topicSetTargetState}"
             },
             "topicGetOn": {
               "type": "string",
-              "title": "${config.title.topicGetOn}",
-              "placeholder": "home/kitchen_lights/state"
+              "title": "${config.title.topicGetOn}"
             },
             "topicSetOn": {
               "type": "string",
-              "title": "${config.title.topicSetOn}",
-              "placeholder": "home/kitchen_lights/state/set"
+              "title": "${config.title.topicSetOn}"
             },
-            "topicGetInUse": {
+            "topicGetOutletInUse": {
               "type": "string",
-              "title": "${config.title.topicGetInUse}",
-              "placeholder": "home/bedroom_outlet/state"
+              "title": "${config.title.topicGetOutletInUse}"
             },
-            "topicSetInUse": {
+            "topicSetOutletInUse": {
               "type": "string",
-              "title": "${config.title.topicSetInUse}",
-              "placeholder": "home/bedroom_outlet/state/set"
+              "title": "${config.title.topicSetOutletInUse}"
             },
-            "valueActive": {
+            "valueStatusActive": {
               "type": "string",
-              "title": "${config.title.valueActive}",
-              "description": "${config.description.valueActive}"
+              "title": "${config.title.valueStatusActive}",
+              "description": "${config.description.valueStatusActive}"
             },
-            "valueSecured": {
+            "valueLockStateSecured": {
               "type": "string",
-              "title": "${config.title.valueSecured}"
+              "title": "${config.title.valueLockStateSecured}"
             },
-            "valueUnsecured": {
+            "valueLockStateUnsecured": {
               "type": "string",
-              "title": "${config.title.valueUnsecured}"
+              "title": "${config.title.valueLockStateUnsecured}"
             },
-            "valueJammed": {
+            "valueLockStateJammed": {
               "type": "string",
-              "title": "${config.title.valueJammed}"
+              "title": "${config.title.valueLockStateJammed}"
             },
             "valueOn": {
               "type": "string",
@@ -146,13 +171,13 @@
               "type": "string",
               "title": "${config.title.valueOff}"
             },
-            "valueInUse": {
+            "valueOutletInUse": {
               "type": "string",
-              "title": "${config.title.valueInUse}"
+              "title": "${config.title.valueOutletInUse}"
             },
-            "valueNotInUse": {
+            "valueOutletNotInUse": {
               "type": "string",
-              "title": "${config.title.valueNotInUse}"
+              "title": "${config.title.valueOutletNotInUse}"
             },
             "disableLogging": {
               "type": "boolean",
@@ -262,19 +287,19 @@
               "title": "${config.title.topics}",
               "items": [
                 {
-                  "key": "accessories[].topicGetCurrent",
+                  "key": "accessories[].topicGetLockCurrentState",
                   "condition": {
                     "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'LockMechanism';"
                   }
                 },
                 {
-                  "key": "accessories[].topicGetTarget",
+                  "key": "accessories[].topicGetLockTargetState",
                   "condition": {
                     "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'LockMechanism';"
                   }
                 },
                 {
-                  "key": "accessories[].topicSetTarget",
+                  "key": "accessories[].topicSetTargetState",
                   "condition": {
                     "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'LockMechanism';"
                   }
@@ -282,28 +307,76 @@
                 {
                   "key": "accessories[].topicGetOn",
                   "condition": {
-                    "functionBody": "return ['Outlet', 'Switch'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                    "functionBody": "return ['Lightbulb', 'Outlet', 'Switch'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   }
                 },
                 {
                   "key": "accessories[].topicSetOn",
                   "condition": {
-                    "functionBody": "return ['Outlet', 'Switch'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                    "functionBody": "return ['Lightbulb', 'Outlet', 'Switch'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   }
                 },
-                                {
-                  "key": "accessories[].topicGetInUse",
+                {
+                  "key": "accessories[].topicGetBrightness",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Lightbulb';"
+                  }
+                },
+                {
+                  "key": "accessories[].topicSetBrightness",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Lightbulb';"
+                  }
+                },
+                {
+                  "key": "accessories[].topicGetHue",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Lightbulb';"
+                  }
+                },
+                {
+                  "key": "accessories[].topicSetHue",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Lightbulb';"
+                  }
+                },
+                {
+                  "key": "accessories[].topicGetColorTemperature",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Lightbulb';"
+                  }
+                },
+                {
+                  "key": "accessories[].topicSetColorTemperature",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Lightbulb';"
+                  }
+                },
+                {
+                  "key": "accessories[].topicGetSaturation",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Lightbulb';"
+                  }
+                },
+                {
+                  "key": "accessories[].topicSetSaturation",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Lightbulb';"
+                  }
+                },
+                {
+                  "key": "accessories[].topicGetOutletInUse",
                   "condition": {
                     "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Outlet';"
                   }
                 },
                 {
-                  "key": "accessories[].topicSetInUse",
+                  "key": "accessories[].topicSetOutletInUse",
                   "condition": {
                     "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Outlet';"
                   }
                 },
-                "accessories[].topicGetActive"
+                "accessories[].topicGetStatusActive"
               ]
             },
             {
@@ -319,15 +392,15 @@
                   },
                   "items": [
                     {
-                      "key": "accessories[].valueSecured",
+                      "key": "accessories[].valueLockStateSecured",
                       "flex": "1 1 0"
                     },
                     {
-                      "key": "accessories[].valueUnsecured",
+                      "key": "accessories[].valueLockStateUnsecured",
                       "flex": "1 1 0"
                     },
                     {
-                      "key": "accessories[].valueJammed",
+                      "key": "accessories[].valueLockStateJammed",
                       "flex": "1 1 0"
                     }                    
                   ]
@@ -337,7 +410,7 @@
                   "displayFlex": true,
                   "flex-direction": "row",
                   "condition": {
-                    "functionBody": "return ['Outlet', 'Switch'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                    "functionBody": "return ['Lightbulb', 'Outlet', 'Switch'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {
@@ -359,16 +432,16 @@
                   },
                   "items": [
                     {
-                      "key": "accessories[].valueInUse",
+                      "key": "accessories[].valueOutletInUse",
                       "flex": "1 1 0"
                     },
                     {
-                      "key": "accessories[].valueNotInUse",
+                      "key": "accessories[].valueOutletNotInUse",
                       "flex": "1 1 0"
                     }
                   ]
                 },
-                "accessories[].valueActive"
+                "accessories[].valueStatusActive"
               ]
             }          
           ]
