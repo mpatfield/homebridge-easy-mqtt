@@ -23,23 +23,23 @@ export abstract class MQTTAccessory {
     protected readonly Service: ServiceType,
     protected readonly Characteristic: CharacteristicType,
     protected readonly accessory: PlatformAccessory,
-    private readonly _config: AccessoryConfig,
+    protected readonly config: AccessoryConfig,
     protected readonly log: Log,    
     caller: string,
   ) {
    
     if (this.assert('mqtt')) {
-      this.mqttClient = new MQTT(log, _config.mqtt, this.onMQTTConnect.bind(this), _config.info.name);
+      this.mqttClient = new MQTT(log, config.mqtt, this.onMQTTConnect.bind(this), config.info.name);
       this.mqttClient.connect();
     }
 
     accessory.getService(Service.AccessoryInformation)!
-      .setCharacteristic(Characteristic.Name, _config.info.name)
-      .setCharacteristic(Characteristic.ConfiguredName, _config.info.name)
-      .setCharacteristic(Characteristic.Manufacturer, _config.info.manufacturer ?? 'Homebridge')
-      .setCharacteristic(Characteristic.SerialNumber, _config.info.serialNumber ?? `${PLATFORM_NAME}:${_config.info.name}`)
-      .setCharacteristic(Characteristic.Model, _config.info.model ?? caller)
-      .setCharacteristic(Characteristic.FirmwareRevision, _config.info.version ?? getVersion());
+      .setCharacteristic(Characteristic.Name, config.info.name)
+      .setCharacteristic(Characteristic.ConfiguredName, config.info.name)
+      .setCharacteristic(Characteristic.Manufacturer, config.info.manufacturer ?? 'Homebridge')
+      .setCharacteristic(Characteristic.SerialNumber, config.info.serialNumber ?? `${PLATFORM_NAME}:${config.info.name}`)
+      .setCharacteristic(Characteristic.Model, config.info.model ?? caller)
+      .setCharacteristic(Characteristic.FirmwareRevision, config.info.version ?? getVersion());
   }
 
   private async onMQTTConnect(): Promise<void> {
@@ -60,6 +60,15 @@ export abstract class MQTTAccessory {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected assert(...keys: (keyof any)[]): boolean {
-    return assert(this.log, this._config.info.name, this._config, ...keys);
+    return assert(this.log, this.config.info.name, this.config, ...keys);
+  }
+
+  protected logIfDesired(message: string, ...parameters: string[]) {
+
+    if (this.config.disableLogging) {
+      return;
+    }
+
+    this.log.always(message, ...parameters);
   }
 }

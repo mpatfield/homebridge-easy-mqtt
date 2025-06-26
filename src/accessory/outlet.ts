@@ -21,24 +21,23 @@ export class OutletAccessory extends OnOffAccessory {
     log: Log,
   ) {
     super(Service, Characteristic, accessory, outletConfig, log, OutletAccessory.name);
+
+    this.accessoryService.getCharacteristic(this.Characteristic.OutletInUse)
+      .onGet(this.getInUse.bind(this))
+      .onSet(this.setInUse.bind(this));
   }
 
   protected getAccessoryService(): Service {
-
-    const accessoryService = this.accessory.getService(this.Service.Outlet) || this.accessory.addService(this.Service.Outlet);
-
-    accessoryService.getCharacteristic(this.Characteristic.OutletInUse)
-      .onGet(this.getInUse.bind(this))
-      .onSet(this.setInUse.bind(this));
-    
-    return accessoryService;
+    return this.accessory.getService(this.Service.Outlet) || this.accessory.addService(this.Service.Outlet);
   }
 
   protected get topicHandlers(): TopicHandler[] {
     const topicHandlers = super.topicHandlers;
-    if (this.outletConfig.topicGetInUse) {
-      topicHandlers.push(makeHandler(this.outletConfig.topicGetInUse, this.onInUseUpdate.bind(this)));
+
+    if (this.outletConfig.topicGetOutletInUse) {
+      topicHandlers.push(makeHandler(this.outletConfig.topicGetOutletInUse, this.onInUseUpdate.bind(this)));
     }
+
     return topicHandlers;
   }
 
@@ -48,11 +47,11 @@ export class OutletAccessory extends OnOffAccessory {
 
   private async onInUseUpdate(topic: string, value: Primitive): Promise<void> {
 
-    if (!this.assert('valueInUse')) {
+    if (!this.assert('valueOutletInUse')) {
       return;
     }
 
-    const inUse = value === toPrimitive(this.outletConfig.valueInUse);
+    const inUse = value === toPrimitive(this.outletConfig.valueOutletInUse);
     if (inUse === this.inUse) {
       return;
     }
@@ -60,24 +59,24 @@ export class OutletAccessory extends OnOffAccessory {
     this.inUse = inUse;
     this.accessoryService.updateCharacteristic(this.Characteristic.OutletInUse, this.inUse);
 
-    this.logIfDesired(this.stringForInUse(this.inUse), this.outletConfig.info.name);
+    this.logIfDesired(this.stringForInUse(this.inUse), this.config.info.name);
   }
   
   private async setInUse(value: CharacteristicValue) {
   
-    if (!this.assert('topicSetInUse', 'valueInUse', 'valueNotInUse')) {
+    if (!this.assert('topicSetOutletInUse', 'valueOutletInUse', 'valueOutletNotInUse')) {
       return;
     }
   
-    const inUse = value ? this.outletConfig.valueInUse : this.outletConfig.valueNotInUse;
+    const inUse = value ? this.outletConfig.valueOutletInUse : this.outletConfig.valueOutletNotInUse;
   
     this.inUse = value;
   
-    this.logIfDesired(this.stringForInUse(this.inUse, true), this.outletConfig.info.name);
+    this.logIfDesired(this.stringForInUse(this.inUse, true), this.config.info.name);
   
     this.accessoryService.updateCharacteristic(this.Characteristic.OutletInUse, this.inUse);
   
-    this.publish(this.outletConfig.topicSetInUse!, inUse!);
+    this.publish(this.outletConfig.topicSetOutletInUse!, inUse!);
   }
 
   private stringForInUse(inUse: CharacteristicValue, future: boolean = false): string {
@@ -87,5 +86,4 @@ export class OutletAccessory extends OnOffAccessory {
       return future ? strings.outlet.futureNotInUse : strings.outlet.notInUse;
     }
   }
-
 }

@@ -52,32 +52,44 @@ export type AccessoryConfig = Assertable & {
   disableLogging: boolean,
 }
 
-export type LockConfig = AccessoryConfig & {
-  topicGetCurrent: string,
-  topicGetTarget: string,
-  topicSetTarget: string,
-  topicGetActive?: string,
-  valueSecured: string,
-  valueUnsecured: string,
-  valueJammed?: string,
-  valueActive?: string,
-};
-
-export type OnOffConfig = AccessoryConfig & {
-  topicGetOn: string,
-  topicSetOn: string,
-  topicGetActive?: string,
-  valueOn: string,
-  valueOff: string,
-  valueActive?: string,
+export type StatusActiveConfig = AccessoryConfig & {
+  topicGetStatusActive?: string,
+  valueStatusActive?: string,
 }
 
-export type SwitchConfig = OnOffConfig & {
+export type LockMechanismConfig = StatusActiveConfig & {
+  topicGetLockCurrentState: string,
+  topicGetLockTargetState: string,
+  topicSetTargetState: string,
+  valueLockStateSecured: string,
+  valueLockStateUnsecured: string,
+  valueLockStateJammed?: string,
+};
+
+export type OnOffConfig = StatusActiveConfig & {
+  topicGetOn: string,
+  topicSetOn: string,
+  valueOn: string,
+  valueOff: string,
+}
+
+export type LightbulbConfig = OnOffConfig & {
+  topicGetBrightness?: string,
+  topicGetHue?: string,
+  topicGetColorTemperature?: string,
+  topicGetSaturation?: string
+  topicSetBrightness?: string,
+  topicSetHue?: string,
+  topicSetColorTemperature?: string,
+  topicSetSaturation?: string
 }
 
 export type OutletConfig = OnOffConfig & {
-  topicGetInUse?: string,
-  topicSetInUse?: string,
-  valueInUse?: string,
-  valueNotInUse?: string,
+  topicGetOutletInUse?: string,
+  topicSetOutletInUse?: string,
+  valueOutletInUse?: string,
+  valueOutletNotInUse?: string,
+}
+
+export type SwitchConfig = OnOffConfig & {
 }

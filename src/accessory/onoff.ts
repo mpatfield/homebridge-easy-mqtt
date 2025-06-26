@@ -1,81 +1,53 @@
-import { CharacteristicValue, PlatformAccessory, Service } from 'homebridge';
+import { CharacteristicValue, PlatformAccessory } from 'homebridge';
 
-import { makeHandler, MQTTAccessory, TopicHandler } from './base.js';
+import { makeHandler, TopicHandler } from './base.js';
 
 import { strings } from '../i18n/i18n.js';
 
 import { CharacteristicType, OnOffConfig, Primitive, ServiceType, toPrimitive } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
+import { StatusActiveAccessory } from './statusActive.js';
 
-export abstract class OnOffAccessory extends MQTTAccessory {
-  protected readonly accessoryService: Service;
+export abstract class OnOffAccessory extends StatusActiveAccessory {
 
-  private active: CharacteristicValue = true;
   private on: CharacteristicValue = false;
 
   constructor(
     Service: ServiceType,
     Characteristic: CharacteristicType,
     accessory: PlatformAccessory,
-    private readonly config: OnOffConfig,
+    private readonly onOffConfig: OnOffConfig,
     log: Log,
     className: string,
   ) {
-    super(Service, Characteristic, accessory, config, log, className);
-
-    this.accessoryService = this.getAccessoryService();
-
-    this.accessoryService.getCharacteristic(Characteristic.StatusActive)
-      .onGet(this.getActive.bind(this));
+    super(Service, Characteristic, accessory, onOffConfig, log, className);
 
     this.accessoryService.getCharacteristic(Characteristic.On)
       .onGet(this.getOn.bind(this))
       .onSet(this.setOn.bind(this));
   }
 
-  protected abstract getAccessoryService(): Service;
-
   protected get topicHandlers(): TopicHandler[] {
+    const topicHandlers = super.topicHandlers;
 
     if (!this.assert('topicGetOn')) {
-      return [];
+      return topicHandlers;
     }
 
-    return [
-      makeHandler(this.config.topicGetOn, this.onStateUpdate.bind(this)),
-      ...(this.config.topicGetActive ? [makeHandler(this.config.topicGetActive, this.onActiveUpdate.bind(this))]: []),
-    ];
+    topicHandlers.push(makeHandler(this.onOffConfig.topicGetOn, this.onOnUpdate.bind(this)));
+
+    return topicHandlers;
   }
   
-  private async onActiveUpdate(topic: string, value: Primitive): Promise<void> {
 
-    if (!this.assert('valueActive')) {
-      return;
-    }
-
-    const active = value === toPrimitive(this.config.valueActive);
-    if (active === this.active) {
-      return;
-    }
-
-    this.active = active;
-    this.accessoryService.updateCharacteristic(this.Characteristic.StatusActive, this.active);
-
-    if (this.active) {
-      this.logIfDesired(strings.accessory.statusActive, this.config.info.name);
-    } else {
-      this.log.warning(strings.accessory.statusInactive, this.config.info.name);
-    }
-  }
-
-  private async onStateUpdate(topic: string, value: Primitive): Promise<void> {
+  private async onOnUpdate(topic: string, value: Primitive): Promise<void> {
 
     if (!this.assert('valueOn')) {
       return;
     }
 
-    const on = value === toPrimitive(this.config.valueOn);
+    const on = value === toPrimitive(this.onOffConfig.valueOn);
     if (on === this.on) {
       return;
     }
@@ -84,10 +56,6 @@ export abstract class OnOffAccessory extends MQTTAccessory {
     this.accessoryService.updateCharacteristic(this.Characteristic.On, this.on);
 
     this.logIfDesired(this.stringForState(this.on), this.config.info.name);
-  }
-
-  private async getActive(): Promise<CharacteristicValue> {
-    return this.active;
   }
 
   private async getOn(): Promise<CharacteristicValue> {
@@ -100,7 +68,7 @@ export abstract class OnOffAccessory extends MQTTAccessory {
       return;
     }
 
-    const on = value ? this.config.valueOn : this.config.valueOff;
+    const on = value ? this.onOffConfig.valueOn : this.onOffConfig.valueOff;
 
     this.on = value;
 
@@ -108,7 +76,7 @@ export abstract class OnOffAccessory extends MQTTAccessory {
 
     this.accessoryService.updateCharacteristic(this.Characteristic.On, this.on);
 
-    this.publish(this.config.topicSetOn, on);
+    this.publish(this.onOffConfig.topicSetOn, on);
   }
 
   private stringForState(on: CharacteristicValue, future: boolean = false): string {
@@ -117,14 +85,5 @@ export abstract class OnOffAccessory extends MQTTAccessory {
     } else {
       return future ? strings.onOff.stateFutureOff : strings.onOff.stateOff;
     }
-  }
-
-  protected logIfDesired(message: string, ...parameters: string[]) {
-
-    if (this.config.disableLogging) {
-      return;
-    }
-
-    this.log.always(message, ...parameters);
   }
 }
