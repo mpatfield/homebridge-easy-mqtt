@@ -62,7 +62,7 @@ Using the Homebridge Config UI is the easiest way to set up this plugin. However
       "valueOff": "string",
       "disableLogging": false
     }
-    // ... other accessories as needed
+    ...
   ],
   "verbose": false,
   "platform": "HomebridgeEasyMQTT"
