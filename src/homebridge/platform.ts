@@ -21,7 +21,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
   private readonly log: Log;
 
   private readonly cachedAccessories: Map<string, PlatformAccessory> = new Map();
-  private readonly mqttAccessories: Set<MQTTAccessory> = new Set();
+  private readonly mqttAccessories: MQTTAccessory[] = [];
 
   constructor(
     logger: Logger,
@@ -89,6 +89,8 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
 
         this.cachedAccessories.set(uuid, accessory);
+
+        this.log.always(strings.startup.newAccessory, accessoryConfig.info.name);
       }
 
       const Service = this.api.hap.Service;
@@ -114,15 +116,12 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
       }
 
       keepIdentifiers.add(uuid);
-
-      this.mqttAccessories.add(mqttAccessory);
-
-      this.log.always(strings.startup.newAccessory, accessoryConfig.info.name);
+      this.mqttAccessories.push(mqttAccessory);
     }
 
     this.cachedAccessories.forEach(accessory => {
       if (!keepIdentifiers.has(accessory.context.identifier)) {
-        this.removeAccessory(accessory);
+        this.removeCachedAccessory(accessory);
       }
     });
 
@@ -130,7 +129,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
     this.log.always(strings.startup.complete, strings.startup.welcome[randIndex]);
   }
   
-  private removeAccessory(accessory: PlatformAccessory) {
+  private removeCachedAccessory(accessory: PlatformAccessory) {
     this.log.always(strings.startup.removeAccessory, accessory.displayName);
     this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
     this.cachedAccessories.delete(accessory.context.identifier);
