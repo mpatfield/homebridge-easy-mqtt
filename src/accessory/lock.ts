@@ -71,6 +71,9 @@ export class LockMechanismAccessory extends StatusActiveAccessory {
     this.currentState = current;
     this.accessoryService.updateCharacteristic(this.Characteristic.LockCurrentState, this.currentState);
 
+    this.targetState = this.currentState;
+    this.accessoryService.updateCharacteristic(this.Characteristic.LockTargetState, this.targetState);
+
     if (this.currentState === this.Characteristic.LockCurrentState.JAMMED) {
       this.log.error(this.stringForState(this.currentState), this.config.info.name);
     } else {

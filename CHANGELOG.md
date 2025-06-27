@@ -2,6 +2,11 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
+## 1.0.0-beta.2 (2025-06-26)
+
+### Fixed
+- State issues in LockMechanism
+
 ## 1.0.0-beta.1 (2025-06-26)
 
 ### ⚠️ BREAKING
