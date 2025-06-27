@@ -5,6 +5,7 @@ declare const homebridge: IHomebridgePluginUi;
 
 const i18n_replacements = {
   arrow: '&rarr;',
+  easy_mqtt: 'Easy MQTT',
   github: '<a target="_blank" href="https://github.com/mpatfield/homebridge-easy-mqtt/">GitHub</a>',
 };
 
@@ -110,7 +111,7 @@ const showIntro = (strings: Translation) => {
     if (config.length) {
       await showSettings(strings);
     } else {
-      config.push({ name: strings.brand });
+      config.push({ name: i18n_replacements.easy_mqtt });
       await homebridge.updatePluginConfig(config);
       showIntro(strings);
     }
