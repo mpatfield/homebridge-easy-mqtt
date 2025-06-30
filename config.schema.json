@@ -18,12 +18,8 @@
           "type": {
             "type": "string",
             "title": "${config.title.type}",
-            "enum": [
-              "Lightbulb",
-              "LockMechanism",
-              "Outlet",
-              "Switch"
-            ],
+            "enum": [ "Lightbulb", "LockMechanism", "Outlet", "Switch" ],
+            "enumNames": ["${config.enumNames.lightbulb}", "${config.enumNames.lockMechanism}", "${config.enumNames.outlet}", "${config.enumNames.switch}"],
             "required": true
           },
           "manufacturer": {

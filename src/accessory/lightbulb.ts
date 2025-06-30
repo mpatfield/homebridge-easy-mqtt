@@ -5,7 +5,7 @@ import { OnOffAccessory } from './onoff.js';
 
 import { strings } from '../i18n/i18n.js';
 
-import { CharacteristicType, LightbulbConfig as LightbulbConfig, Primitive, ServiceType, toPrimitive } from '../model/types.js';
+import { CharacteristicType, LightbulbConfig, Primitive, ServiceType, toPrimitive } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
 

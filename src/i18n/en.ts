@@ -20,6 +20,13 @@ const en = {
       verbose: 'If true, additional MQTT info will be logged for debugging purposes.',
     },
 
+    enumNames: {
+      lightbulb: 'Lightbulb',
+      lockMechanism: 'Lock Mechanism',
+      outlet: 'Outlet',
+      switch: 'Switch',
+    },
+
     title: {
       accessories: 'Accessories',
       accessory: 'Accessory',
@@ -81,8 +88,8 @@ const en = {
     badTarget: '%s unable to get target from state %s',
     stateCurrentSecured: '%s is locked',
     stateCurrentUnsecured: '%s is unlocked',
-    stateFutureSecured: '%s is locking…',
-    stateFutureUnsecured: '%s is unlocking…',
+    stateFutureSecured: 'Locking %s…',
+    stateFutureUnsecured: 'Unlocking %s…',
     stateJammed: '%s is jammed',
     stateUnknown: '%s state is unknown',
   },
@@ -103,8 +110,8 @@ const en = {
   },
 
   onOff: {
-    stateFutureOff: '%s is turning off…',
-    stateFutureOn: '%s is turning on…',
+    stateFutureOff: 'Turning off %s…',
+    stateFutureOn: 'Turning on %s…',
     stateOn: '%s is on',
     stateOff: '%s is off',
   },
