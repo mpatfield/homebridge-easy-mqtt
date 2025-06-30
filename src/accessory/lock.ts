@@ -106,14 +106,13 @@ export class LockMechanismAccessory extends StatusActiveAccessory {
       return;
     }
 
+    if (this.targetState !== value) {
+      this.logIfDesired(this.stringForState(value, true), this.config.info.name);
+    }
+
     this.targetState = value;
 
-    this.logIfDesired(this.stringForState(this.targetState, true), this.config.info.name);
-
     this.accessoryService.updateCharacteristic(this.Characteristic.LockTargetState, this.targetState);
-
-    this.currentState = this.targetState;
-    this.accessoryService.updateCharacteristic(this.Characteristic.LockCurrentState, this.currentState);
 
     this.publish(this.lockMechanismConfig.topicSetTargetState, target);
   }
