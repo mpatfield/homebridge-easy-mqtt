@@ -5,9 +5,10 @@ import { OnOffAccessory } from './onoff.js';
 
 import { strings } from '../i18n/i18n.js';
 
-import { CharacteristicType, OutletConfig, Primitive, ServiceType, toPrimitive } from '../model/types.js';
+import { CharacteristicType, OutletConfig, ServiceType } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
+import { Primitive, toPrimitive } from '../tools/primitive.js';
 
 export class OutletAccessory extends OnOffAccessory {
 

@@ -4,9 +4,10 @@ import { makeHandler, MQTTAccessory, TopicHandler } from './base.js';
 
 import { strings } from '../i18n/i18n.js';
 
-import { CharacteristicType, StatusActiveConfig, Primitive, ServiceType, toPrimitive } from '../model/types.js';
+import { CharacteristicType, StatusActiveConfig, ServiceType } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
+import { Primitive, toPrimitive } from '../tools/primitive.js';
 
 export abstract class StatusActiveAccessory extends MQTTAccessory {
   protected readonly accessoryService: Service;

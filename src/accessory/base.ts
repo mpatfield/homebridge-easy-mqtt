@@ -3,9 +3,10 @@ import { PlatformAccessory } from 'homebridge';
 import { PLATFORM_NAME } from '../homebridge/settings.js';
 
 import { MQTT } from '../model/mqtt.js';
-import { AccessoryConfig, CharacteristicType, Primitive, ServiceType } from '../model/types.js';
+import { AccessoryConfig, CharacteristicType, ServiceType } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
+import { Primitive } from '../tools/primitive.js';
 import getVersion from '../tools/version.js';
 import { assert } from '../tools/validation.js';
 

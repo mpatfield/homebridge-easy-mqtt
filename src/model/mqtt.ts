@@ -1,10 +1,11 @@
 import mqtt from 'mqtt';
 
-import { MQTTConfig, Primitive, toPrimitive } from './types.js';
+import { MQTTConfig } from './types.js';
 
 import { strings } from '../i18n/i18n.js';
 
 import { Log, LogType } from '../tools/log.js';
+import { Primitive, toPrimitive } from '../tools/primitive.js';
 import { SECOND, MINUTE } from '../tools/time.js';
 import { assert } from '../tools/validation.js';
 

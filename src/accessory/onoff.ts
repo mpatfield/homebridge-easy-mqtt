@@ -1,13 +1,14 @@
 import { CharacteristicValue, PlatformAccessory } from 'homebridge';
 
 import { makeHandler, TopicHandler } from './base.js';
+import { StatusActiveAccessory } from './statusActive.js';
 
 import { strings } from '../i18n/i18n.js';
 
-import { CharacteristicType, OnOffConfig, Primitive, ServiceType, toPrimitive } from '../model/types.js';
+import { CharacteristicType, OnOffConfig, ServiceType } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
-import { StatusActiveAccessory } from './statusActive.js';
+import { Primitive, toPrimitive } from '../tools/primitive.js';
 
 export abstract class OnOffAccessory extends StatusActiveAccessory {
 
