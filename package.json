@@ -20,7 +20,7 @@
   "main": "dist/homebridge/index.js",
   "scripts": {
     "build": "rimraf ./dist && tsc && npm run build:html && npm run build:ui",
-    "build:html": "mkdir ./dist/homebridge-ui/public && cp -r ./src/homebridge-ui/public/* ./dist/homebridge-ui/public/",
+    "build:html": "node --loader ts-node/esm ./scripts/build-html.ts",
     "build:ui": "esbuild src/homebridge-ui/ui.ts --bundle --outfile=dist/homebridge-ui/public/ui.js --minify",
     "lint": "eslint . --max-warnings=0",
     "prepublishOnly": "npm run lint && npm run build"

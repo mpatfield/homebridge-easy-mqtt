@@ -1,13 +1,13 @@
 # Ignore source code
-src
-
-# ------------- Defaults ------------- #
+src/
+scripts/
 
 # gitHub actions
 .github
 
 # eslint
 eslint.config.js
+eslint.config.ts
 
 # typescript
 tsconfig.json
