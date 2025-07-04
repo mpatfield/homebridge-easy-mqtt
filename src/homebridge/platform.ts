@@ -78,7 +78,8 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
         continue;
       }
 
-      const uuid = this.api.hap.uuid.generate(`${PLUGIN_NAME}:${accessoryConfig.info.type}:${accessoryConfig.info.name}`);
+      const id = accessoryConfig.info.id ?? `${PLUGIN_NAME}:${accessoryConfig.info.type}:${accessoryConfig.info.name}`;
+      const uuid = this.api.hap.uuid.generate(id);
 
       let accessory = this.cachedAccessories.get(uuid);
       if (!accessory) {

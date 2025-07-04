@@ -35,6 +35,7 @@ Using the Homebridge Config UI is the easiest way to set up this plugin. However
   "accessories": [
     {
       "info": {
+        "id": "string",
         "name": "string",
         "type": "string",
         "manufacturer": "string",
@@ -72,6 +73,7 @@ Using the Homebridge Config UI is the easiest way to set up this plugin. However
 All fields are required unless noted as "(Optional)"
 
 Info:
+- `id` - A unique ID to identify this accessory. Changing this value will result in a new accessory.
 - `name` - The display name for the accessory in HomeKit
 - `type` - The type of accessory, currently Lightbulb, LockMechanism, Outlet, and Switch are supported
 - `manufacturer` - (Optional) The accessory manufacturer which will display in HomeKit device details

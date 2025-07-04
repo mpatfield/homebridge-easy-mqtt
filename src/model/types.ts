@@ -1,11 +1,18 @@
+import { PlatformConfig as HBPlatformConfig } from 'homebridge';
+
 export type ServiceType = typeof import('homebridge').Service;
 export type CharacteristicType = typeof import('homebridge').Characteristic;
+
+export type PlatformConfig = HBPlatformConfig & {
+  accessories?: AccessoryConfig[];
+}
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export type Assertable = {
 }
 
 export type InfoConfig = Assertable & {
+  id: string,
   name: string,
   type: string,
   manufacturer?: string,

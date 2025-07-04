@@ -2,9 +2,15 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.0.0-beta.3 (2025-07-01)
+## 1.0.0-beta.4 (2025-07-03)
 
 _RELEASE CANDIDATE_
+
+### Changed
+- Force cache miss for ui.js on version update
+- Use explicit identifier from config to allow for name changes
+
+## 1.0.0-beta.3 (2025-07-01)
 
 ### Changed
 - Current lock state is always set by MQTT

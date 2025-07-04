@@ -1,5 +1,8 @@
 import { IHomebridgePluginUi } from '@homebridge/plugin-ui-utils/ui.interface';
+
 import { Translation } from '../i18n/i18n.js';
+
+import { PlatformConfig } from '../model/types.js';
 
 declare const homebridge: IHomebridgePluginUi;
 
@@ -71,6 +74,48 @@ const updateAccessoryNames = (strings: Translation) => {
   }
 };
 
+function generateUUID() {
+
+  if (typeof crypto !== 'undefined') {
+
+    if (crypto.randomUUID) {
+      return crypto.randomUUID();
+    }
+
+    if (crypto.getRandomValues) {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+        const r = crypto.getRandomValues(new Uint8Array(1))[0] & 0xf;
+        const v = c === 'x' ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+      });
+    }
+
+  }
+
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = Math.random() * 16 | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
+const updateConfigWithUUIDs = (config: PlatformConfig) => {
+
+  let changed = false;
+
+  config.accessories?.forEach( (accessoryConfig) => {
+    if (accessoryConfig.info.id === undefined) {
+      const id = generateUUID();
+      accessoryConfig.info.id = id;
+      changed = true;
+    }
+  });
+
+  if (changed) {
+    homebridge.updatePluginConfig([config]);
+  }
+};
+
 const showSettings = async (strings: Translation) => {
   homebridge.showSpinner();
   document.getElementById('pageIntro')!.style.display = 'none';
@@ -88,6 +133,14 @@ const showSettings = async (strings: Translation) => {
   );
 
   homebridge.showSchemaForm();
+
+  homebridge.addEventListener('configChanged', (evt: Event) => {
+    const configs = (evt as MessageEvent).data as PlatformConfig[];
+    if (configs.length) {
+      updateConfigWithUUIDs(configs[0]);
+    }
+  });
+
   homebridge.hideSpinner();
 };
 
