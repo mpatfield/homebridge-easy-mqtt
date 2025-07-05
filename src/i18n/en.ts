@@ -28,7 +28,6 @@ const en = {
     },
 
     title: {
-      accessories: 'Accessories',
       accessory: 'Accessory',
       broker: 'Broker',
       disableLogging: 'Disable Logging',

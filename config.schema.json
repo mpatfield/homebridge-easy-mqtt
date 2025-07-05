@@ -186,11 +186,6 @@
           }
         },
         "default": []
-      },
-      "verbose": {
-        "type": "boolean",
-        "title": "${config.title.verbose}",
-        "description": "${config.description.verbose}"
       }
     }
   },
@@ -198,7 +193,7 @@
     {
       "type": "array",
       "key": "accessories",
-      "title": "${config.title.accessories}",
+      "notitle": true,
       "items": [
         {
           "type": "fieldset",
@@ -446,7 +441,6 @@
           ]
         }
       ]
-    },
-    "verbose"
+    }
   ]
 }

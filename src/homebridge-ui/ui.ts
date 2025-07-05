@@ -57,8 +57,7 @@ const translateSchema = (strings: Translation) => {
 
 const updateAccessoryNames = (strings: Translation) => {
 
-  const legends = Array.from(window.parent.document.querySelectorAll('fieldset legend'))
-    .filter(el => !el.textContent?.includes(strings.config.title.accessories));
+  const legends = Array.from(window.parent.document.querySelectorAll('fieldset legend'));
 
   for(const legend of legends) {
     const fieldset = legend.closest('fieldset');
