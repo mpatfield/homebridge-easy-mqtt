@@ -1,3 +1,5 @@
+permissions:
+  contents: read
 name: Build and Lint
 
 on: [push, pull_request]
