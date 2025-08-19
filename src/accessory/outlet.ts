@@ -60,7 +60,7 @@ export class OutletAccessory extends OnOffAccessory {
     this.inUse = inUse;
     this.accessoryService.updateCharacteristic(this.Characteristic.OutletInUse, this.inUse);
 
-    this.logIfDesired(this.stringForInUse(this.inUse), this.config.info.name);
+    this.logIfDesired(this.stringForInUse(this.inUse), this.name);
   }
   
   private async setInUse(value: CharacteristicValue) {
@@ -73,7 +73,7 @@ export class OutletAccessory extends OnOffAccessory {
   
     this.inUse = value;
   
-    this.logIfDesired(this.stringForInUse(this.inUse, true), this.config.info.name);
+    this.logIfDesired(this.stringForInUse(this.inUse, true), this.name);
   
     this.accessoryService.updateCharacteristic(this.Characteristic.OutletInUse, this.inUse);
   

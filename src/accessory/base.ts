@@ -29,16 +29,18 @@ export abstract class MQTTAccessory {
     caller: string,
   ) {
    
+    const name = config.info.name;
+
     if (this.assert('mqtt')) {
-      this.mqttClient = new MQTT(log, config.mqtt, this.onMQTTConnect.bind(this), config.info.name);
+      this.mqttClient = new MQTT(log, config.mqtt, this.onMQTTConnect.bind(this), name);
       this.mqttClient.connect();
     }
 
     accessory.getService(Service.AccessoryInformation)!
-      .setCharacteristic(Characteristic.Name, config.info.name)
-      .setCharacteristic(Characteristic.ConfiguredName, config.info.name)
+      .setCharacteristic(Characteristic.Name, name)
+      .setCharacteristic(Characteristic.ConfiguredName, name)
       .setCharacteristic(Characteristic.Manufacturer, config.info.manufacturer ?? 'Homebridge')
-      .setCharacteristic(Characteristic.SerialNumber, config.info.serialNumber ?? `${PLATFORM_NAME}:${config.info.name}`)
+      .setCharacteristic(Characteristic.SerialNumber, config.info.serialNumber ?? `${PLATFORM_NAME}:${name}`)
       .setCharacteristic(Characteristic.Model, config.info.model ?? caller)
       .setCharacteristic(Characteristic.FirmwareRevision, config.info.version ?? getVersion());
   }
@@ -51,6 +53,10 @@ export abstract class MQTTAccessory {
 
   protected abstract get topicHandlers(): TopicHandler[];
 
+  protected get name(): string {
+    return this.config.info.name;
+  }
+
   protected publish(topic: string, value: Primitive) {
     this.mqttClient?.publish(topic, value);
   }
@@ -61,7 +67,7 @@ export abstract class MQTTAccessory {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected assert(...keys: (keyof any)[]): boolean {
-    return assert(this.log, this.config.info.name, this.config, ...keys);
+    return assert(this.log, this.name, this.config, ...keys);
   }
 
   protected logIfDesired(message: string, ...parameters: string[]) {

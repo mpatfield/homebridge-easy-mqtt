@@ -53,9 +53,9 @@ export abstract class StatusActiveAccessory extends MQTTAccessory {
     this.accessoryService.updateCharacteristic(this.Characteristic.StatusActive, this.statusActive);
 
     if (this.statusActive) {
-      this.logIfDesired(strings.accessory.statusActive, this.config.info.name);
+      this.logIfDesired(strings.accessory.statusActive, this.name);
     } else {
-      this.log.warning(strings.accessory.statusInactive, this.config.info.name);
+      this.log.warning(strings.accessory.statusInactive, this.name);
     }
   }
 
