@@ -5,10 +5,11 @@ import { PLATFORM_NAME, PLUGIN_NAME } from './settings.js';
 import { MQTTAccessory } from '../accessory/base.js';
 import { LockMechanismAccessory } from '../accessory/lock.js';
 import { SwitchAccessory } from '../accessory/switch.js';
+import { TemperatureSensorAccessory } from '../accessory/temperatureSensor.js';
 
 import { setLanguage, strings } from '../i18n/i18n.js';
 
-import { AccessoryConfig, LightbulbConfig, LockMechanismConfig, OutletConfig, SwitchConfig } from '../model/types.js';
+import { AccessoryConfig, LightbulbConfig, LockMechanismConfig, OutletConfig, SwitchConfig, TemperatureSensorConfig } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
 import getVersion from '../tools/version.js';
@@ -110,6 +111,9 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
         break;
       case Service.Switch.name:
         mqttAccessory = new SwitchAccessory(Service, Characteristic, accessory, accessoryConfig as SwitchConfig, this.log);
+        break;
+      case Service.TemperatureSensor.name:
+        mqttAccessory = new TemperatureSensorAccessory(Service, Characteristic, accessory, accessoryConfig as TemperatureSensorConfig, this.log);
         break;
       default:
         this.log.error(strings.startup.unsupportedType, accessoryConfig.info.type);

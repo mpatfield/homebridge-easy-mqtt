@@ -21,8 +21,8 @@
           "type": {
             "type": "string",
             "title": "${config.title.type}",
-            "enum": [ "Lightbulb", "LockMechanism", "Outlet", "Switch" ],
-            "enumNames": ["${config.enumNames.lightbulb}", "${config.enumNames.lockMechanism}", "${config.enumNames.outlet}", "${config.enumNames.switch}"],
+            "enum": [ "Lightbulb", "LockMechanism", "Outlet", "Switch", "TemperatureSensor"],
+            "enumNames": ["${config.enumNames.lightbulb}", "${config.enumNames.lockMechanism}", "${config.enumNames.outlet}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}"],
             "required": true
           },
           "manufacturer": {
@@ -81,6 +81,12 @@
           "properties": {
             "info": { "$ref": "#/definitions/info" },
             "mqtt": { "$ref": "#/definitions/mqtt" },
+            "temperatureUnits": {
+              "type": "string",
+              "title": "${config.title.temperatureUnits}",
+              "enum": ["C", "F"],
+              "enumNames": ["${config.enumNames.celsius}", "${config.enumNames.fahrenheit}"]
+            },
             "topicGetStatusActive": {
               "type": "string",
               "title": "${config.title.topicGetStatusActive}"
@@ -145,6 +151,10 @@
               "type": "string",
               "title": "${config.title.topicSetOutletInUse}"
             },
+            "topicGetCurrentTemperature": {
+              "type": "string",
+              "title": "${config.title.topicGetCurrentTemperature}"
+            },
             "valueStatusActive": {
               "type": "string",
               "title": "${config.title.valueStatusActive}",
@@ -207,11 +217,18 @@
               "items": [
                 {
                   "key": "accessories[].info.name",
-                  "flex": "1 1 0"
+                  "flex": "1 1 33%"
                 },
                 {
                   "key": "accessories[].info.type",
-                  "flex": "1 1 0"
+                  "flex": "1 1 33%"
+                },
+                {
+                  "key": "accessories[].temperatureUnits",
+                  "flex": "1 1 33%",                  
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'TemperatureSensor';"
+                  }
                 }
               ]
             },
@@ -368,6 +385,12 @@
                   "key": "accessories[].topicSetOutletInUse",
                   "condition": {
                     "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Outlet';"
+                  }
+                },
+                {
+                  "key": "accessories[].topicGetCurrentTemperature",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'TemperatureSensor';"
                   }
                 },
                 "accessories[].topicGetStatusActive"

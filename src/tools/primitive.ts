@@ -23,3 +23,11 @@ export function toPrimitive(value: any): Primitive {
 
   return value;
 }
+
+export function toNumber(primitive: Primitive): number {
+  if (typeof primitive === 'number') {
+    return primitive;
+  }
+
+  return Number(primitive);
+}

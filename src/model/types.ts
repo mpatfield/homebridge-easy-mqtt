@@ -3,8 +3,14 @@ import { PlatformConfig as HBPlatformConfig } from 'homebridge';
 export type ServiceType = typeof import('homebridge').Service;
 export type CharacteristicType = typeof import('homebridge').Characteristic;
 
+import { TemperatureUnits } from './enums.js';
+
 export type PlatformConfig = HBPlatformConfig & {
   accessories?: AccessoryConfig[];
+}
+
+export type TemperatureConfig = {
+  temperatureUnits?: TemperatureUnits,
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -74,4 +80,8 @@ export type OutletConfig = OnOffConfig & {
 }
 
 export type SwitchConfig = OnOffConfig & {
+}
+
+export type TemperatureSensorConfig = StatusActiveConfig & TemperatureConfig & {
+  topicGetCurrentTemperature: string,
 }

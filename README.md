@@ -23,7 +23,7 @@ Any issues or damage resulting from use of this plugin are not the fault of the 
 
 This plugin is designed to be a simple replacement for the fantastic [homebridge-mqttthing](https://github.com/arachnetech/homebridge-mqttthing) plugin which appears as though it's [no longer](https://github.com/arachnetech/homebridge-mqttthing/commits/master/) being actively developed.
 
-**HomebridgeEasyMQTT** currently supports `Lightbulb`, `LockMechanism`, `Outlet`, and `Switch`, but will be expanded over time as more use cases are discovered. If there is an accessory type you'd like to see supported, please feel free to [create an issue in GitHub](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
+**HomebridgeEasyMQTT** currently supports `Lightbulb`, `LockMechanism`, `Outlet`, `Switch`, and `TemperatureSensor`, but will be expanded over time as more use cases are discovered. If there is an accessory type you'd like to see supported, please feel free to [create an issue in GitHub](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
 
 ## Configuration
 
@@ -75,7 +75,7 @@ All fields are required unless noted as "(Optional)"
 Info:
 - `id` - A unique ID to identify this accessory. Changing this value will result in a new accessory.
 - `name` - The display name for the accessory in HomeKit
-- `type` - The type of accessory, currently Lightbulb, LockMechanism, Outlet, and Switch are supported
+- `type` - The type of accessory, currently Lightbulb, LockMechanism, Outlet, Switch, and Temperature Sensor are supported
 - `manufacturer` - (Optional) The accessory manufacturer which will display in HomeKit device details
 - `model` - (Optional) The accessory model which will display in HomeKit device details
 - `serialNumber` - (Optional) The accessory serial number which will display in HomeKit device details
@@ -97,14 +97,14 @@ You may define topics using a JSONPath dot notation to assist the parser in find
   - `topicGetStatusActive` - (Optional) Whether or not the accessory is connected/reachable
 
 - Lightbulb
-  - `topicGetBrightness` - The current brightness as a percent
-  - `topicSetBrightness` - For setting the brightness
-  - `topicGetHue` - The lightbulb's current hue
-  - `topicSetHue` - For setting the lightbulb's current hue
-  - `topicGetColorTemperature` - The current color temperature of the lightbulb
-  - `topicSetColorTemperature` - For setting the color temperature of the lightbulb
-  - `topicGetSaturation` - The current saturation setting of the lightbulb
-  - `topicSetSaturation` - For setting the saturation setting of the lightbulb
+  - `topicGetBrightness` - (Optional) The current brightness as a percent
+  - `topicSetBrightness` - (Optional) For setting the brightness
+  - `topicGetHue` - (Optional) The lightbulb's current hue
+  - `topicSetHue` - (Optional) For setting the lightbulb's current hue
+  - `topicGetColorTemperature` - (Optional) The current color temperature of the lightbulb
+  - `topicSetColorTemperature` - (Optional) For setting the color temperature of the lightbulb
+  - `topicGetSaturation` - (Optional) The current saturation setting of the lightbulb
+  - `topicSetSaturation` - (Optional) For setting the saturation setting of the lightbulb
 
 - LockMechanism
   - `topicGetLockCurrentState` - The current state of the lock, i.e. locked/unlocked
@@ -114,12 +114,16 @@ You may define topics using a JSONPath dot notation to assist the parser in find
 - Outlet
   - `topicGetOn` - The current state of the outlet, i.e. on/off
   - `topicSetOn` - For setting the state of the outlet
-  - `topicGetOutletInUse` - Whether or not the outlet is currently being used
-  - `topicSetOutletInUse` - For setting whether the outlet is currently being used
+  - `topicGetOutletInUse` - (Optional) Whether or not the outlet is currently being used
+  - `topicSetOutletInUse` - (Optional) For setting whether the outlet is currently being used
 
 - Switch
   - `topicGetOn` - The current state of the switch, i.e. on/off
   - `topicSetOn` - For setting the state of the switch
+
+- TemperatureSensor
+  - `topicGetCurrentTemperature` - The current temperature of the sensor
+  - `temperatureUnits` - (Optional) `C` for Celcius (default), `F` for Fahrenheit
 
 Values:
 

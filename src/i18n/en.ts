@@ -21,10 +21,13 @@ const en = {
     },
 
     enumNames: {
+      celsius: '°C',
+      fahrenheit: '°F',
       lightbulb: 'Lightbulb',
       lockMechanism: 'Lock Mechanism',
       outlet: 'Outlet',
       switch: 'Switch',
+      temperatureSensor: 'Temperature Sensor',
     },
 
     title: {
@@ -39,6 +42,7 @@ const en = {
       options: 'Options',
       password: 'Password (Optional)',
       serialNumber: 'Serial Number',
+      temperatureUnits: 'Temperature Units',
       topicGetStatusActive: 'Get Availability (Optional)',
       topicGetLockCurrentState: 'Get Current State',
       topicGetOutletInUse: 'Get In Use State (Optional)',
@@ -55,6 +59,7 @@ const en = {
       topicSetOutletInUse: 'Set In Use State (Optional)',
       topicSetOn: 'Set On/Off State',
       topicSetTargetState: 'Set Target State',
+      topicGetCurrentTemperature: 'Get Current Temperature',
       topics: 'Topics',
       type: 'Type',
       username: 'Username (Optional)',
@@ -131,9 +136,12 @@ const en = {
     welcome: [
       'Please ★ this plugin on GitHub if you\'re finding it useful! https://github.com/mpatfield/homebridge-easy-mqtt',
       'Would you like to sponsor this plugin? https://github.com/sponsors/mpatfield',
-      // TODO 'Please rate us on HOOBS! https://plugins.hoobs.org/plugin/homebridge-easy-mqtt',
       'Want to see this plugin in your own language? Please visit https://github.com/mpatfield/homebridge-easy-mqtt/issues/4',
     ],
+  },
+
+  temperatureSensor: {
+    temperature: '%s temperature is %s°%s',
   },
 };
 
