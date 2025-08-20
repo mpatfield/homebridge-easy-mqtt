@@ -5,7 +5,7 @@ const en = {
     statusActive: '%s is now available',
     statusInactive: '%s is unavailable',
   },
-  
+
   config: {
     continue: 'Continue %s',
     optional: 'All fields are required unless noted as being "Optional"',
@@ -41,8 +41,8 @@ const en = {
       mqtt: 'MQTT Settings',
       options: 'Options',
       password: 'Password (Optional)',
+      sourceUnits: 'Source Units',
       serialNumber: 'Serial Number',
-      temperatureUnits: 'Temperature Units',
       topicGetStatusActive: 'Get Availability (Optional)',
       topicGetLockCurrentState: 'Get Current State',
       topicGetOutletInUse: 'Get In Use State (Optional)',

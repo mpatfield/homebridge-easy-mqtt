@@ -123,7 +123,7 @@ You may define topics using a JSONPath dot notation to assist the parser in find
 
 - TemperatureSensor
   - `topicGetCurrentTemperature` - The current temperature of the sensor
-  - `temperatureUnits` - (Optional) `C` for Celcius (default), `F` for Fahrenheit
+  - `temperatureUnits` - (Optional) The temperature units of the incoming value supplied by the sensor, `C` for Celsius  (default) `F` for Fahrenheit
 
 Values:
 
@@ -133,8 +133,8 @@ As with Topics, you will need to populate the appropriate values based on the ty
   - `valueStatusActive` - Accessory is connected/reachable, e.g. "true", "1", or "Alive"
 
 - Lightbulb
-  - `valueOn` - Turned on, e.g. "true", or "1", or "On" 
-  - `valueOff` - Turned off, e.g. "false", or "0", or "Off" 
+  - `valueOn` - Turned on, e.g. "true", or "1", or "On"
+  - `valueOff` - Turned off, e.g. "false", or "0", or "Off"
 
 - LockMechanism
   - `valueLockStateSecured` - Locked state, e.g. "true", "255", or "Locked"
@@ -142,14 +142,14 @@ As with Topics, you will need to populate the appropriate values based on the ty
   - `valueLockStateJammed` - (Optional) Lock is jammed, e.g. "254" or "Jammed"
 
 - Outlet
-  - `valueOn` - Turned on, e.g. "true", or "1", or "On" 
-  - `valueOff` - Turned off, e.g. "false", or "0", or "Off" 
-  - `valueOutletInUse` - Currently being used, e.g. "true", or "1", or "On" 
-  - `valueOutletNotInUse` - Currently not being used, e.g. "false", or "0", or "Off" 
+  - `valueOn` - Turned on, e.g. "true", or "1", or "On"
+  - `valueOff` - Turned off, e.g. "false", or "0", or "Off"
+  - `valueOutletInUse` - Currently being used, e.g. "true", or "1", or "On"
+  - `valueOutletNotInUse` - Currently not being used, e.g. "false", or "0", or "Off"
 
 - Switch
-  - `valueOn` - Turned on, e.g. "true", or "1", or "On" 
-  - `valueOff` - Turned off, e.g. "false", or "0", or "Off" 
+  - `valueOn` - Turned on, e.g. "true", or "1", or "On"
+  - `valueOff` - Turned off, e.g. "false", or "0", or "Off"
 
 Logging/Debugging:
 

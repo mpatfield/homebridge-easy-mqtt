@@ -15,7 +15,7 @@
           },
           "name": {
             "type": "string",
-            "title": "${config.title.name}" ,         
+            "title": "${config.title.name}" ,
             "required": true
           },
           "type": {
@@ -68,7 +68,7 @@
           }
         }
       }
-    },    
+    },
     "properties": {
       "name": {
         "type": "string",
@@ -83,7 +83,6 @@
             "mqtt": { "$ref": "#/definitions/mqtt" },
             "temperatureUnits": {
               "type": "string",
-              "title": "${config.title.temperatureUnits}",
               "enum": ["C", "F"],
               "enumNames": ["${config.enumNames.celsius}", "${config.enumNames.fahrenheit}"]
             },
@@ -217,18 +216,11 @@
               "items": [
                 {
                   "key": "accessories[].info.name",
-                  "flex": "1 1 33%"
+                  "flex": "1 1 0"
                 },
                 {
                   "key": "accessories[].info.type",
-                  "flex": "1 1 33%"
-                },
-                {
-                  "key": "accessories[].temperatureUnits",
-                  "flex": "1 1 33%",                  
-                  "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'TemperatureSensor';"
-                  }
+                  "flex": "1 1 0"
                 }
               ]
             },
@@ -388,10 +380,23 @@
                   }
                 },
                 {
-                  "key": "accessories[].topicGetCurrentTemperature",
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
                   "condition": {
                     "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'TemperatureSensor';"
-                  }
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].topicGetCurrentTemperature",
+                      "flex": "1 1 67%"
+                    },
+                    {
+                      "key": "accessories[].temperatureUnits",
+                      "title": "${config.title.sourceUnits}",
+                      "flex": "1 1 33%"
+                    }
+                  ]
                 },
                 "accessories[].topicGetStatusActive"
               ]
@@ -419,7 +424,7 @@
                     {
                       "key": "accessories[].valueLockStateJammed",
                       "flex": "1 1 0"
-                    }                    
+                    }
                   ]
                 },
                 {
@@ -460,7 +465,7 @@
                 },
                 "accessories[].valueStatusActive"
               ]
-            }          
+            }
           ]
         }
       ]
