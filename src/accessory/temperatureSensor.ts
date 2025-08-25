@@ -1,7 +1,7 @@
 import { CharacteristicValue, PlatformAccessory, Service } from 'homebridge';
 
-import { makeHandler, TopicHandler } from './base.js';
-import { StatusActiveAccessory } from './statusActive.js';
+import { makeHandler, TopicHandler } from './abstract/base.js';
+import { StatusActiveAccessory } from './abstract/statusActive.js';
 
 import { strings } from '../i18n/i18n.js';
 
@@ -44,7 +44,7 @@ export class TemperatureSensorAccessory extends StatusActiveAccessory {
 
     return topicHandlers;
   }
-  
+
 
   private async onCurrentTemperatureUpdate(topic: string, value: Primitive): Promise<void> {
 

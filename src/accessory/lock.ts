@@ -1,7 +1,7 @@
 import { CharacteristicValue, PlatformAccessory, Service } from 'homebridge';
 
-import { makeHandler, TopicHandler } from './base.js';
-import { StatusActiveAccessory } from './statusActive.js';
+import { makeHandler, TopicHandler } from './abstract/base.js';
+import { StatusActiveAccessory } from './abstract/statusActive.js';
 
 import { strings } from '../i18n/i18n.js';
 
@@ -53,7 +53,7 @@ export class LockMechanismAccessory extends StatusActiveAccessory {
 
     return topicHandlers;
   }
-  
+
   private async getCurrentState(): Promise<CharacteristicValue> {
     return this.currentState;
   }
@@ -168,7 +168,7 @@ export class LockMechanismAccessory extends StatusActiveAccessory {
   }
 
   private stringForState(state: CharacteristicValue, future: boolean = false): string {
-    switch(state) {      
+    switch(state) {
     case this.Characteristic.LockCurrentState.SECURED:
       return future ? strings.lock.stateFutureSecured : strings.lock.stateCurrentSecured;
     case this.Characteristic.LockCurrentState.UNSECURED:

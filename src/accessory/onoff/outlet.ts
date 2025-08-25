@@ -1,14 +1,14 @@
 import { CharacteristicValue, PlatformAccessory, Service } from 'homebridge';
 
-import { makeHandler, TopicHandler } from './base.js';
 import { OnOffAccessory } from './onoff.js';
+import { makeHandler, TopicHandler } from '../abstract/base.js';
 
-import { strings } from '../i18n/i18n.js';
+import { strings } from '../../i18n/i18n.js';
 
-import { CharacteristicType, OutletConfig, ServiceType } from '../model/types.js';
+import { CharacteristicType, OutletConfig, ServiceType } from '../../model/types.js';
 
-import { Log } from '../tools/log.js';
-import { Primitive, toPrimitive } from '../tools/primitive.js';
+import { Log } from '../../tools/log.js';
+import { Primitive, toPrimitive } from '../../tools/primitive.js';
 
 export class OutletAccessory extends OnOffAccessory {
 
@@ -62,21 +62,21 @@ export class OutletAccessory extends OnOffAccessory {
 
     this.logIfDesired(this.stringForInUse(this.inUse), this.name);
   }
-  
+
   private async setInUse(value: CharacteristicValue) {
-  
+
     if (!this.assert('topicSetOutletInUse', 'valueOutletInUse', 'valueOutletNotInUse')) {
       return;
     }
-  
+
     const inUse = value ? this.outletConfig.valueOutletInUse : this.outletConfig.valueOutletNotInUse;
-  
+
     this.inUse = value;
-  
+
     this.logIfDesired(this.stringForInUse(this.inUse, true), this.name);
-  
+
     this.accessoryService.updateCharacteristic(this.Characteristic.OutletInUse, this.inUse);
-  
+
     this.publish(this.outletConfig.topicSetOutletInUse!, inUse!);
   }
 

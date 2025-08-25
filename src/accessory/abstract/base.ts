@@ -1,14 +1,14 @@
 import { PlatformAccessory } from 'homebridge';
 
-import { PLATFORM_NAME } from '../homebridge/settings.js';
+import { PLATFORM_NAME } from '../../homebridge/settings.js';
 
-import { MQTT } from '../model/mqtt.js';
-import { AccessoryConfig, CharacteristicType, ServiceType } from '../model/types.js';
+import { MQTT } from '../../model/mqtt.js';
+import { AccessoryConfig, CharacteristicType, ServiceType } from '../../model/types.js';
 
-import { Log } from '../tools/log.js';
-import { Primitive } from '../tools/primitive.js';
-import getVersion from '../tools/version.js';
-import { assert } from '../tools/validation.js';
+import { Log } from '../../tools/log.js';
+import { Primitive } from '../../tools/primitive.js';
+import getVersion from '../../tools/version.js';
+import { assert } from '../../tools/validation.js';
 
 export type TopicHandler = {topic: string, handler: ((topic: string, value: Primitive) => Promise<void>)};
 
@@ -17,7 +17,7 @@ export function makeHandler(topic: string, handler: (topic: string, value: Primi
 }
 
 export abstract class MQTTAccessory {
-    
+
   private readonly mqttClient: MQTT | undefined;
 
   constructor(
@@ -25,10 +25,10 @@ export abstract class MQTTAccessory {
     protected readonly Characteristic: CharacteristicType,
     protected readonly accessory: PlatformAccessory,
     protected readonly config: AccessoryConfig,
-    protected readonly log: Log,    
+    protected readonly log: Log,
     caller: string,
   ) {
-   
+
     const name = config.info.name;
 
     if (this.assert('mqtt')) {
