@@ -29,7 +29,7 @@ export abstract class OnOffAccessory extends StatusActiveAccessory {
       .onSet(this.setOn.bind(this));
   }
 
-  protected get topicHandlers(): TopicHandler[] {
+  override get topicHandlers(): TopicHandler[] {
     const topicHandlers = super.topicHandlers;
 
     if (!this.assert('topicGetOn')) {

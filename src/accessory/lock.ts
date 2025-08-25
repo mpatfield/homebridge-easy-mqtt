@@ -40,7 +40,7 @@ export class LockMechanismAccessory extends StatusActiveAccessory {
   }
 
 
-  protected get topicHandlers(): TopicHandler[] {
+  override get topicHandlers(): TopicHandler[] {
 
     const topicHandlers = super.topicHandlers;
 

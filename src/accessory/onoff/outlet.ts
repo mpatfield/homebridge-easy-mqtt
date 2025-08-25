@@ -32,7 +32,7 @@ export class OutletAccessory extends OnOffAccessory {
     return this.accessory.getService(this.Service.Outlet) || this.accessory.addService(this.Service.Outlet);
   }
 
-  protected get topicHandlers(): TopicHandler[] {
+  override get topicHandlers(): TopicHandler[] {
     const topicHandlers = super.topicHandlers;
 
     if (this.outletConfig.topicGetOutletInUse) {

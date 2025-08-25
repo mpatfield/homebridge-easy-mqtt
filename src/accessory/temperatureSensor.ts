@@ -33,7 +33,7 @@ export class TemperatureSensorAccessory extends StatusActiveAccessory {
     return this.accessory.getService(this.Service.TemperatureSensor) || this.accessory.addService(this.Service.TemperatureSensor);
   }
 
-  protected get topicHandlers(): TopicHandler[] {
+  override get topicHandlers(): TopicHandler[] {
     const topicHandlers = super.topicHandlers;
 
     if (!this.assert('topicGetCurrentTemperature')) {

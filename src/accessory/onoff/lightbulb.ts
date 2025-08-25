@@ -51,7 +51,7 @@ export class LightbulbAccessory extends OnOffAccessory {
     return this.accessory.getService(this.Service.Lightbulb) || this.accessory.addService(this.Service.Lightbulb);
   }
 
-  protected get topicHandlers(): TopicHandler[] {
+  override get topicHandlers(): TopicHandler[] {
     const topicHandlers = super.topicHandlers;
 
     if (this.lightbulbConfig.topicGetBrightness) {
