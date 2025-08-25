@@ -10,7 +10,7 @@ import { CharacteristicType, OnOffConfig, ServiceType } from '../../model/types.
 import { Log } from '../../tools/log.js';
 import { Primitive, toPrimitive } from '../../tools/primitive.js';
 
-export abstract class OnOffAccessory extends StatusActiveAccessory {
+export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extends StatusActiveAccessory<C> {
 
   private on: CharacteristicValue = false;
 
@@ -18,11 +18,11 @@ export abstract class OnOffAccessory extends StatusActiveAccessory {
     Service: ServiceType,
     Characteristic: CharacteristicType,
     accessory: PlatformAccessory,
-    private readonly onOffConfig: OnOffConfig,
+    config: C,
     log: Log,
     className: string,
   ) {
-    super(Service, Characteristic, accessory, onOffConfig, log, className);
+    super(Service, Characteristic, accessory, config, log, className);
 
     this.accessoryService.getCharacteristic(Characteristic.On)
       .onGet(this.getOn.bind(this))
@@ -36,7 +36,7 @@ export abstract class OnOffAccessory extends StatusActiveAccessory {
       return topicHandlers;
     }
 
-    topicHandlers.push(makeHandler(this.onOffConfig.topicGetOn, this.onOnUpdate.bind(this)));
+    topicHandlers.push(makeHandler(this.config.topicGetOn, this.onOnUpdate.bind(this)));
 
     return topicHandlers;
   }
@@ -48,7 +48,7 @@ export abstract class OnOffAccessory extends StatusActiveAccessory {
       return;
     }
 
-    const on = value === toPrimitive(this.onOffConfig.valueOn);
+    const on = value === toPrimitive(this.config.valueOn);
     if (on === this.on) {
       return;
     }
@@ -69,7 +69,7 @@ export abstract class OnOffAccessory extends StatusActiveAccessory {
       return;
     }
 
-    const on = value ? this.onOffConfig.valueOn : this.onOffConfig.valueOff;
+    const on = value ? this.config.valueOn : this.config.valueOff;
 
     this.on = value;
 
@@ -77,7 +77,7 @@ export abstract class OnOffAccessory extends StatusActiveAccessory {
 
     this.accessoryService.updateCharacteristic(this.Characteristic.On, this.on);
 
-    this.publish(this.onOffConfig.topicSetOn, on);
+    this.publish(this.config.topicSetOn, on);
   }
 
   private stringForState(on: CharacteristicValue, future: boolean = false): string {

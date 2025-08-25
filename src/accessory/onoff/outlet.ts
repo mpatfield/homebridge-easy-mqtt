@@ -10,7 +10,7 @@ import { CharacteristicType, OutletConfig, ServiceType } from '../../model/types
 import { Log } from '../../tools/log.js';
 import { Primitive, toPrimitive } from '../../tools/primitive.js';
 
-export class OutletAccessory extends OnOffAccessory {
+export class OutletAccessory extends OnOffAccessory<OutletConfig> {
 
   private inUse: CharacteristicValue = false;
 
@@ -18,10 +18,10 @@ export class OutletAccessory extends OnOffAccessory {
     Service: ServiceType,
     Characteristic: CharacteristicType,
     accessory: PlatformAccessory,
-    private readonly outletConfig: OutletConfig,
+    config: OutletConfig,
     log: Log,
   ) {
-    super(Service, Characteristic, accessory, outletConfig, log, OutletAccessory.name);
+    super(Service, Characteristic, accessory, config, log, OutletAccessory.name);
 
     this.accessoryService.getCharacteristic(this.Characteristic.OutletInUse)
       .onGet(this.getInUse.bind(this))
@@ -35,8 +35,8 @@ export class OutletAccessory extends OnOffAccessory {
   override get topicHandlers(): TopicHandler[] {
     const topicHandlers = super.topicHandlers;
 
-    if (this.outletConfig.topicGetOutletInUse) {
-      topicHandlers.push(makeHandler(this.outletConfig.topicGetOutletInUse, this.onInUseUpdate.bind(this)));
+    if (this.config.topicGetOutletInUse) {
+      topicHandlers.push(makeHandler(this.config.topicGetOutletInUse, this.onInUseUpdate.bind(this)));
     }
 
     return topicHandlers;
@@ -52,7 +52,7 @@ export class OutletAccessory extends OnOffAccessory {
       return;
     }
 
-    const inUse = value === toPrimitive(this.outletConfig.valueOutletInUse);
+    const inUse = value === toPrimitive(this.config.valueOutletInUse);
     if (inUse === this.inUse) {
       return;
     }
@@ -69,7 +69,7 @@ export class OutletAccessory extends OnOffAccessory {
       return;
     }
 
-    const inUse = value ? this.outletConfig.valueOutletInUse : this.outletConfig.valueOutletNotInUse;
+    const inUse = value ? this.config.valueOutletInUse : this.config.valueOutletNotInUse;
 
     this.inUse = value;
 
@@ -77,7 +77,7 @@ export class OutletAccessory extends OnOffAccessory {
 
     this.accessoryService.updateCharacteristic(this.Characteristic.OutletInUse, this.inUse);
 
-    this.publish(this.outletConfig.topicSetOutletInUse!, inUse!);
+    this.publish(this.config.topicSetOutletInUse!, inUse!);
   }
 
   private stringForInUse(inUse: CharacteristicValue, future: boolean = false): string {

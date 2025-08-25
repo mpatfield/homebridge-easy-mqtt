@@ -12,7 +12,7 @@ import { Primitive, toNumber } from '../tools/primitive.js';
 import { toCelsius } from '../tools/temperature.js';
 import { TemperatureUnits } from '../model/enums.js';
 
-export class TemperatureSensorAccessory extends StatusActiveAccessory {
+export class TemperatureSensorAccessory extends StatusActiveAccessory<TemperatureSensorConfig> {
 
   private currentTemperature: number = 0;
 
@@ -20,10 +20,10 @@ export class TemperatureSensorAccessory extends StatusActiveAccessory {
     Service: ServiceType,
     Characteristic: CharacteristicType,
     accessory: PlatformAccessory,
-    private readonly temperatureSensorConfig: TemperatureSensorConfig,
+    config: TemperatureSensorConfig,
     log: Log,
   ) {
-    super(Service, Characteristic, accessory, temperatureSensorConfig, log, TemperatureSensorAccessory.name);
+    super(Service, Characteristic, accessory, config, log, TemperatureSensorAccessory.name);
 
     this.accessoryService.getCharacteristic(Characteristic.CurrentTemperature)
       .onGet(this.getCurrentTemperature.bind(this));
@@ -40,7 +40,7 @@ export class TemperatureSensorAccessory extends StatusActiveAccessory {
       return topicHandlers;
     }
 
-    topicHandlers.push(makeHandler(this.temperatureSensorConfig.topicGetCurrentTemperature, this.onCurrentTemperatureUpdate.bind(this)));
+    topicHandlers.push(makeHandler(this.config.topicGetCurrentTemperature, this.onCurrentTemperatureUpdate.bind(this)));
 
     return topicHandlers;
   }
@@ -48,7 +48,7 @@ export class TemperatureSensorAccessory extends StatusActiveAccessory {
 
   private async onCurrentTemperatureUpdate(topic: string, value: Primitive): Promise<void> {
 
-    const units = this.temperatureSensorConfig.temperatureUnits ?? TemperatureUnits.CELSIUS;
+    const units = this.config.temperatureUnits ?? TemperatureUnits.CELSIUS;
     const temperature = toCelsius(toNumber(value), units);
     if (temperature === this.currentTemperature) {
       return;

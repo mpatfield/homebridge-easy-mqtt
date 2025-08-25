@@ -14,7 +14,7 @@ type PropertyKey = 'brightness' | 'hue' | 'colorTemperature' | 'saturation';
 type CharacteristicKey = 'Brightness' | 'Hue' | 'ColorTemperature' | 'Saturation';
 type TopicSetKey = 'topicSetBrightness' | 'topicSetHue' | 'topicSetColorTemperature' | 'topicSetSaturation';
 
-export class LightbulbAccessory extends OnOffAccessory {
+export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
 
   private brightness: CharacteristicValue = 100;
   private hue: CharacteristicValue = 0;
@@ -25,10 +25,10 @@ export class LightbulbAccessory extends OnOffAccessory {
     Service: ServiceType,
     Characteristic: CharacteristicType,
     accessory: PlatformAccessory,
-    private readonly lightbulbConfig: LightbulbConfig,
+    config: LightbulbConfig,
     log: Log,
   ) {
-    super(Service, Characteristic, accessory, lightbulbConfig, log, LightbulbAccessory.name);
+    super(Service, Characteristic, accessory, config, log, LightbulbAccessory.name);
 
     this.accessoryService.getCharacteristic(this.Characteristic.Brightness)
       .onGet(this.getBrightness.bind(this))
@@ -54,20 +54,20 @@ export class LightbulbAccessory extends OnOffAccessory {
   override get topicHandlers(): TopicHandler[] {
     const topicHandlers = super.topicHandlers;
 
-    if (this.lightbulbConfig.topicGetBrightness) {
-      topicHandlers.push(makeHandler(this.lightbulbConfig.topicGetBrightness, this.onBrightnessUpdate.bind(this)));
+    if (this.config.topicGetBrightness) {
+      topicHandlers.push(makeHandler(this.config.topicGetBrightness, this.onBrightnessUpdate.bind(this)));
     }
 
-    if (this.lightbulbConfig.topicGetHue) {
-      topicHandlers.push(makeHandler(this.lightbulbConfig.topicGetHue, this.onHueUpdate.bind(this)));
+    if (this.config.topicGetHue) {
+      topicHandlers.push(makeHandler(this.config.topicGetHue, this.onHueUpdate.bind(this)));
     }
 
-    if (this.lightbulbConfig.topicGetColorTemperature) {
-      topicHandlers.push(makeHandler(this.lightbulbConfig.topicGetColorTemperature, this.onColorTemperatureUpdate.bind(this)));
+    if (this.config.topicGetColorTemperature) {
+      topicHandlers.push(makeHandler(this.config.topicGetColorTemperature, this.onColorTemperatureUpdate.bind(this)));
     }
 
-    if (this.lightbulbConfig.topicGetSaturation) {
-      topicHandlers.push(makeHandler(this.lightbulbConfig.topicGetSaturation, this.onSaturationUpdate.bind(this)));
+    if (this.config.topicGetSaturation) {
+      topicHandlers.push(makeHandler(this.config.topicGetSaturation, this.onSaturationUpdate.bind(this)));
     }
 
     return topicHandlers;
@@ -148,7 +148,7 @@ export class LightbulbAccessory extends OnOffAccessory {
     const characteristicKey = this.toCharacteristicKey(propertyKey);
     this.accessoryService.updateCharacteristic(this.Characteristic[characteristicKey], value);
 
-    this.publish(this.lightbulbConfig[topic]!, toPrimitive(value));
+    this.publish(this.config[topic]!, toPrimitive(value));
   }
 
   private toCharacteristicKey(key: PropertyKey): CharacteristicKey {

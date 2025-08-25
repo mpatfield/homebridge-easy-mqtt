@@ -10,7 +10,7 @@ import { CharacteristicType, LockMechanismConfig, ServiceType } from '../model/t
 import { Log } from '../tools/log.js';
 import { Primitive, toPrimitive } from '../tools/primitive.js';
 
-export class LockMechanismAccessory extends StatusActiveAccessory {
+export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismConfig> {
 
   private currentState: CharacteristicValue;
   private targetState: CharacteristicValue;
@@ -19,10 +19,10 @@ export class LockMechanismAccessory extends StatusActiveAccessory {
     Service: ServiceType,
     Characteristic: CharacteristicType,
     accessory: PlatformAccessory,
-    private readonly lockMechanismConfig: LockMechanismConfig,
+    config: LockMechanismConfig,
     log: Log,
   ) {
-    super(Service, Characteristic, accessory, lockMechanismConfig, log, LockMechanismAccessory.name);
+    super(Service, Characteristic, accessory, config, log, LockMechanismAccessory.name);
 
     this.currentState = this.Characteristic.LockCurrentState.UNKNOWN;
     this.targetState = this.Characteristic.LockTargetState.SECURED;
@@ -48,8 +48,8 @@ export class LockMechanismAccessory extends StatusActiveAccessory {
       return topicHandlers;
     }
 
-    topicHandlers.push(makeHandler(this.lockMechanismConfig.topicGetLockCurrentState, this.onCurrentStateUpdate.bind(this)));
-    topicHandlers.push(makeHandler(this.lockMechanismConfig.topicGetLockTargetState, this.onTargetStateUpdate.bind(this)));
+    topicHandlers.push(makeHandler(this.config.topicGetLockCurrentState, this.onCurrentStateUpdate.bind(this)));
+    topicHandlers.push(makeHandler(this.config.topicGetLockTargetState, this.onTargetStateUpdate.bind(this)));
 
     return topicHandlers;
   }
@@ -115,7 +115,7 @@ export class LockMechanismAccessory extends StatusActiveAccessory {
 
     this.accessoryService.updateCharacteristic(this.Characteristic.LockTargetState, this.targetState);
 
-    this.publish(this.lockMechanismConfig.topicSetTargetState, target);
+    this.publish(this.config.topicSetTargetState, target);
   }
 
   private valueFromTargetState(value: CharacteristicValue): Primitive | undefined {
@@ -126,9 +126,9 @@ export class LockMechanismAccessory extends StatusActiveAccessory {
 
     switch (value) {
     case this.Characteristic.LockTargetState.SECURED:
-      return toPrimitive(this.lockMechanismConfig.valueLockStateSecured);
+      return toPrimitive(this.config.valueLockStateSecured);
     case this.Characteristic.LockTargetState.UNSECURED:
-      return toPrimitive(this.lockMechanismConfig.valueLockStateUnsecured);
+      return toPrimitive(this.config.valueLockStateUnsecured);
     default:
       return undefined;
     }
@@ -141,11 +141,11 @@ export class LockMechanismAccessory extends StatusActiveAccessory {
     }
 
     switch (value) {
-    case toPrimitive(this.lockMechanismConfig.valueLockStateSecured):
+    case toPrimitive(this.config.valueLockStateSecured):
       return this.Characteristic.LockCurrentState.SECURED;
-    case toPrimitive(this.lockMechanismConfig.valueLockStateUnsecured):
+    case toPrimitive(this.config.valueLockStateUnsecured):
       return this.Characteristic.LockCurrentState.UNSECURED;
-    case toPrimitive(this.lockMechanismConfig.valueLockStateJammed):
+    case toPrimitive(this.config.valueLockStateJammed):
       return this.Characteristic.LockCurrentState.JAMMED;
     default:
       return this.Characteristic.LockCurrentState.UNKNOWN;
@@ -159,9 +159,9 @@ export class LockMechanismAccessory extends StatusActiveAccessory {
     }
 
     switch (value) {
-    case toPrimitive(this.lockMechanismConfig.valueLockStateUnsecured):
+    case toPrimitive(this.config.valueLockStateUnsecured):
       return this.Characteristic.LockTargetState.UNSECURED;
-    case toPrimitive(this.lockMechanismConfig.valueLockStateSecured):
+    case toPrimitive(this.config.valueLockStateSecured):
     default:
       return this.Characteristic.LockTargetState.SECURED;
     }

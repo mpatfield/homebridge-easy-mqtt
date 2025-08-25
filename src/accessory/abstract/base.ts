@@ -16,7 +16,7 @@ export function makeHandler(topic: string, handler: (topic: string, value: Primi
   return { topic, handler };
 }
 
-export abstract class MQTTAccessory {
+export abstract class MQTTAccessory<C extends AccessoryConfig> {
 
   private readonly mqttClient: MQTT | undefined;
 
@@ -24,7 +24,7 @@ export abstract class MQTTAccessory {
     protected readonly Service: ServiceType,
     protected readonly Characteristic: CharacteristicType,
     protected readonly accessory: PlatformAccessory,
-    protected readonly config: AccessoryConfig,
+    protected readonly config: C,
     protected readonly log: Log,
     caller: string,
   ) {

@@ -9,7 +9,7 @@ import { CharacteristicType, StatusActiveConfig, ServiceType } from '../../model
 import { Log } from '../../tools/log.js';
 import { Primitive, toPrimitive } from '../../tools/primitive.js';
 
-export abstract class StatusActiveAccessory extends MQTTAccessory {
+export abstract class StatusActiveAccessory<C extends StatusActiveConfig = StatusActiveConfig> extends MQTTAccessory<C> {
   protected readonly accessoryService: Service;
 
   private statusActive: CharacteristicValue = true;
@@ -18,11 +18,11 @@ export abstract class StatusActiveAccessory extends MQTTAccessory {
     Service: ServiceType,
     Characteristic: CharacteristicType,
     accessory: PlatformAccessory,
-    private readonly statusActiveConfig: StatusActiveConfig,
+    config: C,
     log: Log,
     className: string,
   ) {
-    super(Service, Characteristic, accessory, statusActiveConfig, log, className);
+    super(Service, Characteristic, accessory, config, log, className);
 
     this.accessoryService = this.getAccessoryService();
 
@@ -34,7 +34,7 @@ export abstract class StatusActiveAccessory extends MQTTAccessory {
 
   protected get topicHandlers(): TopicHandler[] {
     return [
-      ...(this.statusActiveConfig.topicGetStatusActive ? [makeHandler(this.statusActiveConfig.topicGetStatusActive, this.onStatusActiveUpdate.bind(this))]: []),
+      ...(this.config.topicGetStatusActive ? [makeHandler(this.config.topicGetStatusActive, this.onStatusActiveUpdate.bind(this))]: []),
     ];
   }
 
@@ -44,7 +44,7 @@ export abstract class StatusActiveAccessory extends MQTTAccessory {
       return;
     }
 
-    const statusActive = value === toPrimitive(this.statusActiveConfig.valueStatusActive);
+    const statusActive = value === toPrimitive(this.config.valueStatusActive);
     if (statusActive === this.statusActive) {
       return;
     }

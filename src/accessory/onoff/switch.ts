@@ -6,16 +6,16 @@ import { CharacteristicType, ServiceType, SwitchConfig } from '../../model/types
 
 import { Log } from '../../tools/log.js';
 
-export class SwitchAccessory extends OnOffAccessory {
+export class SwitchAccessory extends OnOffAccessory<SwitchConfig> {
 
   constructor(
     Service: ServiceType,
     Characteristic: CharacteristicType,
     accessory: PlatformAccessory,
-    switchConfig: SwitchConfig,
+    config: SwitchConfig,
     log: Log,
   ) {
-    super(Service, Characteristic, accessory, switchConfig, log, SwitchAccessory.name);
+    super(Service, Characteristic, accessory, config, log, SwitchAccessory.name);
   }
 
   protected getAccessoryService(): Service {
