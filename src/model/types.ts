@@ -79,6 +79,21 @@ export type OutletConfig = OnOffConfig & {
   valueOutletNotInUse?: string,
 }
 
+export type SecuritySystemConfig = StatusActiveConfig & {
+  topicGetCurrentSecurityState: string,
+  topicGetTargetSecurityState: string,
+  topicSetTargetSecurityState: string,
+  topicGetStatusTampered?: string,
+  topicGetStatusFault?: string,
+  valueArmStay?: string,
+  valueArmAway?: string,
+  valueArmNight?: string,
+  valueDisarm?: string,
+  valueAlarmTriggered?: string,
+  valueTampered?: string,
+  valueFault?: string,
+}
+
 export type SwitchConfig = OnOffConfig & {
 }
 

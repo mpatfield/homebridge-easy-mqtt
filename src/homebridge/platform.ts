@@ -2,27 +2,29 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig }
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings.js';
 
-import { MQTTAccessory } from '../accessory/base.js';
+import { MQTTAccessory } from '../accessory/abstract/base.js';
+
+import { LightbulbAccessory } from '../accessory/onoff/lightbulb.js';
 import { LockMechanismAccessory } from '../accessory/lock.js';
-import { SwitchAccessory } from '../accessory/switch.js';
+import { OutletAccessory } from '../accessory/onoff/outlet.js';
+import { SecuritySystemAccessory } from '../accessory/security.js';
+import { SwitchAccessory } from '../accessory/onoff/switch.js';
 import { TemperatureSensorAccessory } from '../accessory/temperatureSensor.js';
 
 import { setLanguage, strings } from '../i18n/i18n.js';
 
-import { AccessoryConfig, LightbulbConfig, LockMechanismConfig, OutletConfig, SwitchConfig, TemperatureSensorConfig } from '../model/types.js';
+import * as Configs from '../model/types.js';
 
 import { Log } from '../tools/log.js';
 import getVersion from '../tools/version.js';
 import { assert } from '../tools/validation.js';
-import { OutletAccessory } from '../accessory/outlet.js';
-import { LightbulbAccessory } from '../accessory/lightbulb.js';
 
 export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
   private readonly log: Log;
 
   private readonly cachedAccessories: Map<string, PlatformAccessory> = new Map();
-  private readonly mqttAccessories: MQTTAccessory[] = [];
+  private readonly mqttAccessories: MQTTAccessory<Configs.AccessoryConfig>[] = [];
 
   constructor(
     logger: Logger,
@@ -65,14 +67,14 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
   }
 
   private async setup(): Promise<void> {
-   
+
     if (!this.config.accessories) {
       this.config.accessories = [];
     }
 
     const keepIdentifiers = new Set<string>();
 
-    for (const accessoryConfig of this.config.accessories as AccessoryConfig[]) {
+    for (const accessoryConfig of this.config.accessories as Configs.AccessoryConfig[]) {
 
       if (!assert(this.log, PLATFORM_NAME, accessoryConfig, 'info') ||
         !assert(this.log, PLATFORM_NAME, accessoryConfig.info, 'name', 'type')) {
@@ -98,22 +100,25 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
       const Service = this.api.hap.Service;
       const Characteristic = this.api.hap.Characteristic;
 
-      let mqttAccessory: MQTTAccessory;
+      let mqttAccessory: MQTTAccessory<Configs.AccessoryConfig>;
       switch(accessoryConfig.info.type) {
       case Service.Lightbulb.name:
-        mqttAccessory = new LightbulbAccessory(Service, Characteristic, accessory, accessoryConfig as LightbulbConfig, this.log);
+        mqttAccessory = new LightbulbAccessory(Service, Characteristic, accessory, accessoryConfig as Configs.LightbulbConfig, this.log);
         break;
       case Service.LockMechanism.name:
-        mqttAccessory = new LockMechanismAccessory(Service, Characteristic, accessory, accessoryConfig as LockMechanismConfig, this.log);
+        mqttAccessory = new LockMechanismAccessory(Service, Characteristic, accessory, accessoryConfig as Configs.LockMechanismConfig, this.log);
         break;
       case Service.Outlet.name:
-        mqttAccessory = new OutletAccessory(Service, Characteristic, accessory, accessoryConfig as OutletConfig, this.log);
+        mqttAccessory = new OutletAccessory(Service, Characteristic, accessory, accessoryConfig as Configs.OutletConfig, this.log);
+        break;
+      case Service.SecuritySystem.name:
+        mqttAccessory = new SecuritySystemAccessory(Service, Characteristic, accessory, accessoryConfig as Configs.SecuritySystemConfig, this.log);
         break;
       case Service.Switch.name:
-        mqttAccessory = new SwitchAccessory(Service, Characteristic, accessory, accessoryConfig as SwitchConfig, this.log);
+        mqttAccessory = new SwitchAccessory(Service, Characteristic, accessory, accessoryConfig as Configs.SwitchConfig, this.log);
         break;
       case Service.TemperatureSensor.name:
-        mqttAccessory = new TemperatureSensorAccessory(Service, Characteristic, accessory, accessoryConfig as TemperatureSensorConfig, this.log);
+        mqttAccessory = new TemperatureSensorAccessory(Service, Characteristic, accessory, accessoryConfig as Configs.TemperatureSensorConfig, this.log);
         break;
       default:
         this.log.error(strings.startup.unsupportedType, accessoryConfig.info.type);
@@ -133,7 +138,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
     const randIndex = Math.floor(Math.random() * strings.startup.welcome.length);
     this.log.always(strings.startup.complete, strings.startup.welcome[randIndex]);
   }
-  
+
   private removeCachedAccessory(accessory: PlatformAccessory) {
     this.log.always(strings.startup.removeAccessory, accessory.displayName);
     this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);

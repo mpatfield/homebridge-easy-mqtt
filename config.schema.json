@@ -21,8 +21,8 @@
           "type": {
             "type": "string",
             "title": "${config.title.type}",
-            "enum": [ "Lightbulb", "LockMechanism", "Outlet", "Switch", "TemperatureSensor"],
-            "enumNames": ["${config.enumNames.lightbulb}", "${config.enumNames.lockMechanism}", "${config.enumNames.outlet}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}"],
+            "enum": [ "Lightbulb", "LockMechanism", "Outlet", "SecuritySystem", "Switch", "TemperatureSensor"],
+            "enumNames": ["${config.enumNames.lightbulb}", "${config.enumNames.lockMechanism}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}"],
             "required": true
           },
           "manufacturer": {
@@ -154,6 +154,26 @@
               "type": "string",
               "title": "${config.title.topicGetCurrentTemperature}"
             },
+            "topicGetCurrentSecurityState": {
+              "type": "string",
+              "title": "${config.title.topicGetCurrentSecurityState}"
+            },
+            "topicGetTargetSecurityState": {
+              "type": "string",
+              "title": "${config.title.topicGetTargetSecurityState}"
+            },
+            "topicSetTargetSecurityState": {
+              "type": "string",
+              "title": "${config.title.topicSetTargetSecurityState}"
+            },
+            "topicGetStatusTampered": {
+              "type": "string",
+              "title": "${config.title.topicGetStatusTampered}"
+            },
+            "topicGetStatusFault": {
+              "type": "string",
+              "title": "${config.title.topicGetStatusFault}"
+            },
             "valueStatusActive": {
               "type": "string",
               "title": "${config.title.valueStatusActive}",
@@ -186,6 +206,34 @@
             "valueOutletNotInUse": {
               "type": "string",
               "title": "${config.title.valueOutletNotInUse}"
+            },
+            "valueArmStay": {
+              "type": "string",
+              "title": "${config.title.valueArmStay}"
+            },
+            "valueArmAway": {
+              "type": "string",
+              "title": "${config.title.valueArmAway}"
+            },
+            "valueArmNight": {
+              "type": "string",
+              "title": "${config.title.valueArmNight}"
+            },
+            "valueDisarm": {
+              "type": "string",
+              "title": "${config.title.valueDisarm}"
+            },
+            "valueAlarmTriggered": {
+              "type": "string",
+              "title": "${config.title.valueAlarmTriggered}"
+            },
+            "valueTampered": {
+              "type": "string",
+              "title": "${config.title.valueTampered}"
+            },
+            "valueFault": {
+              "type": "string",
+              "title": "${config.title.valueFault}"
             },
             "disableLogging": {
               "type": "boolean",
@@ -288,95 +336,73 @@
             {
               "type": "fieldset",
               "title": "${config.title.topics}",
+              "condition": {
+                "functionBody": "return model.accessories?.[arguments[1]]?.info?.type !== undefined;"
+              },
               "items": [
                 {
-                  "key": "accessories[].topicGetLockCurrentState",
+                  "type": "fieldset",
+                  "notitle": "true",
+                  "items": [
+                    "accessories[].topicGetLockCurrentState",
+                    "accessories[].topicGetLockTargetState",
+                    "accessories[].topicSetTargetState"
+                  ],
                   "condition": {
                     "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'LockMechanism';"
                   }
                 },
                 {
-                  "key": "accessories[].topicGetLockTargetState",
-                  "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'LockMechanism';"
-                  }
-                },
-                {
-                  "key": "accessories[].topicSetTargetState",
-                  "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'LockMechanism';"
-                  }
-                },
-                {
-                  "key": "accessories[].topicGetOn",
+                  "type": "fieldset",
+                  "notitle": "true",
+                  "items": [
+                    "accessories[].topicGetOn",
+                    "accessories[].topicSetOn"
+                  ],
                   "condition": {
                     "functionBody": "return ['Lightbulb', 'Outlet', 'Switch'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   }
                 },
                 {
-                  "key": "accessories[].topicSetOn",
-                  "condition": {
-                    "functionBody": "return ['Lightbulb', 'Outlet', 'Switch'].includes(model.accessories?.[arguments[1]]?.info?.type);"
-                  }
-                },
-                {
-                  "key": "accessories[].topicGetBrightness",
-                  "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Lightbulb';"
-                  }
-                },
-                {
-                  "key": "accessories[].topicSetBrightness",
-                  "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Lightbulb';"
-                  }
-                },
-                {
-                  "key": "accessories[].topicGetHue",
+                  "type": "fieldset",
+                  "notitle": "true",
+                  "items": [
+                    "accessories[].topicGetBrightness",
+                    "accessories[].topicSetBrightness",
+                    "accessories[].topicGetHue",
+                    "accessories[].topicSetHue",
+                    "accessories[].topicGetColorTemperature",
+                    "accessories[].topicSetColorTemperature",
+                    "accessories[].topicGetSaturation",
+                    "accessories[].topicSetSaturation"
+                  ],
                   "condition": {
                     "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Lightbulb';"
                   }
                 },
                 {
-                  "key": "accessories[].topicSetHue",
-                  "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Lightbulb';"
-                  }
-                },
-                {
-                  "key": "accessories[].topicGetColorTemperature",
-                  "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Lightbulb';"
-                  }
-                },
-                {
-                  "key": "accessories[].topicSetColorTemperature",
-                  "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Lightbulb';"
-                  }
-                },
-                {
-                  "key": "accessories[].topicGetSaturation",
-                  "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Lightbulb';"
-                  }
-                },
-                {
-                  "key": "accessories[].topicSetSaturation",
-                  "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Lightbulb';"
-                  }
-                },
-                {
-                  "key": "accessories[].topicGetOutletInUse",
+                  "type": "fieldset",
+                  "notitle": "true",
+                  "items": [
+                    "accessories[].topicGetOutletInUse",
+                    "accessories[].topicSetOutletInUse"
+                  ],
                   "condition": {
                     "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Outlet';"
                   }
                 },
                 {
-                  "key": "accessories[].topicSetOutletInUse",
+                  "type": "fieldset",
+                  "notitle": "true",
+                  "items": [
+                    "accessories[].topicGetCurrentSecurityState",
+                    "accessories[].topicGetTargetSecurityState",
+                    "accessories[].topicSetTargetSecurityState",
+                    "accessories[].topicGetStatusTampered",
+                    "accessories[].topicGetStatusFault"
+                  ],
                   "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Outlet';"
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'SecuritySystem';"
                   }
                 },
                 {
@@ -404,6 +430,9 @@
             {
               "type": "fieldset",
               "title": "${config.title.values}",
+              "condition": {
+                "functionBody": "return model.accessories?.[arguments[1]]?.info?.type !== undefined;"
+              },
               "items": [
                 {
                   "type": "div",
@@ -415,15 +444,15 @@
                   "items": [
                     {
                       "key": "accessories[].valueLockStateSecured",
-                      "flex": "1 1 0"
+                      "flex": "0 0 25%"
                     },
                     {
                       "key": "accessories[].valueLockStateUnsecured",
-                      "flex": "1 1 0"
+                      "flex": "0 0 25%"
                     },
                     {
                       "key": "accessories[].valueLockStateJammed",
-                      "flex": "1 1 0"
+                      "flex": "0 0 25%"
                     }
                   ]
                 },
@@ -437,11 +466,11 @@
                   "items": [
                     {
                       "key": "accessories[].valueOn",
-                      "flex": "1 1 0"
+                      "flex": "0 0 25%"
                     },
                     {
                       "key": "accessories[].valueOff",
-                      "flex": "1 1 0"
+                      "flex": "0 0 25%"
                     }
                   ]
                 },
@@ -455,15 +484,76 @@
                   "items": [
                     {
                       "key": "accessories[].valueOutletInUse",
-                      "flex": "1 1 0"
+                      "flex": "0 0 25%"
                     },
                     {
                       "key": "accessories[].valueOutletNotInUse",
-                      "flex": "1 1 0"
+                      "flex": "0 0 25%"
                     }
                   ]
                 },
-                "accessories[].valueStatusActive"
+                {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'SecuritySystem';"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].valueArmStay",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valueArmAway",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valueArmNight",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valueDisarm",
+                          "flex": "0 0 25%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].valueAlarmTriggered",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valueTampered",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valueFault",
+                          "flex": "0 0 25%"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "items": [
+                    {
+                      "key": "accessories[].valueStatusActive",
+                      "flex": "0 0 50%"
+                    }
+                  ]
+                }
               ]
             }
           ]

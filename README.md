@@ -23,7 +23,7 @@ Any issues or damage resulting from use of this plugin are not the fault of the 
 
 This plugin is designed to be a simple replacement for the fantastic [homebridge-mqttthing](https://github.com/arachnetech/homebridge-mqttthing) plugin which appears as though it's [no longer](https://github.com/arachnetech/homebridge-mqttthing/commits/master/) being actively developed.
 
-**HomebridgeEasyMQTT** currently supports `Lightbulb`, `LockMechanism`, `Outlet`, `Switch`, and `TemperatureSensor`, but will be expanded over time as more use cases are discovered. If there is an accessory type you'd like to see supported, please feel free to [create an issue in GitHub](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
+**HomebridgeEasyMQTT** currently supports `Lightbulb`, `LockMechanism`, `Outlet`, `SecuitySystem`,`Switch`, and `TemperatureSensor`, but will be expanded over time as more use cases are discovered. If there is an accessory type you'd like to see supported, please feel free to [create an issue in GitHub](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
 
 ## Configuration
 
@@ -75,7 +75,7 @@ All fields are required unless noted as "(Optional)"
 Info:
 - `id` - A unique ID to identify this accessory. Changing this value will result in a new accessory.
 - `name` - The display name for the accessory in HomeKit
-- `type` - The type of accessory, currently Lightbulb, LockMechanism, Outlet, Switch, and Temperature Sensor are supported
+- `type` - The type of accessory, currently Lightbulb, LockMechanism, Outlet, SecuitySystem, Switch, and Temperature Sensor are supported
 - `manufacturer` - (Optional) The accessory manufacturer which will display in HomeKit device details
 - `model` - (Optional) The accessory model which will display in HomeKit device details
 - `serialNumber` - (Optional) The accessory serial number which will display in HomeKit device details
@@ -117,6 +117,13 @@ You may define topics using a JSONPath dot notation to assist the parser in find
   - `topicGetOutletInUse` - (Optional) Whether or not the outlet is currently being used
   - `topicSetOutletInUse` - (Optional) For setting whether the outlet is currently being used
 
+- SecuitySystem
+  - `topicGetCurrentSecurityState` — The current state of the system
+  - `topicGetTargetSecurityState` — The target state of the system
+  - `topicSetTargetSecurityState` — For setting the target state of the system
+  - `topicGetStatusTampered` — For getting whether the system has been tampered with
+  - `topicGetStatusFault` — For getting whether there is a system error
+
 - Switch
   - `topicGetOn` - The current state of the switch, i.e. on/off
   - `topicSetOn` - For setting the state of the switch
@@ -146,6 +153,15 @@ As with Topics, you will need to populate the appropriate values based on the ty
   - `valueOff` - Turned off, e.g. "false", or "0", or "Off"
   - `valueOutletInUse` - Currently being used, e.g. "true", or "1", or "On"
   - `valueOutletNotInUse` - Currently not being used, e.g. "false", or "0", or "Off"
+
+- SecuritySystem
+  - `valueArmStay` — (Optional) system armed in stay mode, e.g. "SA" or "stay"
+  - `valueArmAway` — (Optional) system armed in away mode, e.g. "AA" or "away"
+  - `valueArmNight` — (Optional) system armed in night mode, e.g. "NA" or "night"
+  - `valueDisarm` — (Optional) system armed in away mode, e.g. "D" or "disarmed"
+  - `valueAlarmTriggered` — (Optional) when the alarm has been triggered, e.g. "true" or "1" or "triggered"
+  - `valueTampered` — (Optional) when the system has been tampered with, e.g. "true" or "1" or "tampered"
+  - `valueFault` — (Optional) when the system has a general fault, e.g. "true" or "1" or "fault"
 
 - Switch
   - `valueOn` - Turned on, e.g. "true", or "1", or "On"

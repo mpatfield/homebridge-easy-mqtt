@@ -2,11 +2,19 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.1.0 (2025-08-20)
+## 1.2.0-beta.0 (2025-08-26)
 
 ### HELP NEEDED! (no coding experience required)
 
 Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4).
+
+### Added
+- Security System accessory type
+
+### Changed
+- Updated dev dependencies
+
+## 1.1.0 (2025-08-20)
 
 ### Added
 - Temperature Sensor accessory type
