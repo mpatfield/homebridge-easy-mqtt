@@ -58,7 +58,7 @@ export class TemperatureSensorAccessory extends StatusActiveAccessory<Temperatur
 
     this.accessoryService.updateCharacteristic(this.Characteristic.CurrentTemperature, this.currentTemperature);
 
-    this.logIfDesired(strings.temperatureSensor.temperature, this.name, value.toString(), units);
+    this.logIfDesired(strings.temperatureSensor.temperature, value.toString(), units);
   }
 
   private async getCurrentTemperature(): Promise<CharacteristicValue> {

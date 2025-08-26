@@ -53,7 +53,7 @@ export abstract class StatusActiveAccessory<C extends StatusActiveConfig = Statu
     this.accessoryService.updateCharacteristic(this.Characteristic.StatusActive, this.statusActive);
 
     if (this.statusActive) {
-      this.logIfDesired(strings.accessory.statusActive, this.name);
+      this.logIfDesired(strings.accessory.statusActive);
     } else {
       this.log.warning(strings.accessory.statusInactive, this.name);
     }

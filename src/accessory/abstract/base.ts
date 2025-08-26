@@ -76,6 +76,6 @@ export abstract class MQTTAccessory<C extends AccessoryConfig> {
       return;
     }
 
-    this.log.always(message, ...parameters);
+    this.log.always(message, this.name, ...parameters);
   }
 }

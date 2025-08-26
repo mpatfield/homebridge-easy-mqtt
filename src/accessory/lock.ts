@@ -78,7 +78,7 @@ export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismC
     if (this.currentState === this.Characteristic.LockCurrentState.JAMMED) {
       this.log.error(this.stringForState(this.currentState), this.name);
     } else {
-      this.logIfDesired(this.stringForState(this.currentState), this.name);
+      this.logIfDesired(this.stringForState(this.currentState));
     }
   }
 
@@ -92,7 +92,7 @@ export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismC
     this.targetState = target;
     this.accessoryService.updateCharacteristic(this.Characteristic.LockTargetState, this.targetState);
 
-    this.logIfDesired(this.stringForState(this.targetState, true), this.name);
+    this.logIfDesired(this.stringForState(this.targetState, true));
   }
 
   private async setTargetState(value: CharacteristicValue) {
@@ -108,7 +108,7 @@ export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismC
     }
 
     if (this.targetState !== value) {
-      this.logIfDesired(this.stringForState(value, true), this.name);
+      this.logIfDesired(this.stringForState(value, true));
     }
 
     this.targetState = value;

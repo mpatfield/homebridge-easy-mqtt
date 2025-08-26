@@ -132,7 +132,7 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
     const characteristicKey = this.toCharacteristicKey(propertyKey);
     this.accessoryService.updateCharacteristic(this.Characteristic[characteristicKey], value);
 
-    this.logIfDesired(logString, this.name, value.toString());
+    this.logIfDesired(logString, value.toString());
   }
 
   private _set(topic: TopicSetKey, propertyKey: PropertyKey, value: CharacteristicValue, logString: string) {
@@ -143,7 +143,7 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
 
     this[propertyKey] = value;
 
-    this.logIfDesired(logString, this.name, value.toString());
+    this.logIfDesired(logString, value.toString());
 
     const characteristicKey = this.toCharacteristicKey(propertyKey);
     this.accessoryService.updateCharacteristic(this.Characteristic[characteristicKey], value);

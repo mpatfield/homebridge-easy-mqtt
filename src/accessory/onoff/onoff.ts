@@ -56,7 +56,7 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
     this.on = on;
     this.accessoryService.updateCharacteristic(this.Characteristic.On, this.on);
 
-    this.logIfDesired(this.stringForState(this.on), this.name);
+    this.logIfDesired(this.stringForState(this.on));
   }
 
   private async getOn(): Promise<CharacteristicValue> {
@@ -73,7 +73,7 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
 
     this.on = value;
 
-    this.logIfDesired(this.stringForState(this.on, true), this.name);
+    this.logIfDesired(this.stringForState(this.on, true));
 
     this.accessoryService.updateCharacteristic(this.Characteristic.On, this.on);
 
