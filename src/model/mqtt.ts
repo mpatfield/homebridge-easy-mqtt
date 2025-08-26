@@ -16,7 +16,7 @@ type MQTTMessageHandler = (topic: string, value: Primitive) => void;
 class MQTTListener {
 
   topic: string;
-  jsonPath: string[]; 
+  jsonPath: string[];
 
   constructor(
     topic: string,
@@ -101,7 +101,7 @@ export class MQTT {
   }
 
   public subscribe(topic: string, handler: MQTTMessageHandler) {
-    
+
     if (!this.client) {
       this.log.error(strings.mqtt.notConnected,  this.caller);
       return;
@@ -115,7 +115,7 @@ export class MQTT {
   }
 
   publish(topic: string, value: Primitive): void {
-    
+
     if (!this.client || !this.client.connected) {
       this.log.error(strings.mqtt.notConnected, this.caller);
       return;
@@ -132,6 +132,8 @@ export class MQTT {
 
     try {
 
+      message = message.trim();
+
       this.log.ifVerbose(strings.mqtt.receivedMessage, this.caller, topic, message);
 
       const listener = this.listeners.get(topic);
@@ -140,22 +142,29 @@ export class MQTT {
         return;
       }
 
-      let value = JSON.parse(message);
+      let value;
+      if (message.startsWith('{')) {
 
-      for (const pathPart of listener.jsonPath) {
-        if (value && typeof value === 'object' && pathPart in value) {
+        value = JSON.parse(message);
+
+        for (const pathPart of listener.jsonPath) {
+          if (value && typeof value === 'object' && pathPart in value) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          value = (value as any)[pathPart];
-        } else {
-          value = undefined;
-          break;
+            value = (value as any)[pathPart];
+          } else {
+            value = undefined;
+            break;
+          }
         }
+
+      } else {
+        value = message;
       }
 
       listener.handler(topic, toPrimitive(value));
 
     } catch (e) {
-      this.log.error(strings.mqtt.parseFailed, this.caller, message);
+      this.log.error(strings.mqtt.parseFailed, this.caller, `\n${message}`);
     }
   }
 
