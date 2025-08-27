@@ -84,7 +84,7 @@ export abstract class MQTTAccessory<C extends AccessoryConfig> {
     return this.config.info.name;
   }
 
-  protected getRawValue(property :keyof C, assert: boolean = true): PrimitiveTypes | undefined {
+  protected getRawValue(property :keyof C, assert: boolean = true): string | undefined {
 
     if (!property.toString().startsWith('value')) {
       throw new Error(`Trying to fetch value with unexpected property name '${property.toString()}'`);
@@ -99,7 +99,7 @@ export abstract class MQTTAccessory<C extends AccessoryConfig> {
 
   protected getPrimitiveValue(property :keyof C, assert: boolean = true): PrimitiveTypes | undefined {
     const stringValue = this.getRawValue(property, assert);
-    return toPrimitive(stringValue);
+    return stringValue ? toPrimitive(stringValue) : undefined;
   }
 
   protected publish(topic: string, value: PrimitiveTypes) {

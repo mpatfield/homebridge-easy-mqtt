@@ -49,11 +49,14 @@ export class OutletAccessory extends OnOffAccessory<OutletConfig> {
 
   private async setInUse(value: CharacteristicValue) {
 
-    if (!this.assert('topicSetOutletInUse', 'valueOutletInUse', 'valueOutletNotInUse')) {
+    if (!this.assert('topicSetOutletInUse')) {
       return;
     }
 
-    const inUse = value ? this.config.valueOutletInUse : this.config.valueOutletNotInUse;
+    const inUse = value ? this.getRawValue('valueOutletInUse') : this.getRawValue('valueOutletNotInUse');
+    if (!inUse) {
+      return;
+    }
 
     this.inUse = value;
 

@@ -44,11 +44,11 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
 
   private async setOn(value: CharacteristicValue) {
 
-    if (!this.assert('topicSetOn', 'valueOn', 'valueOff')) {
+    if (!this.assert('topicSetOn')) {
       return;
     }
 
-    const on = value ? this.config.valueOn : this.config.valueOff;
+    const on = value ? this.getRawValue('valueOn') : this.getRawValue('valueOff');
 
     this.on = value;
 
