@@ -7,7 +7,6 @@ import { strings } from '../../i18n/i18n.js';
 import { CharacteristicType, StatusActiveConfig, ServiceType } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
-import { toPrimitive } from '../../tools/primitive.js';
 
 export abstract class StatusActiveAccessory<C extends StatusActiveConfig = StatusActiveConfig> extends MQTTAccessory<C> {
 
@@ -28,11 +27,7 @@ export abstract class StatusActiveAccessory<C extends StatusActiveConfig = Statu
 
   private async onStatusActiveUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
-    if (!this.assert('valueStatusActive')) {
-      return;
-    }
-
-    const statusActive = value === toPrimitive(this.config.valueStatusActive);
+    const statusActive = value === this.getPrimitiveValue('valueStatusActive');
     if (statusActive === this.statusActive) {
       return;
     }

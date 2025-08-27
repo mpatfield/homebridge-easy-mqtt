@@ -9,7 +9,6 @@ import { CharacteristicType, SecuritySystemConfig, ServiceType } from '../model/
 
 import { Log } from '../tools/log.js';
 import { TopicHandler } from './abstract/base.js';
-import { toPrimitive } from '../tools/primitive.js';
 
 export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySystemConfig> {
 
@@ -35,7 +34,7 @@ export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySyste
       ['valueAlarmTriggered', Characteristic.SecuritySystemCurrentState.ALARM_TRIGGERED],
     ]);
 
-    const validCurrentStates = Array.from(this.STATE_MAP.keys()).filter((key) => this.config[key] !== undefined);
+    const validCurrentStates = Array.from(this.STATE_MAP.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
     if (validCurrentStates.length === 0) {
       this.log.error(strings.security.noStateValues, this.name);
       return;
@@ -136,11 +135,7 @@ export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySyste
 
   private async onTamperedUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
-    if (!this.assert('valueTampered')) {
-      return;
-    }
-
-    const isTampered = value === toPrimitive(this.config.valueTampered) ? 1 : 0;
+    const isTampered = value === this.getPrimitiveValue('valueTampered') ? 1 : 0;
     if (isTampered === this.isTampered) {
       return;
     }
@@ -153,11 +148,7 @@ export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySyste
 
   private async onStatusFaultUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
-    if (!this.assert('valueFault')) {
-      return;
-    }
-
-    const hasStatusFault = value === toPrimitive(this.config.valueFault) ? 1 : 0;
+    const hasStatusFault = value === this.getPrimitiveValue('valueFault') ? 1 : 0;
     if (hasStatusFault === this.hasStatusFault) {
       return;
     }
@@ -195,7 +186,7 @@ export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySyste
     let primative = undefined;
     this.STATE_MAP.forEach( (test, key) => {
       if (value === test) {
-        primative = toPrimitive(this.config[key]);
+        primative = this.getPrimitiveValue(key);
       }
     });
 
@@ -208,15 +199,15 @@ export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySyste
 
   private toCVState(value: PrimitiveTypes): CharacteristicValue | undefined {
     switch (value) {
-    case toPrimitive(this.config.valueArmStay):
+    case this.getPrimitiveValue('valueArmStay', false):
       return this.STATE_MAP.get('valueArmStay');
-    case toPrimitive(this.config.valueArmAway):
+    case this.getPrimitiveValue('valueArmAway', false):
       return this.STATE_MAP.get('valueArmAway');
-    case toPrimitive(this.config.valueArmNight):
+    case this.getPrimitiveValue('valueArmNight', false):
       return this.STATE_MAP.get('valueArmNight');
-    case toPrimitive(this.config.valueDisarm):
+    case this.getPrimitiveValue('valueDisarm', false):
       return this.STATE_MAP.get('valueDisarm');
-    case toPrimitive(this.config.valueAlarmTriggered):
+    case this.getPrimitiveValue('valueAlarmTriggered', false):
       return this.STATE_MAP.get('valueAlarmTriggered');
     }
 

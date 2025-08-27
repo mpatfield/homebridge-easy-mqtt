@@ -66,6 +66,24 @@ export abstract class MQTTAccessory<C extends AccessoryConfig> {
     return this.config.info.name;
   }
 
+  protected getRawValue(property :keyof C, assert: boolean = true): PrimitiveTypes | undefined {
+
+    if (!property.toString().startsWith('value')) {
+      throw new Error(`Trying to fetch value with unexpected property name '${property.toString()}'`);
+    }
+
+    if (assert && !this.assert(property)) {
+      return;
+    }
+
+    return this.config[property] as string | undefined;
+  }
+
+  protected getPrimitiveValue(property :keyof C, assert: boolean = true): PrimitiveTypes | undefined {
+    const stringValue = this.getRawValue(property, assert);
+    return toPrimitive(stringValue);
+  }
+
   protected publish(topic: string, value: PrimitiveTypes) {
     this.mqttClient?.publish(topic, value);
   }

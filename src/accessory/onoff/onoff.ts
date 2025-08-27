@@ -8,7 +8,6 @@ import { strings } from '../../i18n/i18n.js';
 import { CharacteristicType, OnOffConfig, ServiceType } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
-import { toPrimitive } from '../../tools/primitive.js';
 
 export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extends StatusActiveAccessory<C> {
 
@@ -36,12 +35,7 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
 
 
   private async onOnUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-
-    if (!this.assert('valueOn')) {
-      return;
-    }
-
-    const on = value === toPrimitive(this.config.valueOn);
+    const on = value === this.getPrimitiveValue('valueOn');
     if (on === this.on) {
       return;
     }

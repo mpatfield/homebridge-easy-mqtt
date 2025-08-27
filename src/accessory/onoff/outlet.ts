@@ -8,7 +8,6 @@ import { strings } from '../../i18n/i18n.js';
 import { CharacteristicType, OutletConfig, ServiceType } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
-import { toPrimitive } from '../../tools/primitive.js';
 
 export class OutletAccessory extends OnOffAccessory<OutletConfig> {
 
@@ -43,11 +42,7 @@ export class OutletAccessory extends OnOffAccessory<OutletConfig> {
 
   private async onInUseUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
-    if (!this.assert('valueOutletInUse')) {
-      return;
-    }
-
-    const inUse = value === toPrimitive(this.config.valueOutletInUse);
+    const inUse = value === this.getPrimitiveValue('valueOutletInUse');
     if (inUse === this.inUse) {
       return;
     }

@@ -8,7 +8,6 @@ import { strings } from '../i18n/i18n.js';
 import { CharacteristicType, LockMechanismConfig, ServiceType } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
-import { toPrimitive } from '../tools/primitive.js';
 
 export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismConfig> {
 
@@ -114,15 +113,11 @@ export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismC
 
   private valueFromTargetState(value: CharacteristicValue): PrimitiveTypes | undefined {
 
-    if (value === undefined || !this.assert('valueLockStateSecured', 'valueLockStateUnsecured')) {
-      return undefined;
-    }
-
     switch (value) {
     case this.Characteristic.LockTargetState.SECURED:
-      return toPrimitive(this.config.valueLockStateSecured);
+      return this.getPrimitiveValue('valueLockStateSecured');
     case this.Characteristic.LockTargetState.UNSECURED:
-      return toPrimitive(this.config.valueLockStateUnsecured);
+      return this.getPrimitiveValue('valueLockStateUnsecured');
     default:
       return undefined;
     }
@@ -130,16 +125,16 @@ export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismC
 
   private currentStateFromValue(value: PrimitiveTypes | undefined): CharacteristicValue {
 
-    if (value === undefined || !this.assert('valueLockStateSecured', 'valueLockStateUnsecured')) {
+    if (value === undefined) {
       return this.Characteristic.LockCurrentState.UNKNOWN;
     }
 
     switch (value) {
-    case toPrimitive(this.config.valueLockStateSecured):
+    case this.getPrimitiveValue('valueLockStateSecured'):
       return this.Characteristic.LockCurrentState.SECURED;
-    case toPrimitive(this.config.valueLockStateUnsecured):
+    case this.getPrimitiveValue('valueLockStateUnsecured'):
       return this.Characteristic.LockCurrentState.UNSECURED;
-    case toPrimitive(this.config.valueLockStateJammed):
+    case this.getPrimitiveValue('valueLockStateJammed', false):
       return this.Characteristic.LockCurrentState.JAMMED;
     default:
       return this.Characteristic.LockCurrentState.UNKNOWN;
@@ -148,14 +143,14 @@ export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismC
 
   private targetStateFromValue(value: PrimitiveTypes | undefined): CharacteristicValue {
 
-    if (value === undefined || !this.assert('valueLockStateSecured', 'valueLockStateUnsecured')) {
+    if (value === undefined) {
       return this.Characteristic.LockTargetState.SECURED;
     }
 
     switch (value) {
-    case toPrimitive(this.config.valueLockStateUnsecured):
+    case this.getPrimitiveValue('valueLockStateUnsecured'):
       return this.Characteristic.LockTargetState.UNSECURED;
-    case toPrimitive(this.config.valueLockStateSecured):
+    case this.getPrimitiveValue('valueLockStateSecured'):
     default:
       return this.Characteristic.LockTargetState.SECURED;
     }
