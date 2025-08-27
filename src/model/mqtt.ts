@@ -1,3 +1,5 @@
+import { PrimitiveTypes } from 'homebridge';
+
 import mqtt from 'mqtt';
 
 import { MQTTConfig } from './types.js';
@@ -5,13 +7,13 @@ import { MQTTConfig } from './types.js';
 import { strings } from '../i18n/i18n.js';
 
 import { Log, LogType } from '../tools/log.js';
-import { Primitive, toPrimitive } from '../tools/primitive.js';
+import { toPrimitive } from '../tools/primitive.js';
 import { SECOND, MINUTE } from '../tools/time.js';
 import { assert } from '../tools/validation.js';
 
 const DELAYS = [5 * SECOND, 10 * SECOND, 15 * SECOND, 30 * SECOND, MINUTE, 2 * MINUTE];
 
-type MQTTMessageHandler = (topic: string, value: Primitive) => void;
+type MQTTMessageHandler = (topic: string, value: PrimitiveTypes) => void;
 
 class MQTTListener {
 
@@ -114,7 +116,7 @@ export class MQTT {
     this.listeners.set(mqttListener.topic, mqttListener);
   }
 
-  publish(topic: string, value: Primitive): void {
+  publish(topic: string, value: PrimitiveTypes): void {
 
     if (!this.client || !this.client.connected) {
       this.log.error(strings.mqtt.notConnected, this.caller);

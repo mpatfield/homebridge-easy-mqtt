@@ -1,4 +1,4 @@
-import { CharacteristicValue, PlatformAccessory, Service } from 'homebridge';
+import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
 
 import { makeHandler, TopicHandler } from '../abstract/base.js';
 import { OnOffAccessory } from './onoff.js';
@@ -8,7 +8,7 @@ import { strings } from '../../i18n/i18n.js';
 import { CharacteristicType, LightbulbConfig, ServiceType } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
-import { Primitive, toPrimitive } from '../../tools/primitive.js';
+import { toPrimitive } from '../../tools/primitive.js';
 
 type PropertyKey = 'brightness' | 'hue' | 'colorTemperature' | 'saturation';
 type CharacteristicKey = 'Brightness' | 'Hue' | 'ColorTemperature' | 'Saturation';
@@ -89,7 +89,7 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
     return this.saturation;
   }
 
-  private async onBrightnessUpdate(topic: string, value: Primitive): Promise<void> {
+  private async onBrightnessUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
     this._onUpdate('brightness', value, strings.lightbulb.brightness);
   }
 
@@ -97,7 +97,7 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
     this._set('topicSetBrightness', 'brightness', value, strings.lightbulb.futureBrightness);
   }
 
-  private async onHueUpdate(topic: string, value: Primitive): Promise<void> {
+  private async onHueUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
     this._onUpdate('hue', value, strings.lightbulb.hue);
   }
 
@@ -105,7 +105,7 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
     this._set('topicSetHue', 'hue', value, strings.lightbulb.futureHue);
   }
 
-  private async onColorTemperatureUpdate(topic: string, value: Primitive): Promise<void> {
+  private async onColorTemperatureUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
     this._onUpdate('colorTemperature', value, strings.lightbulb.colorTemperature);
   }
 
@@ -113,7 +113,7 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
     this._set('topicSetColorTemperature', 'colorTemperature', value, strings.lightbulb.futureColorTemperature);
   }
 
-  private async onSaturationUpdate(topic: string, value: Primitive): Promise<void> {
+  private async onSaturationUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
     this._onUpdate('saturation', value, strings.lightbulb.saturation);
   }
 
@@ -121,7 +121,7 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
     this._set('topicSetSaturation', 'saturation', value, strings.lightbulb.futureSaturation);
   }
 
-  private async _onUpdate(propertyKey: PropertyKey, value: Primitive, logString: string) {
+  private async _onUpdate(propertyKey: PropertyKey, value: PrimitiveTypes, logString: string) {
 
     if (value === this[propertyKey as keyof this]) {
       return;

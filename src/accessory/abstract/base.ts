@@ -1,4 +1,4 @@
-import { PlatformAccessory } from 'homebridge';
+import { PlatformAccessory, PrimitiveTypes } from 'homebridge';
 
 import { PLATFORM_NAME } from '../../homebridge/settings.js';
 
@@ -6,13 +6,12 @@ import { MQTT } from '../../model/mqtt.js';
 import { AccessoryConfig, CharacteristicType, ServiceType } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
-import { Primitive } from '../../tools/primitive.js';
 import getVersion from '../../tools/version.js';
 import { assert } from '../../tools/validation.js';
 
-export type TopicHandler = {topic: string, handler: ((topic: string, value: Primitive) => Promise<void>)};
+export type TopicHandler = {topic: string, handler: ((topic: string, value: PrimitiveTypes) => Promise<void>)};
 
-export function makeHandler(topic: string, handler: (topic: string, value: Primitive) => Promise<void>): TopicHandler {
+export function makeHandler(topic: string, handler: (topic: string, value: PrimitiveTypes) => Promise<void>): TopicHandler {
   return { topic, handler };
 }
 
@@ -57,7 +56,7 @@ export abstract class MQTTAccessory<C extends AccessoryConfig> {
     return this.config.info.name;
   }
 
-  protected publish(topic: string, value: Primitive) {
+  protected publish(topic: string, value: PrimitiveTypes) {
     this.mqttClient?.publish(topic, value);
   }
 

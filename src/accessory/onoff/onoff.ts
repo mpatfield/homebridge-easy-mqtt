@@ -1,4 +1,4 @@
-import { CharacteristicValue, PlatformAccessory } from 'homebridge';
+import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
 
 import { makeHandler, TopicHandler } from '../abstract/base.js';
 import { StatusActiveAccessory } from '../abstract/statusActive.js';
@@ -8,7 +8,7 @@ import { strings } from '../../i18n/i18n.js';
 import { CharacteristicType, OnOffConfig, ServiceType } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
-import { Primitive, toPrimitive } from '../../tools/primitive.js';
+import { toPrimitive } from '../../tools/primitive.js';
 
 export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extends StatusActiveAccessory<C> {
 
@@ -42,7 +42,7 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
   }
 
 
-  private async onOnUpdate(topic: string, value: Primitive): Promise<void> {
+  private async onOnUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
     if (!this.assert('valueOn')) {
       return;

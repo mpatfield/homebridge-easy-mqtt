@@ -1,8 +1,7 @@
-
-export type Primitive = string | number | boolean;
+import { PrimitiveTypes } from 'homebridge';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function toPrimitive(value: any): Primitive {
+export function toPrimitive(value: any): PrimitiveTypes {
 
   if (typeof value === 'boolean' || typeof value === 'number') {
     return value;
@@ -24,7 +23,7 @@ export function toPrimitive(value: any): Primitive {
   return value;
 }
 
-export function toNumber(primitive: Primitive): number {
+export function toNumber(primitive: PrimitiveTypes): number {
   if (typeof primitive === 'number') {
     return primitive;
   }

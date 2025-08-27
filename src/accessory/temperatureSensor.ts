@@ -1,4 +1,4 @@
-import { CharacteristicValue, PlatformAccessory, Service } from 'homebridge';
+import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
 
 import { makeHandler, TopicHandler } from './abstract/base.js';
 import { StatusActiveAccessory } from './abstract/statusActive.js';
@@ -8,7 +8,7 @@ import { strings } from '../i18n/i18n.js';
 import { CharacteristicType, ServiceType, TemperatureSensorConfig } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
-import { Primitive, toNumber } from '../tools/primitive.js';
+import { toNumber } from '../tools/primitive.js';
 import { toCelsius } from '../tools/temperature.js';
 import { TemperatureUnits } from '../model/enums.js';
 
@@ -46,7 +46,7 @@ export class TemperatureSensorAccessory extends StatusActiveAccessory<Temperatur
   }
 
 
-  private async onCurrentTemperatureUpdate(topic: string, value: Primitive): Promise<void> {
+  private async onCurrentTemperatureUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
     const units = this.config.temperatureUnits ?? TemperatureUnits.CELSIUS;
     const temperature = toCelsius(toNumber(value), units);

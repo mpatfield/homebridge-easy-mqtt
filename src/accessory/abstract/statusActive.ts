@@ -1,4 +1,4 @@
-import { CharacteristicValue, PlatformAccessory, Service } from 'homebridge';
+import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
 
 import { makeHandler, MQTTAccessory, TopicHandler } from './base.js';
 
@@ -7,7 +7,7 @@ import { strings } from '../../i18n/i18n.js';
 import { CharacteristicType, StatusActiveConfig, ServiceType } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
-import { Primitive, toPrimitive } from '../../tools/primitive.js';
+import { toPrimitive } from '../../tools/primitive.js';
 
 export abstract class StatusActiveAccessory<C extends StatusActiveConfig = StatusActiveConfig> extends MQTTAccessory<C> {
   protected readonly accessoryService: Service;
@@ -38,7 +38,7 @@ export abstract class StatusActiveAccessory<C extends StatusActiveConfig = Statu
     ];
   }
 
-  private async onStatusActiveUpdate(topic: string, value: Primitive): Promise<void> {
+  private async onStatusActiveUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
     if (!this.assert('valueStatusActive')) {
       return;

@@ -1,4 +1,4 @@
-import { CharacteristicValue, PlatformAccessory, Service } from 'homebridge';
+import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
 
 import { makeHandler } from './abstract/base.js';
 import { StatusActiveAccessory } from './abstract/statusActive.js';
@@ -9,7 +9,7 @@ import { CharacteristicType, SecuritySystemConfig, ServiceType } from '../model/
 
 import { Log } from '../tools/log.js';
 import { TopicHandler } from './abstract/base.js';
-import { Primitive, toPrimitive } from '../tools/primitive.js';
+import { toPrimitive } from '../tools/primitive.js';
 
 export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySystemConfig> {
 
@@ -107,7 +107,7 @@ export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySyste
     return this.hasStatusFault;
   }
 
-  private async onCurrentStateUpdate(topic: string, value: Primitive): Promise<void> {
+  private async onCurrentStateUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
     const current = this.toCVState(value);
     if (current === undefined || current === this.currentState) {
@@ -127,7 +127,7 @@ export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySyste
     }
   }
 
-  private async onTargetStateUpdate(topic: string, value: Primitive): Promise<void> {
+  private async onTargetStateUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
     const target = this.toCVState(value);
     if (target === undefined || target === this.targetState) {
@@ -140,7 +140,7 @@ export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySyste
     this.logIfDesired(this.stateStringForCV(this.targetState, true));
   }
 
-  private async onTamperedUpdate(topic: string, value: Primitive): Promise<void> {
+  private async onTamperedUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
     if (!this.assert('valueTampered')) {
       return;
@@ -157,7 +157,7 @@ export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySyste
     this.logIfDesired(this.isTampered ? strings.security.isTampered : strings.security.notTampered);
   }
 
-  private async onStatusFaultUpdate(topic: string, value: Primitive): Promise<void> {
+  private async onStatusFaultUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
     if (!this.assert('valueFault')) {
       return;
@@ -196,7 +196,7 @@ export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySyste
     this.publish(this.config.topicSetTargetSecurityState, target);
   }
 
-  private fromCVState(value: CharacteristicValue): Primitive | undefined {
+  private fromCVState(value: CharacteristicValue): PrimitiveTypes | undefined {
 
     let primative = undefined;
     this.STATE_MAP.forEach( (test, key) => {
@@ -212,7 +212,7 @@ export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySyste
     return primative;
   }
 
-  private toCVState(value: Primitive): CharacteristicValue | undefined {
+  private toCVState(value: PrimitiveTypes): CharacteristicValue | undefined {
     switch (value) {
     case toPrimitive(this.config.valueArmStay):
       return this.STATE_MAP.get('valueArmStay');

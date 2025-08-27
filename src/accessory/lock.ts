@@ -1,4 +1,4 @@
-import { CharacteristicValue, PlatformAccessory, Service } from 'homebridge';
+import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
 
 import { makeHandler, TopicHandler } from './abstract/base.js';
 import { StatusActiveAccessory } from './abstract/statusActive.js';
@@ -8,7 +8,7 @@ import { strings } from '../i18n/i18n.js';
 import { CharacteristicType, LockMechanismConfig, ServiceType } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
-import { Primitive, toPrimitive } from '../tools/primitive.js';
+import { toPrimitive } from '../tools/primitive.js';
 
 export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismConfig> {
 
@@ -62,7 +62,7 @@ export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismC
     return this.targetState;
   }
 
-  private async onCurrentStateUpdate(topic: string, value: Primitive): Promise<void> {
+  private async onCurrentStateUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
     const current = this.currentStateFromValue(value);
     if (current === this.currentState) {
@@ -82,7 +82,7 @@ export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismC
     }
   }
 
-  private async onTargetStateUpdate(topic: string, value: Primitive): Promise<void> {
+  private async onTargetStateUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
     const target = this.targetStateFromValue(value);
     if (target === this.targetState) {
@@ -118,7 +118,7 @@ export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismC
     this.publish(this.config.topicSetTargetState, target);
   }
 
-  private valueFromTargetState(value: CharacteristicValue): Primitive | undefined {
+  private valueFromTargetState(value: CharacteristicValue): PrimitiveTypes | undefined {
 
     if (value === undefined || !this.assert('valueLockStateSecured', 'valueLockStateUnsecured')) {
       return undefined;
@@ -134,7 +134,7 @@ export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismC
     }
   }
 
-  private currentStateFromValue(value: Primitive | undefined): CharacteristicValue {
+  private currentStateFromValue(value: PrimitiveTypes | undefined): CharacteristicValue {
 
     if (value === undefined || !this.assert('valueLockStateSecured', 'valueLockStateUnsecured')) {
       return this.Characteristic.LockCurrentState.UNKNOWN;
@@ -152,7 +152,7 @@ export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismC
     }
   }
 
-  private targetStateFromValue(value: Primitive | undefined): CharacteristicValue {
+  private targetStateFromValue(value: PrimitiveTypes | undefined): CharacteristicValue {
 
     if (value === undefined || !this.assert('valueLockStateSecured', 'valueLockStateUnsecured')) {
       return this.Characteristic.LockTargetState.SECURED;
