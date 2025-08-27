@@ -84,7 +84,7 @@ export abstract class MQTTAccessory<C extends AccessoryConfig> {
     return this.config.info.name;
   }
 
-  protected getRawValue(property :keyof C, assert: boolean = true): string | undefined {
+  protected getRawValue(property: keyof C, assert: boolean = true): string | undefined {
 
     if (!property.toString().startsWith('value')) {
       throw new Error(`Trying to fetch value with unexpected property name '${property.toString()}'`);
@@ -122,17 +122,21 @@ export abstract class MQTTAccessory<C extends AccessoryConfig> {
     return assert(this.log, this.name, this.config, ...keys);
   }
 
-  protected async onUpdate(key: CharacteristicKey, value: PrimitiveTypes, logString: string) {
+  protected onUpdate(key: CharacteristicKey, value: CharacteristicValue, logString: string | undefined = undefined): boolean {
 
     if (value === this.get(key)) {
-      return;
+      return false;
     }
 
     this.set(key, value);
 
     this.accessoryService.updateCharacteristic(this.Characteristic[key], value);
 
-    this.logIfDesired(logString, value.toString());
+    if (logString) {
+      this.logIfDesired(logString, value.toString());
+    }
+
+    return true;
   }
 
   protected onSet(key: CharacteristicKey, value: CharacteristicValue, topic: keyof C, logString: string) {
@@ -141,9 +145,11 @@ export abstract class MQTTAccessory<C extends AccessoryConfig> {
       return;
     }
 
-    this.set(key, value);
+    if (value !== this.get(key)) {
+      this.logIfDesired(logString, value.toString());
+    }
 
-    this.logIfDesired(logString, value.toString());
+    this.set(key, value);
 
     this.accessoryService.updateCharacteristic(this.Characteristic[key], value);
 

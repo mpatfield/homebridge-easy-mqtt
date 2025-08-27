@@ -7,22 +7,20 @@ import { strings } from '../i18n/i18n.js';
 import { CharacteristicType, SecuritySystemConfig, ServiceType } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
+import { CharacteristicKey } from '../model/enums.js';
 
 export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySystemConfig> {
-
-  private currentState: CharacteristicValue;
-  private targetState: CharacteristicValue;
-
-  private isTampered: CharacteristicValue = 0;
-  private hasStatusFault: CharacteristicValue = 0;
 
   private readonly STATE_MAP: Map<keyof SecuritySystemConfig, number>;
 
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: SecuritySystemConfig, log: Log) {
     super(Service, Characteristic, accessory, config, log, SecuritySystemAccessory.name);
 
-    this.currentState = Characteristic.SecuritySystemCurrentState.DISARMED;
-    this.targetState = Characteristic.SecuritySystemTargetState.DISARM;
+    this.set(CharacteristicKey.SecuritySystemCurrentState, Characteristic.SecuritySystemCurrentState.DISARMED);
+    this.set(CharacteristicKey.SecuritySystemTargetState, Characteristic.SecuritySystemTargetState.DISARM);
+
+    this.set(CharacteristicKey.StatusTampered, 0);
+    this.set(CharacteristicKey.StatusFault, 0);
 
     this.STATE_MAP = new Map([
       ['valueArmStay', Characteristic.SecuritySystemCurrentState.STAY_ARM],
@@ -47,7 +45,7 @@ export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySyste
     this.accessoryService.getCharacteristic(Characteristic.SecuritySystemTargetState)
       .setProps({ validValues: validTargetStates.map((key) => this.STATE_MAP.get(key)!) })
       .onGet(this.getTargetState.bind(this))
-      .onSet(this.setTargetState.bind(this));
+      .onSet(this.onSetTargetState.bind(this));
 
     this.accessoryService.getCharacteristic(Characteristic.StatusTampered)
       .onGet(this.getIsTampered.bind(this));
@@ -71,100 +69,69 @@ export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySyste
   }
 
   private async getCurrentState(): Promise<CharacteristicValue> {
-    return this.currentState;
+    return this.get(CharacteristicKey.SecuritySystemCurrentState);
   }
 
   private async getTargetState(): Promise<CharacteristicValue> {
-    return this.targetState;
+    return this.get(CharacteristicKey.SecuritySystemTargetState);
   }
 
   private async getIsTampered(): Promise<CharacteristicValue> {
-    return this.isTampered;
+    return this.get(CharacteristicKey.StatusTampered);
   }
 
   private async getHasStatusFault(): Promise<CharacteristicValue> {
-    return this.hasStatusFault;
+    return this.get(CharacteristicKey.StatusFault);
   }
 
   private async onCurrentStateUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
     const current = this.toCVState(value);
-    if (current === undefined || current === this.currentState) {
+    if (current === undefined) {
       return;
     }
 
-    this.currentState = current;
-    this.accessoryService.updateCharacteristic(this.Characteristic.SecuritySystemCurrentState, this.currentState);
+    this.onUpdate(CharacteristicKey.SecuritySystemTargetState, current);
 
-    this.targetState = this.currentState;
-    this.accessoryService.updateCharacteristic(this.Characteristic.SecuritySystemTargetState, this.targetState);
+    if (!this.onUpdate(CharacteristicKey.SecuritySystemCurrentState, current)) {
+      return;
+    }
 
-    if (this.currentState === this.Characteristic.SecuritySystemCurrentState.ALARM_TRIGGERED) {
-      this.log.error(this.stateStringForCV(this.currentState), this.name);
+    if (current === this.Characteristic.SecuritySystemCurrentState.ALARM_TRIGGERED) {
+      this.log.error(this.stateStringForCV(current), this.name);
     } else {
-      this.logIfDesired(this.stateStringForCV(this.currentState));
+      this.logIfDesired(this.stateStringForCV(current));
     }
   }
 
   private async onTargetStateUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
     const target = this.toCVState(value);
-    if (target === undefined || target === this.targetState) {
+    if (target === undefined) {
       return;
     }
 
-    this.targetState = target;
-    this.accessoryService.updateCharacteristic(this.Characteristic.SecuritySystemTargetState, this.targetState);
-
-    this.logIfDesired(this.stateStringForCV(this.targetState, true));
+    this.onUpdate(CharacteristicKey.SecuritySystemTargetState, target, this.stateStringForCV(target, true));
   }
 
   private async onTamperedUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-
-    const isTampered = value === this.getPrimitiveValue('valueTampered') ? 1 : 0;
-    if (isTampered === this.isTampered) {
-      return;
-    }
-
-    this.isTampered = isTampered;
-    this.accessoryService.updateCharacteristic(this.Characteristic.StatusTampered, this.isTampered);
-
-    this.logIfDesired(this.isTampered ? strings.security.isTampered : strings.security.notTampered);
+    const statusTampered = value === this.getPrimitiveValue('valueTampered') ? 1 : 0;
+    this.onUpdate(CharacteristicKey.StatusTampered, statusTampered, statusTampered ? strings.security.isTampered : strings.security.notTampered);
   }
 
   private async onStatusFaultUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-
-    const hasStatusFault = value === this.getPrimitiveValue('valueFault') ? 1 : 0;
-    if (hasStatusFault === this.hasStatusFault) {
-      return;
-    }
-
-    this.hasStatusFault = hasStatusFault;
-    this.accessoryService.updateCharacteristic(this.Characteristic.StatusFault, this.hasStatusFault);
-
-    this.logIfDesired(this.hasStatusFault ? strings.security.hasFault : strings.security.noFault);
+    const statusFault = value === this.getPrimitiveValue('valueFault') ? 1 : 0;
+    this.onUpdate(CharacteristicKey.StatusFault, statusFault, statusFault ? strings.security.hasFault : strings.security.noFault);
   }
 
-  private async setTargetState(value: CharacteristicValue) {
-
-    if (!this.assert('topicSetTargetSecurityState')) {
-      return;
-    }
+  private async onSetTargetState(value: CharacteristicValue) {
 
     const target = this.fromCVState(value);
     if (target === undefined) {
       return;
     }
 
-    if (this.targetState !== value) {
-      this.logIfDesired(this.stateStringForCV(value, true));
-    }
-
-    this.targetState = value;
-
-    this.accessoryService.updateCharacteristic(this.Characteristic.SecuritySystemTargetState, this.targetState);
-
-    this.publish(this.config.topicSetTargetSecurityState, target);
+    this.onSet(CharacteristicKey.SecuritySystemTargetState, target, 'topicSetTargetSecurityState', this.stateStringForCV(value, true));
   }
 
   private fromCVState(value: CharacteristicValue): PrimitiveTypes | undefined {

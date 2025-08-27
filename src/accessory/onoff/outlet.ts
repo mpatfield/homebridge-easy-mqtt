@@ -4,21 +4,21 @@ import { OnOffAccessory } from './onoff.js';
 
 import { strings } from '../../i18n/i18n.js';
 
+import { CharacteristicKey } from '../../model/enums.js';
 import { CharacteristicType, OutletConfig, ServiceType } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
 
 export class OutletAccessory extends OnOffAccessory<OutletConfig> {
 
-  private inUse: CharacteristicValue = false;
-
-
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: OutletConfig, log: Log) {
     super(Service, Characteristic, accessory, config, log, OutletAccessory.name);
 
+    this.set(CharacteristicKey.OutletInUse, false);
+
     this.accessoryService.getCharacteristic(this.Characteristic.OutletInUse)
       .onGet(this.getInUse.bind(this))
-      .onSet(this.setInUse.bind(this));
+      .onSet(this.onSetInUse.bind(this));
   }
 
   protected getAccessoryService(): Service {
@@ -31,40 +31,22 @@ export class OutletAccessory extends OnOffAccessory<OutletConfig> {
   }
 
   private async getInUse(): Promise<CharacteristicValue> {
-    return this.inUse;
+    return this.get(CharacteristicKey.OutletInUse);
   }
 
   private async onInUseUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-
     const inUse = value === this.getPrimitiveValue('valueOutletInUse');
-    if (inUse === this.inUse) {
-      return;
-    }
-
-    this.inUse = inUse;
-    this.accessoryService.updateCharacteristic(this.Characteristic.OutletInUse, this.inUse);
-
-    this.logIfDesired(this.stringForInUse(this.inUse));
+    this.onUpdate(CharacteristicKey.OutletInUse, inUse, this.stringForInUse(inUse));
   }
 
-  private async setInUse(value: CharacteristicValue) {
-
-    if (!this.assert('topicSetOutletInUse')) {
-      return;
-    }
+  private async onSetInUse(value: CharacteristicValue) {
 
     const inUse = value ? this.getRawValue('valueOutletInUse') : this.getRawValue('valueOutletNotInUse');
     if (!inUse) {
       return;
     }
 
-    this.inUse = value;
-
-    this.logIfDesired(this.stringForInUse(this.inUse, true));
-
-    this.accessoryService.updateCharacteristic(this.Characteristic.OutletInUse, this.inUse);
-
-    this.publish(this.config.topicSetOutletInUse!, inUse!);
+    this.onSet(CharacteristicKey.OutletInUse, inUse,'topicSetOutletInUse', this.stringForInUse(inUse, true));
   }
 
   private stringForInUse(inUse: CharacteristicValue, future: boolean = false): string {
