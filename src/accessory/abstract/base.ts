@@ -2,7 +2,7 @@ import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 
 
 import { PLATFORM_NAME } from '../../homebridge/settings.js';
 
-import { CharacteristicKey } from '../../model/enums.js';
+import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
 import { MQTT } from '../../model/mqtt.js';
 import { AccessoryConfig, CharacteristicType, ServiceType } from '../../model/types.js';
 
@@ -48,6 +48,13 @@ export abstract class MQTTAccessory<C extends AccessoryConfig> {
       .setCharacteristic(Characteristic.FirmwareRevision, config.info.version ?? getVersion());
 
     this.accessoryService = this.getAccessoryService();
+
+    for (const type of Object.values(AccessoryType)) {
+      const existingService = accessory.getService(Service[type]);
+      if (existingService && type !== config.info.type) {
+        accessory.removeService(existingService);
+      }
+    }
 
     this.addTopicHandlers();
   }

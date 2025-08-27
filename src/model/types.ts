@@ -3,7 +3,7 @@ import { PlatformConfig as HBPlatformConfig } from 'homebridge';
 export type ServiceType = typeof import('homebridge').Service;
 export type CharacteristicType = typeof import('homebridge').Characteristic;
 
-import { TemperatureUnits } from './enums.js';
+import { AccessoryType, TemperatureUnits } from './enums.js';
 
 export type PlatformConfig = HBPlatformConfig & {
   accessories?: AccessoryConfig[];
@@ -20,7 +20,7 @@ export type Assertable = {
 export type InfoConfig = Assertable & {
   id: string,
   name: string,
-  type: string,
+  type: AccessoryType,
   manufacturer?: string,
   model?: string,
   serialNumber?: string,

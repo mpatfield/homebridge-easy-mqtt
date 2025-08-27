@@ -1,3 +1,12 @@
+export enum AccessoryType {
+  Lightbulb = 'Lightbulb',
+  LockMechanism = 'LockMechanism',
+  Outlet = 'Outlet',
+  SecuritySystem = 'SecuritySystem',
+  Switch = 'Switch',
+  TemperatureSensor = 'TemperatureSensor',
+}
+
 export enum CharacteristicKey {
   Brightness = 'Brightness',
   ColorTemperature = 'ColorTemperature',

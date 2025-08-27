@@ -13,6 +13,7 @@ import { TemperatureSensorAccessory } from '../accessory/temperatureSensor.js';
 
 import { setLanguage, strings } from '../i18n/i18n.js';
 
+import { AccessoryType } from '../model/enums.js';
 import * as Configs from '../model/types.js';
 
 import { Log } from '../tools/log.js';
@@ -102,22 +103,22 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
       let mqttAccessory: MQTTAccessory<Configs.AccessoryConfig>;
       switch(accessoryConfig.info.type) {
-      case Service.Lightbulb.name:
+      case AccessoryType.Lightbulb:
         mqttAccessory = new LightbulbAccessory(Service, Characteristic, accessory, accessoryConfig as Configs.LightbulbConfig, this.log);
         break;
-      case Service.LockMechanism.name:
+      case AccessoryType.LockMechanism:
         mqttAccessory = new LockMechanismAccessory(Service, Characteristic, accessory, accessoryConfig as Configs.LockMechanismConfig, this.log);
         break;
-      case Service.Outlet.name:
+      case AccessoryType.Outlet:
         mqttAccessory = new OutletAccessory(Service, Characteristic, accessory, accessoryConfig as Configs.OutletConfig, this.log);
         break;
-      case Service.SecuritySystem.name:
+      case AccessoryType.SecuritySystem:
         mqttAccessory = new SecuritySystemAccessory(Service, Characteristic, accessory, accessoryConfig as Configs.SecuritySystemConfig, this.log);
         break;
-      case Service.Switch.name:
+      case AccessoryType.Switch:
         mqttAccessory = new SwitchAccessory(Service, Characteristic, accessory, accessoryConfig as Configs.SwitchConfig, this.log);
         break;
-      case Service.TemperatureSensor.name:
+      case AccessoryType.TemperatureSensor:
         mqttAccessory = new TemperatureSensorAccessory(Service, Characteristic, accessory, accessoryConfig as Configs.TemperatureSensorConfig, this.log);
         break;
       default:
