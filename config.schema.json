@@ -176,8 +176,7 @@
             },
             "valueStatusActive": {
               "type": "string",
-              "title": "${config.title.valueStatusActive}",
-              "description": "${config.description.valueStatusActive}"
+              "title": "${config.title.valueStatusActive}"
             },
             "valueLockStateSecured": {
               "type": "string",
@@ -550,7 +549,7 @@
                   "items": [
                     {
                       "key": "accessories[].valueStatusActive",
-                      "flex": "0 0 50%"
+                      "flex": "0 0 25%"
                     }
                   ]
                 }
