@@ -1,6 +1,5 @@
 import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
 
-import { makeHandler, TopicHandler } from '../abstract/base.js';
 import { OnOffAccessory } from './onoff.js';
 
 import { strings } from '../../i18n/i18n.js';
@@ -41,26 +40,12 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
     return this.accessory.getService(this.Service.Lightbulb) || this.accessory.addService(this.Service.Lightbulb);
   }
 
-  override get topicHandlers(): TopicHandler[] {
-    const topicHandlers = super.topicHandlers;
-
-    if (this.config.topicGetBrightness) {
-      topicHandlers.push(makeHandler(this.config.topicGetBrightness, this.onBrightnessUpdate.bind(this)));
-    }
-
-    if (this.config.topicGetColorTemperature) {
-      topicHandlers.push(makeHandler(this.config.topicGetColorTemperature, this.onColorTemperatureUpdate.bind(this)));
-    }
-
-    if (this.config.topicGetHue) {
-      topicHandlers.push(makeHandler(this.config.topicGetHue, this.onHueUpdate.bind(this)));
-    }
-
-    if (this.config.topicGetSaturation) {
-      topicHandlers.push(makeHandler(this.config.topicGetSaturation, this.onSaturationUpdate.bind(this)));
-    }
-
-    return topicHandlers;
+  override addTopicHandlers(): void {
+    super.addTopicHandlers();
+    this.addTopicHandler('topicGetBrightness', this.onBrightnessUpdate.bind(this), false);
+    this.addTopicHandler('topicGetColorTemperature', this.onColorTemperatureUpdate.bind(this), false);
+    this.addTopicHandler('topicGetHue', this.onHueUpdate.bind(this), false);
+    this.addTopicHandler('topicGetSaturation', this.onSaturationUpdate.bind(this), false);
   }
 
   private async getBrightness(): Promise<CharacteristicValue> {

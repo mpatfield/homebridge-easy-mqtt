@@ -1,6 +1,6 @@
 import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
 
-import { makeHandler, MQTTAccessory, TopicHandler } from './base.js';
+import { MQTTAccessory } from './base.js';
 
 import { strings } from '../../i18n/i18n.js';
 
@@ -19,10 +19,8 @@ export abstract class StatusActiveAccessory<C extends StatusActiveConfig = Statu
       .onGet(this.getStatusActive.bind(this));
   }
 
-  protected get topicHandlers(): TopicHandler[] {
-    return [
-      ...(this.config.topicGetStatusActive ? [makeHandler(this.config.topicGetStatusActive, this.onStatusActiveUpdate.bind(this))]: []),
-    ];
+  protected addTopicHandlers(): void {
+    this.addTopicHandler('topicGetStatusActive', this.onStatusActiveUpdate.bind(this), false);
   }
 
   private async onStatusActiveUpdate(topic: string, value: PrimitiveTypes): Promise<void> {

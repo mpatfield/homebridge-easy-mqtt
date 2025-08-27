@@ -1,6 +1,5 @@
 import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
 
-import { makeHandler, TopicHandler } from './abstract/base.js';
 import { StatusActiveAccessory } from './abstract/statusActive.js';
 
 import { strings } from '../i18n/i18n.js';
@@ -27,18 +26,10 @@ export class TemperatureSensorAccessory extends StatusActiveAccessory<Temperatur
     return this.accessory.getService(this.Service.TemperatureSensor) || this.accessory.addService(this.Service.TemperatureSensor);
   }
 
-  override get topicHandlers(): TopicHandler[] {
-    const topicHandlers = super.topicHandlers;
-
-    if (!this.assert('topicGetCurrentTemperature')) {
-      return topicHandlers;
-    }
-
-    topicHandlers.push(makeHandler(this.config.topicGetCurrentTemperature, this.onCurrentTemperatureUpdate.bind(this)));
-
-    return topicHandlers;
+  override addTopicHandlers(): void {
+    super.addTopicHandlers();
+    this.addTopicHandler('topicGetCurrentTemperature', this.onCurrentTemperatureUpdate.bind(this));
   }
-
 
   private async onCurrentTemperatureUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 

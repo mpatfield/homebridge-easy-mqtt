@@ -1,6 +1,5 @@
 import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
 
-import { makeHandler } from './abstract/base.js';
 import { StatusActiveAccessory } from './abstract/statusActive.js';
 
 import { strings } from '../i18n/i18n.js';
@@ -8,7 +7,6 @@ import { strings } from '../i18n/i18n.js';
 import { CharacteristicType, SecuritySystemConfig, ServiceType } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
-import { TopicHandler } from './abstract/base.js';
 
 export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySystemConfig> {
 
@@ -62,26 +60,14 @@ export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySyste
     return this.accessory.getService(this.Service.SecuritySystem) || this.accessory.addService(this.Service.SecuritySystem);
   }
 
-  override get topicHandlers(): TopicHandler[] {
+  override addTopicHandlers(): void {
+    super.addTopicHandlers();
 
-    const topicHandlers = super.topicHandlers;
+    this.addTopicHandler('topicGetCurrentSecurityState', this.onCurrentStateUpdate.bind(this));
+    this.addTopicHandler('topicGetTargetSecurityState', this.onTargetStateUpdate.bind(this));
 
-    if (!this.assert('topicGetCurrentSecurityState', 'topicGetTargetSecurityState')) {
-      return topicHandlers;
-    }
-
-    topicHandlers.push(makeHandler(this.config.topicGetCurrentSecurityState, this.onCurrentStateUpdate.bind(this)));
-    topicHandlers.push(makeHandler(this.config.topicGetTargetSecurityState, this.onTargetStateUpdate.bind(this)));
-
-    if (this.config.topicGetStatusTampered) {
-      topicHandlers.push(makeHandler(this.config.topicGetStatusTampered, this.onTamperedUpdate.bind(this)));
-    }
-
-    if (this.config.topicGetStatusFault) {
-      topicHandlers.push(makeHandler(this.config.topicGetStatusFault, this.onStatusFaultUpdate.bind(this)));
-    }
-
-    return topicHandlers;
+    this.addTopicHandler('topicGetStatusTampered', this.onTamperedUpdate.bind(this), false);
+    this.addTopicHandler('topicGetStatusFault', this.onStatusFaultUpdate.bind(this), false);
   }
 
   private async getCurrentState(): Promise<CharacteristicValue> {

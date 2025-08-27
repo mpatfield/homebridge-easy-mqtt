@@ -1,6 +1,5 @@
 import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
 
-import { makeHandler, TopicHandler } from '../abstract/base.js';
 import { StatusActiveAccessory } from '../abstract/statusActive.js';
 
 import { strings } from '../../i18n/i18n.js';
@@ -21,16 +20,9 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
       .onSet(this.setOn.bind(this));
   }
 
-  override get topicHandlers(): TopicHandler[] {
-    const topicHandlers = super.topicHandlers;
-
-    if (!this.assert('topicGetOn')) {
-      return topicHandlers;
-    }
-
-    topicHandlers.push(makeHandler(this.config.topicGetOn, this.onOnUpdate.bind(this)));
-
-    return topicHandlers;
+  override addTopicHandlers(): void {
+    super.addTopicHandlers();
+    this.addTopicHandler('topicGetOn', this.onOnUpdate.bind(this));
   }
 
 

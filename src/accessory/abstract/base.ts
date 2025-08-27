@@ -11,17 +11,15 @@ import getVersion from '../../tools/version.js';
 import { assert } from '../../tools/validation.js';
 import { toPrimitive } from '../../tools/primitive.js';
 
-export type TopicHandler = {topic: string, handler: ((topic: string, value: PrimitiveTypes) => Promise<void>)};
-
-export function makeHandler(topic: string, handler: (topic: string, value: PrimitiveTypes) => Promise<void>): TopicHandler {
-  return { topic, handler };
-}
+type TopicHandler = {topic: string, handler: ((topic: string, value: PrimitiveTypes) => Promise<void>)};
 
 export abstract class MQTTAccessory<C extends AccessoryConfig> {
 
   private readonly mqttClient: MQTT | undefined;
 
   private readonly properties: { [key: string]: CharacteristicValue } = {};
+
+  private readonly topicHandlers: TopicHandler[] = [];
 
   protected readonly accessoryService: Service;
 
@@ -50,6 +48,8 @@ export abstract class MQTTAccessory<C extends AccessoryConfig> {
       .setCharacteristic(Characteristic.FirmwareRevision, config.info.version ?? getVersion());
 
     this.accessoryService = this.getAccessoryService();
+
+    this.addTopicHandlers();
   }
 
   private async onMQTTConnect(): Promise<void> {
@@ -58,9 +58,27 @@ export abstract class MQTTAccessory<C extends AccessoryConfig> {
     });
   }
 
-  protected abstract get topicHandlers(): TopicHandler[];
-
   protected abstract getAccessoryService(): Service;
+
+  protected abstract addTopicHandlers(): void;
+
+  protected addTopicHandler(topicKey: keyof C, handler: (topic: string, value: PrimitiveTypes) => Promise<void>, assert: boolean = true) {
+
+    if (!topicKey.toString().startsWith('topic')) {
+      throw new Error(`Trying to fetch topic with unexpected property name '${topicKey.toString()}'`);
+    }
+
+    if (assert && !this.assert(topicKey)) {
+      return;
+    }
+
+    const topic = this.config[topicKey];
+    if (topic === undefined) {
+      return;
+    }
+
+    this.topicHandlers.push({ topic: topic as string, handler });
+  }
 
   protected get name(): string {
     return this.config.info.name;

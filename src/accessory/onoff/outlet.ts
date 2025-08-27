@@ -1,7 +1,6 @@
 import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
 
 import { OnOffAccessory } from './onoff.js';
-import { makeHandler, TopicHandler } from '../abstract/base.js';
 
 import { strings } from '../../i18n/i18n.js';
 
@@ -26,14 +25,9 @@ export class OutletAccessory extends OnOffAccessory<OutletConfig> {
     return this.accessory.getService(this.Service.Outlet) || this.accessory.addService(this.Service.Outlet);
   }
 
-  override get topicHandlers(): TopicHandler[] {
-    const topicHandlers = super.topicHandlers;
-
-    if (this.config.topicGetOutletInUse) {
-      topicHandlers.push(makeHandler(this.config.topicGetOutletInUse, this.onInUseUpdate.bind(this)));
-    }
-
-    return topicHandlers;
+  override addTopicHandlers(): void {
+    super.addTopicHandlers();
+    this.addTopicHandler('topicGetOutletInUse', this.onInUseUpdate.bind(this), false);
   }
 
   private async getInUse(): Promise<CharacteristicValue> {

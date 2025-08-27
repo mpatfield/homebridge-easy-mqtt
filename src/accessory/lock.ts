@@ -1,6 +1,5 @@
 import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
 
-import { makeHandler, TopicHandler } from './abstract/base.js';
 import { StatusActiveAccessory } from './abstract/statusActive.js';
 
 import { strings } from '../i18n/i18n.js';
@@ -32,19 +31,10 @@ export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismC
     return this.accessory.getService(this.Service.LockMechanism) || this.accessory.addService(this.Service.LockMechanism);
   }
 
-
-  override get topicHandlers(): TopicHandler[] {
-
-    const topicHandlers = super.topicHandlers;
-
-    if (!this.assert('topicGetLockCurrentState', 'topicGetLockTargetState')) {
-      return topicHandlers;
-    }
-
-    topicHandlers.push(makeHandler(this.config.topicGetLockCurrentState, this.onCurrentStateUpdate.bind(this)));
-    topicHandlers.push(makeHandler(this.config.topicGetLockTargetState, this.onTargetStateUpdate.bind(this)));
-
-    return topicHandlers;
+  override addTopicHandlers(): void {
+    super.addTopicHandlers();
+    this.addTopicHandler('topicGetLockCurrentState', this.onCurrentStateUpdate.bind(this));
+    this.addTopicHandler('topicGetLockTargetState', this.onTargetStateUpdate.bind(this));
   }
 
   private async getCurrentState(): Promise<CharacteristicValue> {
