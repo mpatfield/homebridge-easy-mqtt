@@ -8,37 +8,33 @@ import { strings } from '../../i18n/i18n.js';
 import { CharacteristicType, LightbulbConfig, ServiceType } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
-import { toPrimitive } from '../../tools/primitive.js';
-
-type PropertyKey = 'brightness' | 'hue' | 'colorTemperature' | 'saturation';
-type CharacteristicKey = 'Brightness' | 'Hue' | 'ColorTemperature' | 'Saturation';
-type TopicSetKey = 'topicSetBrightness' | 'topicSetHue' | 'topicSetColorTemperature' | 'topicSetSaturation';
+import { CharacteristicKey } from '../../model/enums.js';
 
 export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
-
-  private brightness: CharacteristicValue = 100;
-  private hue: CharacteristicValue = 0;
-  private colorTemperature: CharacteristicValue = 500;
-  private saturation: CharacteristicValue = 100;
 
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: LightbulbConfig, log: Log) {
     super(Service, Characteristic, accessory, config, log, LightbulbAccessory.name);
 
+    this.set(CharacteristicKey.Brightness, 100);
+    this.set(CharacteristicKey.ColorTemperature, 500);
+    this.set(CharacteristicKey.Hue, 0);
+    this.set(CharacteristicKey.Saturation, 100);
+
     this.accessoryService.getCharacteristic(this.Characteristic.Brightness)
       .onGet(this.getBrightness.bind(this))
-      .onSet(this.setBrightness.bind(this));
-
-    this.accessoryService.getCharacteristic(this.Characteristic.Hue)
-      .onGet(this.getHue.bind(this))
-      .onSet(this.setHue.bind(this));
+      .onSet(this.onSetBrightness.bind(this));
 
     this.accessoryService.getCharacteristic(this.Characteristic.ColorTemperature)
       .onGet(this.getColorTemperature.bind(this))
-      .onSet(this.setColorTemperature.bind(this));
+      .onSet(this.onSetColorTemperature.bind(this));
+
+    this.accessoryService.getCharacteristic(this.Characteristic.Hue)
+      .onGet(this.getHue.bind(this))
+      .onSet(this.onSetHue.bind(this));
 
     this.accessoryService.getCharacteristic(this.Characteristic.Saturation)
       .onGet(this.getSaturation.bind(this))
-      .onSet(this.setSaturation.bind(this));
+      .onSet(this.onSetSaturation.bind(this));
   }
 
   protected getAccessoryService(): Service {
@@ -52,12 +48,12 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
       topicHandlers.push(makeHandler(this.config.topicGetBrightness, this.onBrightnessUpdate.bind(this)));
     }
 
-    if (this.config.topicGetHue) {
-      topicHandlers.push(makeHandler(this.config.topicGetHue, this.onHueUpdate.bind(this)));
-    }
-
     if (this.config.topicGetColorTemperature) {
       topicHandlers.push(makeHandler(this.config.topicGetColorTemperature, this.onColorTemperatureUpdate.bind(this)));
+    }
+
+    if (this.config.topicGetHue) {
+      topicHandlers.push(makeHandler(this.config.topicGetHue, this.onHueUpdate.bind(this)));
     }
 
     if (this.config.topicGetSaturation) {
@@ -68,85 +64,50 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
   }
 
   private async getBrightness(): Promise<CharacteristicValue> {
-    return this.brightness;
-  }
-
-  private async getHue(): Promise<CharacteristicValue> {
-    return this.hue;
-  }
-
-  private async getColorTemperature(): Promise<CharacteristicValue> {
-    return this.colorTemperature;
-  }
-
-  private async getSaturation(): Promise<CharacteristicValue> {
-    return this.saturation;
+    return this.get(CharacteristicKey.Brightness);
   }
 
   private async onBrightnessUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-    this._onUpdate('brightness', value, strings.lightbulb.brightness);
+    this.onUpdate(CharacteristicKey.Brightness, value, strings.lightbulb.brightness);
   }
 
-  private async setBrightness(value: CharacteristicValue) {
-    this._set('topicSetBrightness', 'brightness', value, strings.lightbulb.futureBrightness);
+  private async onSetBrightness(value: CharacteristicValue) {
+    this.onSet(CharacteristicKey.Brightness, value, 'topicSetBrightness', strings.lightbulb.futureBrightness);
   }
 
-  private async onHueUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-    this._onUpdate('hue', value, strings.lightbulb.hue);
-  }
-
-  private async setHue(value: CharacteristicValue) {
-    this._set('topicSetHue', 'hue', value, strings.lightbulb.futureHue);
+  private async getColorTemperature(): Promise<CharacteristicValue> {
+    return this.get(CharacteristicKey.ColorTemperature);
   }
 
   private async onColorTemperatureUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-    this._onUpdate('colorTemperature', value, strings.lightbulb.colorTemperature);
+    this.onUpdate(CharacteristicKey.ColorTemperature, value, strings.lightbulb.colorTemperature);
   }
 
-  private async setColorTemperature(value: CharacteristicValue) {
-    this._set('topicSetColorTemperature', 'colorTemperature', value, strings.lightbulb.futureColorTemperature);
+  private async onSetColorTemperature(value: CharacteristicValue) {
+    this.onSet(CharacteristicKey.ColorTemperature, value, 'topicSetColorTemperature', strings.lightbulb.futureColorTemperature);
+  }
+
+  private async getHue(): Promise<CharacteristicValue> {
+    return this.get(CharacteristicKey.Hue);
+  }
+
+  private async onHueUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
+    this.onUpdate(CharacteristicKey.Hue, value, strings.lightbulb.hue);
+  }
+
+  private async onSetHue(value: CharacteristicValue) {
+    this.onSet(CharacteristicKey.Hue, value, 'topicSetHue', strings.lightbulb.futureHue);
+  }
+
+  private async getSaturation(): Promise<CharacteristicValue> {
+    return this.get(CharacteristicKey.Saturation);
   }
 
   private async onSaturationUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-    this._onUpdate('saturation', value, strings.lightbulb.saturation);
+    this.onUpdate(CharacteristicKey.Saturation, value, strings.lightbulb.saturation);
   }
 
-  private async setSaturation(value: CharacteristicValue) {
-    this._set('topicSetSaturation', 'saturation', value, strings.lightbulb.futureSaturation);
-  }
-
-  private async _onUpdate(propertyKey: PropertyKey, value: PrimitiveTypes, logString: string) {
-
-    if (value === this[propertyKey as keyof this]) {
-      return;
-    }
-
-    this[propertyKey] = value;
-
-    const characteristicKey = this.toCharacteristicKey(propertyKey);
-    this.accessoryService.updateCharacteristic(this.Characteristic[characteristicKey], value);
-
-    this.logIfDesired(logString, value.toString());
-  }
-
-  private _set(topic: TopicSetKey, propertyKey: PropertyKey, value: CharacteristicValue, logString: string) {
-
-    if (!this.assert(topic)) {
-      return;
-    }
-
-    this[propertyKey] = value;
-
-    this.logIfDesired(logString, value.toString());
-
-    const characteristicKey = this.toCharacteristicKey(propertyKey);
-    this.accessoryService.updateCharacteristic(this.Characteristic[characteristicKey], value);
-
-    this.publish(this.config[topic]!, toPrimitive(value));
-  }
-
-  private toCharacteristicKey(key: PropertyKey): CharacteristicKey {
-    const capitalized = key.charAt(0).toUpperCase() + key.slice(1);
-    return capitalized as CharacteristicKey;
+  private async onSetSaturation(value: CharacteristicValue) {
+    this.onSet(CharacteristicKey.Saturation, value, 'topicSetSaturation', strings.lightbulb.futureSaturation);
   }
 }

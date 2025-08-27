@@ -1,4 +1,4 @@
-import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
+import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
 
 import { makeHandler, MQTTAccessory, TopicHandler } from './base.js';
 
@@ -10,20 +10,15 @@ import { Log } from '../../tools/log.js';
 import { toPrimitive } from '../../tools/primitive.js';
 
 export abstract class StatusActiveAccessory<C extends StatusActiveConfig = StatusActiveConfig> extends MQTTAccessory<C> {
-  protected readonly accessoryService: Service;
 
   private statusActive: CharacteristicValue = true;
 
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: C, log: Log, className: string) {
     super(Service, Characteristic, accessory, config, log, className);
 
-    this.accessoryService = this.getAccessoryService();
-
     this.accessoryService.getCharacteristic(Characteristic.StatusActive)
       .onGet(this.getStatusActive.bind(this));
   }
-
-  protected abstract getAccessoryService(): Service;
 
   protected get topicHandlers(): TopicHandler[] {
     return [
