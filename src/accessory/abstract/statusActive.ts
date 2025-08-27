@@ -14,14 +14,7 @@ export abstract class StatusActiveAccessory<C extends StatusActiveConfig = Statu
 
   private statusActive: CharacteristicValue = true;
 
-  constructor(
-    Service: ServiceType,
-    Characteristic: CharacteristicType,
-    accessory: PlatformAccessory,
-    config: C,
-    log: Log,
-    className: string,
-  ) {
+  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: C, log: Log, className: string) {
     super(Service, Characteristic, accessory, config, log, className);
 
     this.accessoryService = this.getAccessoryService();

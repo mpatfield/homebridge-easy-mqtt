@@ -64,8 +64,7 @@ export abstract class MQTTAccessory<C extends AccessoryConfig> {
     this.mqttClient?.teardown();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  protected assert(...keys: (keyof any)[]): boolean {
+  protected assert(...keys: (keyof C)[]): boolean {
     return assert(this.log, this.name, this.config, ...keys);
   }
 

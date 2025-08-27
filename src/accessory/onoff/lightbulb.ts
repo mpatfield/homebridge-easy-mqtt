@@ -21,13 +21,7 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
   private colorTemperature: CharacteristicValue = 500;
   private saturation: CharacteristicValue = 100;
 
-  constructor(
-    Service: ServiceType,
-    Characteristic: CharacteristicType,
-    accessory: PlatformAccessory,
-    config: LightbulbConfig,
-    log: Log,
-  ) {
+  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: LightbulbConfig, log: Log) {
     super(Service, Characteristic, accessory, config, log, LightbulbAccessory.name);
 
     this.accessoryService.getCharacteristic(this.Characteristic.Brightness)

@@ -8,13 +8,7 @@ import { Log } from '../../tools/log.js';
 
 export class SwitchAccessory extends OnOffAccessory<SwitchConfig> {
 
-  constructor(
-    Service: ServiceType,
-    Characteristic: CharacteristicType,
-    accessory: PlatformAccessory,
-    config: SwitchConfig,
-    log: Log,
-  ) {
+  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: SwitchConfig, log: Log) {
     super(Service, Characteristic, accessory, config, log, SwitchAccessory.name);
   }
 

@@ -16,13 +16,7 @@ export class TemperatureSensorAccessory extends StatusActiveAccessory<Temperatur
 
   private currentTemperature: number = 0;
 
-  constructor(
-    Service: ServiceType,
-    Characteristic: CharacteristicType,
-    accessory: PlatformAccessory,
-    config: TemperatureSensorConfig,
-    log: Log,
-  ) {
+  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: TemperatureSensorConfig, log: Log) {
     super(Service, Characteristic, accessory, config, log, TemperatureSensorAccessory.name);
 
     this.accessoryService.getCharacteristic(Characteristic.CurrentTemperature)

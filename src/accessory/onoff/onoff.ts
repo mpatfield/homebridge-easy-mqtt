@@ -14,14 +14,7 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
 
   private on: CharacteristicValue = false;
 
-  constructor(
-    Service: ServiceType,
-    Characteristic: CharacteristicType,
-    accessory: PlatformAccessory,
-    config: C,
-    log: Log,
-    className: string,
-  ) {
+  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: C, log: Log, className: string) {
     super(Service, Characteristic, accessory, config, log, className);
 
     this.accessoryService.getCharacteristic(Characteristic.On)

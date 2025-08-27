@@ -14,13 +14,8 @@ export class OutletAccessory extends OnOffAccessory<OutletConfig> {
 
   private inUse: CharacteristicValue = false;
 
-  constructor(
-    Service: ServiceType,
-    Characteristic: CharacteristicType,
-    accessory: PlatformAccessory,
-    config: OutletConfig,
-    log: Log,
-  ) {
+
+  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: OutletConfig, log: Log) {
     super(Service, Characteristic, accessory, config, log, OutletAccessory.name);
 
     this.accessoryService.getCharacteristic(this.Characteristic.OutletInUse)

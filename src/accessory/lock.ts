@@ -15,13 +15,7 @@ export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismC
   private currentState: CharacteristicValue;
   private targetState: CharacteristicValue;
 
-  constructor(
-    Service: ServiceType,
-    Characteristic: CharacteristicType,
-    accessory: PlatformAccessory,
-    config: LockMechanismConfig,
-    log: Log,
-  ) {
+  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: LockMechanismConfig, log: Log) {
     super(Service, Characteristic, accessory, config, log, LockMechanismAccessory.name);
 
     this.currentState = this.Characteristic.LockCurrentState.UNKNOWN;

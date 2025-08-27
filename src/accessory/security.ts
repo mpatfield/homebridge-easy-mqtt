@@ -21,13 +21,7 @@ export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySyste
 
   private readonly STATE_MAP: Map<keyof SecuritySystemConfig, number>;
 
-  constructor(
-    Service: ServiceType,
-    Characteristic: CharacteristicType,
-    accessory: PlatformAccessory,
-    config: SecuritySystemConfig,
-    log: Log,
-  ) {
+  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: SecuritySystemConfig, log: Log) {
     super(Service, Characteristic, accessory, config, log, SecuritySystemAccessory.name);
 
     this.currentState = Characteristic.SecuritySystemCurrentState.DISARMED;
