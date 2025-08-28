@@ -44,7 +44,7 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
     }
   }
 
-  protected booleanForValue(value: PrimitiveTypes, positive: keyof C, negative: keyof C, errorString: string): boolean | undefined {
+  private booleanForValue(value: PrimitiveTypes, positive: keyof C, negative: keyof C, errorString: string): boolean | undefined {
 
     let bool: boolean | undefined = undefined;
     if (value === this.getPrimitiveValue(positive)) {

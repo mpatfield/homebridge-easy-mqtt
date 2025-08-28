@@ -75,7 +75,6 @@ export type LightbulbConfig = OnOffConfig & {
 export type OutletConfig = OnOffConfig & {
   topicGetOutletInUse?: string,
   valueOutletInUse?: string,
-  valueOutletNotInUse?: string,
 }
 
 export type SecuritySystemConfig = StatusActiveConfig & {

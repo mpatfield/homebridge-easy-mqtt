@@ -198,10 +198,6 @@
               "type": "string",
               "title": "${config.title.valueOutletInUse}"
             },
-            "valueOutletNotInUse": {
-              "type": "string",
-              "title": "${config.title.valueOutletNotInUse}"
-            },
             "valueArmStay": {
               "type": "string",
               "title": "${config.title.valueArmStay}"
@@ -478,10 +474,6 @@
                   "items": [
                     {
                       "key": "accessories[].valueOutletInUse",
-                      "flex": "0 0 25%"
-                    },
-                    {
-                      "key": "accessories[].valueOutletNotInUse",
                       "flex": "0 0 25%"
                     }
                   ]

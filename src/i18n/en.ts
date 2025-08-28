@@ -138,8 +138,6 @@ const en = {
 
   outlet: {
     badValue: '%s unable to get in use state for %s',
-    futureInUse: 'Setting %s to in use…',
-    futureNotInUse: 'Setting %s to not in use…',
     inUse: '%s is in use',
     notInUse: '%s is not in use',
   },

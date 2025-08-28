@@ -151,7 +151,6 @@ As with Topics, you will need to populate the appropriate values based on the ty
   - `valueOn` - Turned on, e.g. "true", or "1", or "On"
   - `valueOff` - Turned off, e.g. "false", or "0", or "Off"
   - `valueOutletInUse` - Currently being used, e.g. "true", or "1", or "On"
-  - `valueOutletNotInUse` - Currently not being used, e.g. "false", or "0", or "Off"
 
 - SecuritySystem
   - `valueArmStay` — (Optional) system armed in stay mode, e.g. "SA" or "stay"
