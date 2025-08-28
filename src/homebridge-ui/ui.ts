@@ -13,7 +13,7 @@ const i18n_replacements = {
   github: '<a target="_blank" href="https://github.com/mpatfield/homebridge-easy-mqtt/">GitHub</a>',
 };
 
-const translateHtml = (strings: Translation) => {
+function translateHtml(strings: Translation) {
   document.querySelectorAll('[i18n]').forEach(element => {
 
     const key = element.getAttribute('i18n') as keyof typeof strings.config;
@@ -27,7 +27,7 @@ const translateHtml = (strings: Translation) => {
   });
 };
 
-const translateSchema = (strings: Translation) => {
+function translateSchema(strings: Translation) {
   const tags = ['span', 'label', 'legend', 'option', 'p'];
   const elements = Array.from(
     window.parent.document.querySelectorAll(tags.join(',')),
@@ -56,7 +56,7 @@ const translateSchema = (strings: Translation) => {
   });
 };
 
-const updateAccessoryNames = (strings: Translation) => {
+function updateAccessoryNames(strings: Translation) {
 
   const legends = Array.from(window.parent.document.querySelectorAll('fieldset legend'));
 
@@ -99,7 +99,7 @@ function generateUUID() {
   });
 }
 
-const updateConfigWithUUIDs = (config: PlatformConfig) => {
+function updateConfigWithUUIDs(config: PlatformConfig) {
 
   let changed = false;
 
@@ -154,8 +154,7 @@ async function updateDeprecatedLockConfigTopics(configs: PlatformConfig[]) {
   }
 }
 
-const showSettings = async (strings: Translation) => {
-  homebridge.showSpinner();
+function showSettings(strings: Translation) {
   document.getElementById('pageIntro')!.style.display = 'none';
   document.getElementById('support')!.style.display = 'block';
   document.getElementById('footer')!.style.display = 'block';
@@ -182,7 +181,7 @@ const showSettings = async (strings: Translation) => {
   homebridge.hideSpinner();
 };
 
-const showIntro = (strings: Translation) => {
+function showIntro(strings: Translation) {
   const introContinue = document.getElementById('introContinue') as HTMLButtonElement;
   introContinue.addEventListener('click', async () => {
     showSettings(strings);
@@ -204,7 +203,7 @@ const showIntro = (strings: Translation) => {
     const config = await homebridge.getPluginConfig()  as PlatformConfig[];
     if (config.length) {
       await updateDeprecatedLockConfigTopics(config);
-      await showSettings(strings);
+      showSettings(strings);
     } else {
       await homebridge.updatePluginConfig([{ name: i18n_replacements.easy_mqtt }]);
       showIntro(strings);
