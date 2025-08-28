@@ -18,6 +18,7 @@ Would you like to see Homebridge Easy MQTT in your language? Please consider [ge
 ### Changed
 - Updated dev dependencies
 - Significant under-the-hood refactoring to speed future development
+- Removed in-use setter topic for outlet since it is not user modifyable
 
 ## 1.1.0 (2025-08-20)
 

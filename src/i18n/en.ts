@@ -56,7 +56,6 @@ const en = {
       topicSetColorTemperature: 'Set Color Temperature',
       topicGetSaturation: 'Get Saturation',
       topicSetSaturation: 'Set Saturation',
-      topicSetOutletInUse: 'Set In Use State',
       topicSetOn: 'Set On/Off State*',
       topicSetTargetState: 'Set Target State*',
       topicGetCurrentTemperature: 'Get Current Temperature*',

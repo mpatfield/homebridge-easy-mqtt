@@ -16,9 +16,7 @@ export class OutletAccessory extends OnOffAccessory<OutletConfig> {
 
     this.set(CharacteristicKey.OutletInUse, false);
 
-    this.accessoryService.getCharacteristic(this.Characteristic.OutletInUse)
-      .onGet(this.getInUse.bind(this))
-      .onSet(this.onSetInUse.bind(this));
+    this.bind(Characteristic.OutletInUse, 'topicGetOutletInUse', this.getInUse.bind(this));
   }
 
   protected getAccessoryService(): Service {
@@ -39,16 +37,6 @@ export class OutletAccessory extends OnOffAccessory<OutletConfig> {
     if (inUse !== undefined) {
       this.onUpdate(CharacteristicKey.OutletInUse, inUse, this.stringForInUse(inUse));
     }
-  }
-
-  private async onSetInUse(value: CharacteristicValue) {
-
-    const inUse = value ? this.getPrimitiveValue('valueOutletInUse') : this.getPrimitiveValue('valueOutletNotInUse');
-    if (!inUse) {
-      return;
-    }
-
-    this.onSet(CharacteristicKey.OutletInUse, value, inUse,'topicSetOutletInUse', this.stringForInUse(inUse, true));
   }
 
   private stringForInUse(inUse: CharacteristicValue, future: boolean = false): string {

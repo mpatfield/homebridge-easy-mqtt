@@ -115,7 +115,6 @@ You may define topics using a JSONPath dot notation to assist the parser in find
   - `topicGetOn` - The current state of the outlet, i.e. on/off
   - `topicSetOn` - For setting the state of the outlet
   - `topicGetOutletInUse` - (Optional) Whether or not the outlet is currently being used
-  - `topicSetOutletInUse` - (Optional) For setting whether the outlet is currently being used
 
 - SecuitySystem
   - `topicGetCurrentSecurityState` — The current state of the system

@@ -146,10 +146,6 @@
               "type": "string",
               "title": "${config.title.topicGetOutletInUse}"
             },
-            "topicSetOutletInUse": {
-              "type": "string",
-              "title": "${config.title.topicSetOutletInUse}"
-            },
             "topicGetCurrentTemperature": {
               "type": "string",
               "title": "${config.title.topicGetCurrentTemperature}"
@@ -383,8 +379,7 @@
                   "type": "fieldset",
                   "notitle": "true",
                   "items": [
-                    "accessories[].topicGetOutletInUse",
-                    "accessories[].topicSetOutletInUse"
+                    "accessories[].topicGetOutletInUse"
                   ],
                   "condition": {
                     "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Outlet';"
