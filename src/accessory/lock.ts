@@ -31,8 +31,18 @@ export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismC
 
   override addTopicHandlers(): void {
     super.addTopicHandlers();
-    this.addTopicHandler('topicGetLockCurrentState', this.onCurrentStateUpdate.bind(this));
-    this.addTopicHandler('topicGetLockTargetState', this.onTargetStateUpdate.bind(this));
+
+    if (this.config.topicGetLockCurrentState !== undefined && this.config.topicGetCurrentLockState === undefined) {
+      this.addTopicHandler('topicGetLockCurrentState', this.onCurrentStateUpdate.bind(this));
+    } else {
+      this.addTopicHandler('topicGetCurrentLockState', this.onCurrentStateUpdate.bind(this));
+    }
+
+    if (this.config.topicGetLockTargetState !== undefined && this.config.topicGetTargetLockState === undefined) {
+      this.addTopicHandler('topicGetLockTargetState', this.onCurrentStateUpdate.bind(this));
+    } else {
+      this.addTopicHandler('topicGetTargetLockState', this.onCurrentStateUpdate.bind(this));
+    }
   }
 
   private async getCurrentState(): Promise<CharacteristicValue> {
@@ -74,7 +84,11 @@ export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismC
       return;
     }
 
-    this.onSet(CharacteristicKey.LockTargetState, value, target, 'topicSetTargetState', this.stringForState(value, true));
+    if (this.config.topicSetTargetState !== undefined && this.config.topicSetTargetLockState === undefined) {
+      this.onSet(CharacteristicKey.LockTargetState, value, target, 'topicSetTargetState', this.stringForState(value, true));
+    } else {
+      this.onSet(CharacteristicKey.LockTargetState, value, target, 'topicSetTargetLockState', this.stringForState(value, true));
+    }
   }
 
   private currentStateFromValue(value: PrimitiveTypes | undefined): CharacteristicValue {

@@ -46,9 +46,12 @@ export type StatusActiveConfig = AccessoryConfig & {
 }
 
 export type LockMechanismConfig = StatusActiveConfig & {
-  topicGetLockCurrentState: string,
-  topicGetLockTargetState: string,
-  topicSetTargetState: string,
+  topicGetCurrentLockState: string,
+  topicGetTargetLockState: string,
+  topicSetTargetLockState: string,
+  topicGetLockCurrentState?: string, // Deprecated
+  topicGetLockTargetState?: string, // Deprecated
+  topicSetTargetState?: string, // Deprecated
   valueLockStateSecured: string,
   valueLockStateUnsecured: string,
   valueLockStateJammed?: string,

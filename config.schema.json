@@ -122,17 +122,17 @@
               "type": "string",
               "title": "${config.title.topicSetSaturation}"
             },
-            "topicGetLockCurrentState": {
+            "topicGetCurrentLockState": {
               "type": "string",
-              "title": "${config.title.topicGetLockCurrentState}"
+              "title": "${config.title.topicGetCurrentLockState}"
             },
-            "topicGetLockTargetState": {
+            "topicGetTargetLockState": {
               "type": "string",
-              "title": "${config.title.topicGetLockTargetState}"
+              "title": "${config.title.topicGetTargetLockState}"
             },
-            "topicSetTargetState": {
+            "topicSetTargetLockState": {
               "type": "string",
-              "title": "${config.title.topicSetTargetState}"
+              "title": "${config.title.topicSetTargetLockState}"
             },
             "topicGetOn": {
               "type": "string",
@@ -335,9 +335,9 @@
                   "type": "fieldset",
                   "notitle": "true",
                   "items": [
-                    "accessories[].topicGetLockCurrentState",
-                    "accessories[].topicGetLockTargetState",
-                    "accessories[].topicSetTargetState"
+                    "accessories[].topicGetCurrentLockState",
+                    "accessories[].topicGetTargetLockState",
+                    "accessories[].topicSetTargetLockState"
                   ],
                   "condition": {
                     "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'LockMechanism';"

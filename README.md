@@ -50,9 +50,9 @@ Using the Homebridge Config UI is the easiest way to set up this plugin. However
         "options": "string"
       },
       "topicGetStatusActive": "string",
-      "topicGetLockCurrentState": "string",
-      "topicGetLockTargetState": "string",
-      "topicSetTargetState": "string",
+      "topicGetCurrentLockState": "string",
+      "topicGetTargetLockState": "string",
+      "topicSetTargetLockState": "string",
       "topicGetOn": "string",
       "topicSetOn": "string",
       "valueStatusActive": "string",
@@ -107,9 +107,9 @@ You may define topics using a JSONPath dot notation to assist the parser in find
   - `topicSetSaturation` - (Optional) For setting the saturation setting of the lightbulb
 
 - LockMechanism
-  - `topicGetLockCurrentState` - The current state of the lock, i.e. locked/unlocked
-  - `topicGetLockTargetState` - The target (i.e. desired) state of the lock
-  - `topicSetTargetState` - For setting the target (i.e. desired) state of the lock
+  - `topicGetCurrentLockState` - The current state of the lock, i.e. locked/unlocked
+  - `topicGetTargetLockState` - The target (i.e. desired) state of the lock
+  - `topicSetTargetLockState` - For setting the target (i.e. desired) state of the lock
 
 - Outlet
   - `topicGetOn` - The current state of the outlet, i.e. on/off

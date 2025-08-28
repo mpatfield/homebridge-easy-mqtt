@@ -2,7 +2,8 @@ import { IHomebridgePluginUi } from '@homebridge/plugin-ui-utils/ui.interface';
 
 import { Translation } from '../i18n/i18n.js';
 
-import { PlatformConfig } from '../model/types.js';
+import { AccessoryType } from '../model/enums.js';
+import { LockMechanismConfig, PlatformConfig } from '../model/types.js';
 
 declare const homebridge: IHomebridgePluginUi;
 
@@ -115,6 +116,44 @@ const updateConfigWithUUIDs = (config: PlatformConfig) => {
   }
 };
 
+async function updateDeprecatedLockConfigTopics(configs: PlatformConfig[]) {
+
+  let changed = false;
+
+  for (const platformConfig of configs) {
+    for (const accessoryConfig of platformConfig.accessories ?? []) {
+
+      if (accessoryConfig.info.type !== AccessoryType.LockMechanism) {
+        continue;
+      }
+
+      const lockConfig = accessoryConfig as LockMechanismConfig;
+
+      if (lockConfig.topicGetLockCurrentState !== undefined) {
+        lockConfig.topicGetCurrentLockState = lockConfig.topicGetLockCurrentState;
+        lockConfig.topicGetLockCurrentState = undefined;
+        changed = true;
+      }
+
+      if (lockConfig.topicGetLockTargetState !== undefined) {
+        lockConfig.topicGetTargetLockState = lockConfig.topicGetLockTargetState;
+        lockConfig.topicGetLockTargetState = undefined;
+        changed = true;
+      }
+
+      if (lockConfig.topicSetTargetState !== undefined) {
+        lockConfig.topicSetTargetLockState = lockConfig.topicSetTargetState;
+        lockConfig.topicSetTargetState = undefined;
+        changed = true;
+      }
+    }
+  }
+
+  if (changed) {
+    await homebridge.updatePluginConfig(configs);
+  }
+}
+
 const showSettings = async (strings: Translation) => {
   homebridge.showSpinner();
   document.getElementById('pageIntro')!.style.display = 'none';
@@ -152,19 +191,22 @@ const showIntro = (strings: Translation) => {
   homebridge.hideSpinner();
 };
 
-(async () => {
+(() => {
   homebridge.showSpinner();
+})();
+
+(async () => {
   try {
     const language = await homebridge.i18nCurrentLang();
     const strings = await homebridge.request('i18n', language);
     translateHtml(strings);
 
-    const config = await homebridge.getPluginConfig();
+    const config = await homebridge.getPluginConfig()  as PlatformConfig[];
     if (config.length) {
+      await updateDeprecatedLockConfigTopics(config);
       await showSettings(strings);
     } else {
-      config.push({ name: i18n_replacements.easy_mqtt });
-      await homebridge.updatePluginConfig(config);
+      await homebridge.updatePluginConfig([{ name: i18n_replacements.easy_mqtt }]);
       showIntro(strings);
     }
   } catch (err) {
