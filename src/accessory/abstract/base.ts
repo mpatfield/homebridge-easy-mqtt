@@ -74,21 +74,24 @@ export abstract class MQTTAccessory<C extends AccessoryConfig> {
     getTopic: keyof C, getHandler: CharacteristicGetHandler,
     setTopic: keyof C | undefined = undefined, setHandler: CharacteristicSetHandler | undefined = undefined) {
 
+    if (this.config[getTopic] === undefined && (setTopic === undefined || setHandler === undefined || this.config[setTopic] !== undefined)) {
+      for (const characteristic of this.accessoryService.characteristics) {
+        if (characteristic.UUID === constructor.UUID) {
+          this.accessoryService.removeCharacteristic(characteristic);
+          break;
+        }
+      }
+      return;
+    }
+
     const characteristic = this.accessoryService.getCharacteristic(constructor);
-    let used = false;
 
     if (this.config[getTopic] !== undefined) {
       characteristic.onGet(getHandler);
-      used = true;
     }
 
     if (setTopic !== undefined && setHandler !== undefined && this.config[setTopic] !== undefined) {
       characteristic.onSet(setHandler);
-      used = true;
-    }
-
-    if (!used) {
-      this.accessoryService.removeCharacteristic(characteristic);
     }
   }
 
