@@ -195,21 +195,17 @@ function showIntro(strings: Translation) {
 })();
 
 (async () => {
-  try {
-    const language = await homebridge.i18nCurrentLang();
-    const strings = await homebridge.request('i18n', language);
-    translateHtml(strings);
 
-    const config = await homebridge.getPluginConfig()  as PlatformConfig[];
-    if (config.length) {
-      await updateDeprecatedLockConfigTopics(config);
-      showSettings(strings);
-    } else {
-      await homebridge.updatePluginConfig([{ name: i18n_replacements.easy_mqtt }]);
-      showIntro(strings);
-    }
-  } catch (err) {
-    homebridge.toast.error((err as Error).message);
-    homebridge.hideSpinner();
+  const language = await homebridge.i18nCurrentLang();
+  const strings = await homebridge.request('i18n', language);
+  translateHtml(strings);
+
+  const config = await homebridge.getPluginConfig()  as PlatformConfig[];
+  if (config.length) {
+    await updateDeprecatedLockConfigTopics(config);
+    showSettings(strings);
+  } else {
+    await homebridge.updatePluginConfig([{ name: i18n_replacements.easy_mqtt }]);
+    showIntro(strings);
   }
 })();
