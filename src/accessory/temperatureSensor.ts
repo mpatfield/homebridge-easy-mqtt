@@ -33,6 +33,10 @@ export class TemperatureSensorAccessory extends StatusActiveAccessory<Temperatur
 
   private async onCurrentTemperatureUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
+    if (!this.assertNumber(value, strings.temperatureSensor.badValue)) {
+      return;
+    }
+
     const units = this.config.temperatureUnits ?? TemperatureUnits.CELSIUS;
     const temperature = toCelsius(toNumber(value), units);
     if (temperature === this.currentTemperature) {

@@ -35,18 +35,20 @@ export class OutletAccessory extends OnOffAccessory<OutletConfig> {
   }
 
   private async onInUseUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-    const inUse = value === this.getPrimitiveValue('valueOutletInUse');
-    this.onUpdate(CharacteristicKey.OutletInUse, inUse, this.stringForInUse(inUse));
+    const inUse = this.booleanForValue(value, 'valueOutletInUse', 'valueOutletNotInUse', strings.outlet.badValue);
+    if (inUse !== undefined) {
+      this.onUpdate(CharacteristicKey.OutletInUse, inUse, this.stringForInUse(inUse));
+    }
   }
 
   private async onSetInUse(value: CharacteristicValue) {
 
-    const inUse = value ? this.getRawValue('valueOutletInUse') : this.getRawValue('valueOutletNotInUse');
+    const inUse = value ? this.getPrimitiveValue('valueOutletInUse') : this.getPrimitiveValue('valueOutletNotInUse');
     if (!inUse) {
       return;
     }
 
-    this.onSet(CharacteristicKey.OutletInUse, inUse,'topicSetOutletInUse', this.stringForInUse(inUse, true));
+    this.onSet(CharacteristicKey.OutletInUse, value, inUse,'topicSetOutletInUse', this.stringForInUse(inUse, true));
   }
 
   private stringForInUse(inUse: CharacteristicValue, future: boolean = false): string {

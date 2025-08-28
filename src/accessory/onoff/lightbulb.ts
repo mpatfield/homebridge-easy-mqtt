@@ -53,11 +53,15 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
   }
 
   private async onBrightnessUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-    this.onUpdate(CharacteristicKey.Brightness, value, strings.lightbulb.brightness);
+    if (this.assertNumber(value, strings.lightbulb.badBrightness)) {
+      const logString = strings.lightbulb.brightness.replace('%d', `${value.toString()}%`);
+      this.onUpdate(CharacteristicKey.Brightness, value, logString);
+    }
   }
 
   private async onSetBrightness(value: CharacteristicValue) {
-    this.onSet(CharacteristicKey.Brightness, value, 'topicSetBrightness', strings.lightbulb.futureBrightness);
+    const logString = strings.lightbulb.futureBrightness.replace('%d', `${value.toString()}%`);
+    this.onSet(CharacteristicKey.Brightness, value, value as number, 'topicSetBrightness', logString);
   }
 
   private async getColorTemperature(): Promise<CharacteristicValue> {
@@ -65,11 +69,15 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
   }
 
   private async onColorTemperatureUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-    this.onUpdate(CharacteristicKey.ColorTemperature, value, strings.lightbulb.colorTemperature);
+    if (this.assertNumber(value, strings.lightbulb.badColorTemperature)) {
+      const logString = strings.lightbulb.colorTemperature.replace('%d', `${value.toString()}M`);
+      this.onUpdate(CharacteristicKey.ColorTemperature, value, logString);
+    }
   }
 
   private async onSetColorTemperature(value: CharacteristicValue) {
-    this.onSet(CharacteristicKey.ColorTemperature, value, 'topicSetColorTemperature', strings.lightbulb.futureColorTemperature);
+    const logString = strings.lightbulb.futureColorTemperature.replace('%d', `${value.toString()}M`);
+    this.onSet(CharacteristicKey.ColorTemperature, value, value as number, 'topicSetColorTemperature', logString);
   }
 
   private async getHue(): Promise<CharacteristicValue> {
@@ -77,11 +85,15 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
   }
 
   private async onHueUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-    this.onUpdate(CharacteristicKey.Hue, value, strings.lightbulb.hue);
+    if (this.assertNumber(value, strings.lightbulb.badHue)) {
+      const logString = strings.lightbulb.hue.replace('%d', `${value.toString()}°`);
+      this.onUpdate(CharacteristicKey.Hue, value, logString);
+    }
   }
 
   private async onSetHue(value: CharacteristicValue) {
-    this.onSet(CharacteristicKey.Hue, value, 'topicSetHue', strings.lightbulb.futureHue);
+    const logString = strings.lightbulb.futureHue.replace('%d', `${value.toString()}°`);
+    this.onSet(CharacteristicKey.Hue, value, value as number, 'topicSetHue', logString);
   }
 
   private async getSaturation(): Promise<CharacteristicValue> {
@@ -89,10 +101,14 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
   }
 
   private async onSaturationUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-    this.onUpdate(CharacteristicKey.Saturation, value, strings.lightbulb.saturation);
+    if (this.assertNumber(value, strings.lightbulb.badSaturation)) {
+      const logString = strings.lightbulb.saturation.replace('%d', `${value.toString()}%`);
+      this.onUpdate(CharacteristicKey.Saturation, value, logString);
+    }
   }
 
   private async onSetSaturation(value: CharacteristicValue) {
-    this.onSet(CharacteristicKey.Saturation, value, 'topicSetSaturation', strings.lightbulb.futureSaturation);
+    const logString = strings.lightbulb.futureSaturation.replace('%d', `${value.toString()}%`);
+    this.onSet(CharacteristicKey.Saturation, value, value as number, 'topicSetSaturation', logString);
   }
 }

@@ -31,15 +31,34 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
   }
 
   private async onOnUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-    const on = value === this.getPrimitiveValue('valueOn');
-    this.onUpdate(CharacteristicKey.On, on, this.stringForState(on));
+    const on = this.booleanForValue(value, 'valueOn', 'valueOff', strings.onOff.badValue);
+    if (on !== undefined) {
+      this.onUpdate(CharacteristicKey.On, on, this.stringForState(on));
+    }
   }
 
   private async onSetOn(value: CharacteristicValue) {
-    const on = value ? this.getRawValue('valueOn') : this.getRawValue('valueOff');
+    const on = value ? this.getPrimitiveValue('valueOn') : this.getPrimitiveValue('valueOff');
     if (on !== undefined) {
-      this.onSet(CharacteristicKey.On, on, 'topicSetOn', this.stringForState(on, true));
+      this.onSet(CharacteristicKey.On, value, on, 'topicSetOn', this.stringForState(value, true));
     }
+  }
+
+  protected booleanForValue(value: PrimitiveTypes, positive: keyof C, negative: keyof C, errorString: string): boolean | undefined {
+
+    let bool: boolean | undefined = undefined;
+    if (value === this.getPrimitiveValue(positive)) {
+      bool = true;
+    } else if (value === this.getPrimitiveValue(negative)) {
+      bool = false;
+    }
+
+    if (bool === undefined) {
+      this.log.error(errorString, this.name, `'${value}'`);
+      return;
+    }
+
+    return bool;
   }
 
   private stringForState(on: CharacteristicValue, future: boolean = false): string {

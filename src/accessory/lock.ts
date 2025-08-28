@@ -46,7 +46,10 @@ export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismC
   private async onCurrentStateUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
     const current = this.currentStateFromValue(value);
-    this.onUpdate(CharacteristicKey.LockTargetState, current);
+
+    if (current as number <= this.Characteristic.LockTargetState.SECURED) {
+      this.onUpdate(CharacteristicKey.LockTargetState, current);
+    }
 
     if (!this.onUpdate(CharacteristicKey.LockCurrentState, current)) {
       return;
@@ -71,7 +74,7 @@ export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismC
       return;
     }
 
-    this.onSet(CharacteristicKey.LockTargetState, target, 'topicSetTargetState', this.stringForState(value, true));
+    this.onSet(CharacteristicKey.LockTargetState, value, target, 'topicSetTargetState', this.stringForState(value, true));
   }
 
   private currentStateFromValue(value: PrimitiveTypes | undefined): CharacteristicValue {
@@ -114,7 +117,7 @@ export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismC
     case this.Characteristic.LockTargetState.UNSECURED:
       return this.getPrimitiveValue('valueLockStateUnsecured');
     default:
-      this.log.error(strings.lock.badTarget, this.name, value);
+      this.log.error(strings.lock.badTarget, this.name, `'${value}'`);
       return undefined;
     }
   }

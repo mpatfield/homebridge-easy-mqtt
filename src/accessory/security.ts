@@ -91,7 +91,9 @@ export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySyste
       return;
     }
 
-    this.onUpdate(CharacteristicKey.SecuritySystemTargetState, current);
+    if (current as number <= this.Characteristic.SecuritySystemTargetState.DISARM) {
+      this.onUpdate(CharacteristicKey.SecuritySystemTargetState, current);
+    }
 
     if (!this.onUpdate(CharacteristicKey.SecuritySystemCurrentState, current)) {
       return;
@@ -131,7 +133,7 @@ export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySyste
       return;
     }
 
-    this.onSet(CharacteristicKey.SecuritySystemTargetState, target, 'topicSetTargetSecurityState', this.stateStringForCV(value, true));
+    this.onSet(CharacteristicKey.SecuritySystemTargetState, value, target, 'topicSetTargetSecurityState', this.stateStringForCV(value, true));
   }
 
   private fromCVState(value: CharacteristicValue): PrimitiveTypes | undefined {
@@ -144,7 +146,7 @@ export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySyste
     });
 
     if (primative === undefined) {
-      this.log.error(strings.security.badTarget, this.name, value);
+      this.log.error(strings.security.badTarget, this.name, `'${value}'`);
     }
 
     return primative;

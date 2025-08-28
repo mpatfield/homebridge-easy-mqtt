@@ -2,7 +2,7 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.2.0-beta.0 (2025-08-26)
+## 1.2.0-beta.1 (2025-08-??)
 
 ### HELP NEEDED! (no coding experience required)
 
@@ -11,8 +11,13 @@ Would you like to see Homebridge Easy MQTT in your language? Please consider [ge
 ### Added
 - Security System accessory type
 
+### Fixed
+- Allow raw strings in mqtt messages
+- Changing accessory type cleans up old Homebridge accessories
+
 ### Changed
 - Updated dev dependencies
+- Significant under-the-hood refactoring to speed future development
 
 ## 1.1.0 (2025-08-20)
 

@@ -90,18 +90,22 @@ const en = {
   },
 
   lightbulb: {
-    brightness: '%s brightness is %s%',
-    futureBrightness: 'Setting %s brightness to %s%…',
-    hue: '%s hue is %s',
-    futureHue: 'Setting %s hue to %s…',
-    colorTemperature: '%s color temperature is %s',
-    futureColorTemperature: 'Setting %s color temperature to %s…',
-    saturation: '%s saturation is %s',
-    futureSaturation: 'Setting %s saturation to %s…',
+    badBrightness: '%s expected a number for brightness but received %s',
+    badColorTemperature: '%s expected a number for color temperature but received %s',
+    badHue: '%s expected a number for hue but received %s',
+    badSaturation: '%s expected a number for saturation but received %s',
+    brightness: '%s brightness is %d',
+    futureBrightness: 'Setting %s brightness to %d…',
+    hue: '%s hue is %d',
+    futureHue: 'Setting %s hue to %d…',
+    colorTemperature: '%s color temperature is %d',
+    futureColorTemperature: 'Setting %s color temperature to %d…',
+    saturation: '%s saturation is %d',
+    futureSaturation: 'Setting %s saturation to %d…',
   },
 
   lock: {
-    badTarget: '%s unable to get target from state %s',
+    badTarget: '%s unable to get target state for %s',
     stateCurrentSecured: '%s is locked',
     stateCurrentUnsecured: '%s is unlocked',
     stateFutureSecured: 'Locking %s…',
@@ -126,6 +130,7 @@ const en = {
   },
 
   onOff: {
+    badValue: '%s unable to get on/off state for %s',
     stateFutureOff: 'Turning off %s…',
     stateFutureOn: 'Turning on %s…',
     stateOn: '%s is on',
@@ -133,6 +138,7 @@ const en = {
   },
 
   outlet: {
+    badValue: '%s unable to get in use state for %s',
     futureInUse: 'Setting %s to in use…',
     futureNotInUse: 'Setting %s to not in use…',
     inUse: '%s is in use',
@@ -140,7 +146,7 @@ const en = {
   },
 
   security: {
-    badTarget: '%s unable to get target from state %s',
+    badTarget: '%s unable to get target state for %s',
     isTampered: '%s is tampered',
     hasFault: '%s has a fault',
     noStateValues: '%s must have at least one state value defined (Arm Away, Disarm, etc.)',
@@ -173,6 +179,7 @@ const en = {
   },
 
   temperatureSensor: {
+    badValue: '%s expected a number for temperature but received %s',
     temperature: '%s temperature is %s°%s',
   },
 };

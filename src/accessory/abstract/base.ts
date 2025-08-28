@@ -129,6 +129,17 @@ export abstract class MQTTAccessory<C extends AccessoryConfig> {
     return assert(this.log, this.name, this.config, ...keys);
   }
 
+  protected assertNumber(value: PrimitiveTypes, error: string): boolean {
+
+    if (typeof value === 'number') {
+      return true;
+    }
+
+    this.log.error(error, this.name, `'${value}'`);
+
+    return false;
+  }
+
   protected onUpdate(key: CharacteristicKey, value: CharacteristicValue, logString: string | undefined = undefined): boolean {
 
     if (value === this.get(key)) {
@@ -140,27 +151,27 @@ export abstract class MQTTAccessory<C extends AccessoryConfig> {
     this.accessoryService.updateCharacteristic(this.Characteristic[key], value);
 
     if (logString) {
-      this.logIfDesired(logString, value.toString());
+      this.logIfDesired(logString);
     }
 
     return true;
   }
 
-  protected onSet(key: CharacteristicKey, value: CharacteristicValue, topic: keyof C, logString: string) {
+  protected onSet(key: CharacteristicKey, value: CharacteristicValue, publish: PrimitiveTypes, topic: keyof C, logString: string | undefined) {
 
     if (!this.assert(topic)) {
       return;
     }
 
-    if (value !== this.get(key)) {
-      this.logIfDesired(logString, value.toString());
+    if (logString && value !== this.get(key)) {
+      this.logIfDesired(logString);
     }
 
     this.set(key, value);
 
     this.accessoryService.updateCharacteristic(this.Characteristic[key], value);
 
-    this.publish(this.config[topic] as string, toPrimitive(value));
+    this.publish(this.config[topic] as string, publish);
   }
 
   protected logIfDesired(message: string, ...parameters: string[]) {
