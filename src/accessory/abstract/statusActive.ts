@@ -16,8 +16,7 @@ export abstract class StatusActiveAccessory<C extends StatusActiveConfig = Statu
 
     this.set(CharacteristicKey.StatusActive, true);
 
-    this.accessoryService.getCharacteristic(Characteristic.StatusActive)
-      .onGet(this.getStatusActive.bind(this));
+    this.bind(Characteristic.StatusActive, 'topicGetStatusActive', this.getStatusActive.bind(this));
   }
 
   protected addTopicHandlers(): void {

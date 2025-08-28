@@ -19,21 +19,17 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
     this.set(CharacteristicKey.Hue, 0);
     this.set(CharacteristicKey.Saturation, 100);
 
-    this.accessoryService.getCharacteristic(this.Characteristic.Brightness)
-      .onGet(this.getBrightness.bind(this))
-      .onSet(this.onSetBrightness.bind(this));
+    this.bind(Characteristic.Brightness, 'topicGetBrightness', this.getBrightness.bind(this),
+      'topicSetBrightness', this.onSetBrightness.bind(this));
 
-    this.accessoryService.getCharacteristic(this.Characteristic.ColorTemperature)
-      .onGet(this.getColorTemperature.bind(this))
-      .onSet(this.onSetColorTemperature.bind(this));
+    this.bind(Characteristic.ColorTemperature, 'topicGetColorTemperature', this.getColorTemperature.bind(this),
+      'topicSetColorTemperature', this.onSetColorTemperature.bind(this));
 
-    this.accessoryService.getCharacteristic(this.Characteristic.Hue)
-      .onGet(this.getHue.bind(this))
-      .onSet(this.onSetHue.bind(this));
+    this.bind(Characteristic.Hue, 'topicGetHue', this.getHue.bind(this),
+      'topicSetHue', this.onSetHue.bind(this));
 
-    this.accessoryService.getCharacteristic(this.Characteristic.Saturation)
-      .onGet(this.getSaturation.bind(this))
-      .onSet(this.onSetSaturation.bind(this));
+    this.bind(Characteristic.Saturation, 'topicGetSaturation', this.getSaturation.bind(this),
+      'topicSetSaturation', this.onSetSaturation.bind(this));
   }
 
   protected getAccessoryService(): Service {

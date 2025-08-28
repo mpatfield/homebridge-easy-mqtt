@@ -1,4 +1,7 @@
-import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
+import {
+  Characteristic, CharacteristicGetHandler, CharacteristicSetHandler, CharacteristicValue,
+  PlatformAccessory, PrimitiveTypes, Service, WithUUID,
+} from 'homebridge';
 
 import { PLATFORM_NAME } from '../../homebridge/settings.js';
 
@@ -66,6 +69,28 @@ export abstract class MQTTAccessory<C extends AccessoryConfig> {
   }
 
   protected abstract getAccessoryService(): Service;
+
+  protected bind(constructor: WithUUID<{new (): Characteristic; }>,
+    getTopic: keyof C, getHandler: CharacteristicGetHandler,
+    setTopic: keyof C | undefined = undefined, setHandler: CharacteristicSetHandler | undefined = undefined) {
+
+    const characteristic = this.accessoryService.getCharacteristic(constructor);
+    let used = false;
+
+    if (this.config[getTopic] !== undefined) {
+      characteristic.onGet(getHandler);
+      used = true;
+    }
+
+    if (setTopic !== undefined && setHandler !== undefined && this.config[setTopic] !== undefined) {
+      characteristic.onSet(setHandler);
+      used = true;
+    }
+
+    if (!used) {
+      this.accessoryService.removeCharacteristic(characteristic);
+    }
+  }
 
   protected abstract addTopicHandlers(): void;
 

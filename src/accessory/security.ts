@@ -47,11 +47,8 @@ export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySyste
       .onGet(this.getTargetState.bind(this))
       .onSet(this.onSetTargetState.bind(this));
 
-    this.accessoryService.getCharacteristic(Characteristic.StatusTampered)
-      .onGet(this.getIsTampered.bind(this));
-
-    this.accessoryService.getCharacteristic(Characteristic.StatusFault)
-      .onGet(this.getHasStatusFault.bind(this));
+    this.bind(Characteristic.StatusTampered, 'topicGetStatusTampered', this.getIsTampered.bind(this));
+    this.bind(Characteristic.StatusFault, 'topicGetStatusFault', this.getHasStatusFault.bind(this));
   }
 
   protected getAccessoryService(): Service {
