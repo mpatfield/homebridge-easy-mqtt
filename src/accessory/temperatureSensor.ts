@@ -1,6 +1,6 @@
 import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
 
-import { StatusActiveAccessory } from './abstract/statusActive.js';
+import { BaseAccessory } from './abstract/base.js';
 
 import { strings } from '../i18n/i18n.js';
 
@@ -11,7 +11,7 @@ import { toNumber } from '../tools/primitive.js';
 import { toCelsius } from '../tools/temperature.js';
 import { TemperatureUnits } from '../model/enums.js';
 
-export class TemperatureSensorAccessory extends StatusActiveAccessory<TemperatureSensorConfig> {
+export class TemperatureSensorAccessory extends BaseAccessory<TemperatureSensorConfig> {
 
   private currentTemperature: number = 0;
 

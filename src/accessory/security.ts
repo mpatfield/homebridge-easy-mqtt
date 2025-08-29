@@ -1,6 +1,6 @@
 import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
 
-import { StatusActiveAccessory } from './abstract/statusActive.js';
+import { BaseAccessory } from './abstract/base.js';
 
 import { strings } from '../i18n/i18n.js';
 
@@ -9,7 +9,7 @@ import { CharacteristicType, SecuritySystemConfig, ServiceType } from '../model/
 import { Log, LogType } from '../tools/log.js';
 import { CharacteristicKey } from '../model/enums.js';
 
-export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySystemConfig> {
+export class SecuritySystemAccessory extends BaseAccessory<SecuritySystemConfig> {
 
   private readonly STATE_MAP: Map<keyof SecuritySystemConfig, number>;
 

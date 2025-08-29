@@ -2,7 +2,7 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig }
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings.js';
 
-import { MQTTAccessory } from '../accessory/abstract/base.js';
+import { MQTTAccessory } from '../accessory/abstract/mqtt.js';
 
 import { LightbulbAccessory } from '../accessory/onoff/lightbulb.js';
 import { LockMechanismAccessory } from '../accessory/lock.js';

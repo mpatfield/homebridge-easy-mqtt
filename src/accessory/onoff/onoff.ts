@@ -1,6 +1,6 @@
 import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
 
-import { StatusActiveAccessory } from '../abstract/statusActive.js';
+import { BaseAccessory } from '../abstract/base.js';
 
 import { strings } from '../../i18n/i18n.js';
 
@@ -9,7 +9,7 @@ import { CharacteristicType, OnOffConfig, ServiceType } from '../../model/types.
 
 import { Log } from '../../tools/log.js';
 
-export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extends StatusActiveAccessory<C> {
+export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extends BaseAccessory<C> {
 
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: C, log: Log, className: string) {
     super(Service, Characteristic, accessory, config, log, className);
