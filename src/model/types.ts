@@ -8,7 +8,7 @@ import { AccessoryType, TemperatureUnits } from './enums.js';
 import { Assertable } from '../tools/validation.js';
 
 export type PlatformConfig = HBPlatformConfig & {
-  accessories?: AccessoryConfig[];
+  accessories?: BaseAccessoryConfig[];
 }
 
 export type TemperatureConfig = {
@@ -19,10 +19,6 @@ export type InfoConfig = Assertable & {
   id: string,
   name: string,
   type: AccessoryType,
-  manufacturer?: string,
-  model?: string,
-  serialNumber?: string,
-  version?: string,
 }
 
 export type MQTTConfig = Assertable & {
@@ -32,18 +28,26 @@ export type MQTTConfig = Assertable & {
   options?: string,
 }
 
-export type AccessoryConfig = Assertable & {
+export type MQTTAccessoryConfig = Assertable & {
   mqtt: MQTTConfig,
   info: InfoConfig,
   disableLogging: boolean,
 }
 
-export type StatusActiveConfig = AccessoryConfig & {
+export type AdditionalInfoConfig = InfoConfig & {
+  manufacturer?: string,
+  model?: string,
+  serialNumber?: string,
+  version?: string,
+}
+
+export type BaseAccessoryConfig = MQTTAccessoryConfig & {
+  info: AdditionalInfoConfig,
   topicGetStatusActive?: string,
   valueStatusActive?: string,
 }
 
-export type LockMechanismConfig = StatusActiveConfig & {
+export type LockMechanismConfig = BaseAccessoryConfig & {
   topicGetCurrentLockState: string,
   topicGetTargetLockState: string,
   topicSetTargetLockState: string,
@@ -55,7 +59,7 @@ export type LockMechanismConfig = StatusActiveConfig & {
   valueLockStateJammed?: string,
 };
 
-export type OnOffConfig = StatusActiveConfig & {
+export type OnOffConfig = BaseAccessoryConfig & {
   topicGetOn: string,
   topicSetOn: string,
   valueOn: string,
@@ -78,7 +82,7 @@ export type OutletConfig = OnOffConfig & {
   valueOutletInUse?: string,
 }
 
-export type SecuritySystemConfig = StatusActiveConfig & {
+export type SecuritySystemConfig = BaseAccessoryConfig & {
   topicGetCurrentSecurityState: string,
   topicGetTargetSecurityState: string,
   topicSetTargetSecurityState: string,
@@ -96,6 +100,6 @@ export type SecuritySystemConfig = StatusActiveConfig & {
 export type SwitchConfig = OnOffConfig & {
 }
 
-export type TemperatureSensorConfig = StatusActiveConfig & TemperatureConfig & {
+export type TemperatureSensorConfig = BaseAccessoryConfig & TemperatureConfig & {
   topicGetCurrentTemperature: string,
 }

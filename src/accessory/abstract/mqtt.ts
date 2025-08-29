@@ -3,14 +3,11 @@ import {
   PlatformAccessory, PrimitiveTypes, Service, WithUUID,
 } from 'homebridge';
 
-import { PLATFORM_NAME } from '../../homebridge/settings.js';
-
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
 import { MQTT } from '../../model/mqtt.js';
 import { CharacteristicType, MQTTAccessoryConfig, ServiceType } from '../../model/types.js';
 
 import { Log, LogType } from '../../tools/log.js';
-import getVersion from '../../tools/version.js';
 import { assert } from '../../tools/validation.js';
 import { toPrimitive } from '../../tools/primitive.js';
 
@@ -32,7 +29,6 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
     protected readonly accessory: PlatformAccessory,
     protected readonly config: C,
     protected readonly log: Log,
-    caller: string,
   ) {
 
     const name = config.info.name;
@@ -41,14 +37,6 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
       this.mqttClient = new MQTT(log, config.mqtt, this.onMQTTConnect.bind(this), name);
       this.mqttClient.connect();
     }
-
-    accessory.getService(Service.AccessoryInformation)!
-      .setCharacteristic(Characteristic.Name, name)
-      .setCharacteristic(Characteristic.ConfiguredName, name)
-      .setCharacteristic(Characteristic.Manufacturer, config.info.manufacturer ?? 'Homebridge')
-      .setCharacteristic(Characteristic.SerialNumber, config.info.serialNumber ?? `${PLATFORM_NAME}:${name}`)
-      .setCharacteristic(Characteristic.Model, config.info.model ?? caller)
-      .setCharacteristic(Characteristic.FirmwareRevision, config.info.version ?? getVersion());
 
     this.accessoryService = this.getAccessoryService();
 

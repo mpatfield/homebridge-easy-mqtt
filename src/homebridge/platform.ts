@@ -2,7 +2,7 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig }
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings.js';
 
-import { MQTTAccessory } from '../accessory/abstract/mqtt.js';
+import { BaseAccessory } from '../accessory/abstract/base.js';
 
 import { LightbulbAccessory } from '../accessory/onoff/lightbulb.js';
 import { LockMechanismAccessory } from '../accessory/lock.js';
@@ -24,8 +24,8 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
   private readonly log: Log;
 
-  private readonly cachedAccessories: Map<string, PlatformAccessory> = new Map();
-  private readonly mqttAccessories: MQTTAccessory<Configs.AccessoryConfig>[] = [];
+  private readonly platformAccessories: Map<string, PlatformAccessory> = new Map();
+  private readonly accessories: BaseAccessory<Configs.BaseAccessoryConfig>[] = [];
 
   constructor(
     logger: Logger,
@@ -58,11 +58,11 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
   configureAccessory(accessory: PlatformAccessory): void {
     this.log.always(strings.startup.restoringAccessory, accessory.displayName);
-    this.cachedAccessories.set(accessory.context.identifier, accessory);
+    this.platformAccessories.set(accessory.context.identifier, accessory);
   }
 
   private teardown() {
-    this.mqttAccessories.forEach( accessory => {
+    this.accessories.forEach( accessory => {
       accessory.teardown();
     });
   }
@@ -75,7 +75,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
     const keepIdentifiers = new Set<string>();
 
-    for (const accessoryConfig of this.config.accessories as Configs.AccessoryConfig[]) {
+    for (const accessoryConfig of this.config.accessories as Configs.BaseAccessoryConfig[]) {
 
       if (!assert(this.log, PLATFORM_NAME, accessoryConfig, 'info') ||
         !assert(this.log, PLATFORM_NAME, accessoryConfig.info, 'name', 'type')) {
@@ -85,15 +85,15 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
       const id = accessoryConfig.info.id ?? `${PLUGIN_NAME}:${accessoryConfig.info.type}:${accessoryConfig.info.name}`;
       const uuid = this.api.hap.uuid.generate(id);
 
-      let accessory = this.cachedAccessories.get(uuid);
-      if (!accessory) {
+      let platformAccessory = this.platformAccessories.get(uuid);
+      if (!platformAccessory) {
 
-        accessory = new this.api.platformAccessory(accessoryConfig.info.name, uuid);
-        accessory.context.identifier = uuid;
+        platformAccessory = new this.api.platformAccessory(accessoryConfig.info.name, uuid);
+        platformAccessory.context.identifier = uuid;
 
-        this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+        this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [platformAccessory]);
 
-        this.cachedAccessories.set(uuid, accessory);
+        this.platformAccessories.set(uuid, platformAccessory);
 
         this.log.always(strings.startup.newAccessory, accessoryConfig.info.name);
       }
@@ -101,25 +101,25 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
       const Service = this.api.hap.Service;
       const Characteristic = this.api.hap.Characteristic;
 
-      let mqttAccessory: MQTTAccessory<Configs.AccessoryConfig>;
+      let accessory: BaseAccessory<Configs.BaseAccessoryConfig>;
       switch(accessoryConfig.info.type) {
       case AccessoryType.Lightbulb:
-        mqttAccessory = new LightbulbAccessory(Service, Characteristic, accessory, accessoryConfig as Configs.LightbulbConfig, this.log);
+        accessory = new LightbulbAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.LightbulbConfig, this.log);
         break;
       case AccessoryType.LockMechanism:
-        mqttAccessory = new LockMechanismAccessory(Service, Characteristic, accessory, accessoryConfig as Configs.LockMechanismConfig, this.log);
+        accessory = new LockMechanismAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.LockMechanismConfig, this.log);
         break;
       case AccessoryType.Outlet:
-        mqttAccessory = new OutletAccessory(Service, Characteristic, accessory, accessoryConfig as Configs.OutletConfig, this.log);
+        accessory = new OutletAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.OutletConfig, this.log);
         break;
       case AccessoryType.SecuritySystem:
-        mqttAccessory = new SecuritySystemAccessory(Service, Characteristic, accessory, accessoryConfig as Configs.SecuritySystemConfig, this.log);
+        accessory = new SecuritySystemAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.SecuritySystemConfig, this.log);
         break;
       case AccessoryType.Switch:
-        mqttAccessory = new SwitchAccessory(Service, Characteristic, accessory, accessoryConfig as Configs.SwitchConfig, this.log);
+        accessory = new SwitchAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.SwitchConfig, this.log);
         break;
       case AccessoryType.TemperatureSensor:
-        mqttAccessory = new TemperatureSensorAccessory(Service, Characteristic, accessory, accessoryConfig as Configs.TemperatureSensorConfig, this.log);
+        accessory = new TemperatureSensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.TemperatureSensorConfig, this.log);
         break;
       default:
         this.log.error(strings.startup.unsupportedType, accessoryConfig.info.type);
@@ -127,10 +127,10 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
       }
 
       keepIdentifiers.add(uuid);
-      this.mqttAccessories.push(mqttAccessory);
+      this.accessories.push(accessory);
     }
 
-    this.cachedAccessories.forEach(accessory => {
+    this.platformAccessories.forEach(accessory => {
       if (!keepIdentifiers.has(accessory.context.identifier)) {
         this.removeCachedAccessory(accessory);
       }
@@ -143,6 +143,6 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
   private removeCachedAccessory(accessory: PlatformAccessory) {
     this.log.always(strings.startup.removeAccessory, accessory.displayName);
     this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
-    this.cachedAccessories.delete(accessory.context.identifier);
+    this.platformAccessories.delete(accessory.context.identifier);
   }
 }
