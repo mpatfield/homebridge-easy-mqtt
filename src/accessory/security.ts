@@ -6,7 +6,7 @@ import { strings } from '../i18n/i18n.js';
 
 import { CharacteristicType, SecuritySystemConfig, ServiceType } from '../model/types.js';
 
-import { Log } from '../tools/log.js';
+import { Log, LogType } from '../tools/log.js';
 import { CharacteristicKey } from '../model/enums.js';
 
 export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySystemConfig> {
@@ -97,7 +97,7 @@ export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySyste
     }
 
     if (current === this.Characteristic.SecuritySystemCurrentState.ALARM_TRIGGERED) {
-      this.log.error(this.stateStringForCV(current), this.name);
+      this.logIfDesired(LogType.ERROR, this.stateStringForCV(current));
     } else {
       this.logIfDesired(this.stateStringForCV(current));
     }
@@ -143,7 +143,7 @@ export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySyste
     });
 
     if (primative === undefined) {
-      this.log.error(strings.security.badTarget, this.name, `'${value}'`);
+      this.log.error(strings.security.badValue, this.name, `'${value}'`);
     }
 
     return primative;
@@ -163,7 +163,7 @@ export class SecuritySystemAccessory extends StatusActiveAccessory<SecuritySyste
       return this.STATE_MAP.get('valueAlarmTriggered');
     }
 
-    this.log.error(strings.security.unknownValue, this.name, value);
+    this.logIfDesired(strings.security.unknownValue, `'${value}'`);
   }
 
   private stateStringForCV(state: CharacteristicValue, future: boolean = false): string {

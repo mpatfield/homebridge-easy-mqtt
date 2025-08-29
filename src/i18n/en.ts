@@ -104,7 +104,7 @@ const en = {
   },
 
   lock: {
-    badTarget: '%s unable to get target state for %s',
+    badValue: '%s unable to determine lock state from %s',
     stateCurrentSecured: '%s is locked',
     stateCurrentUnsecured: '%s is unlocked',
     stateFutureSecured: 'Locking %s…',
@@ -129,11 +129,11 @@ const en = {
   },
 
   onOff: {
-    badValue: '%s unable to get on/off state for %s',
     stateFutureOff: 'Turning off %s…',
     stateFutureOn: 'Turning on %s…',
     stateOn: '%s is on',
     stateOff: '%s is off',
+    unknownValue: '%s unable to determine on/off state from %s. Ignoring…',
   },
 
   outlet: {
@@ -143,7 +143,7 @@ const en = {
   },
 
   security: {
-    badTarget: '%s unable to get target state for %s',
+    badValue: '%s missing value for security state %s.',
     isTampered: '%s is tampered',
     hasFault: '%s has a fault',
     noStateValues: '%s must have at least one state value defined (Arm Away, Disarm, etc.)',
@@ -159,7 +159,7 @@ const en = {
     stateFutureArmStay: 'Arming %s for stay…',
     stateFutureDisarm: 'Disarming %s…',
     stateUnknown: '%s state is unknown',
-    unknownValue: '%s received unexpected state value %s',
+    unknownValue: '%s unable to determine security state from value %s. Ignoring…',
   },
 
   startup: {

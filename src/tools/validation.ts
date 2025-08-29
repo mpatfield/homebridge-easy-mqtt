@@ -9,7 +9,7 @@ export function assert(log: Log, caller: string, assertable: Assertable, ...keys
   let valid = true;
   for (const key of keys) {
     if ((assertable as Record<string, unknown>)[key as string] === undefined) {
-      log.error(strings.accessory.missingRequired, caller, key);
+      log.error(strings.accessory.missingRequired, caller, `'${String(key)}'`);
       valid = false;
     }
   }

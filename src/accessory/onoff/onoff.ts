@@ -31,7 +31,7 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
   }
 
   private async onOnUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-    const on = this.booleanForValue(value, 'valueOn', 'valueOff', strings.onOff.badValue);
+    const on = this.booleanForValue(value, 'valueOn', 'valueOff');
     if (on !== undefined) {
       this.onUpdate(CharacteristicKey.On, on, this.stringForState(on));
     }
@@ -44,7 +44,7 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
     }
   }
 
-  private booleanForValue(value: PrimitiveTypes, positive: keyof C, negative: keyof C, errorString: string): boolean | undefined {
+  private booleanForValue(value: PrimitiveTypes, positive: keyof C, negative: keyof C): boolean | undefined {
 
     let bool: boolean | undefined = undefined;
     if (value === this.getPrimitiveValue(positive)) {
@@ -54,7 +54,7 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
     }
 
     if (bool === undefined) {
-      this.log.error(errorString, this.name, `'${value}'`);
+      this.logIfDesired(strings.onOff.unknownValue, `'${value}'`);
       return;
     }
 

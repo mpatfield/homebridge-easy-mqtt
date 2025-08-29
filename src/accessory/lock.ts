@@ -7,7 +7,7 @@ import { strings } from '../i18n/i18n.js';
 import { CharacteristicKey } from '../model/enums.js';
 import { CharacteristicType, LockMechanismConfig, ServiceType } from '../model/types.js';
 
-import { Log } from '../tools/log.js';
+import { Log, LogType } from '../tools/log.js';
 
 export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismConfig> {
 
@@ -66,7 +66,7 @@ export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismC
     }
 
     if (current === this.Characteristic.LockCurrentState.JAMMED) {
-      this.log.error(this.stringForState(current), this.name);
+      this.logIfDesired(LogType.ERROR, this.stringForState(current));
     } else {
       this.logIfDesired(this.stringForState(current));
     }
@@ -79,8 +79,13 @@ export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismC
 
   private async onSetTargetState(value: CharacteristicValue) {
 
+    if (!this.assert('valueLockStateSecured', 'valueLockStateUnsecured')) {
+      return;
+    }
+
     const target = this.valueFromTargetState(value);
     if (target === undefined) {
+      this.log.error(strings.lock.badValue, this.name, `'${value}'`);
       return;
     }
 
@@ -130,9 +135,6 @@ export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismC
       return this.getPrimitiveValue('valueLockStateSecured');
     case this.Characteristic.LockTargetState.UNSECURED:
       return this.getPrimitiveValue('valueLockStateUnsecured');
-    default:
-      this.log.error(strings.lock.badTarget, this.name, `'${value}'`);
-      return undefined;
     }
   }
 

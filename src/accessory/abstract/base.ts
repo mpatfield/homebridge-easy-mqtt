@@ -9,7 +9,7 @@ import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
 import { MQTT } from '../../model/mqtt.js';
 import { AccessoryConfig, CharacteristicType, ServiceType } from '../../model/types.js';
 
-import { Log } from '../../tools/log.js';
+import { Log, LogType } from '../../tools/log.js';
 import getVersion from '../../tools/version.js';
 import { assert } from '../../tools/validation.js';
 import { toPrimitive } from '../../tools/primitive.js';
@@ -202,12 +202,30 @@ export abstract class MQTTAccessory<C extends AccessoryConfig> {
     this.publish(this.config[topic] as string, publish);
   }
 
-  protected logIfDesired(message: string, ...parameters: string[]) {
+  protected logIfDesired(message: string, ...parameters: string[]): void;
+  protected logIfDesired(level: LogType, message: string, ...parameters: string[]): void;
+  protected logIfDesired(levelOrMessage: LogType | string, ...rest: string[]) {
 
     if (this.config.disableLogging) {
       return;
     }
 
-    this.log.always(message, this.name, ...parameters);
+    if (typeof levelOrMessage === 'string') {
+      this.log.always(levelOrMessage, this.name, ...rest);
+      return;
+    }
+
+    const [message, ...parameters] = rest;
+    switch(levelOrMessage) {
+    case LogType.WARNING:
+      this.log.warning(message, this.name, ...parameters);
+      break;
+    case LogType.ERROR:
+      this.log.error(message, this.name, ...parameters);
+      break;
+    default:
+      this.log.always(message, this.name, ...parameters);
+      break;
+    }
   }
 }
