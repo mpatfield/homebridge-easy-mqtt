@@ -11,8 +11,8 @@ import { Log } from '../../tools/log.js';
 
 export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extends BaseAccessory<C> {
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: C, log: Log, className: string) {
-    super(Service, Characteristic, accessory, config, log, className);
+  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: C, log: Log) {
+    super(Service, Characteristic, accessory, config, log);
 
     this.set(CharacteristicKey.On, false);
 

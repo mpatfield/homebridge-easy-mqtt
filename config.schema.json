@@ -24,22 +24,6 @@
             "enum": [ "Lightbulb", "LockMechanism", "Outlet", "SecuritySystem", "Switch", "TemperatureSensor"],
             "enumNames": ["${config.enumNames.lightbulb}", "${config.enumNames.lockMechanism}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}"],
             "required": true
-          },
-          "manufacturer": {
-            "type": "string",
-            "title": "${config.title.manufacturer}"
-          },
-          "model": {
-            "type": "string",
-            "title": "${config.title.model}"
-          },
-          "serialNumber": {
-            "type": "string",
-            "title": "${config.title.serialNumber}"
-          },
-          "version": {
-            "type": "string",
-            "title": "${config.title.version}"
           }
         }
       },
@@ -265,44 +249,6 @@
             },
             {
               "type": "fieldset",
-              "title": "${config.title.info}",
-              "expandable": true,
-              "items": [
-                {
-                  "type": "div",
-                  "displayFlex": true,
-                  "flex-direction": "row",
-                  "items": [
-                    {
-                      "key": "accessories[].info.manufacturer",
-                      "flex": "1 1 0"
-                    },
-                    {
-                      "key": "accessories[].info.model",
-                      "flex": "1 1 0"
-                    }
-                  ]
-                },
-                {
-                  "type": "div",
-                  "displayFlex": true,
-                  "flex-direction": "row",
-                  "items": [
-                    {
-                      "key": "accessories[].info.serialNumber",
-                      "flex": "1 1 0"
-                    },
-                    {
-                      "key": "accessories[].info.version",
-                      "flex": "1 1 0"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "fieldset",
-              "title": "${config.title.mqtt}",
               "items": [
                 "accessories[].mqtt.broker",
                 {

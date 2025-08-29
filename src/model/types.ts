@@ -34,15 +34,7 @@ export type MQTTAccessoryConfig = Assertable & {
   disableLogging: boolean,
 }
 
-export type AdditionalInfoConfig = InfoConfig & {
-  manufacturer?: string,
-  model?: string,
-  serialNumber?: string,
-  version?: string,
-}
-
 export type BaseAccessoryConfig = MQTTAccessoryConfig & {
-  info: AdditionalInfoConfig,
   topicGetStatusActive?: string,
   valueStatusActive?: string,
 }

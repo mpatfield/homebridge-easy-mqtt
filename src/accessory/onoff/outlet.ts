@@ -12,7 +12,7 @@ import { Log } from '../../tools/log.js';
 export class OutletAccessory extends OnOffAccessory<OutletConfig> {
 
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: OutletConfig, log: Log) {
-    super(Service, Characteristic, accessory, config, log, OutletAccessory.name);
+    super(Service, Characteristic, accessory, config, log);
 
     this.set(CharacteristicKey.OutletInUse, false);
 

@@ -14,7 +14,7 @@ export class SecuritySystemAccessory extends BaseAccessory<SecuritySystemConfig>
   private readonly STATE_MAP: Map<keyof SecuritySystemConfig, number>;
 
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: SecuritySystemConfig, log: Log) {
-    super(Service, Characteristic, accessory, config, log, SecuritySystemAccessory.name);
+    super(Service, Characteristic, accessory, config, log);
 
     this.set(CharacteristicKey.SecuritySystemCurrentState, Characteristic.SecuritySystemCurrentState.DISARMED);
     this.set(CharacteristicKey.SecuritySystemTargetState, Characteristic.SecuritySystemTargetState.DISARM);

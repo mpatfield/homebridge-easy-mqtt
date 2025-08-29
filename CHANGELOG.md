@@ -19,6 +19,7 @@ Would you like to see Homebridge Easy MQTT in your language? Please consider [ge
 - Updated dev dependencies
 - Significant under-the-hood refactoring to speed future development
 - Removed in-use setter topic for outlet since it is not user modifyable
+- Removed optional accessory info fields
 - Deprecated inconsistent LockMechanism topic names
     - topicGetLockCurrentState -> topicGetCurrentLockState
     - topicGetLockTargetState -> topicGetTargetLockState

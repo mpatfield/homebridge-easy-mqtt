@@ -12,7 +12,7 @@ import { CharacteristicKey } from '../../model/enums.js';
 export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
 
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: LightbulbConfig, log: Log) {
-    super(Service, Characteristic, accessory, config, log, LightbulbAccessory.name);
+    super(Service, Characteristic, accessory, config, log);
 
     this.set(CharacteristicKey.Brightness, 100);
     this.set(CharacteristicKey.ColorTemperature, 500);

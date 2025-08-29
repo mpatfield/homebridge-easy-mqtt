@@ -12,7 +12,7 @@ import { Log, LogType } from '../tools/log.js';
 export class LockMechanismAccessory extends BaseAccessory<LockMechanismConfig> {
 
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: LockMechanismConfig, log: Log) {
-    super(Service, Characteristic, accessory, config, log, LockMechanismAccessory.name);
+    super(Service, Characteristic, accessory, config, log);
 
     this.set(CharacteristicKey.LockCurrentState, Characteristic.LockCurrentState.UNKNOWN);
     this.set(CharacteristicKey.LockTargetState, Characteristic.LockTargetState.SECURED);
