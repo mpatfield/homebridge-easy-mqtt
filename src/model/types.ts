@@ -5,16 +5,14 @@ export type CharacteristicType = typeof import('homebridge').Characteristic;
 
 import { AccessoryType, TemperatureUnits } from './enums.js';
 
+import { Assertable } from '../tools/validation.js';
+
 export type PlatformConfig = HBPlatformConfig & {
   accessories?: AccessoryConfig[];
 }
 
 export type TemperatureConfig = {
   temperatureUnits?: TemperatureUnits,
-}
-
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export type Assertable = {
 }
 
 export type InfoConfig = Assertable & {
