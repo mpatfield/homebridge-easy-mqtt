@@ -39,9 +39,9 @@ export class LockMechanismAccessory extends StatusActiveAccessory<LockMechanismC
     }
 
     if (this.config.topicGetLockTargetState !== undefined && this.config.topicGetTargetLockState === undefined) {
-      this.addTopicHandler('topicGetLockTargetState', this.onCurrentStateUpdate.bind(this));
+      this.addTopicHandler('topicGetLockTargetState', this.onTargetStateUpdate.bind(this));
     } else {
-      this.addTopicHandler('topicGetTargetLockState', this.onCurrentStateUpdate.bind(this));
+      this.addTopicHandler('topicGetTargetLockState', this.onTargetStateUpdate.bind(this));
     }
   }
 
