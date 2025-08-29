@@ -212,8 +212,7 @@
             },
             "disableLogging": {
               "type": "boolean",
-              "title": "${config.title.disableLogging}",
-              "description": "${config.description.disableLogging}"
+              "title": "${config.title.disableLogging}"
             }
           }
         },
@@ -239,107 +238,237 @@
               "items": [
                 {
                   "key": "accessories[].info.name",
-                  "flex": "1 1 0"
+                  "flex": "0 0 50%"
                 },
                 {
                   "key": "accessories[].info.type",
-                  "flex": "1 1 0"
+                  "flex": "0 0 50%"
                 }
               ]
             },
+            "accessories[].mqtt.broker",
             {
-              "type": "fieldset",
+              "type": "div",
+              "displayFlex": true,
+              "flex-direction": "row",
               "items": [
-                "accessories[].mqtt.broker",
                 {
-                  "type": "div",
-                  "displayFlex": true,
-                  "flex-direction": "row",
-                  "items": [
-                    {
-                      "key": "accessories[].mqtt.username",
-                      "flex": "1 1 0"
-                    },
-                    {
-                      "key": "accessories[].mqtt.password",
-                      "flex": "1 1 0"
-                    }
-                  ]
+                  "key": "accessories[].mqtt.username",
+                  "flex": "0 0 50%"
                 },
-                "accessories[].mqtt.options"
+                {
+                  "key": "accessories[].mqtt.password",
+                  "flex": "0 0 50%"
+                }
               ]
             },
+            "accessories[].mqtt.options",
             "accessories[].disableLogging",
             {
               "type": "fieldset",
               "title": "${config.title.topics}",
+              "description": "${config.description.topics}",
               "condition": {
                 "functionBody": "return model.accessories?.[arguments[1]]?.info?.type !== undefined;"
               },
               "items": [
                 {
                   "type": "fieldset",
-                  "notitle": "true",
-                  "items": [
-                    "accessories[].topicGetCurrentLockState",
-                    "accessories[].topicGetTargetLockState",
-                    "accessories[].topicSetTargetLockState"
-                  ],
+                  "notitle": true,
                   "condition": {
                     "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'LockMechanism';"
-                  }
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetCurrentLockState",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetTargetLockState",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetTargetLockState",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    }
+                  ]
                 },
                 {
                   "type": "fieldset",
-                  "notitle": "true",
-                  "items": [
-                    "accessories[].topicGetOn",
-                    "accessories[].topicSetOn"
-                  ],
+                  "notitle": true,
                   "condition": {
                     "functionBody": "return ['Lightbulb', 'Outlet', 'Switch'].includes(model.accessories?.[arguments[1]]?.info?.type);"
-                  }
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetOn",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetOn",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    }
+                  ]
                 },
                 {
                   "type": "fieldset",
-                  "notitle": "true",
-                  "items": [
-                    "accessories[].topicGetBrightness",
-                    "accessories[].topicSetBrightness",
-                    "accessories[].topicGetHue",
-                    "accessories[].topicSetHue",
-                    "accessories[].topicGetColorTemperature",
-                    "accessories[].topicSetColorTemperature",
-                    "accessories[].topicGetSaturation",
-                    "accessories[].topicSetSaturation"
-                  ],
+                  "notitle": true,
                   "condition": {
                     "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Lightbulb';"
-                  }
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetBrightness",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetBrightness",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetHue",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetHue",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetColorTemperature",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetColorTemperature",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetSaturation",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetSaturation",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    }
+                  ]
                 },
                 {
                   "type": "fieldset",
-                  "notitle": "true",
-                  "items": [
-                    "accessories[].topicGetOutletInUse"
-                  ],
+                  "notitle": true,
                   "condition": {
                     "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Outlet';"
-                  }
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetOutletInUse",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    }
+                  ]
                 },
                 {
                   "type": "fieldset",
-                  "notitle": "true",
-                  "items": [
-                    "accessories[].topicGetCurrentSecurityState",
-                    "accessories[].topicGetTargetSecurityState",
-                    "accessories[].topicSetTargetSecurityState",
-                    "accessories[].topicGetStatusTampered",
-                    "accessories[].topicGetStatusFault"
-                  ],
+                  "notitle": true,
                   "condition": {
                     "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'SecuritySystem';"
-                  }
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetCurrentSecurityState",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetTargetSecurityState",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetTargetSecurityState",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetStatusTampered",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicGetStatusFault",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    }
+                  ]
                 },
                 {
                   "type": "div",
@@ -351,16 +480,26 @@
                   "items": [
                     {
                       "key": "accessories[].topicGetCurrentTemperature",
-                      "flex": "1 1 67%"
+                      "flex": "0 0 67%"
                     },
                     {
                       "key": "accessories[].temperatureUnits",
                       "title": "${config.title.sourceUnits}",
-                      "flex": "1 1 33%"
+                      "flex": "0 0 33%"
                     }
                   ]
                 },
-                "accessories[].topicGetStatusActive"
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "items": [
+                    {
+                      "key": "accessories[].topicGetStatusActive",
+                      "flex": "0 0 50%"
+                    }
+                  ]
+                }
               ]
             },
             {

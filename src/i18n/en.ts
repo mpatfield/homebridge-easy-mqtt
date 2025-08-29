@@ -13,7 +13,6 @@ const en = {
     thankYou: 'Thank you for installing homebridge-easy-mqtt',
 
     description: {
-      disableLogging: 'If true, only critical events will be logged for this accessory.',
       options: 'Additional MQTT parameters such as clientId or protocolVersion. Must be valid JSON.',
       topics: 'Supports JSONPath using dot notation, i.e. "my/topic$.path.to.value"',
       verbose: 'If true, additional MQTT info will be logged for debugging purposes.',
@@ -34,9 +33,7 @@ const en = {
       accessory: 'Accessory',
       broker: 'Broker',
       disableLogging: 'Disable Logging',
-      info: 'Optional Details',
       name: 'Name',
-      mqtt: 'MQTT Settings',
       options: 'Options',
       password: 'Password',
       sourceUnits: 'Source Units',
