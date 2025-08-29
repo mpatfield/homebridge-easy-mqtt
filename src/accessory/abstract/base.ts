@@ -9,7 +9,7 @@ import { strings } from '../../i18n/i18n.js';
 import { CharacteristicKey } from '../../model/enums.js';
 import { CharacteristicType, BaseAccessoryConfig, ServiceType } from '../../model/types.js';
 
-import { Log } from '../../tools/log.js';
+import { Log, LogType } from '../../tools/log.js';
 import getVersion from '../../tools/version.js';
 
 export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessoryConfig> extends MQTTAccessory<C> {
@@ -25,17 +25,53 @@ export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessor
       .setCharacteristic(Characteristic.SerialNumber, config.info.id)
       .setCharacteristic(Characteristic.FirmwareRevision, getVersion());
 
-    this.set(CharacteristicKey.StatusActive, true);
+    this.set(CharacteristicKey.BatteryLevel, 100);
+    this.bind(Characteristic.BatteryLevel, 'topicGetBatteryLevel', this.getBatteryLevel.bind(this));
 
+    this.set(CharacteristicKey.StatusLowBattery, false);
+    this.bind(Characteristic.BatteryLevel, 'topicGetBatteryLow', this.getBatteryLow.bind(this));
+
+    this.set(CharacteristicKey.StatusActive, true);
     this.bind(Characteristic.StatusActive, 'topicGetStatusActive', this.getStatusActive.bind(this));
   }
 
   protected addTopicHandlers(): void {
+    this.addTopicHandler('topicGetBatteryLevel', this.onBatteryLevelUpdate.bind(this), false);
+    this.addTopicHandler('topicGetBatteryLow', this.onBatteryLowUpdate.bind(this), false);
     this.addTopicHandler('topicGetStatusActive', this.onStatusActiveUpdate.bind(this), false);
+  }
+
+  private async getBatteryLevel(): Promise<CharacteristicValue> {
+    return this.get(CharacteristicKey.BatteryLevel);
+  }
+
+  private async getBatteryLow(): Promise<CharacteristicValue> {
+    return this.get(CharacteristicKey.StatusLowBattery);
   }
 
   private async getStatusActive(): Promise<CharacteristicValue> {
     return this.get(CharacteristicKey.StatusActive);
+  }
+
+  private async onBatteryLevelUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
+    if (this.assertNumber(value, strings.accessory.badBatteryLevel)) {
+      const logString = strings.accessory.batteryLevel.replace('%d', `${value.toString()}%`);
+      this.onUpdate(CharacteristicKey.BatteryLevel, value, logString); // TODO not working
+    }
+  }
+
+  private async onBatteryLowUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
+
+    const batteryLow = value === this.getPrimitiveValue('valueBatteryLow');
+    if (!this.onUpdate(CharacteristicKey.StatusLowBattery, batteryLow)) {
+      return;
+    }
+
+    if (batteryLow) {
+      this.logIfDesired(LogType.WARNING, strings.accessory.batteryLow);
+    } else {
+      this.logIfDesired(strings.accessory.batteryNotLow);
+    }
   }
 
   private async onStatusActiveUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
@@ -48,7 +84,7 @@ export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessor
     if (statusActive) {
       this.logIfDesired(strings.accessory.statusActive);
     } else {
-      this.log.warning(strings.accessory.statusInactive, this.name);
+      this.logIfDesired(LogType.WARNING, strings.accessory.statusInactive);
     }
   }
 }

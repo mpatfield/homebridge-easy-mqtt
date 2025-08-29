@@ -10,6 +10,7 @@ Would you like to see Homebridge Easy MQTT in your language? Please consider [ge
 
 ### Added
 - Security System accessory type
+- Support for battery and status
 
 ### Fixed
 - Allow raw strings in mqtt messages
@@ -19,7 +20,8 @@ Would you like to see Homebridge Easy MQTT in your language? Please consider [ge
 - Updated dev dependencies
 - Significant under-the-hood refactoring to speed future development
 - Removed in-use setter topic for outlet since it is not user modifyable
-- Removed optional accessory info fields
+- Condensed and cleaned up config UI
+    - Removed optional accessory info fields as they were messy and provided little value
 - Deprecated inconsistent LockMechanism topic names
     - topicGetLockCurrentState -> topicGetCurrentLockState
     - topicGetLockTargetState -> topicGetTargetLockState

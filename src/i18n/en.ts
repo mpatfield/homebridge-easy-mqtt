@@ -1,6 +1,10 @@
 const en = {
 
   accessory: {
+    badBatteryLevel: '%s expected a number for battery level but received %s',
+    batteryLevel: '%s battery is at %d',
+    batteryLow: '%s battery is low',
+    batteryNotLow: '%s battery is okay',
     missingRequired: '%s is missing required config variable %s',
     statusActive: '%s is now available',
     statusInactive: '%s is unavailable',
@@ -37,6 +41,8 @@ const en = {
       options: 'Options',
       password: 'Password',
       sourceUnits: 'Source Units',
+      topicGetBatteryLevel: 'Get Battery Level',
+      topicGetBatteryLow: 'Get Battery Low',
       topicGetStatusActive: 'Get Availability',
       topicGetCurrentLockState: 'Get Current State*',
       topicGetOutletInUse: 'Get In Use State',
@@ -61,6 +67,7 @@ const en = {
       topics: 'Topics',
       type: 'Type',
       username: 'Username',
+      valueBatteryLow: 'Battery Low',
       valueStatusActive: 'Available/Reachable',
       valueLockStateJammed: 'Jammed',
       valueOutletInUse: 'In Use',

@@ -70,6 +70,14 @@
               "enum": ["C", "F"],
               "enumNames": ["${config.enumNames.celsius}", "${config.enumNames.fahrenheit}"]
             },
+            "topicGetBatteryLevel": {
+              "type": "string",
+              "title": "${config.title.topicGetBatteryLevel}"
+            },
+            "topicGetBatteryLow": {
+              "type": "string",
+              "title": "${config.title.topicGetBatteryLow}"
+            },
             "topicGetStatusActive": {
               "type": "string",
               "title": "${config.title.topicGetStatusActive}"
@@ -153,6 +161,10 @@
             "topicGetStatusFault": {
               "type": "string",
               "title": "${config.title.topicGetStatusFault}"
+            },
+            "valueBatteryLow": {
+              "type": "string",
+              "title": "${config.title.valueBatteryLow}"
             },
             "valueStatusActive": {
               "type": "string",
@@ -495,6 +507,21 @@
                   "flex-direction": "row",
                   "items": [
                     {
+                      "key": "accessories[].topicGetBatteryLevel",
+                      "flex": "0 0 50%"
+                    },
+                    {
+                      "key": "accessories[].topicGetBatteryLow",
+                      "flex": "0 0 50%"
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "items": [
+                    {
                       "key": "accessories[].topicGetStatusActive",
                       "flex": "0 0 50%"
                     }
@@ -619,6 +646,10 @@
                   "displayFlex": true,
                   "flex-direction": "row",
                   "items": [
+                    {
+                      "key": "accessories[].valueBatteryLow",
+                      "flex": "0 0 25%"
+                    },
                     {
                       "key": "accessories[].valueStatusActive",
                       "flex": "0 0 25%"

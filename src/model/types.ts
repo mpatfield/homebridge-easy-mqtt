@@ -35,7 +35,10 @@ export type MQTTAccessoryConfig = Assertable & {
 }
 
 export type BaseAccessoryConfig = MQTTAccessoryConfig & {
+  topicGetBatteryLevel?: string,
+  topicGetBatteryLow?: string,
   topicGetStatusActive?: string,
+  valueBatteryLow?: string,
   valueStatusActive?: string,
 }
 

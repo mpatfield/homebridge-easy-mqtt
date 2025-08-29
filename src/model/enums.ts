@@ -8,6 +8,7 @@ export enum AccessoryType {
 }
 
 export enum CharacteristicKey {
+  BatteryLevel = 'BatteryLevel',
   Brightness = 'Brightness',
   ColorTemperature = 'ColorTemperature',
   Hue = 'Hue',
@@ -20,6 +21,7 @@ export enum CharacteristicKey {
   SecuritySystemTargetState = 'SecuritySystemTargetState',
   StatusActive = 'StatusActive',
   StatusFault = 'StatusFault',
+  StatusLowBattery = 'StatusLowBattery',
   StatusTampered = 'StatusTampered',
 }
 
