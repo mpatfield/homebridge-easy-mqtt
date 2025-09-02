@@ -56,7 +56,7 @@ export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessor
   private async onBatteryLevelUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
     if (this.assertNumber(value, strings.accessory.badBatteryLevel)) {
       const logString = strings.accessory.batteryLevel.replace('%d', `${value.toString()}%`);
-      this.onUpdate(CharacteristicKey.BatteryLevel, value, logString); // TODO not working
+      this.onUpdate(CharacteristicKey.BatteryLevel, value, logString);
     }
   }
 
