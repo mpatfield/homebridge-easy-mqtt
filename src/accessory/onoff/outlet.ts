@@ -15,17 +15,12 @@ export class OutletAccessory extends OnOffAccessory<OutletConfig> {
     super(Service, Characteristic, accessory, config, log);
 
     this.set(CharacteristicKey.OutletInUse, false);
-
     this.bind(Characteristic.OutletInUse, 'topicGetOutletInUse', this.getInUse.bind(this));
+    this.addTopicHandler('topicGetOutletInUse', this.onInUseUpdate.bind(this), false);
   }
 
   protected getAccessoryService(): Service {
     return this.accessory.getService(this.Service.Outlet) || this.accessory.addService(this.Service.Outlet);
-  }
-
-  override addTopicHandlers(): void {
-    super.addTopicHandlers();
-    this.addTopicHandler('topicGetOutletInUse', this.onInUseUpdate.bind(this), false);
   }
 
   private async getInUse(): Promise<CharacteristicValue> {

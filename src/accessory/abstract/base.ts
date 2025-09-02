@@ -27,17 +27,14 @@ export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessor
 
     this.set(CharacteristicKey.BatteryLevel, 100);
     this.bind(Characteristic.BatteryLevel, 'topicGetBatteryLevel', this.getBatteryLevel.bind(this));
+    this.addTopicHandler('topicGetBatteryLevel', this.onBatteryLevelUpdate.bind(this), false);
 
     this.set(CharacteristicKey.StatusLowBattery, false);
     this.bind(Characteristic.StatusLowBattery, 'topicGetBatteryLow', this.getBatteryLow.bind(this));
+    this.addTopicHandler('topicGetBatteryLow', this.onBatteryLowUpdate.bind(this), false);
 
     this.set(CharacteristicKey.StatusActive, true);
     this.bind(Characteristic.StatusActive, 'topicGetStatusActive', this.getStatusActive.bind(this));
-  }
-
-  protected addTopicHandlers(): void {
-    this.addTopicHandler('topicGetBatteryLevel', this.onBatteryLevelUpdate.bind(this), false);
-    this.addTopicHandler('topicGetBatteryLow', this.onBatteryLowUpdate.bind(this), false);
     this.addTopicHandler('topicGetStatusActive', this.onStatusActiveUpdate.bind(this), false);
   }
 

@@ -20,15 +20,12 @@ export class TemperatureSensorAccessory extends BaseAccessory<TemperatureSensorC
 
     this.accessoryService.getCharacteristic(Characteristic.CurrentTemperature)
       .onGet(this.getCurrentTemperature.bind(this));
+
+    this.addTopicHandler('topicGetCurrentTemperature', this.onCurrentTemperatureUpdate.bind(this));
   }
 
   protected getAccessoryService(): Service {
     return this.accessory.getService(this.Service.TemperatureSensor) || this.accessory.addService(this.Service.TemperatureSensor);
-  }
-
-  override addTopicHandlers(): void {
-    super.addTopicHandlers();
-    this.addTopicHandler('topicGetCurrentTemperature', this.onCurrentTemperatureUpdate.bind(this));
   }
 
   private async onCurrentTemperatureUpdate(topic: string, value: PrimitiveTypes): Promise<void> {

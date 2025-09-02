@@ -19,11 +19,9 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
     this.accessoryService.getCharacteristic(Characteristic.On)
       .onGet(this.getOn.bind(this))
       .onSet(this.onSetOn.bind(this));
-  }
 
-  override addTopicHandlers(): void {
-    super.addTopicHandlers();
     this.addTopicHandler('topicGetOn', this.onOnUpdate.bind(this));
+
   }
 
   private async getOn(): Promise<CharacteristicValue> {

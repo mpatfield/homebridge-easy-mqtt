@@ -21,27 +21,23 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
 
     this.bind(Characteristic.Brightness, 'topicGetBrightness', this.getBrightness.bind(this),
       'topicSetBrightness', this.onSetBrightness.bind(this));
+    this.addTopicHandler('topicGetBrightness', this.onBrightnessUpdate.bind(this), false);
 
     this.bind(Characteristic.ColorTemperature, 'topicGetColorTemperature', this.getColorTemperature.bind(this),
       'topicSetColorTemperature', this.onSetColorTemperature.bind(this));
+    this.addTopicHandler('topicGetColorTemperature', this.onColorTemperatureUpdate.bind(this), false);
 
     this.bind(Characteristic.Hue, 'topicGetHue', this.getHue.bind(this),
       'topicSetHue', this.onSetHue.bind(this));
+    this.addTopicHandler('topicGetHue', this.onHueUpdate.bind(this), false);
 
     this.bind(Characteristic.Saturation, 'topicGetSaturation', this.getSaturation.bind(this),
       'topicSetSaturation', this.onSetSaturation.bind(this));
+    this.addTopicHandler('topicGetSaturation', this.onSaturationUpdate.bind(this), false);
   }
 
   protected getAccessoryService(): Service {
     return this.accessory.getService(this.Service.Lightbulb) || this.accessory.addService(this.Service.Lightbulb);
-  }
-
-  override addTopicHandlers(): void {
-    super.addTopicHandlers();
-    this.addTopicHandler('topicGetBrightness', this.onBrightnessUpdate.bind(this), false);
-    this.addTopicHandler('topicGetColorTemperature', this.onColorTemperatureUpdate.bind(this), false);
-    this.addTopicHandler('topicGetHue', this.onHueUpdate.bind(this), false);
-    this.addTopicHandler('topicGetSaturation', this.onSaturationUpdate.bind(this), false);
   }
 
   private async getBrightness(): Promise<CharacteristicValue> {

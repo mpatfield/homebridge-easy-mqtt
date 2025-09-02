@@ -46,8 +46,6 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
         accessory.removeService(existingService);
       }
     }
-
-    this.addTopicHandlers();
   }
 
   private async onMQTTConnect(): Promise<void> {
@@ -82,8 +80,6 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
       characteristic.onSet(setHandler);
     }
   }
-
-  protected abstract addTopicHandlers(): void;
 
   protected addTopicHandler(topicKey: keyof C, handler: (topic: string, value: PrimitiveTypes) => Promise<void>, assert: boolean = true) {
 

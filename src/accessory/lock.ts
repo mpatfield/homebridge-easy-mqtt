@@ -15,22 +15,9 @@ export class LockMechanismAccessory extends BaseAccessory<LockMechanismConfig> {
     super(Service, Characteristic, accessory, config, log);
 
     this.set(CharacteristicKey.LockCurrentState, Characteristic.LockCurrentState.UNKNOWN);
-    this.set(CharacteristicKey.LockTargetState, Characteristic.LockTargetState.SECURED);
 
     this.accessoryService.getCharacteristic(this.Characteristic.LockCurrentState)
       .onGet(this.getCurrentState.bind(this));
-
-    this.accessoryService.getCharacteristic(this.Characteristic.LockTargetState)
-      .onGet(this.getTargetState.bind(this))
-      .onSet(this.onSetTargetState.bind(this));
-  }
-
-  protected getAccessoryService(): Service {
-    return this.accessory.getService(this.Service.LockMechanism) || this.accessory.addService(this.Service.LockMechanism);
-  }
-
-  override addTopicHandlers(): void {
-    super.addTopicHandlers();
 
     if (this.config.topicGetLockCurrentState !== undefined && this.config.topicGetCurrentLockState === undefined) {
       this.addTopicHandler('topicGetLockCurrentState', this.onCurrentStateUpdate.bind(this));
@@ -38,11 +25,21 @@ export class LockMechanismAccessory extends BaseAccessory<LockMechanismConfig> {
       this.addTopicHandler('topicGetCurrentLockState', this.onCurrentStateUpdate.bind(this));
     }
 
+    this.set(CharacteristicKey.LockTargetState, Characteristic.LockTargetState.SECURED);
+
+    this.accessoryService.getCharacteristic(this.Characteristic.LockTargetState)
+      .onGet(this.getTargetState.bind(this))
+      .onSet(this.onSetTargetState.bind(this));
+
     if (this.config.topicGetLockTargetState !== undefined && this.config.topicGetTargetLockState === undefined) {
       this.addTopicHandler('topicGetLockTargetState', this.onTargetStateUpdate.bind(this));
     } else {
       this.addTopicHandler('topicGetTargetLockState', this.onTargetStateUpdate.bind(this));
     }
+  }
+
+  protected getAccessoryService(): Service {
+    return this.accessory.getService(this.Service.LockMechanism) || this.accessory.addService(this.Service.LockMechanism);
   }
 
   private async getCurrentState(): Promise<CharacteristicValue> {

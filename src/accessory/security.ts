@@ -17,10 +17,16 @@ export class SecuritySystemAccessory extends BaseAccessory<SecuritySystemConfig>
     super(Service, Characteristic, accessory, config, log);
 
     this.set(CharacteristicKey.SecuritySystemCurrentState, Characteristic.SecuritySystemCurrentState.DISARMED);
+    this.addTopicHandler('topicGetCurrentSecurityState', this.onCurrentStateUpdate.bind(this));
+
     this.set(CharacteristicKey.SecuritySystemTargetState, Characteristic.SecuritySystemTargetState.DISARM);
+    this.addTopicHandler('topicGetTargetSecurityState', this.onTargetStateUpdate.bind(this));
 
     this.set(CharacteristicKey.StatusTampered, 0);
+    this.addTopicHandler('topicGetStatusTampered', this.onTamperedUpdate.bind(this), false);
+
     this.set(CharacteristicKey.StatusFault, 0);
+    this.addTopicHandler('topicGetStatusFault', this.onStatusFaultUpdate.bind(this), false);
 
     this.STATE_MAP = new Map([
       ['valueArmStay', Characteristic.SecuritySystemCurrentState.STAY_ARM],
@@ -53,16 +59,6 @@ export class SecuritySystemAccessory extends BaseAccessory<SecuritySystemConfig>
 
   protected getAccessoryService(): Service {
     return this.accessory.getService(this.Service.SecuritySystem) || this.accessory.addService(this.Service.SecuritySystem);
-  }
-
-  override addTopicHandlers(): void {
-    super.addTopicHandlers();
-
-    this.addTopicHandler('topicGetCurrentSecurityState', this.onCurrentStateUpdate.bind(this));
-    this.addTopicHandler('topicGetTargetSecurityState', this.onTargetStateUpdate.bind(this));
-
-    this.addTopicHandler('topicGetStatusTampered', this.onTamperedUpdate.bind(this), false);
-    this.addTopicHandler('topicGetStatusFault', this.onStatusFaultUpdate.bind(this), false);
   }
 
   private async getCurrentState(): Promise<CharacteristicValue> {
