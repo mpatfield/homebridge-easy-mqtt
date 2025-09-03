@@ -1,8 +1,6 @@
-<!--
 <p align="center">
-<img src="https://github.com/mpatfield/homebridge-easy-mqtt/blob/latest/img/banner.png?raw=true" width="600">
+<img src="https://raw.githubusercontent.com/mpatfield/homebridge-easy-mqtt/refs/heads/latest/img/banner.png" width="600">
 </p>
--->
 
 <span align="center">
 
