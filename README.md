@@ -222,4 +222,6 @@ would use the topic
 
 [@arachnetech](https://github.com/arachnetech) for the fantastic [homebridge-mqttthing](https://github.com/arachnetech/homebridge-mqttthing) plugin which serves as the main inspiration for this project
 
+[Keryan Belahcene](https://www.instagram.com/keryan.me) for creating the [Flume](https://github.com/homebridge-plugins/homebridge-flume) header logo which I adapted for this plugin
+
 And to the amazing creators/contributors of [Homebridge](https://homebridge.io) who made this plugin possible!
