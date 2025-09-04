@@ -14,23 +14,23 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: LightbulbConfig, log: Log) {
     super(Service, Characteristic, accessory, config, log);
 
-    this.setup(CharacteristicKey.Brightness, 100,
-      'topicGetBrightness', this.onUpdateNumeric(CharacteristicKey.Brightness, strings.lightbulb.brightness), false,
+    this.setupCharacteristic(CharacteristicKey.Brightness, 100,
+      'topicGetBrightness', this.bindOnUpdateNumeric(CharacteristicKey.Brightness, strings.lightbulb.brightness), false,
       'topicSetBrightness', this.onSetValue(CharacteristicKey.Brightness, 'topicSetBrightness', strings.lightbulb.futureBrightness),
     );
 
-    this.setup(CharacteristicKey.ColorTemperature, 500,
-      'topicGetColorTemperature', this.onUpdateNumeric(CharacteristicKey.ColorTemperature, strings.lightbulb.colorTemperature), false,
+    this.setupCharacteristic(CharacteristicKey.ColorTemperature, 500,
+      'topicGetColorTemperature', this.bindOnUpdateNumeric(CharacteristicKey.ColorTemperature, strings.lightbulb.colorTemperature), false,
       'topicSetColorTemperature', this.onSetValue(CharacteristicKey.ColorTemperature, 'topicSetColorTemperature', strings.lightbulb.futureColorTemperature),
     );
 
-    this.setup(CharacteristicKey.Hue, 0,
-      'topicGetHue', this.onUpdateNumeric(CharacteristicKey.Hue, strings.lightbulb.hue), false,
+    this.setupCharacteristic(CharacteristicKey.Hue, 0,
+      'topicGetHue', this.bindOnUpdateNumeric(CharacteristicKey.Hue, strings.lightbulb.hue), false,
       'topicSetHue', this.onSetValue(CharacteristicKey.Hue, 'topicSetHue', strings.lightbulb.futureHue),
     );
 
-    this.setup(CharacteristicKey.Saturation, 100,
-      'topicGetSaturation', this.onUpdateNumeric(CharacteristicKey.Saturation, strings.lightbulb.saturation), false,
+    this.setupCharacteristic(CharacteristicKey.Saturation, 100,
+      'topicGetSaturation', this.bindOnUpdateNumeric(CharacteristicKey.Saturation, strings.lightbulb.saturation), false,
       'topicSetSaturation', this.onSetValue(CharacteristicKey.Saturation, 'topicSetSaturation', strings.lightbulb.futureSaturation),
     );
   }

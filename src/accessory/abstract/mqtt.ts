@@ -1,14 +1,16 @@
 import { Characteristic, CharacteristicSetHandler, CharacteristicValue, Nullable, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
 
+import { strings } from '../../i18n/i18n.js';
+
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
 import { MQTT } from '../../model/mqtt.js';
 import { CharacteristicType, MQTTAccessoryConfig, ServiceType } from '../../model/types.js';
 
 import { Log, LogType } from '../../tools/log.js';
-import { assert } from '../../tools/validation.js';
 import { toPrimitive } from '../../tools/primitive.js';
+import { assert } from '../../tools/validation.js';
 
-export type OnUpdateHandler = (topic: string, value: PrimitiveTypes) => (Promise<void>);
+type OnUpdateHandler = (topic: string, value: PrimitiveTypes) => (Promise<void>);
 type TopicHandler = {topic: string, handler: OnUpdateHandler};
 
 export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
@@ -32,7 +34,11 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
     const name = config.info.name;
 
     if (this.assert('mqtt')) {
-      this.mqttClient = new MQTT(log, config.mqtt, this.onMQTTConnect.bind(this), name);
+      this.mqttClient = new MQTT(log, config.mqtt, () => {
+        this.topicHandlers.forEach( topicHandler => {
+          this.mqttClient?.subscribe(topicHandler.topic, topicHandler.handler);
+        });
+      }, name);
       this.mqttClient.connect();
     }
 
@@ -46,15 +52,13 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
     }
   }
 
-  private async onMQTTConnect(): Promise<void> {
-    this.topicHandlers.forEach( topicHandler => {
-      this.mqttClient?.subscribe(topicHandler.topic, topicHandler.handler);
-    });
-  }
-
   protected abstract getAccessoryService(): Service;
 
-  protected setup(
+  protected get name(): string {
+    return this.config.info.name;
+  }
+
+  protected setupCharacteristic(
     characteristicKey: CharacteristicKey, defaultValue: CharacteristicValue,
     getTopicKey: keyof C, onUpdateHandler: OnUpdateHandler, assertGetTopic: boolean,
     setTopicKey: keyof C | undefined = undefined, onSetHandler: CharacteristicSetHandler | undefined = undefined,
@@ -103,9 +107,25 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
     return characteristic;
   }
 
+  protected bindOnUpdateNumeric(charKey: CharacteristicKey, logTemplate: string): OnUpdateHandler {
+    return (async (_topic: string, value: PrimitiveTypes) => {
 
-  protected get name(): string {
-    return this.config.info.name;
+      if (typeof value !== 'number') {
+        this.log.error(strings.accessory.badNumericValue, this.name, charKey, `'${value.toString()}'`);
+        return;
+      }
+
+      const logString = logTemplate.replace('%d', value.toString());
+      this.onUpdate(charKey, value, logString);
+
+    }).bind(this);
+  }
+
+  protected bindOnUpdateNumericBoolean(charKey: CharacteristicKey, valueKey: keyof C, logTrue: string, logFalse: string): OnUpdateHandler {
+    return (async (_topic: string, value: PrimitiveTypes) => {
+      const numeric = value === this.getPrimitiveValue(valueKey) ? 1 : 0;
+      this.onUpdate(charKey, numeric, numeric ? logTrue : logFalse);
+    }).bind(this);
   }
 
   protected getRawValue(property: keyof C, assert: boolean = true): string | undefined {

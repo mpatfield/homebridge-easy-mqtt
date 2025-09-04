@@ -1,6 +1,6 @@
 import { PlatformAccessory, PrimitiveTypes } from 'homebridge';
 
-import { MQTTAccessory, OnUpdateHandler } from './mqtt.js';
+import { MQTTAccessory } from './mqtt.js';
 
 import { PLATFORM_NAME } from '../../homebridge/settings.js';
 
@@ -25,13 +25,13 @@ export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessor
       .setCharacteristic(Characteristic.SerialNumber, config.info.serialNumber ?? config.info.id)
       .setCharacteristic(Characteristic.FirmwareRevision, config.info.version ?? getVersion());
 
-    this.setup(CharacteristicKey.BatteryLevel, 100,
-      'topicGetBatteryLevel', this.onUpdateNumeric(CharacteristicKey.BatteryLevel, strings.accessory.batteryLevel), false);
+    this.setupCharacteristic(CharacteristicKey.BatteryLevel, 100,
+      'topicGetBatteryLevel', this.bindOnUpdateNumeric(CharacteristicKey.BatteryLevel, strings.accessory.batteryLevel), false);
 
-    this.setup(CharacteristicKey.StatusLowBattery, false,
+    this.setupCharacteristic(CharacteristicKey.StatusLowBattery, false,
       'topicGetBatteryLow', this.onBatteryLowUpdate.bind(this), false);
 
-    this.setup(CharacteristicKey.StatusActive, true,
+    this.setupCharacteristic(CharacteristicKey.StatusActive, true,
       'topicGetStatusActive', this.onStatusActiveUpdate.bind(this), false);
   }
 
@@ -61,26 +61,5 @@ export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessor
     } else {
       this.logIfDesired(LogType.WARNING, strings.accessory.statusInactive);
     }
-  }
-
-  protected onUpdateNumeric(charKey: CharacteristicKey, logTemplate: string): OnUpdateHandler {
-    return (async (_topic: string, value: PrimitiveTypes) => {
-
-      if (typeof value !== 'number') {
-        this.log.error(strings.accessory.badNumericValue, this.name, charKey, `'${value.toString()}'`);
-        return;
-      }
-
-      const logString = logTemplate.replace('%d', value.toString());
-      this.onUpdate(charKey, value, logString);
-
-    }).bind(this);
-  }
-
-  protected onUpdateNumericBoolean(charKey: CharacteristicKey, valueKey: keyof C, logTrue: string, logFalse: string): OnUpdateHandler {
-    return (async (_topic: string, value: PrimitiveTypes) => {
-      const numeric = value === this.getPrimitiveValue(valueKey) ? 1 : 0;
-      this.onUpdate(charKey, numeric, numeric ? logTrue : logFalse);
-    }).bind(this);
   }
 }

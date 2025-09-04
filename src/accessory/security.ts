@@ -30,24 +30,24 @@ export class SecuritySystemAccessory extends BaseAccessory<SecuritySystemConfig>
       return;
     }
 
-    this.setup(CharacteristicKey.SecuritySystemCurrentState, Characteristic.SecuritySystemCurrentState.DISARMED,
+    this.setupCharacteristic(CharacteristicKey.SecuritySystemCurrentState, Characteristic.SecuritySystemCurrentState.DISARMED,
       'topicGetCurrentSecurityState', this.onCurrentStateUpdate.bind(this), true,
     )?.setProps({ validValues: validCurrentStates.map((key) => this.STATE_MAP.get(key)!) });
 
     const validTargetStates = validCurrentStates.filter((key) => key !== 'valueAlarmTriggered');
 
-    this.setup(CharacteristicKey.SecuritySystemTargetState, Characteristic.SecuritySystemTargetState.DISARM,
+    this.setupCharacteristic(CharacteristicKey.SecuritySystemTargetState, Characteristic.SecuritySystemTargetState.DISARM,
       'topicGetTargetSecurityState', this.onTargetStateUpdate.bind(this), true,
       'topicSetTargetSecurityState', this.onSetTargetState.bind(this),
     )?.setProps({ validValues: validTargetStates.map((key) => this.STATE_MAP.get(key)!) });
 
-    this.setup(CharacteristicKey.StatusTampered, 0, 'topicGetStatusTampered',
-      this.onUpdateNumericBoolean(CharacteristicKey.StatusTampered, 'valueTampered', strings.security.isTampered, strings.security.notTampered),
+    this.setupCharacteristic(CharacteristicKey.StatusTampered, 0, 'topicGetStatusTampered',
+      this.bindOnUpdateNumericBoolean(CharacteristicKey.StatusTampered, 'valueTampered', strings.security.isTampered, strings.security.notTampered),
       false,
     );
 
-    this.setup(CharacteristicKey.StatusFault, 0, 'topicGetStatusFault',
-      this.onUpdateNumericBoolean(CharacteristicKey.StatusFault, 'valueFault', strings.security.hasFault, strings.security.noFault),
+    this.setupCharacteristic(CharacteristicKey.StatusFault, 0, 'topicGetStatusFault',
+      this.bindOnUpdateNumericBoolean(CharacteristicKey.StatusFault, 'valueFault', strings.security.hasFault, strings.security.noFault),
       false,
     );
   }

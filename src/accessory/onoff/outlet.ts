@@ -14,8 +14,8 @@ export class OutletAccessory extends OnOffAccessory<OutletConfig> {
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: OutletConfig, log: Log) {
     super(Service, Characteristic, accessory, config, log);
 
-    this.setup(CharacteristicKey.OutletInUse, false, 'topicGetOutletInUse',
-      this.onUpdateNumericBoolean(CharacteristicKey.OutletInUse, 'valueOutletInUse', strings.outlet.inUse, strings.outlet.notInUse),
+    this.setupCharacteristic(CharacteristicKey.OutletInUse, false, 'topicGetOutletInUse',
+      this.bindOnUpdateNumericBoolean(CharacteristicKey.OutletInUse, 'valueOutletInUse', strings.outlet.inUse, strings.outlet.notInUse),
       false,
     );
   }
