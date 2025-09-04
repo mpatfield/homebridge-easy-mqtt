@@ -11,6 +11,7 @@ export enum CharacteristicKey {
   BatteryLevel = 'BatteryLevel',
   Brightness = 'Brightness',
   ColorTemperature = 'ColorTemperature',
+  CurrentTemperature = 'CurrentTemperature',
   Hue = 'Hue',
   LockCurrentState = 'LockCurrentState',
   LockTargetState = 'LockTargetState',

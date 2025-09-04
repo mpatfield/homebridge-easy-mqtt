@@ -16,18 +16,6 @@ export class SecuritySystemAccessory extends BaseAccessory<SecuritySystemConfig>
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: SecuritySystemConfig, log: Log) {
     super(Service, Characteristic, accessory, config, log);
 
-    this.set(CharacteristicKey.SecuritySystemCurrentState, Characteristic.SecuritySystemCurrentState.DISARMED);
-    this.addTopicHandler('topicGetCurrentSecurityState', this.onCurrentStateUpdate.bind(this));
-
-    this.set(CharacteristicKey.SecuritySystemTargetState, Characteristic.SecuritySystemTargetState.DISARM);
-    this.addTopicHandler('topicGetTargetSecurityState', this.onTargetStateUpdate.bind(this));
-
-    this.set(CharacteristicKey.StatusTampered, 0);
-    this.addTopicHandler('topicGetStatusTampered', this.onTamperedUpdate.bind(this), false);
-
-    this.set(CharacteristicKey.StatusFault, 0);
-    this.addTopicHandler('topicGetStatusFault', this.onStatusFaultUpdate.bind(this), false);
-
     this.STATE_MAP = new Map([
       ['valueArmStay', Characteristic.SecuritySystemCurrentState.STAY_ARM],
       ['valueArmAway', Characteristic.SecuritySystemCurrentState.AWAY_ARM],
@@ -42,39 +30,30 @@ export class SecuritySystemAccessory extends BaseAccessory<SecuritySystemConfig>
       return;
     }
 
-    this.accessoryService.getCharacteristic(Characteristic.SecuritySystemCurrentState)
-      .setProps({ validValues: validCurrentStates.map((key) => this.STATE_MAP.get(key)!) })
-      .onGet(this.getCurrentState.bind(this));
+    this.setup(CharacteristicKey.SecuritySystemCurrentState, Characteristic.SecuritySystemCurrentState.DISARMED,
+      'topicGetCurrentSecurityState', this.onCurrentStateUpdate.bind(this), true,
+    )?.setProps({ validValues: validCurrentStates.map((key) => this.STATE_MAP.get(key)!) });
 
     const validTargetStates = validCurrentStates.filter((key) => key !== 'valueAlarmTriggered');
 
-    this.accessoryService.getCharacteristic(Characteristic.SecuritySystemTargetState)
-      .setProps({ validValues: validTargetStates.map((key) => this.STATE_MAP.get(key)!) })
-      .onGet(this.getTargetState.bind(this))
-      .onSet(this.onSetTargetState.bind(this));
+    this.setup(CharacteristicKey.SecuritySystemTargetState, Characteristic.SecuritySystemTargetState.DISARM,
+      'topicGetTargetSecurityState', this.onTargetStateUpdate.bind(this), true,
+      'topicSetTargetSecurityState', this.onSetTargetState.bind(this),
+    )?.setProps({ validValues: validTargetStates.map((key) => this.STATE_MAP.get(key)!) });
 
-    this.bind(Characteristic.StatusTampered, 'topicGetStatusTampered', this.getIsTampered.bind(this));
-    this.bind(Characteristic.StatusFault, 'topicGetStatusFault', this.getHasStatusFault.bind(this));
+    this.setup(CharacteristicKey.StatusTampered, 0, 'topicGetStatusTampered',
+      this.onUpdateNumericBoolean(CharacteristicKey.StatusTampered, 'valueTampered', strings.security.isTampered, strings.security.notTampered),
+      false,
+    );
+
+    this.setup(CharacteristicKey.StatusFault, 0, 'topicGetStatusFault',
+      this.onUpdateNumericBoolean(CharacteristicKey.StatusFault, 'valueFault', strings.security.hasFault, strings.security.noFault),
+      false,
+    );
   }
 
   protected getAccessoryService(): Service {
     return this.accessory.getService(this.Service.SecuritySystem) || this.accessory.addService(this.Service.SecuritySystem);
-  }
-
-  private async getCurrentState(): Promise<CharacteristicValue> {
-    return this.get(CharacteristicKey.SecuritySystemCurrentState);
-  }
-
-  private async getTargetState(): Promise<CharacteristicValue> {
-    return this.get(CharacteristicKey.SecuritySystemTargetState);
-  }
-
-  private async getIsTampered(): Promise<CharacteristicValue> {
-    return this.get(CharacteristicKey.StatusTampered);
-  }
-
-  private async getHasStatusFault(): Promise<CharacteristicValue> {
-    return this.get(CharacteristicKey.StatusFault);
   }
 
   private async onCurrentStateUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
@@ -107,16 +86,6 @@ export class SecuritySystemAccessory extends BaseAccessory<SecuritySystemConfig>
     }
 
     this.onUpdate(CharacteristicKey.SecuritySystemTargetState, target, this.stateStringForCV(target, true));
-  }
-
-  private async onTamperedUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-    const statusTampered = value === this.getPrimitiveValue('valueTampered') ? 1 : 0;
-    this.onUpdate(CharacteristicKey.StatusTampered, statusTampered, statusTampered ? strings.security.isTampered : strings.security.notTampered);
-  }
-
-  private async onStatusFaultUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-    const statusFault = value === this.getPrimitiveValue('valueFault') ? 1 : 0;
-    this.onUpdate(CharacteristicKey.StatusFault, statusFault, statusFault ? strings.security.hasFault : strings.security.noFault);
   }
 
   private async onSetTargetState(value: CharacteristicValue) {

@@ -1,6 +1,6 @@
-import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
+import { PlatformAccessory, PrimitiveTypes } from 'homebridge';
 
-import { MQTTAccessory } from './mqtt.js';
+import { MQTTAccessory, OnUpdateHandler } from './mqtt.js';
 
 import { PLATFORM_NAME } from '../../homebridge/settings.js';
 
@@ -25,36 +25,14 @@ export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessor
       .setCharacteristic(Characteristic.SerialNumber, config.info.serialNumber ?? config.info.id)
       .setCharacteristic(Characteristic.FirmwareRevision, config.info.version ?? getVersion());
 
-    this.set(CharacteristicKey.BatteryLevel, 100);
-    this.bind(Characteristic.BatteryLevel, 'topicGetBatteryLevel', this.getBatteryLevel.bind(this));
-    this.addTopicHandler('topicGetBatteryLevel', this.onBatteryLevelUpdate.bind(this), false);
+    this.setup(CharacteristicKey.BatteryLevel, 100,
+      'topicGetBatteryLevel', this.onUpdateNumeric(CharacteristicKey.BatteryLevel, strings.accessory.batteryLevel), false);
 
-    this.set(CharacteristicKey.StatusLowBattery, false);
-    this.bind(Characteristic.StatusLowBattery, 'topicGetBatteryLow', this.getBatteryLow.bind(this));
-    this.addTopicHandler('topicGetBatteryLow', this.onBatteryLowUpdate.bind(this), false);
+    this.setup(CharacteristicKey.StatusLowBattery, false,
+      'topicGetBatteryLow', this.onBatteryLowUpdate.bind(this), false);
 
-    this.set(CharacteristicKey.StatusActive, true);
-    this.bind(Characteristic.StatusActive, 'topicGetStatusActive', this.getStatusActive.bind(this));
-    this.addTopicHandler('topicGetStatusActive', this.onStatusActiveUpdate.bind(this), false);
-  }
-
-  private async getBatteryLevel(): Promise<CharacteristicValue> {
-    return this.get(CharacteristicKey.BatteryLevel);
-  }
-
-  private async getBatteryLow(): Promise<CharacteristicValue> {
-    return this.get(CharacteristicKey.StatusLowBattery);
-  }
-
-  private async getStatusActive(): Promise<CharacteristicValue> {
-    return this.get(CharacteristicKey.StatusActive);
-  }
-
-  private async onBatteryLevelUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-    if (this.assertNumber(value, strings.accessory.badBatteryLevel)) {
-      const logString = strings.accessory.batteryLevel.replace('%d', `${value.toString()}%`);
-      this.onUpdate(CharacteristicKey.BatteryLevel, value, logString);
-    }
+    this.setup(CharacteristicKey.StatusActive, true,
+      'topicGetStatusActive', this.onStatusActiveUpdate.bind(this), false);
   }
 
   private async onBatteryLowUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
@@ -83,5 +61,26 @@ export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessor
     } else {
       this.logIfDesired(LogType.WARNING, strings.accessory.statusInactive);
     }
+  }
+
+  protected onUpdateNumeric(charKey: CharacteristicKey, logTemplate: string): OnUpdateHandler {
+    return (async (_topic: string, value: PrimitiveTypes) => {
+
+      if (typeof value !== 'number') {
+        this.log.error(strings.accessory.badNumericValue, this.name, charKey, `'${value.toString()}'`);
+        return;
+      }
+
+      const logString = logTemplate.replace('%d', value.toString());
+      this.onUpdate(charKey, value, logString);
+
+    }).bind(this);
+  }
+
+  protected onUpdateNumericBoolean(charKey: CharacteristicKey, valueKey: keyof C, logTrue: string, logFalse: string): OnUpdateHandler {
+    return (async (_topic: string, value: PrimitiveTypes) => {
+      const numeric = value === this.getPrimitiveValue(valueKey) ? 1 : 0;
+      this.onUpdate(charKey, numeric, numeric ? logTrue : logFalse);
+    }).bind(this);
   }
 }

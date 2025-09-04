@@ -14,18 +14,10 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: C, log: Log) {
     super(Service, Characteristic, accessory, config, log);
 
-    this.set(CharacteristicKey.On, false);
-
-    this.accessoryService.getCharacteristic(Characteristic.On)
-      .onGet(this.getOn.bind(this))
-      .onSet(this.onSetOn.bind(this));
-
-    this.addTopicHandler('topicGetOn', this.onOnUpdate.bind(this));
-
-  }
-
-  private async getOn(): Promise<CharacteristicValue> {
-    return this.get(CharacteristicKey.On);
+    this.setup(CharacteristicKey.On, false,
+      'topicGetOn', this.onOnUpdate.bind(this), true,
+      'topicSetOn', this.onSetOn.bind(this),
+    );
   }
 
   private async onOnUpdate(topic: string, value: PrimitiveTypes): Promise<void> {

@@ -14,40 +14,28 @@ export class LockMechanismAccessory extends BaseAccessory<LockMechanismConfig> {
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: LockMechanismConfig, log: Log) {
     super(Service, Characteristic, accessory, config, log);
 
-    this.set(CharacteristicKey.LockCurrentState, Characteristic.LockCurrentState.UNKNOWN);
+    const getTopicCurrent = this.config.topicGetLockCurrentState !== undefined && this.config.topicGetCurrentLockState === undefined
+      ? 'topicGetLockCurrentState' : 'topicGetCurrentLockState';
+    this.setup(CharacteristicKey.LockCurrentState, Characteristic.LockCurrentState.UNKNOWN,
+      getTopicCurrent, this.onCurrentStateUpdate.bind(this), true);
 
-    this.accessoryService.getCharacteristic(this.Characteristic.LockCurrentState)
-      .onGet(this.getCurrentState.bind(this));
-
-    if (this.config.topicGetLockCurrentState !== undefined && this.config.topicGetCurrentLockState === undefined) {
-      this.addTopicHandler('topicGetLockCurrentState', this.onCurrentStateUpdate.bind(this));
-    } else {
-      this.addTopicHandler('topicGetCurrentLockState', this.onCurrentStateUpdate.bind(this));
-    }
-
-    this.set(CharacteristicKey.LockTargetState, Characteristic.LockTargetState.SECURED);
-
-    this.accessoryService.getCharacteristic(this.Characteristic.LockTargetState)
-      .onGet(this.getTargetState.bind(this))
-      .onSet(this.onSetTargetState.bind(this));
-
+    let getTargetTopic: keyof LockMechanismConfig, setTargetTopic : keyof LockMechanismConfig;
     if (this.config.topicGetLockTargetState !== undefined && this.config.topicGetTargetLockState === undefined) {
-      this.addTopicHandler('topicGetLockTargetState', this.onTargetStateUpdate.bind(this));
+      getTargetTopic = 'topicGetLockTargetState';
+      setTargetTopic = 'topicSetTargetState';
     } else {
-      this.addTopicHandler('topicGetTargetLockState', this.onTargetStateUpdate.bind(this));
+      getTargetTopic = 'topicGetTargetLockState';
+      setTargetTopic = 'topicSetTargetLockState';
     }
+
+    this.setup(CharacteristicKey.LockTargetState, Characteristic.LockTargetState.SECURED,
+      getTargetTopic, this.onTargetStateUpdate.bind(this), true,
+      setTargetTopic, this.onSetTargetState.bind(this),
+    );
   }
 
   protected getAccessoryService(): Service {
     return this.accessory.getService(this.Service.LockMechanism) || this.accessory.addService(this.Service.LockMechanism);
-  }
-
-  private async getCurrentState(): Promise<CharacteristicValue> {
-    return this.get(CharacteristicKey.LockCurrentState);
-  }
-
-  private async getTargetState(): Promise<CharacteristicValue> {
-    return this.get(CharacteristicKey.LockTargetState);
   }
 
   private async onCurrentStateUpdate(topic: string, value: PrimitiveTypes): Promise<void> {

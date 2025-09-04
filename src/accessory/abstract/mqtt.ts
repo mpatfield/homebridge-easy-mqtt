@@ -1,7 +1,4 @@
-import {
-  Characteristic, CharacteristicGetHandler, CharacteristicSetHandler, CharacteristicValue,
-  PlatformAccessory, PrimitiveTypes, Service, WithUUID,
-} from 'homebridge';
+import { Characteristic, CharacteristicSetHandler, CharacteristicValue, Nullable, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
 import { MQTT } from '../../model/mqtt.js';
@@ -11,13 +8,14 @@ import { Log, LogType } from '../../tools/log.js';
 import { assert } from '../../tools/validation.js';
 import { toPrimitive } from '../../tools/primitive.js';
 
-type TopicHandler = {topic: string, handler: ((topic: string, value: PrimitiveTypes) => Promise<void>)};
+export type OnUpdateHandler = (topic: string, value: PrimitiveTypes) => (Promise<void>);
+type TopicHandler = {topic: string, handler: OnUpdateHandler};
 
 export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
 
   private readonly mqttClient: MQTT | undefined;
 
-  private readonly properties: { [key: string]: CharacteristicValue } = {};
+  private readonly properties = new Map<string, CharacteristicValue>();
 
   private readonly topicHandlers: TopicHandler[] = [];
 
@@ -56,13 +54,23 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
 
   protected abstract getAccessoryService(): Service;
 
-  protected bind(constructor: WithUUID<{new (): Characteristic; }>,
-    getTopic: keyof C, getHandler: CharacteristicGetHandler,
-    setTopic: keyof C | undefined = undefined, setHandler: CharacteristicSetHandler | undefined = undefined) {
+  protected setup(
+    characteristicKey: CharacteristicKey, defaultValue: CharacteristicValue,
+    getTopicKey: keyof C, onUpdateHandler: OnUpdateHandler, assertGetTopic: boolean,
+    setTopicKey: keyof C | undefined = undefined, onSetHandler: CharacteristicSetHandler | undefined = undefined,
+  ): Characteristic | undefined {
 
-    if (this.config[getTopic] === undefined && (setTopic === undefined || setHandler === undefined || this.config[setTopic] !== undefined)) {
+    if (!getTopicKey.toString().startsWith('topic')) {
+      throw new Error(`Trying to fetch topic with unexpected property name '${getTopicKey.toString()}'`);
+    }
+
+    if (assertGetTopic) {
+      this.assert(getTopicKey);
+    }
+
+    if (this.config[getTopicKey] === undefined) {
       for (const characteristic of this.accessoryService.characteristics) {
-        if (characteristic.UUID === constructor.UUID) {
+        if (characteristic.UUID === this.Characteristic[characteristicKey].UUID) {
           this.accessoryService.removeCharacteristic(characteristic);
           break;
         }
@@ -70,34 +78,31 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
       return;
     }
 
-    const characteristic = this.accessoryService.getCharacteristic(constructor);
+    const characteristic = this.accessoryService.getCharacteristic(this.Characteristic[characteristicKey]);
+    this.properties.set(characteristicKey, defaultValue);
 
-    if (this.config[getTopic] !== undefined) {
-      characteristic.onGet(getHandler);
+    characteristic.onGet( async (): Promise<Nullable<CharacteristicValue>> => {
+      return this.properties.get(characteristicKey) ?? null;
+    });
+
+    this.topicHandlers.push({ topic: this.config[getTopicKey] as string, handler: onUpdateHandler });
+
+    if (setTopicKey !== undefined) {
+
+      if (!setTopicKey.toString().startsWith('topic')) {
+        throw new Error(`Trying to fetch topic with unexpected property name '${setTopicKey.toString()}'`);
+      }
+
+      if (!onSetHandler) {
+        throw new Error(`Missing onSetHandler for topic '${setTopicKey.toString()}'`);
+      }
+
+      characteristic.onSet(onSetHandler);
     }
 
-    if (setTopic !== undefined && setHandler !== undefined && this.config[setTopic] !== undefined) {
-      characteristic.onSet(setHandler);
-    }
+    return characteristic;
   }
 
-  protected addTopicHandler(topicKey: keyof C, handler: (topic: string, value: PrimitiveTypes) => Promise<void>, assert: boolean = true) {
-
-    if (!topicKey.toString().startsWith('topic')) {
-      throw new Error(`Trying to fetch topic with unexpected property name '${topicKey.toString()}'`);
-    }
-
-    if (assert && !this.assert(topicKey)) {
-      return;
-    }
-
-    const topic = this.config[topicKey];
-    if (topic === undefined) {
-      return;
-    }
-
-    this.topicHandlers.push({ topic: topic as string, handler });
-  }
 
   protected get name(): string {
     return this.config.info.name;
@@ -129,36 +134,17 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
     this.mqttClient?.teardown();
   }
 
-  protected get(key: CharacteristicKey): CharacteristicValue {
-    return this.properties[key];
-  }
-
-  protected set(key: CharacteristicKey, value: CharacteristicValue) {
-    this.properties[key] = value;
-  }
-
   protected assert(...keys: (keyof C)[]): boolean {
     return assert(this.log, this.name, this.config, ...keys);
   }
 
-  protected assertNumber(value: PrimitiveTypes, error: string): boolean {
-
-    if (typeof value === 'number') {
-      return true;
-    }
-
-    this.log.error(error, this.name, `'${value}'`);
-
-    return false;
-  }
-
   protected onUpdate(key: CharacteristicKey, value: CharacteristicValue, logString: string | undefined = undefined): boolean {
 
-    if (value === this.get(key)) {
+    if (value === this.properties.get(key)) {
       return false;
     }
 
-    this.set(key, value);
+    this.properties.set(key, value);
 
     this.accessoryService.updateCharacteristic(this.Characteristic[key], value);
 
@@ -175,11 +161,11 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
       return;
     }
 
-    if (logString && value !== this.get(key)) {
+    if (logString && value !== this.properties.get(key)) {
       this.logIfDesired(logString);
     }
 
-    this.set(key, value);
+    this.properties.set(key, value);
 
     this.accessoryService.updateCharacteristic(this.Characteristic[key], value);
 

@@ -1,8 +1,8 @@
 const en = {
 
   accessory: {
-    badBatteryLevel: '%s expected a number for battery level but received %s',
-    batteryLevel: '%s battery is at %d',
+    badNumericValue: '%s expected a number for %s but received %s',
+    batteryLevel: '%s battery is at %d%',
     batteryLow: '%s battery is low',
     batteryNotLow: '%s battery is okay',
     missingRequired: '%s is missing required config variable %s',
@@ -89,18 +89,14 @@ const en = {
   },
 
   lightbulb: {
-    badBrightness: '%s expected a number for brightness but received %s',
-    badColorTemperature: '%s expected a number for color temperature but received %s',
-    badHue: '%s expected a number for hue but received %s',
-    badSaturation: '%s expected a number for saturation but received %s',
-    brightness: '%s brightness is %d',
-    futureBrightness: 'Setting %s brightness to %d…',
-    hue: '%s hue is %d',
-    futureHue: 'Setting %s hue to %d…',
-    colorTemperature: '%s color temperature is %d',
-    futureColorTemperature: 'Setting %s color temperature to %d…',
-    saturation: '%s saturation is %d',
-    futureSaturation: 'Setting %s saturation to %d…',
+    brightness: '%s brightness is %d%',
+    futureBrightness: 'Setting %s brightness to %d%…',
+    hue: '%s hue is %d°',
+    futureHue: 'Setting %s hue to %d°…',
+    colorTemperature: '%s color temperature is %dM',
+    futureColorTemperature: 'Setting %s color temperature to %dM…',
+    saturation: '%s saturation is %d%',
+    futureSaturation: 'Setting %s saturation to %d%…',
   },
 
   lock: {

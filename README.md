@@ -187,7 +187,7 @@ You are able to pass in any arbitrary MQTT options via `mqtt.options` in the con
 
 ## JSONPaths
 
-For some devices, the desired values in the MQTT messages can get embedded within a JSON object. For example, here is the MQTT message for my door lock that is received when the door is locked:
+For some devices, the desired values in the MQTT messages are embedded within a JSON object. For example, here is the MQTT message for my door lock that is received when the door is locked:
 
 ```json
 { "time": 1750870005853, "state": 255 }
