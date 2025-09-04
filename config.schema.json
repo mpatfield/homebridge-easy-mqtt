@@ -24,6 +24,22 @@
             "enum": [ "Lightbulb", "LockMechanism", "Outlet", "SecuritySystem", "Switch", "TemperatureSensor"],
             "enumNames": ["${config.enumNames.lightbulb}", "${config.enumNames.lockMechanism}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}"],
             "required": true
+          },
+          "manufacturer": {
+            "type": "string",
+            "title": "${config.title.manufacturer}"
+          },
+          "model": {
+            "type": "string",
+            "title": "${config.title.model}"
+          },
+          "serialNumber": {
+            "type": "string",
+            "title": "${config.title.serialNumber}"
+          },
+          "version": {
+            "type": "string",
+            "title": "${config.title.version}"
           }
         }
       },

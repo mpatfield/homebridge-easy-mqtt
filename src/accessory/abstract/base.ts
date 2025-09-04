@@ -20,10 +20,10 @@ export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessor
     accessory.getService(Service.AccessoryInformation)!
       .setCharacteristic(Characteristic.Name, config.info.name)
       .setCharacteristic(Characteristic.ConfiguredName, config.info.name)
-      .setCharacteristic(Characteristic.Manufacturer, PLATFORM_NAME)
-      .setCharacteristic(Characteristic.Model, config.info.type)
-      .setCharacteristic(Characteristic.SerialNumber, config.info.id)
-      .setCharacteristic(Characteristic.FirmwareRevision, getVersion());
+      .setCharacteristic(Characteristic.Manufacturer, config.info.manufacturer ?? PLATFORM_NAME)
+      .setCharacteristic(Characteristic.Model, config.info.model ?? config.info.type)
+      .setCharacteristic(Characteristic.SerialNumber, config.info.serialNumber ?? config.info.id)
+      .setCharacteristic(Characteristic.FirmwareRevision, config.info.version ?? getVersion());
 
     this.set(CharacteristicKey.BatteryLevel, 100);
     this.bind(Characteristic.BatteryLevel, 'topicGetBatteryLevel', this.getBatteryLevel.bind(this));
