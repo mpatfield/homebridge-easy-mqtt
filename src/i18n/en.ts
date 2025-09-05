@@ -88,6 +88,11 @@ const en = {
     },
   },
 
+  characteristic: {
+    badValue: '%s expected a number for %s but received %s',
+    updated: '%s updated %s with value %s',
+  },
+
   lightbulb: {
     brightness: '%s brightness is %d%',
     futureBrightness: 'Setting %s brightness to %d%…',

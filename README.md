@@ -49,6 +49,15 @@ Using the Homebridge Config UI is the easiest way to set up this plugin. However
         "password": "string",
         "options": "string"
       },
+      "customCharacteristics": [
+        {
+          "uuid": "string",
+          "name": "string",
+          "getTopic": "string",
+          "units": "string",
+        }
+        …
+      ],
       "topicGetStatusActive": "string",
       "topicGetCurrentLockState": "string",
       "topicGetTargetLockState": "string",
@@ -63,7 +72,7 @@ Using the Homebridge Config UI is the easiest way to set up this plugin. However
       "valueOff": "string",
       "disableLogging": false
     }
-    ...
+    …
   ],
   "verbose": false,
   "platform": "HomebridgeEasyMQTT"
@@ -249,6 +258,32 @@ As with get topics, you can have an arbitrarily complex chain. So if, for exampl
 then you would use the topic
 
 `zwave/4/security/set$.target.mode.value`
+
+## Custom Characteristics
+
+If you use a more advanced HomeKit app like [Eve](https://apps.apple.com/us/app/eve-for-matter-homekit/id917695792) or [Controller for Homekit](https://apps.apple.com/us/app/controller-for-homekit/id1198176727), you can add custom characteristics to display any arbitrary numeric information. Unfortunately, Apple currently doesn't offer a way to display this in the Home app.
+
+<img src="https://raw.githubusercontent.com/mpatfield/homebridge-easy-mqtt/refs/heads/latest/img/screenshot_1.png">
+
+Due to the complexity, this was intentionally left out of the plugin config UI, so this can only be configured manually.
+
+```json
+"customCharacteristics": [
+  {
+    "uuid": "string",
+    "name": "string",
+    "getTopic": "string",
+    "units": "string",
+  }
+]
+```
+
+- `uuid` — A unique string (recommend using a (UUID generator)[https://www.uuidgenerator.net/])
+- `name` — The display name for the characteristic
+- `getTopic` — The topic which provides the numeric value
+- `units` — (Optional) The units which will be displayed at the end of the numeric value
+
+Since `customCharacteristics` is an array, you may define as many custom characteristics as you wish.
 
 ## Credits
 

@@ -67,6 +67,23 @@
             "placeholder": "{ \"protocolVersion\": \"4\", \"clientId\": \"my-client-id\", \"rejectUnauthorized\": true }"
           }
         }
+      },
+      "customCharacteristic": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "getTopic": {
+            "type": "string"
+          },
+          "units": {
+            "type": "string"
+          }
+        }
       }
     },
     "properties": {
@@ -81,6 +98,10 @@
           "properties": {
             "info": { "$ref": "#/definitions/info" },
             "mqtt": { "$ref": "#/definitions/mqtt" },
+            "customCharacteristics": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/customCharacteristic" }
+            },
             "temperatureUnits": {
               "type": "string",
               "enum": ["C", "F"],

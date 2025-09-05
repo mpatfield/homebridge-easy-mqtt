@@ -31,6 +31,7 @@ export type MQTTConfig = Assertable & {
 export type MQTTAccessoryConfig = Assertable & {
   mqtt: MQTTConfig,
   info: InfoConfig,
+  customCharacteristics?: CustomCharacteristicConfig[];
   disableLogging: boolean,
 }
 
@@ -39,6 +40,13 @@ export type AdditionalInfoConfig = InfoConfig & {
   model?: string,
   serialNumber?: string,
   version?: string,
+}
+
+export type CustomCharacteristicConfig = Assertable & {
+  uuid: string,
+  name: string,
+  getTopic: string,
+  units?: string,
 }
 
 export type BaseAccessoryConfig = MQTTAccessoryConfig & {

@@ -89,7 +89,7 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
       return this.properties.get(characteristicKey) ?? null;
     });
 
-    this.topicHandlers.push({ topic: this.config[getTopicKey] as string, handler: onUpdateHandler });
+    this.addTopicHandler(this.config[getTopicKey] as string, onUpdateHandler);
 
     if (setTopicKey !== undefined) {
 
@@ -126,6 +126,10 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
       const numeric = value === this.getPrimitiveValue(valueKey) ? 1 : 0;
       this.onUpdate(charKey, numeric, numeric ? logTrue : logFalse);
     }).bind(this);
+  }
+
+  protected addTopicHandler(topic: string, handler: (topic: string, value: PrimitiveTypes) => Promise<void>) {
+    this.topicHandlers.push({ topic: topic as string, handler: handler });
   }
 
   protected getRawValue(property: keyof C, assert: boolean = true): string | undefined {
