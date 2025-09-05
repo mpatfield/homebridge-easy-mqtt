@@ -218,6 +218,38 @@ would use the topic
 
 `zwave/1/door_lock/currentMode$.state.number.value`
 
+You can do the same for the set topic if the device is expecting a JSON object rather than a raw value.
+
+If, for example, your device is expecting this message:
+
+```json
+{
+  "target": "away"
+}
+```
+
+instead of just the raw value "away" you can use:
+
+`zwave/4/security/set$.target`
+
+Again, the `$.target` at the end tells the MQTT client to wrap the value a JSON object.
+
+As with get topics, you can have an arbitrarily complex chain. So if, for example, you want this object:
+
+```json
+{
+  "target": {
+    "mode": {
+      "value": "away"
+    }
+  }
+}
+```
+
+then you would use the topic
+
+`zwave/4/security/set$.target.mode.value`
+
 ## Credits
 
 [@arachnetech](https://github.com/arachnetech) for the fantastic [homebridge-mqttthing](https://github.com/arachnetech/homebridge-mqttthing) plugin which serves as the main inspiration for this project

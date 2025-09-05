@@ -9,6 +9,7 @@ All notable changes to homebridge-dummy will be documented in this file.
 Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4).
 
 ### Added
+- JSONPath support in setter topics ([documentation](https://github.com/mpatfield/homebridge-easy-mqtt#jsonpaths))
 - Banner image in config UI
 
 ### Changed

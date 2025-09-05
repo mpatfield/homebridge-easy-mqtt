@@ -15,23 +15,34 @@ const DELAYS = [5 * SECOND, 10 * SECOND, 15 * SECOND, 30 * SECOND, MINUTE, 2 * M
 
 type MQTTMessageHandler = (topic: string, value: PrimitiveTypes) => void;
 
+type Topic = { base: string, jsonPath: string[] };
+
+function toTopicObject(rawTopic: string): Topic {
+
+  let base: string;
+  let jsonPath: string[];
+
+  const index = rawTopic.indexOf('$');
+  if (index === -1) {
+    base = rawTopic;
+    jsonPath = [];
+  } else {
+    base = rawTopic.slice(0, index);
+    jsonPath = rawTopic.slice(index).replace(/^\$?\.?/, '').split('.');
+  }
+
+  return { base: base, jsonPath: jsonPath };
+}
+
 class MQTTListener {
 
-  topic: string;
-  jsonPath: string[];
+  topic: Topic;
 
   constructor(
-    topic: string,
+    rawTopic: string,
     readonly handler: MQTTMessageHandler,
   ) {
-    const index = topic.indexOf('$');
-    if (index === -1) {
-      this.topic = topic;
-      this.jsonPath = [];
-    } else {
-      this.topic = topic.slice(0, index);
-      this.jsonPath = topic.slice(index).replace(/^\$?\.?/, '').split('.');
-    }
+    this.topic = toTopicObject(rawTopic);
   }
 }
 
@@ -111,19 +122,42 @@ export class MQTT {
 
     const mqttListener = new MQTTListener(topic, handler);
 
-    this.client.subscribe(mqttListener.topic);
+    this.client.subscribe(mqttListener.topic.base);
 
-    this.listeners.set(mqttListener.topic, mqttListener);
+    this.listeners.set(mqttListener.topic.base, mqttListener);
   }
 
-  publish(topic: string, value: PrimitiveTypes): void {
+  publish(rawTopic: string, value: PrimitiveTypes): void {
 
     if (!this.client || !this.client.connected) {
       this.log.error(strings.mqtt.notConnected, this.caller);
       return;
     }
 
-    this.client.publish(topic, value.toString());
+    const topic = toTopicObject(rawTopic);
+
+    let message: string;
+    if (topic.jsonPath.length) {
+
+      let messageObject: Record<string, unknown> = {};
+
+      const pathParts = Array.from(topic.jsonPath);
+      do {
+        const pathPart = pathParts.pop()!;
+        if (pathParts.length === topic.jsonPath.length - 1) {
+          messageObject[pathPart] = value;
+        } else {
+          messageObject = { [pathPart]: messageObject };
+        }
+      } while (pathParts.length > 0);
+
+      message = JSON.stringify(messageObject);
+
+    } else {
+      message = value.toString();
+    }
+
+    this.client.publish(topic.base, message);
 
     this.log.ifVerbose(strings.mqtt.publish, this.caller, value, topic);
   }
@@ -149,7 +183,7 @@ export class MQTT {
 
         value = JSON.parse(message);
 
-        for (const pathPart of listener.jsonPath) {
+        for (const pathPart of listener.topic.jsonPath) {
           if (value && typeof value === 'object' && pathPart in value) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
             value = (value as any)[pathPart];
