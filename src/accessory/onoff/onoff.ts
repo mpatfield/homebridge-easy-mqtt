@@ -43,12 +43,15 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
       bool = false;
     }
 
-    if (bool === undefined) {
-      this.logIfDesired(strings.onOff.unknownValue, `'${value}'`);
-      return;
+    if (bool !== undefined) {
+      return bool;
     }
 
-    return bool;
+    if (typeof value === 'boolean') {
+      return value;
+    }
+
+    this.logIfDesired(strings.onOff.unknownValue, `'${value}'`);
   }
 
   private stringForState(on: CharacteristicValue, future: boolean = false): string {
