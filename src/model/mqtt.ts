@@ -56,7 +56,7 @@ export class MQTT {
   private isReconnecting = false;
   private reconnectCount = 0;
 
-  private listeners = new Map<string, MQTTListener>();
+  private listeners = new Map<string, MQTTListener[]>();
 
   constructor(
     private readonly log: Log,
@@ -124,7 +124,9 @@ export class MQTT {
 
     this.client.subscribe(mqttListener.topic.base);
 
-    this.listeners.set(mqttListener.topic.base, mqttListener);
+    const topicListeners = this.listeners.get(mqttListener.topic.base) ?? [];
+    topicListeners.push(mqttListener);
+    this.listeners.set(mqttListener.topic.base, topicListeners);
   }
 
   publish(rawTopic: string, value: PrimitiveTypes): void {
@@ -172,32 +174,35 @@ export class MQTT {
 
       this.log.ifVerbose(strings.mqtt.receivedMessage, this.caller, topic, message);
 
-      const listener = this.listeners.get(topic);
-      if (!listener) {
+      const listeners = this.listeners.get(topic);
+      if (!listeners || listeners.length === 0) {
         this.log.ifVerbose(strings.mqtt.noListeners, this.caller, topic);
         return;
       }
 
-      let value;
-      if (message.startsWith('{')) {
+      for (const listener of listeners) {
 
-        value = JSON.parse(message);
+        let value;
+        if (message.startsWith('{')) {
 
-        for (const pathPart of listener.topic.jsonPath) {
-          if (value && typeof value === 'object' && pathPart in value) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            value = (value as any)[pathPart];
-          } else {
-            value = undefined;
-            break;
+          value = JSON.parse(message);
+
+          for (const pathPart of listener.topic.jsonPath) {
+            if (value && typeof value === 'object' && pathPart in value) {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              value = (value as any)[pathPart];
+            } else {
+              value = undefined;
+              break;
+            }
           }
+
+        } else {
+          value = message;
         }
 
-      } else {
-        value = message;
+        listener.handler(topic, toPrimitive(value));
       }
-
-      listener.handler(topic, toPrimitive(value));
 
     } catch (e) {
       this.log.error(strings.mqtt.parseFailed, this.caller, `\n${message}`);
