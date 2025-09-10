@@ -1,17 +1,17 @@
 import { PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
 
-import { BaseAccessory } from './abstract/base.js';
+import { SensorAccessory } from './sensor.js';
 
-import { strings } from '../i18n/i18n.js';
+import { strings } from '../../i18n/i18n.js';
 
-import { CharacteristicType, ServiceType, TemperatureSensorConfig } from '../model/types.js';
+import { CharacteristicType, ServiceType, TemperatureSensorConfig } from '../../model/types.js';
 
-import { Log } from '../tools/log.js';
-import { toNumber } from '../tools/primitive.js';
-import { toCelsius } from '../tools/temperature.js';
-import { CharacteristicKey, TemperatureUnits } from '../model/enums.js';
+import { Log } from '../../tools/log.js';
+import { toNumber } from '../../tools/primitive.js';
+import { toCelsius } from '../../tools/temperature.js';
+import { CharacteristicKey, TemperatureUnits } from '../../model/enums.js';
 
-export class TemperatureSensorAccessory extends BaseAccessory<TemperatureSensorConfig> {
+export class TemperatureSensorAccessory extends SensorAccessory<TemperatureSensorConfig> {
 
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: TemperatureSensorConfig, log: Log) {
     super(Service, Characteristic, accessory, config, log);
@@ -26,7 +26,7 @@ export class TemperatureSensorAccessory extends BaseAccessory<TemperatureSensorC
   private async onCurrentTemperatureUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
     if (typeof value !== 'number') {
-      this.log.error(strings.temperatureSensor.badValue, this.name, `'${value}'`);
+      this.log.error(strings.sensor.temperature.badValue, this.name, `'${value}'`);
       return;
     }
 
@@ -35,6 +35,6 @@ export class TemperatureSensorAccessory extends BaseAccessory<TemperatureSensorC
 
     this.onUpdate(CharacteristicKey.CurrentTemperature, temperature);
 
-    this.logIfDesired(strings.temperatureSensor.temperature, value.toString(), units);
+    this.logIfDesired(strings.sensor.temperature.update, value.toString(), units);
   }
 }

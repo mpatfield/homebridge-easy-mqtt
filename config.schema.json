@@ -21,8 +21,8 @@
           "type": {
             "type": "string",
             "title": "${config.title.type}",
-            "enum": [ "Lightbulb", "LockMechanism", "Outlet", "SecuritySystem", "Switch", "TemperatureSensor"],
-            "enumNames": ["${config.enumNames.lightbulb}", "${config.enumNames.lockMechanism}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}"],
+            "enum": [ "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "HumiditySensor", "LeakSensor", "Lightbulb", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "Switch", "TemperatureSensor"],
+            "enumNames": ["${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.humiditySensor}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}"],
             "required": true
           },
           "manufacturer": {
@@ -175,10 +175,6 @@
               "type": "string",
               "title": "${config.title.topicGetOutletInUse}"
             },
-            "topicGetCurrentTemperature": {
-              "type": "string",
-              "title": "${config.title.topicGetCurrentTemperature}"
-            },
             "topicGetCurrentSecurityState": {
               "type": "string",
               "title": "${config.title.topicGetCurrentSecurityState}"
@@ -198,6 +194,58 @@
             "topicGetStatusFault": {
               "type": "string",
               "title": "${config.title.topicGetStatusFault}"
+            },
+            "topicGetCarbonMonoxideDetected": {
+              "type": "string",
+              "title": "${config.title.topicGetCarbonMonoxideDetected}"
+            },
+            "topicGetCarbonMonoxideLevel": {
+              "type": "string",
+              "title": "${config.title.topicGetCarbonMonoxideLevel}"
+            },
+            "topicGetCarbonMonoxidePeakLevel": {
+              "type": "string",
+              "title": "${config.title.topicGetCarbonMonoxidePeakLevel}"
+            },
+            "topicGetCarbonDioxideDetected": {
+              "type": "string",
+              "title": "${config.title.topicGetCarbonDioxideDetected}"
+            },
+            "topicGetCarbonDioxideLevel": {
+              "type": "string",
+              "title": "${config.title.topicGetCarbonDioxideLevel}"
+            },
+            "topicGetCarbonDioxidePeakLevel": {
+              "type": "string",
+              "title": "${config.title.topicGetCarbonDioxidePeakLevel}"
+            },
+            "topicGetContactSensorState": {
+              "type": "string",
+              "title": "${config.title.topicGetContactSensorState}"
+            },
+            "topicGetCurrentRelativeHumidity": {
+              "type": "string",
+              "title": "${config.title.topicGetCurrentRelativeHumidity}"
+            },
+            "topicGetLeakDetected": {
+              "type": "string",
+              "title": "${config.title.topicGetLeakDetected}"
+            },
+            "topicGetMotionDetected": {
+              "type": "string",
+              "title": "${config.title.topicGetMotionDetected}"
+            },
+            "topicGetOccupancyDetected": {
+              "type": "string",
+              "title": "${config.title.topicGetOccupancyDetected}"
+            },
+            "topicGetSmokeDetected": {
+              "type": "string",
+              "title": "${config.title.topicGetSmokeDetected}"
+            },
+            "topicGetCurrentTemperature": {
+              "type": "string",
+              "title": "${config.title.topicGetCurrentTemperature}"
             },
             "valueBatteryLow": {
               "type": "string",
@@ -258,6 +306,34 @@
             "valueFault": {
               "type": "string",
               "title": "${config.title.valueFault}"
+            },
+            "valueCarbonMonoxideDetected": {
+              "type": "string",
+              "title": "${config.title.valueCarbonMonoxideDetected}"
+            },
+            "valueCarbonDioxideDetected": {
+              "type": "string",
+              "title": "${config.title.valueCarbonDioxideDetected}"
+            },
+            "valueContactDetected": {
+              "type": "string",
+              "title": "${config.title.valueContactDetected}"
+            },
+            "valueLeakDetected": {
+              "type": "string",
+              "title": "${config.title.valueLeakDetected}"
+            },
+            "valueMotionDetected": {
+              "type": "string",
+              "title": "${config.title.valueMotionDetected}"
+            },
+            "valueOccupancyDetected": {
+              "type": "string",
+              "title": "${config.title.valueOccupancyDetected}"
+            },
+            "valueSmokeDetected": {
+              "type": "string",
+              "title": "${config.title.valueSmokeDetected}"
             },
             "disableLogging": {
               "type": "boolean",
@@ -520,6 +596,160 @@
                   ]
                 },
                 {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'CarbonDioxideSensor';"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetCarbonDioxideDetected",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetCarbonDioxideLevel",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicGetCarbonDioxidePeakLevel",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'CarbonMonoxideSensor';"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetCarbonMonoxideDetected",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetCarbonMonoxideLevel",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicGetCarbonMonoxidePeakLevel",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'ContactSensor';"
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].topicGetContactSensorState",
+                      "flex": "0 0 50%"
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'HumiditySensor';"
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].topicGetCurrentRelativeHumidity",
+                      "flex": "0 0 50%"
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'LeakSensor';"
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].topicGetLeakDetected",
+                      "flex": "0 0 50%"
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'MotionSensor';"
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].topicGetMotionDetected",
+                      "flex": "0 0 50%"
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'OccupancySensor';"
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].topicGetOccupancyDetected",
+                      "flex": "0 0 50%"
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'SmokeSensor';"
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].topicGetSmokeDetected",
+                      "flex": "0 0 50%"
+                    }
+                  ]
+                },
+                {
                   "type": "div",
                   "displayFlex": true,
                   "flex-direction": "row",
@@ -535,6 +765,24 @@
                       "key": "accessories[].temperatureUnits",
                       "title": "${config.title.sourceUnits}",
                       "flex": "0 0 33%"
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "condition": {
+                    "functionBody": "const type = model.accessories?.[arguments[1]]?.info?.type; return type !== undefined && type.endsWith('Sensor');"
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].topicGetStatusFault",
+                      "flex": "0 0 50%"
+                    },
+                    {
+                      "key": "accessories[].topicGetStatusTampered",
+                      "flex": "0 0 50%"
                     }
                   ]
                 },
@@ -675,6 +923,122 @@
                           "flex": "0 0 25%"
                         }
                       ]
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'CarbonDioxideSensor';"
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].valueCarbonDioxideDetected",
+                      "flex": "0 0 25%"
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'CarbonMonoxideSensor';"
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].valueCarbonMonoxideDetected",
+                      "flex": "0 0 25%"
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'ContactSensor';"
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].valueContactDetected",
+                      "flex": "0 0 25%"
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'LeakSensor';"
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].valueLeakDetected",
+                      "flex": "0 0 25%"
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'MotionSensor';"
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].valueMotionDetected",
+                      "flex": "0 0 25%"
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'OccupancySensor';"
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].valueOccupancyDetected",
+                      "flex": "0 0 25%"
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'SmokeSensor';"
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].valueSmokeDetected",
+                      "flex": "0 0 25%"
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "condition": {
+                    "functionBody": "const type = model.accessories?.[arguments[1]]?.info?.type; return type !== undefined && type.endsWith('Sensor');"
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].valueFault",
+                      "flex": "0 0 25%"
+                    },
+                    {
+                      "key": "accessories[].valueTampered",
+                      "flex": "0 0 25%"
                     }
                   ]
                 },

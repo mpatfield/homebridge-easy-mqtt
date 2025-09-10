@@ -23,7 +23,22 @@ Any issues or damage resulting from use of this plugin are not the fault of the 
 
 This plugin is designed to be a simple replacement for the fantastic [homebridge-mqttthing](https://github.com/arachnetech/homebridge-mqttthing) plugin which appears as though it's [no longer](https://github.com/arachnetech/homebridge-mqttthing/commits/master/) being actively developed.
 
-**HomebridgeEasyMQTT** currently supports `Lightbulb`, `LockMechanism`, `Outlet`, `SecuitySystem`,`Switch`, and `TemperatureSensor`, but will be expanded over time as more use cases are discovered. If there is an accessory type you'd like to see supported, please feel free to [create an issue in GitHub](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
+**HomebridgeEasyMQTT** currently supports the following accessory types but will be expanded over time as more use cases are requested. If there is an accessory type you'd like to see supported, please [create an issue in GitHub](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
+
+  - `CarbonDioxideSensor`
+  - `CarbonMonoxideSensor`
+  - `ContactSensor`
+  - `HumiditySensor`
+  - `LeakSensor`
+  - `Lightbulb`
+  - `LockMechanism`
+  - `MotionSensor`
+  - `OccupancySensor`
+  - `Outlet`
+  - `SecuritySystem`
+  - `SmokeSensor`
+  - `Switch`
+  - `TemperatureSensor`
 
 ## Configuration
 
@@ -58,123 +73,139 @@ Using the Homebridge Config UI is the easiest way to set up this plugin. However
         }
         …
       ],
-      "topicGetStatusActive": "string",
-      "topicGetCurrentLockState": "string",
-      "topicGetTargetLockState": "string",
-      "topicSetTargetLockState": "string",
-      "topicGetOn": "string",
-      "topicSetOn": "string",
-      "valueStatusActive": "string",
-      "valueLockStateSecured": "string",
-      "valueLockStateUnsecured": "string",
-      "valueLockStateJammed": "string",
-      "valueOn": "string",
-      "valueOff": "string",
-      "disableLogging": false
-    }
-    …
+      "disableLogging": false,
+      … // See Topics & Values below for additional attributes for each accessory type
   ],
   "verbose": false,
   "platform": "HomebridgeEasyMQTT"
 }
 ```
 
-All fields are required unless noted as "(Optional)"
+Required fields are marked with an asterisk (*)
 
-Info:
-- `id` - A unique ID to identify this accessory. Changing this value will result in a new accessory.
-- `name` - The display name for the accessory in HomeKit
-- `type` - The type of accessory, currently Lightbulb, LockMechanism, Outlet, SecuitySystem, Switch, and Temperature Sensor are supported
-- `manufacturer` - (Optional) The accessory manufacturer which will display in HomeKit device details
-- `model` - (Optional) The accessory model which will display in HomeKit device details
-- `serialNumber` - (Optional) The accessory serial number which will display in HomeKit device details
-- `version` - (Optional) The accessory software version which will display in HomeKit device details
+### Info
+- `id*` - A unique ID to identify this accessory. Changing this value will result in a new accessory.
+- `name*` - The display name for the accessory in HomeKit
+- `type*` - The type of accessory, currently Lightbulb, LockMechanism, Outlet, SecuritySystem, Switch, and Temperature Sensor are supported
+- `manufacturer` - The accessory manufacturer which will display in HomeKit device details
+- `model` - The accessory model which will display in HomeKit device details
+- `serialNumber` - The accessory serial number which will display in HomeKit device details
+- `version` - The accessory software version which will display in HomeKit device details
 
-MQTT:
-- `broker` - The URL and port to use for communicating with your MQTT device
-- `username` - (Optional) Username
-- `password` - (Optional) Password
-- `options` - (Optional) See [MQTT Options](#mqtt-options) below
+### MQTT:
+- `broker*` - The URL and port to use for communicating with your MQTT device
+- `username` - Username
+- `password` - Password
+- `options` - See [MQTT Options](#mqtt-options) below
 
-Topics:
+## Topics & Values
 
-You will need to make sure to populate the appropriate topics based on the type.
+You will need to make sure to populate the appropriate topics based on the accessory type defined below.
 
 You may define topics using a JSONPath dot notation to assist the parser in finding the right value within the message. See [JSONPaths](#jsonpaths) below for more details.
 
-- General Purpose
-  - `topicGetStatusActive` - (Optional) Whether or not the accessory is connected/reachable
+As with topics, you will also need to populate the appropriate values based on the type. Note that while they are defined as strings, they will be auto-converted to the appropriate primitives (e.g. boolean or number) where appropriate.
 
-- Lightbulb
-  - `topicGetBrightness` - (Optional) The current brightness as a percent
-  - `topicSetBrightness` - (Optional) For setting the brightness
-  - `topicGetHue` - (Optional) The lightbulb's current hue
-  - `topicSetHue` - (Optional) For setting the lightbulb's current hue
-  - `topicGetColorTemperature` - (Optional) The current color temperature of the lightbulb
-  - `topicSetColorTemperature` - (Optional) For setting the color temperature of the lightbulb
-  - `topicGetSaturation` - (Optional) The current saturation setting of the lightbulb
-  - `topicSetSaturation` - (Optional) For setting the saturation setting of the lightbulb
+### General Purpose
+- `topicGetStatusActive` - Whether or not the accessory is connected/reachable
+- `topicGetBatteryLow` - Wether or not the accessory has a low battery
+- `topicGetBatteryLevel` - Percentage as a number
+- `valueStatusActive` - Accessory is connected/reachable, e.g. "true", "1", or "Alive"
+- `valueBatteryLow` - Accessory has a low battery level
 
-- LockMechanism
-  - `topicGetCurrentLockState` - The current state of the lock, i.e. locked/unlocked
-  - `topicGetTargetLockState` - The target (i.e. desired) state of the lock
-  - `topicSetTargetLockState` - For setting the target (i.e. desired) state of the lock
+### On/Off Accessories
+- `topicGetOn*` - The current state of the outlet, i.e. on/off
+- `topicSetOn*` - For setting the state of the outlet
+- `valueOn*` - Turned on, e.g. "true", or "1", or "On"
+- `valueOff*` - Turned off, e.g. "false", or "0", or "Off"
 
-- Outlet
-  - `topicGetOn` - The current state of the outlet, i.e. on/off
-  - `topicSetOn` - For setting the state of the outlet
-  - `topicGetOutletInUse` - (Optional) Whether or not the outlet is currently being used
+#### Lightbulb
+- `topicGetBrightness` - The current brightness as a percent
+- `topicSetBrightness` - For setting the brightness
+- `topicGetColorTemperature` - The current color temperature of the lightbulb
+- `topicSetColorTemperature` - For setting the color temperature of the lightbulb
+- `topicGetHue` - The lightbulb's current hue
+- `topicSetHue` - For setting the lightbulb's current hue
+- `topicGetSaturation` - The current saturation setting of the lightbulb
+- `topicSetSaturation` - For setting the saturation setting of the lightbulb
 
-- SecuitySystem
-  - `topicGetCurrentSecurityState` — The current state of the system
-  - `topicGetTargetSecurityState` — The target state of the system
-  - `topicSetTargetSecurityState` — For setting the target state of the system
-  - `topicGetStatusTampered` — For getting whether the system has been tampered with
-  - `topicGetStatusFault` — For getting whether there is a system error
+#### Outlet
+- `topicGetOutletInUse` - Whether or not the outlet is currently being used
+- `valueOutletInUse` - Currently being used, e.g. "true", or "1", or "On"
 
-- Switch
-  - `topicGetOn` - The current state of the switch, i.e. on/off
-  - `topicSetOn` - For setting the state of the switch
+#### Switch
+-
 
-- TemperatureSensor
-  - `topicGetCurrentTemperature` - The current temperature of the sensor
-  - `temperatureUnits` - (Optional) The temperature units of the incoming value supplied by the sensor, `C` for Celsius  (default) `F` for Fahrenheit
+### Sensors
+- `topicGetStatusFault` - Whether or not the sensor has a generic fault
+- `topicGetStatusTampered` - Whether or not the sensor has been tampered with
+- `valueFault` - Accessory has a fault
+- `valueTampered` - Accessory has been tampered with
 
-Values:
+#### CarbonDioxideSensor
+- `topicGetCarbonDioxideDetected*` - Whether or not the sensor has detected carbon dioxide
+- `topicGetCarbonDioxideLevel` - The current carbon dioxide level
+- `topicGetCarbonDioxidePeakLevel` - The peak carbon dioxide level
+- `valueCarbonDioxideDetected*` - Accessory has detected carbon dioxide
 
-As with Topics, you will need to populate the appropriate values based on the type. Note that while they are defined as strings, they will be auto-converted to the appropriate primitives (e.g. boolean or number) where appropriate.
+#### CarbonMonoxideSensor
+- `topicGetCarbonMonoxideDetected*` - Whether or not the sensor has detected carbon monoxide
+- `topicGetCarbonMonoxideLevel` - The current carbon monoxide level
+- `topicGetCarbonMonoxidePeakLevel` - The peak carbon monoxide level
+- `valueCarbonMonoxideDetected*` - Accessory has detected carbon monoxide
 
-- General Purpose
-  - `valueStatusActive` - Accessory is connected/reachable, e.g. "true", "1", or "Alive"
+#### ContactSensor
+- `topicGetContactSensorState*` - Whether or not sensor has detected contact
+- `valueContactDetected*` - Accessory has detected contact
 
-- Lightbulb
-  - `valueOn` - Turned on, e.g. "true", or "1", or "On"
-  - `valueOff` - Turned off, e.g. "false", or "0", or "Off"
+### HumiditySensor
+- `topicGetCurrentRelativeHumidity` - The current relatively humidity
 
-- LockMechanism
-  - `valueLockStateSecured` - Locked state, e.g. "true", "255", or "Locked"
-  - `valueLockStateUnsecured` - Unlocked state, e.g. "false", "0", or "Unlocked"
-  - `valueLockStateJammed` - (Optional) Lock is jammed, e.g. "254" or "Jammed"
+#### LeakSensor
+- `topicGetLeakDetected*` - Whether or not sensor has detected a leak
+- `valueLeakDetected*` - Accessory has detected a leak
 
-- Outlet
-  - `valueOn` - Turned on, e.g. "true", or "1", or "On"
-  - `valueOff` - Turned off, e.g. "false", or "0", or "Off"
-  - `valueOutletInUse` - Currently being used, e.g. "true", or "1", or "On"
+#### MotionSensor
+- `topicGetMotionDetected*` - Whether or not sensor has detected motion
+- `valueMotionDetected*` - Accessory has detected motion
 
-- SecuritySystem
-  - `valueArmStay` — (Optional) system armed in stay mode, e.g. "SA" or "stay"
-  - `valueArmAway` — (Optional) system armed in away mode, e.g. "AA" or "away"
-  - `valueArmNight` — (Optional) system armed in night mode, e.g. "NA" or "night"
-  - `valueDisarm` — (Optional) system armed in away mode, e.g. "D" or "disarmed"
-  - `valueAlarmTriggered` — (Optional) when the alarm has been triggered, e.g. "true" or "1" or "triggered"
-  - `valueTampered` — (Optional) when the system has been tampered with, e.g. "true" or "1" or "tampered"
-  - `valueFault` — (Optional) when the system has a general fault, e.g. "true" or "1" or "fault"
+#### OccupancySensor
+- `topicGetOccupancyDetected*` - Whether or not sensor has detected occupancy
+- `valueOccupancyDetected*` - Accessory has detected occupancy
 
-- Switch
-  - `valueOn` - Turned on, e.g. "true", or "1", or "On"
-  - `valueOff` - Turned off, e.g. "false", or "0", or "Off"
+#### SmokeSensor
+- `topicGetSmokeDetected*` - Whether or not sensor has detected smoke
+- `valueSmokeDetected*` - Accessory has detected smoke
 
-Logging/Debugging:
+#### TemperatureSensor
+- `topicGetCurrentTemperature*` - The current temperature of the sensor
+- `temperatureUnits` - The temperature units of the incoming value supplied by the sensor, `C` for Celsius  (default) `F` for Fahrenheit
+
+### Others
+
+#### LockMechanism
+- `topicGetCurrentLockState*` - The current state of the lock, i.e. locked/unlocked
+- `topicGetTargetLockState*` - The target (i.e. desired) state of the lock
+- `topicSetTargetLockState*` - For setting the target (i.e. desired) state of the lock
+- `valueLockStateSecured*` - Locked state, e.g. "true", "255", or "Locked"
+- `valueLockStateUnsecured*` - Unlocked state, e.g. "false", "0", or "Unlocked"
+- `valueLockStateJammed` - Lock is jammed, e.g. "254" or "Jammed"
+
+#### SecuritySystem
+- `topicGetCurrentSecurityState*` — The current state of the system
+- `topicGetTargetSecurityState*` — The target state of the system
+- `topicSetTargetSecurityState*` — For setting the target state of the system
+- `topicGetStatusFault` — For getting whether there is a system error
+- `topicGetStatusTampered` — For getting whether the system has been tampered with
+- `valueArmStay` - system armed in stay mode, e.g. "SA" or "stay"
+- `valueArmAway` - system armed in away mode, e.g. "AA" or "away"
+- `valueArmNight` - system armed in night mode, e.g. "NA" or "night"
+- `valueDisarm` - system armed in away mode, e.g. "D" or "disarmed"
+- `valueAlarmTriggered` - when the alarm has been triggered, e.g. "true" or "1" or "triggered"
+- `valueFault` - Accessory has a fault
+- `valueTampered` - Accessory has been tampered with
+
+## Logging/Debugging:
 
 By default, devices will log activity, for example when a Switch is turned on or a LockMechanism is unlocked.
 
@@ -281,7 +312,7 @@ Due to the complexity, this was intentionally left out of the plugin config UI, 
 - `uuid` — A unique string (recommend using a (UUID generator)[https://www.uuidgenerator.net/])
 - `name` — The display name for the characteristic
 - `getTopic` — The topic which provides the numeric value
-- `units` — (Optional) The units which will be displayed at the end of the numeric value
+- `units` - The units which will be displayed at the end of the numeric value
 
 Since `customCharacteristics` is an array, you may define as many custom characteristics as you wish.
 

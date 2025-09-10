@@ -11,14 +11,28 @@ export type PlatformConfig = HBPlatformConfig & {
   accessories?: BaseAccessoryConfig[];
 }
 
-export type TemperatureConfig = {
+type TemperatureConfig = {
   temperatureUnits?: TemperatureUnits,
 }
 
-export type InfoConfig = Assertable & {
+type ErrorStatusConfig = {
+  topicGetStatusFault?: string,
+  topicGetStatusTampered?: string,
+  valueFault?: string,
+  valueTampered?: string,
+}
+
+type InfoConfig = Assertable & {
   id: string,
   name: string,
   type: AccessoryType,
+}
+
+type AdditionalInfoConfig = InfoConfig & {
+  manufacturer?: string,
+  model?: string,
+  serialNumber?: string,
+  version?: string,
 }
 
 export type MQTTConfig = Assertable & {
@@ -33,13 +47,6 @@ export type MQTTAccessoryConfig = Assertable & {
   info: InfoConfig,
   customCharacteristics?: CustomCharacteristicConfig[];
   disableLogging: boolean,
-}
-
-export type AdditionalInfoConfig = InfoConfig & {
-  manufacturer?: string,
-  model?: string,
-  serialNumber?: string,
-  version?: string,
 }
 
 export type CustomCharacteristicConfig = Assertable & {
@@ -58,6 +65,82 @@ export type BaseAccessoryConfig = MQTTAccessoryConfig & {
   valueStatusActive?: string,
 }
 
+export type OnOffConfig = BaseAccessoryConfig & {
+  topicGetOn: string,
+  topicSetOn: string,
+  valueOn: string,
+  valueOff: string,
+}
+
+export type LightbulbConfig = OnOffConfig & {
+  topicGetBrightness?: string,
+  topicGetColorTemperature?: string,
+  topicGetHue?: string,
+  topicGetSaturation?: string
+  topicSetBrightness?: string,
+  topicSetColorTemperature?: string,
+  topicSetHue?: string,
+  topicSetSaturation?: string
+}
+
+export type OutletConfig = OnOffConfig & {
+  topicGetOutletInUse?: string,
+  valueOutletInUse?: string,
+}
+
+export type SwitchConfig = OnOffConfig & {
+}
+
+export type SensorConfig = BaseAccessoryConfig & ErrorStatusConfig & {
+}
+
+export type COSensorConfig = SensorConfig & {
+  topicGetCarbonMonoxideDetected: string,
+  topicGetCarbonMonoxideLevel?: string,
+  topicGetCarbonMonoxidePeakLevel?: string,
+  valueCarbonMonoxideDetected: string,
+}
+
+export type CO2SensorConfig = SensorConfig & {
+  topicGetCarbonDioxideDetected: string,
+  topicGetCarbonDioxideLevel?: string,
+  topicGetCarbonDioxidePeakLevel?: string,
+  valueCarbonDioxideDetected: string,
+}
+
+export type ContactSensorConfig = SensorConfig & {
+  topicGetContactSensorState: string,
+  valueContactDetected: string,
+}
+
+export type HumiditySensorConfig =  SensorConfig & {
+  topicGetCurrentRelativeHumidity: string,
+}
+
+export type LeakSensorConfig = SensorConfig & {
+  topicGetLeakDetected: string,
+  valueLeakDetected: string,
+}
+
+export type MotionSensorConfig = SensorConfig & {
+  topicGetMotionDetected: string,
+  valueMotionDetected: string,
+}
+
+export type OccupancySensorConfig = SensorConfig & {
+  topicGetOccupancyDetected: string,
+  valueOccupancyDetected: string,
+}
+
+export type SmokeSensorConfig = SensorConfig & {
+  topicGetSmokeDetected: string,
+  valueSmokeDetected: string,
+}
+
+export type TemperatureSensorConfig =  SensorConfig & TemperatureConfig & {
+  topicGetCurrentTemperature: string,
+}
+
 export type LockMechanismConfig = BaseAccessoryConfig & {
   topicGetCurrentLockState: string,
   topicGetTargetLockState: string,
@@ -70,47 +153,13 @@ export type LockMechanismConfig = BaseAccessoryConfig & {
   valueLockStateJammed?: string,
 };
 
-export type OnOffConfig = BaseAccessoryConfig & {
-  topicGetOn: string,
-  topicSetOn: string,
-  valueOn: string,
-  valueOff: string,
-}
-
-export type LightbulbConfig = OnOffConfig & {
-  topicGetBrightness?: string,
-  topicGetHue?: string,
-  topicGetColorTemperature?: string,
-  topicGetSaturation?: string
-  topicSetBrightness?: string,
-  topicSetHue?: string,
-  topicSetColorTemperature?: string,
-  topicSetSaturation?: string
-}
-
-export type OutletConfig = OnOffConfig & {
-  topicGetOutletInUse?: string,
-  valueOutletInUse?: string,
-}
-
-export type SecuritySystemConfig = BaseAccessoryConfig & {
+export type SecuritySystemConfig = BaseAccessoryConfig & ErrorStatusConfig & {
   topicGetCurrentSecurityState: string,
   topicGetTargetSecurityState: string,
   topicSetTargetSecurityState: string,
-  topicGetStatusTampered?: string,
-  topicGetStatusFault?: string,
   valueArmStay?: string,
   valueArmAway?: string,
   valueArmNight?: string,
   valueDisarm?: string,
   valueAlarmTriggered?: string,
-  valueTampered?: string,
-  valueFault?: string,
-}
-
-export type SwitchConfig = OnOffConfig & {
-}
-
-export type TemperatureSensorConfig = BaseAccessoryConfig & TemperatureConfig & {
-  topicGetCurrentTemperature: string,
 }

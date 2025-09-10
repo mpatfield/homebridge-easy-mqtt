@@ -42,12 +42,12 @@ export class SecuritySystemAccessory extends BaseAccessory<SecuritySystemConfig>
     )?.setProps({ validValues: validTargetStates.map((key) => this.STATE_MAP.get(key)!) });
 
     this.setupCharacteristic(CharacteristicKey.StatusTampered, 0, 'topicGetStatusTampered',
-      this.bindOnUpdateNumericBoolean(CharacteristicKey.StatusTampered, 'valueTampered', strings.security.isTampered, strings.security.notTampered),
+      this.bindOnUpdateNumericBoolean(CharacteristicKey.StatusTampered, 'valueTampered', strings.error.isTampered, strings.error.notTampered),
       false,
     );
 
     this.setupCharacteristic(CharacteristicKey.StatusFault, 0, 'topicGetStatusFault',
-      this.bindOnUpdateNumericBoolean(CharacteristicKey.StatusFault, 'valueFault', strings.security.hasFault, strings.security.noFault),
+      this.bindOnUpdateNumericBoolean(CharacteristicKey.StatusFault, 'valueFault', strings.error.hasFault, strings.error.noFault),
       false,
     );
   }
