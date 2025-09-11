@@ -134,15 +134,15 @@ export class SecuritySystemAccessory extends BaseAccessory<SecuritySystemConfig>
   private stateStringForCV(state: CharacteristicValue, future: boolean = false): string {
     switch(state) {
     case this.Characteristic.SecuritySystemCurrentState.STAY_ARM:
-      return future ? strings.security.stateFutureArmStay : strings.security.stateCurrentArmStay;
+      return future ? strings.security.stateStayFuture : strings.security.stateStay;
     case this.Characteristic.SecuritySystemCurrentState.AWAY_ARM:
-      return future ? strings.security.stateFutureArmAway : strings.security.stateCurrentArmAway;
+      return future ? strings.security.stateAwayFuture : strings.security.stateAway;
     case this.Characteristic.SecuritySystemCurrentState.NIGHT_ARM:
-      return future ? strings.security.stateFutureArmNight : strings.security.stateCurrentArmNight;
+      return future ? strings.security.stateNightFuture : strings.security.stateNight;
     case this.Characteristic.SecuritySystemCurrentState.DISARMED:
-      return future ? strings.security.stateFutureDisarm : strings.security.stateCurrentDisarm;
+      return future ? strings.security.stateDisarmFuture : strings.security.stateDisarmed;
     case this.Characteristic.SecuritySystemCurrentState.ALARM_TRIGGERED:
-      return strings.security.stateCurrentAlarmTriggered;
+      return strings.security.stateTriggered;
     default:
       return strings.security.stateUnknown;
     }

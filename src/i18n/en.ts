@@ -128,21 +128,21 @@ const en = {
 
   lightbulb: {
     brightness: '%s brightness is %d%', // accessory name, number
-    futureBrightness: 'Setting %s brightness to %d%…', // accessory name, number
+    brightnessFuture: 'Setting %s brightness to %d%…', // accessory name, number
     hue: '%s hue is %d°', // accessory name, number
-    futureHue: 'Setting %s hue to %d°…', // accessory name, number
+    hueFuture: 'Setting %s hue to %d°…', // accessory name, number
     colorTemperature: '%s color temperature is %dM', // accessory name, number
-    futureColorTemperature: 'Setting %s color temperature to %dM…', // accessory name, number
+    colorTemperatureFuture: 'Setting %s color temperature to %dM…', // accessory name, number
     saturation: '%s saturation is %d%', // accessory name, number
-    futureSaturation: 'Setting %s saturation to %d%…', // accessory name, number
+    saturationFuture: 'Setting %s saturation to %d%…', // accessory name, number
   },
 
   lock: {
     badValue: '%s unable to determine lock state from %s', // accessory name, value
-    stateCurrentSecured: '%s is locked', // accessory name
-    stateCurrentUnsecured: '%s is unlocked', // accessory name
-    stateFutureSecured: 'Locking %s…', // accessory name
-    stateFutureUnsecured: 'Unlocking %s…', // accessory name
+    stateSecured: '%s is locked', // accessory name
+    stateSecuredFuture: 'Locking %s…', // accessory name
+    stateUnsecured: '%s is unlocked', // accessory name
+    stateUnsecuredFuture: 'Unlocking %s…', // accessory name
     stateJammed: '%s is jammed', // accessory name
     stateUnknown: '%s state is unknown', // accessory name
   },
@@ -163,10 +163,10 @@ const en = {
   },
 
   onOff: {
-    stateFutureOff: 'Turning off %s…', // accessory name
-    stateFutureOn: 'Turning on %s…', // accessory name
-    stateOn: '%s is on', // accessory name
     stateOff: '%s is off', // accessory name
+    stateOffFuture: 'Turning off %s…', // accessory name
+    stateOn: '%s is on', // accessory name
+    stateOnFuture: 'Turning on %s…', // accessory name
     unknownValue: '%s unable to determine on/off state from %s. Ignoring…', // accessory name, value
   },
 
@@ -177,17 +177,17 @@ const en = {
   },
 
   security: {
-    badValue: '%s missing value for security state %s.', // accessory name, value
+    badValue: '%s missing value for security state %s', // accessory name, value
     noStateValues: '%s must have at least one state value defined (Arm Away, Disarm, etc.)', // accessory name
-    stateCurrentArmAway: '%s is armed for away', // accessory name
-    stateCurrentArmNight: '%s is armed for night', // accessory name
-    stateCurrentArmStay: '%s is armed for stay', // accessory name
-    stateCurrentAlarmTriggered: '%s alarm is triggered', // accessory name
-    stateCurrentDisarm: '%s is disarmed', // accessory name
-    stateFutureArmAway: 'Arming %s for away…', // accessory name
-    stateFutureArmNight: 'Arming %s for night…', // accessory name
-    stateFutureArmStay: 'Arming %s for stay…', // accessory name
-    stateFutureDisarm: 'Disarming %s…', // accessory name
+    stateAway: '%s is armed for away', // accessory name
+    stateAwayFuture: 'Arming %s for away…', // accessory name
+    stateNight: '%s is armed for night', // accessory name
+    stateNightFuture: 'Arming %s for night…', // accessory name
+    stateStay: '%s is armed for stay', // accessory name
+    stateStayFuture: 'Arming %s for stay…', // accessory name
+    stateTriggered: '%s alarm is triggered', // accessory name
+    stateDisarmed: '%s is disarmed', // accessory name
+    stateDisarmFuture: 'Disarming %s…', // accessory name
     stateUnknown: '%s state is unknown', // accessory name
     unknownValue: '%s unable to determine security state from value %s. Ignoring…', // accessory name, value
   },
@@ -243,7 +243,7 @@ const en = {
   },
 
   startup: {
-    complete: '✓ Setup complete.',
+    complete: '✓ Setup complete',
     newAccessory: 'Adding %s', // accessory name
     removeAccessory: 'Removing %s', // accessory name
     restoringAccessory: 'Restoring %s', // accessory name

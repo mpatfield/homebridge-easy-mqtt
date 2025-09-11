@@ -56,9 +56,9 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
 
   private stringForState(on: CharacteristicValue, future: boolean = false): string {
     if (on) {
-      return future ? strings.onOff.stateFutureOn : strings.onOff.stateOn;
+      return future ? strings.onOff.stateOnFuture : strings.onOff.stateOn;
     } else {
-      return future ? strings.onOff.stateFutureOff : strings.onOff.stateOff;
+      return future ? strings.onOff.stateOffFuture : strings.onOff.stateOff;
     }
   }
 }

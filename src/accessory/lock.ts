@@ -126,9 +126,9 @@ export class LockMechanismAccessory extends BaseAccessory<LockMechanismConfig> {
   private stringForState(state: CharacteristicValue, future: boolean = false): string {
     switch(state) {
     case this.Characteristic.LockCurrentState.SECURED:
-      return future ? strings.lock.stateFutureSecured : strings.lock.stateCurrentSecured;
+      return future ? strings.lock.stateSecuredFuture : strings.lock.stateSecured;
     case this.Characteristic.LockCurrentState.UNSECURED:
-      return future ? strings.lock.stateFutureUnsecured : strings.lock.stateCurrentUnsecured;
+      return future ? strings.lock.stateUnsecuredFuture : strings.lock.stateUnsecured;
     case this.Characteristic.LockCurrentState.JAMMED:
       return strings.lock.stateJammed;
     default:
