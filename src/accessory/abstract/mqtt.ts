@@ -137,7 +137,7 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
     return (async (_topic: string, value: PrimitiveTypes) => {
 
       if (typeof value !== 'number') {
-        this.log.error(strings.accessory.badNumericValue, this.name, charKey, `'${value.toString()}'`);
+        this.log.error(strings.characteristic.badValue, this.name, charKey, `'${value.toString()}'`);
         return;
       }
 

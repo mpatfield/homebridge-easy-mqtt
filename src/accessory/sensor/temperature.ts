@@ -26,7 +26,7 @@ export class TemperatureSensorAccessory extends SensorAccessory<TemperatureSenso
   private async onCurrentTemperatureUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
     if (typeof value !== 'number') {
-      this.log.error(strings.sensor.temperature.badValue, this.name, `'${value}'`);
+      this.log.error(strings.temperature.badValue, this.name, `'${value}'`);
       return;
     }
 

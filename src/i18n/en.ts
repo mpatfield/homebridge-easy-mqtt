@@ -1,7 +1,6 @@
 const en = {
 
   accessory: {
-    badNumericValue: '%s expected a number for %s but received %s', // accessory name, characteristic name, value
     batteryLevel: '%s battery is at %d%', // accessory name, number
     batteryLow: '%s battery is low', // accessory name
     batteryNotLow: '%s battery is okay', // accessory name
@@ -239,7 +238,6 @@ const en = {
     },
 
     temperature: {
-      badValue: '%s expected a number for temperature but received %s', // accessory name, value
       update: '%s temperature is %s°%s', // accessory name, number, units
     },
   },
@@ -255,6 +253,10 @@ const en = {
       'Would you like to sponsor this plugin? https://github.com/sponsors/mpatfield',
       'Want to see this plugin in your own language? Please visit https://github.com/mpatfield/homebridge-easy-mqtt/issues/4',
     ],
+  },
+
+  temperature: {
+    badValue: '%s expected a number for temperature but received %s', // accessory name, value
   },
 };
 
