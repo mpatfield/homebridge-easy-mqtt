@@ -9,6 +9,12 @@ const en = {
     statusInactive: '%s is unavailable', // accessory name
   },
 
+  climate: {
+    badTemperatureValue: '%s expected a number for temperature but received %s', // accessory name, value
+    humidityUpdate: '%s humidity is %d%', // accessory name, number
+    temperatureUpdate: '%s temperature is %d°%s', // accessory name, number, units
+  },
+
   config: {
     continue: 'Continue %s', // arrow symbol
     required: 'Required fields are marked with an asterisk (*)',
@@ -213,10 +219,6 @@ const en = {
       inactive: '%s stopped detecting contact', // accessory name
     },
 
-    humidity: {
-      update: '%s humidity is %d%', // accessory name, number
-    },
-
     leak: {
       active: '%s detected a leak', // accessory name
       inactive: '%s stopped detecting leaks', // accessory name
@@ -236,10 +238,6 @@ const en = {
       active: '%s detected smoke', // accessory name
       inactive: '%s stopped detecting smoke', // accessory name
     },
-
-    temperature: {
-      update: '%s temperature is %d°%s', // accessory name, number, units
-    },
   },
 
   startup: {
@@ -255,9 +253,6 @@ const en = {
     ],
   },
 
-  temperature: {
-    badValue: '%s expected a number for temperature but received %s', // accessory name, value
-  },
 };
 
 export default en;

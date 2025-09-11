@@ -15,7 +15,7 @@ export class HumiditySensorAccessory extends SensorAccessory<HumiditySensorConfi
     super(Service, Characteristic, accessory, config, log);
 
     this.setupCharacteristic(CharacteristicKey.CurrentRelativeHumidity, 0, 'topicGetCurrentRelativeHumidity',
-      this.bindOnUpdateNumeric(CharacteristicKey.CurrentRelativeHumidity, strings.sensor.humidity.update), true);
+      this.bindOnUpdateNumeric(CharacteristicKey.CurrentRelativeHumidity, strings.climate.humidityUpdate), true);
   }
 
   protected getAccessoryService(): Service {
