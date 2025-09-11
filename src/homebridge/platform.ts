@@ -18,6 +18,7 @@ import { SecuritySystemAccessory } from '../accessory/security.js';
 import { SmokeSensorAccessory } from '../accessory/sensor/smoke.js';
 import { SwitchAccessory } from '../accessory/onoff/switch.js';
 import { TemperatureSensorAccessory } from '../accessory/sensor/temperature.js';
+import { ThermostatAccessory } from '../accessory/thermostat.js';
 
 import { setLanguage, strings } from '../i18n/i18n.js';
 
@@ -152,6 +153,9 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
         break;
       case AccessoryType.TemperatureSensor:
         accessory = new TemperatureSensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.TemperatureSensorConfig, this.log);
+        break;
+      case AccessoryType.Thermostat:
+        accessory = new ThermostatAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.ThermostatConfig, this.log);
         break;
       default:
         this.log.error(strings.startup.unsupportedType, accessoryConfig.info.type);

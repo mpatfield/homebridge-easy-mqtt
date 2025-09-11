@@ -21,8 +21,8 @@
           "type": {
             "type": "string",
             "title": "${config.title.type}",
-            "enum": [ "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "HumiditySensor", "LeakSensor", "Lightbulb", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "Switch", "TemperatureSensor"],
-            "enumNames": ["${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.humiditySensor}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}"],
+            "enum": [ "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "HumiditySensor", "LeakSensor", "Lightbulb", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "Switch", "TemperatureSensor", "Thermostat"],
+            "enumNames": ["${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.humiditySensor}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}"],
             "required": true
           },
           "manufacturer": {
@@ -247,6 +247,50 @@
               "type": "string",
               "title": "${config.title.topicGetCurrentTemperature}"
             },
+            "topicGetCurrentHeatingCoolingState": {
+              "type": "string",
+              "title": "${config.title.topicGetCurrentHeatingCoolingState}"
+            },
+            "topicGetTargetHeatingCoolingState": {
+              "type": "string",
+              "title": "${config.title.topicGetTargetHeatingCoolingState}"
+            },
+            "topicSetTargetHeatingCoolingState": {
+              "type": "string",
+              "title": "${config.title.topicSetTargetHeatingCoolingState}"
+            },
+            "topicGetTargetTemperature": {
+              "type": "string",
+              "title": "${config.title.topicGetTargetTemperature}"
+            },
+            "topicSetTargetTemperature": {
+              "type": "string",
+              "title": "${config.title.topicSetTargetTemperature}"
+            },
+            "topicGetTargetRelativeHumidity": {
+              "type": "string",
+              "title": "${config.title.topicGetTargetRelativeHumidity}"
+            },
+            "topicSetTargetRelativeHumidity": {
+              "type": "string",
+              "title": "${config.title.topicSetTargetRelativeHumidity}"
+            },
+            "topicGetCoolingThresholdTemperature": {
+              "type": "string",
+              "title": "${config.title.topicGetCoolingThresholdTemperature}"
+            },
+            "topicSetCoolingThresholdTemperature": {
+              "type": "string",
+              "title": "${config.title.topicSetCoolingThresholdTemperature}"
+            },
+            "topicGetHeatingThresholdTemperature": {
+              "type": "string",
+              "title": "${config.title.topicGetHeatingThresholdTemperature}"
+            },
+            "topicSetHeatingThresholdTemperature": {
+              "type": "string",
+              "title": "${config.title.topicSetHeatingThresholdTemperature}"
+            },
             "valueBatteryLow": {
               "type": "string",
               "title": "${config.title.valueBatteryLow}"
@@ -334,6 +378,22 @@
             "valueSmokeDetected": {
               "type": "string",
               "title": "${config.title.valueSmokeDetected}"
+            },
+            "valueModeAuto": {
+              "type": "string",
+              "title": "${config.title.valueModeAuto}"
+            },
+            "valueModeCool": {
+              "type": "string",
+              "title": "${config.title.valueModeCool}"
+            },
+            "valueModeHeat": {
+              "type": "string",
+              "title": "${config.title.valueModeHeat}"
+            },
+            "valueModeOff": {
+              "type": "string",
+              "title": "${config.title.valueModeOff}"
             },
             "disableLogging": {
               "type": "boolean",
@@ -769,6 +829,129 @@
                   ]
                 },
                 {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Thermostat';"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetCurrentHeatingCoolingState",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetTargetHeatingCoolingState",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetTargetHeatingCoolingState",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetCurrentTemperature",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].temperatureUnits",
+                          "title": "${config.title.sourceUnits}",
+                          "flex": "0 0 33%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetTargetTemperature",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetTargetTemperature",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetCurrentRelativeHumidity",
+                          "title": "${config.title.topicGetCurrentRelativeHumidityOptional}",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetTargetRelativeHumidity",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetTargetRelativeHumidity",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetCoolingThresholdTemperature",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetCoolingThresholdTemperature",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetHeatingThresholdTemperature",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetHeatingThresholdTemperature",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "type": "div",
                   "displayFlex": true,
                   "flex-direction": "row",
@@ -923,6 +1106,32 @@
                           "flex": "0 0 25%"
                         }
                       ]
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Thermostat';"
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].valueModeAuto",
+                      "flex": "0 0 25%"
+                    },
+                    {
+                      "key": "accessories[].valueModeCool",
+                      "flex": "0 0 25%"
+                    },
+                    {
+                      "key": "accessories[].valueModeHeat",
+                      "flex": "0 0 25%"
+                    },
+                    {
+                      "key": "accessories[].valueModeOff",
+                      "flex": "0 0 25%"
                     }
                   ]
                 },

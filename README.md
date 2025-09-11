@@ -39,6 +39,7 @@ This plugin is designed to be a simple replacement for the fantastic [homebridge
   - `SmokeSensor`
   - `Switch`
   - `TemperatureSensor`
+  - `Thermostat`
 
 ## Configuration
 
@@ -197,13 +198,33 @@ As with topics, you will also need to populate the appropriate values based on t
 - `topicSetTargetSecurityState*` — For setting the target state of the system
 - `topicGetStatusFault` — For getting whether there is a system error
 - `topicGetStatusTampered` — For getting whether the system has been tampered with
-- `valueArmStay` - system armed in stay mode, e.g. "SA" or "stay"
-- `valueArmAway` - system armed in away mode, e.g. "AA" or "away"
-- `valueArmNight` - system armed in night mode, e.g. "NA" or "night"
-- `valueDisarm` - system armed in away mode, e.g. "D" or "disarmed"
-- `valueAlarmTriggered` - when the alarm has been triggered, e.g. "true" or "1" or "triggered"
+- `valueArmStay` - System armed in stay mode, e.g. "SA" or "stay"
+- `valueArmAway` - System armed in away mode, e.g. "AA" or "away"
+- `valueArmNight` - System armed in night mode, e.g. "NA" or "night"
+- `valueDisarm` - System armed in away mode, e.g. "D" or "disarmed"
+- `valueAlarmTriggered` - When the alarm has been triggered, e.g. "true" or "1" or "triggered"
 - `valueFault` - Accessory has a fault
 - `valueTampered` - Accessory has been tampered with
+
+### Thermostat
+- `temperatureUnits` - The temperature units of the incoming value supplied by the thermostat, `C` for Celsius  (default) `F` for Fahrenheit
+- `topicGetCurrentHeatingCoolingState*` - Get the current mode (i.e. cooling, heating, off)
+- `topicGetTargetHeatingCoolingState*` - Get the target mode (i.e. auto, cooling, heating, off)
+- `topicSetTargetHeatingCoolingState*` - Set the target mode (i.e. auto, cooling, heating, off)
+- `topicGetCurrentTemperature*` - Get the current temperature
+- `topicGetTargetTemperature*` - Get the target temperature
+- `topicSetTargetTemperature*` - Set the target temperature
+- `topicGetCurrentRelativeHumidity` - Get the current humidity
+- `topicGetTargetRelativeHumidity` - Get the target humidity
+- `topicSetTargetRelativeHumidity` - Set the target humidity
+- `topicGetCoolingThresholdTemperature` - Get the cooling threshold temperature
+- `topicSetCoolingThresholdTemperature` - Set the cooling threshold temparture
+- `topicGetHeatingThresholdTemperature` - Get the heating threshold temperature
+- `topicSetHeatingThresholdTemperature` - Set the heating threshold temperature
+- `valueModeAuto` - Auto mode
+- `valueModeCool` - Cool mode
+- `valueModeHeat` - Heat mode
+- `valueModeOff` - Thermostat off
 
 ## Logging/Debugging:
 

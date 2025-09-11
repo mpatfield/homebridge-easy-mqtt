@@ -13,6 +13,7 @@ export enum AccessoryType {
   SmokeSensor = 'SmokeSensor',
   Switch = 'Switch',
   TemperatureSensor = 'TemperatureSensor',
+  Thermostat = 'Thermostat',
 }
 
 export enum CharacteristicKey {
@@ -26,8 +27,11 @@ export enum CharacteristicKey {
   CarbonMonoxidePeakLevel = 'CarbonMonoxidePeakLevel',
   ColorTemperature = 'ColorTemperature',
   ContactSensorState = 'ContactSensorState',
+  CoolingThresholdTemperature = 'CoolingThresholdTemperature',
+  CurrentHeatingCoolingState = 'CurrentHeatingCoolingState',
   CurrentRelativeHumidity = 'CurrentRelativeHumidity',
   CurrentTemperature = 'CurrentTemperature',
+  HeatingThresholdTemperature = 'HeatingThresholdTemperature',
   Hue = 'Hue',
   LeakDetected = 'LeakDetected',
   LockCurrentState = 'LockCurrentState',
@@ -44,6 +48,10 @@ export enum CharacteristicKey {
   StatusFault = 'StatusFault',
   StatusLowBattery = 'StatusLowBattery',
   StatusTampered = 'StatusTampered',
+  TargetHeatingCoolingState = 'TargetHeatingCoolingState',
+  TargetRelativeHumidity = 'TargetRelativeHumidity',
+  TargetTemperature = 'TargetTemperature',
+  TemperatureDisplayUnits = 'TemperatureDisplayUnits',
 }
 
 export enum TemperatureUnits {

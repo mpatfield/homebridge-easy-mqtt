@@ -44,6 +44,7 @@ const en = {
       securitySystem: 'Security System',
       smokeSensor: 'Smoke Sensor',
       temperatureSensor: 'Temperature Sensor',
+      thermostat: 'Thermostat',
     },
 
     title: {
@@ -89,6 +90,18 @@ const en = {
       topicGetOccupancyDetected: 'Get Occupancy Detected*',
       topicGetSmokeDetected: 'Get Smoke Detected*',
       topicGetCurrentRelativeHumidity: 'Get Relative Humidity*',
+      topicGetCoolingThresholdTemperature: 'Get Cooling Threshold',
+      topicGetCurrentHeatingCoolingState: 'Get Current Mode*',
+      topicGetCurrentRelativeHumidityOptional: 'Get Relative Humidity',
+      topicGetHeatingThresholdTemperature: 'Get Heating Threshold',
+      topicGetTargetHeatingCoolingState: 'Get Target Mode*',
+      topicGetTargetRelativeHumidity: 'Get Target Humidity',
+      topicGetTargetTemperature: 'Get Target Temperature*',
+      topicSetCoolingThresholdTemperature: 'Set Cooling Threshold',
+      topicSetHeatingThresholdTemperature: 'Set Heating Threshold',
+      topicSetTargetHeatingCoolingState: 'Set Target Mode*',
+      topicSetTargetRelativeHumidity: 'Set Target Humidity ',
+      topicSetTargetTemperature: 'Set Target Temperature*',
       topics: 'Topics',
       type: 'Type',
       username: 'Username',
@@ -115,6 +128,10 @@ const en = {
       valueMotionDetected: 'Motion Detected*',
       valueOccupancyDetected: 'Occupancy Detected*',
       valueSmokeDetected: 'Smoke Detected*',
+      valueModeAuto: 'Auto',
+      valueModeCool: 'Cool',
+      valueModeHeat: 'Heat',
+      valueModeOff: 'Off',
       values: 'Values',
       verbose: 'Additional Logging',
     },
@@ -253,6 +270,26 @@ const en = {
     ],
   },
 
+  thermostat: {
+    badValue: '%s missing value for thermostat state %s', // accessory name, value
+    coolingThreshold: '%s cooling threshold is %d°%s', // accessory name, number, units
+    coolingThresholdFuture: '%s setting cooling threshold to %d°%s…', // accessory name, number, units
+    heatingThreshold: '%s heating threshold is %d°%s', // accessory name, number, units
+    heatingThresholdFuture: '%s setting heating threshold to %d°%s…', // accessory name, number, units
+    noStateValues: '%s must have at least one state value defined (Off, Heat, Cool)', // accessory name
+    humidityFuture: 'Setting %s humidity to %d%…', // accessory name, number
+    stateAutoFuture: 'Setting %s to auto…', // accessory name
+    stateCool: '%s is set to cool', // accessory name
+    stateCoolFuture: 'Setting %s to cool…', // accessory name
+    stateHeat: '%s is set to heat', // accessory name
+    stateHeatFuture: 'Setting %s to heat…', // accessory name
+    stateOff: '%s is set to off', // accessory name
+    stateOffFuture: 'Turning %s off…', // accessory name
+    stateUnknown: '%s state is unknown', // accessory name
+    temperatureTarget: '%s target temperature is %d°%s', // accessory name, number, units
+    temperatureTargetFuture: '%s setting temperature to %d°%s…', // accessory name, number, units
+    unknownValue: '%s unable to determine thermostat state from value %s. Ignoring…', // accessory name, value
+  },
 };
 
 export default en;

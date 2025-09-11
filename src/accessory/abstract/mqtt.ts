@@ -206,6 +206,12 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
     return assert(this.log, this.name, this.config, ...keys);
   }
 
+  protected setCharacteristicValue(key: CharacteristicKey, value: CharacteristicValue) {
+    this.accessoryService.getCharacteristic(this.Characteristic[key]).onGet( () => {
+      return value;
+    });
+  }
+
   protected onUpdate(key: CharacteristicKey, value: CharacteristicValue, logString: string | undefined = undefined): boolean {
 
     if (value === this.properties.get(key)) {

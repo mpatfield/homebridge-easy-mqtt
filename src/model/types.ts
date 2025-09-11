@@ -163,3 +163,23 @@ export type SecuritySystemConfig = BaseAccessoryConfig & ErrorStatusConfig & {
   valueDisarm?: string,
   valueAlarmTriggered?: string,
 }
+
+export type ThermostatConfig = BaseAccessoryConfig & TemperatureConfig & {
+  topicGetCoolingThresholdTemperature?: string,
+  topicGetCurrentHeatingCoolingState: string,
+  topicGetCurrentRelativeHumidity?: string,
+  topicGetCurrentTemperature: string,
+  topicGetHeatingThresholdTemperature?: string,
+  topicGetTargetHeatingCoolingState: string,
+  topicGetTargetRelativeHumidity?: string,
+  topicGetTargetTemperature: string,
+  topicSetCoolingThresholdTemperature?: string,
+  topicSetHeatingThresholdTemperature?: string,
+  topicSetTargetHeatingCoolingState: string,
+  topicSetTargetRelativeHumidity?: string,
+  topicSetTargetTemperature: string,
+  valueModeAuto?: string,
+  valueModeCool?: string,
+  valueModeHeat?: string,
+  valueModeOff?: string,
+}
