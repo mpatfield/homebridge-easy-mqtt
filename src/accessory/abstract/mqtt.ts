@@ -1,5 +1,7 @@
 import { Characteristic, CharacteristicSetHandler, CharacteristicValue, Nullable, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
 
+import { CustomCharacteristic } from './customCharacteristic.js';
+
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
@@ -50,12 +52,36 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
         accessory.removeService(existingService);
       }
     }
+
+    this.setupCustomCharacteristics();
   }
 
   protected abstract getAccessoryService(): Service;
 
   protected get name(): string {
     return this.config.info.name;
+  }
+
+  private setupCustomCharacteristics() {
+
+    const keepUUIDs = new Set(Object.values(CharacteristicKey).map( (key) => this.Characteristic[key].UUID));
+    const toRemove = this.accessoryService.characteristics.filter( (characteristic) => !keepUUIDs.has(characteristic.UUID));
+
+    for (const characteristic of toRemove) {
+      characteristic.updateValue(null);
+      this.accessoryService.removeCharacteristic(characteristic);
+    }
+
+    if (!this.config.customCharacteristics) {
+      return;
+    }
+
+    for (const config of this.config.customCharacteristics) {
+      const customChar = CustomCharacteristic.create(this.accessoryService, this.Characteristic, config, this.name, this.log, this.config.disableLogging);
+      if (customChar !== undefined) {
+        this.addTopicHandler(customChar.topic, customChar.onUpdateHandler);
+      }
+    }
   }
 
   protected setupCharacteristic(

@@ -2,8 +2,6 @@ import { PlatformAccessory, PrimitiveTypes } from 'homebridge';
 
 import { MQTTAccessory } from './mqtt.js';
 
-import { CustomCharacteristic } from './customCharacteristic.js';
-
 import { PLATFORM_NAME } from '../../homebridge/settings.js';
 
 import { strings } from '../../i18n/i18n.js';
@@ -35,30 +33,6 @@ export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessor
 
     this.setupCharacteristic(CharacteristicKey.StatusActive, true,
       'topicGetStatusActive', this.onStatusActiveUpdate.bind(this), false);
-
-    this.handleCustomCharacteristics();
-  }
-
-  private handleCustomCharacteristics() {
-
-    const keepUUIDs = new Set(Object.values(CharacteristicKey).map( (key) => this.Characteristic[key].UUID));
-    const toRemove = this.accessoryService.characteristics.filter( (characteristic) => !keepUUIDs.has(characteristic.UUID));
-
-    for (const characteristic of toRemove) {
-      characteristic.updateValue(null);
-      this.accessoryService.removeCharacteristic(characteristic);
-    }
-
-    if (!this.config.customCharacteristics) {
-      return;
-    }
-
-    for (const config of this.config.customCharacteristics) {
-      const customChar = CustomCharacteristic.create(this.accessoryService, this.Characteristic, config, this.name, this.log, this.config.disableLogging);
-      if (customChar !== undefined) {
-        this.addTopicHandler(customChar.topic, customChar.onUpdateHandler);
-      }
-    }
   }
 
   private async onBatteryLowUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
