@@ -11,7 +11,7 @@ export type PlatformConfig = HBPlatformConfig & {
   accessories?: BaseAccessoryConfig[];
 }
 
-type TemperatureConfig = {
+export type TemperatureConfig = {
   temperatureUnits?: TemperatureUnits,
 }
 

@@ -4,12 +4,13 @@ import { CustomCharacteristic } from './customCharacteristic.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
+import { AccessoryType, CharacteristicKey, TemperatureUnits } from '../../model/enums.js';
 import { MQTT } from '../../model/mqtt.js';
-import { CharacteristicType, MQTTAccessoryConfig, ServiceType } from '../../model/types.js';
+import { CharacteristicType, MQTTAccessoryConfig, ServiceType, TemperatureConfig } from '../../model/types.js';
 
 import { Log, LogType } from '../../tools/log.js';
-import { toPrimitive } from '../../tools/primitive.js';
+import { toNumber, toPrimitive } from '../../tools/primitive.js';
+import { toCelsius } from '../../tools/temperature.js';
 import { assert } from '../../tools/validation.js';
 
 type OnUpdateHandler = (topic: string, value: PrimitiveTypes) => (Promise<void>);
@@ -151,6 +152,23 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
     return (async (_topic: string, value: PrimitiveTypes) => {
       const numeric = value === this.getPrimitiveValue(valueKey) ? 1 : 0;
       this.onUpdate(charKey, numeric, numeric ? logTrue : logFalse);
+    }).bind(this);
+  }
+
+  protected bindTemperatureUpdate<C extends TemperatureConfig>(config: C, charKey: CharacteristicKey, logTemplate: string): OnUpdateHandler {
+    return (async (_topic: string, value: PrimitiveTypes) => {
+
+      if (typeof value !== 'number') {
+        this.log.error(strings.temperature.badValue, this.name, `'${value}'`);
+        return;
+      }
+
+      const units = config.temperatureUnits ?? TemperatureUnits.CELSIUS;
+      const temperature = toCelsius(toNumber(value), units);
+
+      const logString = logTemplate.replace('%d°%s', `${value}°${units}`);
+      this.onUpdate(charKey, temperature, logString);
+
     }).bind(this);
   }
 

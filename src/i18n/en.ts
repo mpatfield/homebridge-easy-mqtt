@@ -238,7 +238,7 @@ const en = {
     },
 
     temperature: {
-      update: '%s temperature is %s°%s', // accessory name, number, units
+      update: '%s temperature is %d°%s', // accessory name, number, units
     },
   },
 
