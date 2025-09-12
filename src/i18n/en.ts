@@ -9,6 +9,11 @@ const en = {
     statusInactive: '%s is unavailable', // accessory name
   },
 
+  characteristic: {
+    badValue: '%s expected a number for %s but received %s', // accessory name, characteristic name, value
+    updated: '%s updated %s with value %s', // accessory name, characteristic name, value
+  },
+
   climate: {
     badTemperatureValue: '%s expected a number for temperature but received %s', // accessory name, value
     humidityUpdate: '%s humidity is %d%', // accessory name, number
@@ -28,11 +33,11 @@ const en = {
     },
 
     enumNames: {
-      celsius: '°C',
-      fahrenheit: '°F',
       carbonDioxideSensor: 'CO2 Sensor',
       carbonMonoxideSensor: 'CO Sensor',
+      celsius: '°C',
       contactSensor: 'Contact Sensor',
+      fahrenheit: '°F',
       humiditySensor: 'Humidity Sensor',
       leakSensor: 'Leak Sensor',
       lightbulb: 'Lightbulb',
@@ -40,9 +45,9 @@ const en = {
       motionSensor: 'Motion Sensor',
       occupancySensor: 'Occupancy Sensor',
       outlet: 'Outlet',
-      switch: 'Switch',
       securitySystem: 'Security System',
       smokeSensor: 'Smoke Sensor',
+      switch: 'Switch',
       temperatureSensor: 'Temperature Sensor',
       thermostat: 'Thermostat',
     },
@@ -51,101 +56,96 @@ const en = {
       accessory: 'Accessory',
       broker: 'Broker',
       disableLogging: 'Disable Logging',
+      group: 'Group',
       name: 'Name',
       options: 'Options',
       password: 'Password',
       sourceUnits: 'Source Units',
-      group: 'Group',
       topicGetBatteryLevel: 'Get Battery Level',
       topicGetBatteryLow: 'Get Battery Low',
-      topicGetStatusActive: 'Get Availability',
-      topicGetCurrentLockState: 'Get Current State*',
-      topicGetOutletInUse: 'Get In Use State',
-      topicGetOn: 'Get On/Off State*',
-      topicGetTargetLockState: 'Get Target State*',
       topicGetBrightness: 'Get Brightness',
-      topicSetBrightness: 'Set Brightness',
-      topicGetHue: 'Get Hue',
-      topicSetHue: 'Set Hue',
-      topicGetColorTemperature: 'Get Color Temperature',
-      topicSetColorTemperature: 'Set Color Temperature',
-      topicGetSaturation: 'Get Saturation',
-      topicSetSaturation: 'Set Saturation',
-      topicSetOn: 'Set On/Off State*',
-      topicSetTargetLockState: 'Set Target State*',
-      topicGetCurrentTemperature: 'Get Current Temperature*',
-      topicGetCurrentSecurityState: 'Get Current State*',
-      topicGetTargetSecurityState: 'Get Target State*',
-      topicSetTargetSecurityState: 'Set Target State*',
-      topicGetStatusTampered: 'Get Tampered',
-      topicGetStatusFault: 'Get Fault',
-      topicGetCarbonMonoxideDetected: 'Get CO Detected*',
-      topicGetCarbonMonoxideLevel: 'Get CO Level',
-      topicGetCarbonMonoxidePeakLevel: 'Get CO Peak Level',
       topicGetCarbonDioxideDetected: 'Get CO2 Detected*',
       topicGetCarbonDioxideLevel: 'Get CO2 Level',
       topicGetCarbonDioxidePeakLevel: 'Get CO2 Peak Level',
+      topicGetCarbonMonoxideDetected: 'Get CO Detected*',
+      topicGetCarbonMonoxideLevel: 'Get CO Level',
+      topicGetCarbonMonoxidePeakLevel: 'Get CO Peak Level',
+      topicGetColorTemperature: 'Get Color Temperature',
       topicGetContactSensorState: 'Get Contact Detected*',
+      topicGetCoolingThresholdTemperature: 'Get Cooling Threshold',
+      topicGetCurrentHeatingCoolingState: 'Get Current Mode*',
+      topicGetCurrentLockState: 'Get Current State*',
+      topicGetCurrentRelativeHumidity: 'Get Relative Humidity*',
+      topicGetCurrentRelativeHumidityOptional: 'Get Relative Humidity',
+      topicGetCurrentSecurityState: 'Get Current State*',
+      topicGetCurrentTemperature: 'Get Current Temperature*',
+      topicGetHeatingThresholdTemperature: 'Get Heating Threshold',
+      topicGetHue: 'Get Hue',
       topicGetLeakDetected: 'Get Leak Detected*',
       topicGetMotionDetected: 'Get Motion Detected*',
       topicGetOccupancyDetected: 'Get Occupancy Detected*',
+      topicGetOn: 'Get On/Off State*',
+      topicGetOutletInUse: 'Get In Use State',
+      topicGetSaturation: 'Get Saturation',
       topicGetSmokeDetected: 'Get Smoke Detected*',
-      topicGetCurrentRelativeHumidity: 'Get Relative Humidity*',
-      topicGetCoolingThresholdTemperature: 'Get Cooling Threshold',
-      topicGetCurrentHeatingCoolingState: 'Get Current Mode*',
-      topicGetCurrentRelativeHumidityOptional: 'Get Relative Humidity',
-      topicGetHeatingThresholdTemperature: 'Get Heating Threshold',
+      topicGetStatusActive: 'Get Availability',
+      topicGetStatusFault: 'Get Fault',
+      topicGetStatusTampered: 'Get Tampered',
       topicGetTargetHeatingCoolingState: 'Get Target Mode*',
+      topicGetTargetLockState: 'Get Target State*',
       topicGetTargetRelativeHumidity: 'Get Target Humidity',
+      topicGetTargetSecurityState: 'Get Target State*',
       topicGetTargetTemperature: 'Get Target Temperature*',
+      topicSetBrightness: 'Set Brightness',
+      topicSetColorTemperature: 'Set Color Temperature',
       topicSetCoolingThresholdTemperature: 'Set Cooling Threshold',
       topicSetHeatingThresholdTemperature: 'Set Heating Threshold',
+      topicSetHue: 'Set Hue',
+      topicSetOn: 'Set On/Off State*',
+      topicSetSaturation: 'Set Saturation',
       topicSetTargetHeatingCoolingState: 'Set Target Mode*',
+      topicSetTargetLockState: 'Set Target State*',
       topicSetTargetRelativeHumidity: 'Set Target Humidity ',
+      topicSetTargetSecurityState: 'Set Target State*',
       topicSetTargetTemperature: 'Set Target Temperature*',
       topics: 'Topics',
       type: 'Type',
       username: 'Username',
-      valueBatteryLow: 'Battery Low',
-      valueStatusActive: 'Available/Reachable',
-      valueLockStateJammed: 'Jammed',
-      valueOutletInUse: 'In Use',
-      valueOutletNotInUse: 'Not In Use',
-      valueOff: 'Off*',
-      valueOn: 'On*',
-      valueLockStateSecured: 'Secured/Locked*',
-      valueLockStateUnsecured: 'Unsecured/Unlocked*',
-      valueArmStay: 'Arm Stay',
+      valueAlarmTriggered: 'Triggered',
       valueArmAway: 'Arm Away',
       valueArmNight: 'Arm Night',
-      valueDisarm: 'Disarm',
-      valueAlarmTriggered: 'Triggered',
-      valueTampered: 'Tampered',
-      valueFault: 'Fault',
-      valueCarbonMonoxideDetected: 'CO Detected*',
+      valueArmStay: 'Arm Stay',
+      valueBatteryLow: 'Battery Low',
       valueCarbonDioxideDetected: 'CO2 Detected*',
+      valueCarbonMonoxideDetected: 'CO Detected*',
       valueContactDetected: 'Contact Detected*',
+      valueDisarm: 'Disarm',
+      valueFault: 'Fault',
       valueLeakDetected: 'Leak Detected*',
-      valueMotionDetected: 'Motion Detected*',
-      valueOccupancyDetected: 'Occupancy Detected*',
-      valueSmokeDetected: 'Smoke Detected*',
+      valueLockStateJammed: 'Jammed',
+      valueLockStateSecured: 'Secured/Locked*',
+      valueLockStateUnsecured: 'Unsecured/Unlocked*',
       valueModeAuto: 'Auto',
       valueModeCool: 'Cool',
       valueModeHeat: 'Heat',
       valueModeOff: 'Off',
+      valueMotionDetected: 'Motion Detected*',
+      valueOccupancyDetected: 'Occupancy Detected*',
+      valueOff: 'Off*',
+      valueOn: 'On*',
+      valueOutletInUse: 'In Use',
+      valueOutletNotInUse: 'Not In Use',
+      valueSmokeDetected: 'Smoke Detected*',
+      valueStatusActive: 'Available/Reachable',
+      valueTampered: 'Tampered',
       values: 'Values',
       verbose: 'Additional Logging',
     },
   },
 
-  characteristic: {
-    badValue: '%s expected a number for %s but received %s', // accessory name, characteristic name, value
-    updated: '%s updated %s with value %s', // accessory name, characteristic name, value
-  },
-
   error: {
-    isTampered: '%s has been tampered with', // accessory name
     hasFault: '%s has a fault', // accessory name
+    isTampered: '%s has been tampered with', // accessory name
     noFault: '%s has no fault', // accessory name
     notTampered: '%s tampered status has been reset', // accessory name
   },
@@ -153,21 +153,21 @@ const en = {
   lightbulb: {
     brightness: '%s brightness is %d%', // accessory name, number
     brightnessFuture: 'Setting %s brightness to %d%…', // accessory name, number
-    hue: '%s hue is %d°', // accessory name, number
-    hueFuture: 'Setting %s hue to %d°…', // accessory name, number
     colorTemperature: '%s color temperature is %dM', // accessory name, number
     colorTemperatureFuture: 'Setting %s color temperature to %dM…', // accessory name, number
+    hue: '%s hue is %d°', // accessory name, number
+    hueFuture: 'Setting %s hue to %d°…', // accessory name, number
     saturation: '%s saturation is %d%', // accessory name, number
     saturationFuture: 'Setting %s saturation to %d%…', // accessory name, number
   },
 
   lock: {
     badValue: '%s unable to determine lock state from %s', // accessory name, value
+    stateJammed: '%s is jammed', // accessory name
     stateSecured: '%s is locked', // accessory name
     stateSecuredFuture: 'Locking %s…', // accessory name
     stateUnsecured: '%s is unlocked', // accessory name
     stateUnsecuredFuture: 'Unlocking %s…', // accessory name
-    stateJammed: '%s is jammed', // accessory name
     stateUnknown: '%s state is unknown', // accessory name
   },
 
@@ -179,9 +179,9 @@ const en = {
     idleConnection: '%s idle connection', // accessory name
     noListeners: '%s no listeners for topic %s', // accessory name, topic name
     notConnected: '%s client not connected', // accessory name
+    parseFailed: '%s failed to parse message', // accessory name
     publish: '%s publishing value %s to topic %s', // accessory name, value, topic name
     receivedMessage: '%s received message from topic %s', // accessory name, topic name
-    parseFailed: '%s failed to parse message', // accessory name
     reconnectInMinutes: '%s will attempt to reconnect in %s minutes…', // accessory name, number
     reconnectInSeconds: '%s will attempt to reconnect in %s seconds…', // accessory name, number
   },
@@ -205,13 +205,13 @@ const en = {
     noStateValues: '%s must have at least one state value defined (Arm Away, Disarm, etc.)', // accessory name
     stateAway: '%s is armed for away', // accessory name
     stateAwayFuture: 'Arming %s for away…', // accessory name
+    stateDisarmed: '%s is disarmed', // accessory name
+    stateDisarmFuture: 'Disarming %s…', // accessory name
     stateNight: '%s is armed for night', // accessory name
     stateNightFuture: 'Arming %s for night…', // accessory name
     stateStay: '%s is armed for stay', // accessory name
     stateStayFuture: 'Arming %s for stay…', // accessory name
     stateTriggered: '%s alarm is triggered', // accessory name
-    stateDisarmed: '%s is disarmed', // accessory name
-    stateDisarmFuture: 'Disarming %s…', // accessory name
     stateUnknown: '%s state is unknown', // accessory name
     unknownValue: '%s unable to determine security state from value %s. Ignoring…', // accessory name, value
   },
@@ -277,8 +277,8 @@ const en = {
     coolingThresholdFuture: '%s setting cooling threshold to %d°%s…', // accessory name, number, units
     heatingThreshold: '%s heating threshold is %d°%s', // accessory name, number, units
     heatingThresholdFuture: '%s setting heating threshold to %d°%s…', // accessory name, number, units
-    noStateValues: '%s must have at least one state value defined (Off, Heat, Cool)', // accessory name
     humidityFuture: 'Setting %s humidity to %d%…', // accessory name, number
+    noStateValues: '%s must have at least one state value defined (Off, Heat, Cool)', // accessory name
     stateAutoFuture: 'Setting %s to auto…', // accessory name
     stateCool: '%s is set to cool', // accessory name
     stateCoolFuture: 'Setting %s to cool…', // accessory name
