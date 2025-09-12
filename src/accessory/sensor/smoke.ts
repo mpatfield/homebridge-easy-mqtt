@@ -11,8 +11,8 @@ import { Log } from '../../tools/log.js';
 
 export class SmokeSensorAccessory extends SensorAccessory<SmokeSensorConfig> {
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: SmokeSensorConfig, log: Log) {
-    super(Service, Characteristic, accessory, config, log);
+  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: SmokeSensorConfig, log: Log, isGrouped: boolean) {
+    super(Service, Characteristic, accessory, config, log, isGrouped);
 
     this.setupCharacteristic(CharacteristicKey.SmokeDetected, 0, 'topicGetSmokeDetected',
       this.bindOnUpdateNumericBoolean(

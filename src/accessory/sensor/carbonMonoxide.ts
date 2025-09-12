@@ -11,8 +11,8 @@ import { Log } from '../../tools/log.js';
 
 export class COSensorAccessory extends SensorAccessory<COSensorConfig> {
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: COSensorConfig, log: Log) {
-    super(Service, Characteristic, accessory, config, log);
+  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: COSensorConfig, log: Log, isGrouped: boolean) {
+    super(Service, Characteristic, accessory, config, log, isGrouped);
 
     this.setupCharacteristic(CharacteristicKey.CarbonMonoxideDetected, 0, 'topicGetCarbonMonoxideDetected',
       this.bindOnUpdateNumericBoolean(

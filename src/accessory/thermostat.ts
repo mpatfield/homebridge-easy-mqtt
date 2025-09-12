@@ -16,8 +16,8 @@ export class ThermostatAccessory extends BaseAccessory<ThermostatConfig> {
 
   private readonly STATE_MAP: Map<keyof ThermostatConfig, number>;
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: ThermostatConfig, log: Log) {
-    super(Service, Characteristic, accessory, config, log);
+  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: ThermostatConfig, log: Log, isGrouped: boolean) {
+    super(Service, Characteristic, accessory, config, log, isGrouped);
 
     this.setCharacteristicValue(CharacteristicKey.TemperatureDisplayUnits, this.temperatureUnits === TemperatureUnits.FAHRENHEIT ? 1 : 0);
 

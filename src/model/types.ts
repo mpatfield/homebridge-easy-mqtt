@@ -141,7 +141,7 @@ export type TemperatureSensorConfig =  SensorConfig & TemperatureConfig & {
   topicGetCurrentTemperature: string,
 }
 
-export type LockMechanismConfig = BaseAccessoryConfig & {
+export type LockConfig = BaseAccessoryConfig & {
   topicGetCurrentLockState: string,
   topicGetTargetLockState: string,
   topicSetTargetLockState: string,
@@ -153,7 +153,7 @@ export type LockMechanismConfig = BaseAccessoryConfig & {
   valueLockStateJammed?: string,
 };
 
-export type SecuritySystemConfig = BaseAccessoryConfig & ErrorStatusConfig & {
+export type SecurityConfig = BaseAccessoryConfig & ErrorStatusConfig & {
   topicGetCurrentSecurityState: string,
   topicGetTargetSecurityState: string,
   topicSetTargetSecurityState: string,

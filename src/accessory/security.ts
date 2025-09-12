@@ -5,16 +5,16 @@ import { BaseAccessory } from './abstract/base.js';
 import { strings } from '../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../model/enums.js';
-import { CharacteristicType, SecuritySystemConfig, ServiceType } from '../model/types.js';
+import { CharacteristicType, SecurityConfig, ServiceType } from '../model/types.js';
 
 import { Log, LogType } from '../tools/log.js';
 
-export class SecuritySystemAccessory extends BaseAccessory<SecuritySystemConfig> {
+export class SecuritySystemAccessory extends BaseAccessory<SecurityConfig> {
 
-  private readonly STATE_MAP: Map<keyof SecuritySystemConfig, number>;
+  private readonly STATE_MAP: Map<keyof SecurityConfig, number>;
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: SecuritySystemConfig, log: Log) {
-    super(Service, Characteristic, accessory, config, log);
+  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: SecurityConfig, log: Log, isGrouped: boolean) {
+    super(Service, Characteristic, accessory, config, log, isGrouped);
 
     this.STATE_MAP = new Map([
       ['valueArmStay', Characteristic.SecuritySystemCurrentState.STAY_ARM],

@@ -5,21 +5,21 @@ import { BaseAccessory } from './abstract/base.js';
 import { strings } from '../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../model/enums.js';
-import { CharacteristicType, LockMechanismConfig, ServiceType } from '../model/types.js';
+import { CharacteristicType, LockConfig, ServiceType } from '../model/types.js';
 
 import { Log, LogType } from '../tools/log.js';
 
-export class LockMechanismAccessory extends BaseAccessory<LockMechanismConfig> {
+export class LockMechanismAccessory extends BaseAccessory<LockConfig> {
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: LockMechanismConfig, log: Log) {
-    super(Service, Characteristic, accessory, config, log);
+  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: LockConfig, log: Log, isGrouped: boolean) {
+    super(Service, Characteristic, accessory, config, log, isGrouped);
 
     const getTopicCurrent = this.config.topicGetLockCurrentState !== undefined && this.config.topicGetCurrentLockState === undefined
       ? 'topicGetLockCurrentState' : 'topicGetCurrentLockState';
     this.setupCharacteristic(CharacteristicKey.LockCurrentState, Characteristic.LockCurrentState.UNKNOWN,
       getTopicCurrent, this.onCurrentStateUpdate.bind(this), true);
 
-    let getTargetTopic: keyof LockMechanismConfig, setTargetTopic : keyof LockMechanismConfig;
+    let getTargetTopic: keyof LockConfig, setTargetTopic : keyof LockConfig;
     if (this.config.topicGetLockTargetState !== undefined && this.config.topicGetTargetLockState === undefined) {
       getTargetTopic = 'topicGetLockTargetState';
       setTargetTopic = 'topicSetTargetState';

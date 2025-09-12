@@ -11,8 +11,8 @@ import { Log, LogType } from '../../tools/log.js';
 
 export abstract class SensorAccessory<C extends SensorConfig = SensorConfig> extends BaseAccessory<C> {
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: C, log: Log) {
-    super(Service, Characteristic, accessory, config, log);
+  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: C, log: Log, isGrouped: boolean) {
+    super(Service, Characteristic, accessory, config, log, isGrouped);
 
     this.setupCharacteristic(CharacteristicKey.StatusTampered, 0, 'topicGetStatusTampered', this.onTamperedUpdate.bind(this), false);
 

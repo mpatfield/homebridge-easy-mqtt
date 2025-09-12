@@ -11,8 +11,8 @@ import { Log } from '../../tools/log.js';
 
 export class CO2SensorAccessory extends SensorAccessory<CO2SensorConfig> {
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: CO2SensorConfig, log: Log) {
-    super(Service, Characteristic, accessory, config, log);
+  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: CO2SensorConfig, log: Log, isGrouped: boolean) {
+    super(Service, Characteristic, accessory, config, log, isGrouped);
 
     this.setupCharacteristic(CharacteristicKey.CarbonDioxideDetected, 0, 'topicGetCarbonDioxideDetected',
       this.bindOnUpdateNumericBoolean(

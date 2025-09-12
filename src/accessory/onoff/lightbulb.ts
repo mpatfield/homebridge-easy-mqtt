@@ -11,8 +11,8 @@ import { Log } from '../../tools/log.js';
 
 export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: LightbulbConfig, log: Log) {
-    super(Service, Characteristic, accessory, config, log);
+  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: LightbulbConfig, log: Log, isGrouped: boolean) {
+    super(Service, Characteristic, accessory, config, log, isGrouped);
 
     this.setupCharacteristic(CharacteristicKey.Brightness, 100,
       'topicGetBrightness', this.bindOnUpdateNumeric(CharacteristicKey.Brightness, strings.lightbulb.brightness), false,

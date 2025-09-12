@@ -32,6 +32,7 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
     protected readonly accessory: PlatformAccessory,
     protected readonly config: C,
     protected readonly log: Log,
+    isGrouped: boolean,
   ) {
 
     const name = config.info.name;

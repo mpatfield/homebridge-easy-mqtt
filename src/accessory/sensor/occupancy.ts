@@ -11,8 +11,9 @@ import { Log } from '../../tools/log.js';
 
 export class OccupancySensorAccessory extends SensorAccessory<OccupancySensorConfig> {
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: OccupancySensorConfig, log: Log) {
-    super(Service, Characteristic, accessory, config, log);
+  constructor(
+    Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: OccupancySensorConfig, log: Log, isGrouped: boolean) {
+    super(Service, Characteristic, accessory, config, log, isGrouped);
 
     this.setupCharacteristic(CharacteristicKey.OccupancyDetected, 0, 'topicGetOccupancyDetected',
       this.bindOnUpdateNumericBoolean(

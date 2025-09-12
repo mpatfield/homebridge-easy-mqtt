@@ -11,8 +11,8 @@ import { Log } from '../../tools/log.js';
 
 export class LeakSensorAccessory extends SensorAccessory<LeakSensorConfig> {
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: LeakSensorConfig, log: Log) {
-    super(Service, Characteristic, accessory, config, log);
+  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: LeakSensorConfig, log: Log, isGrouped: boolean) {
+    super(Service, Characteristic, accessory, config, log, isGrouped);
 
     this.setupCharacteristic(CharacteristicKey.LeakDetected, 0, 'topicGetLeakDetected',
       this.bindOnUpdateNumericBoolean(

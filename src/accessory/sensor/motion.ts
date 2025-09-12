@@ -11,8 +11,9 @@ import { Log } from '../../tools/log.js';
 
 export class MotionSensorAccessory extends SensorAccessory<MotionSensorConfig> {
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: MotionSensorConfig, log: Log) {
-    super(Service, Characteristic, accessory, config, log);
+  constructor(
+    Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: MotionSensorConfig, log: Log, isGrouped: boolean) {
+    super(Service, Characteristic, accessory, config, log, isGrouped);
 
     this.setupCharacteristic(CharacteristicKey.MotionDetected, 0, 'topicGetMotionDetected',
       this.bindOnUpdateNumericBoolean(

@@ -11,8 +11,9 @@ import { Log } from '../../tools/log.js';
 
 export class HumiditySensorAccessory extends SensorAccessory<HumiditySensorConfig> {
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: HumiditySensorConfig, log: Log) {
-    super(Service, Characteristic, accessory, config, log);
+  constructor(
+    Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: HumiditySensorConfig, log: Log, isGrouped: boolean) {
+    super(Service, Characteristic, accessory, config, log, isGrouped);
 
     this.setupCharacteristic(CharacteristicKey.CurrentRelativeHumidity, 0, 'topicGetCurrentRelativeHumidity',
       this.bindOnUpdateNumeric(CharacteristicKey.CurrentRelativeHumidity, strings.climate.humidityUpdate), true);

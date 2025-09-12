@@ -11,8 +11,9 @@ import { Log } from '../../tools/log.js';
 
 export class ContactSensorAccessory extends SensorAccessory<ContactSensorConfig> {
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: ContactSensorConfig, log: Log) {
-    super(Service, Characteristic, accessory, config, log);
+  constructor(
+    Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: ContactSensorConfig, log: Log, isGrouped: boolean) {
+    super(Service, Characteristic, accessory, config, log, isGrouped);
 
     this.setupCharacteristic(CharacteristicKey.ContactSensorState, 0,
       'topicGetContactSensorState', this.onContactStateUpdate.bind(this), true);
