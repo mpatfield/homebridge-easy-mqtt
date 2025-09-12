@@ -16,6 +16,9 @@ All notable changes to homebridge-dummy will be documented in this file.
 ### Changed
 - Significant under-the-hood cleanup to speed future development
 
+### Fixed
+- Exponential backoff for MQTT connection errors
+
 ### Notes
 
 • Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!

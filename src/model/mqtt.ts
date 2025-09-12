@@ -11,7 +11,7 @@ import { toPrimitive } from '../tools/primitive.js';
 import { SECOND, MINUTE } from '../tools/time.js';
 import { assert } from '../tools/validation.js';
 
-const DELAYS = [5 * SECOND, 10 * SECOND, 15 * SECOND, 30 * SECOND, MINUTE, 2 * MINUTE];
+const DELAYS = [5 * SECOND, 10 * SECOND, 30 * SECOND, 2 * MINUTE, 5 * MINUTE];
 
 type MQTTMessageHandler = (topic: string, value: PrimitiveTypes) => void;
 
@@ -233,6 +233,8 @@ export class MQTT {
     } else {
       this.log.ifVerbose(strings.mqtt.reconnectInMinutes, this.caller, reconnectDelay / MINUTE);
     }
+
+    this.reconnectCount++;
 
     setTimeout(() => {
       this.isReconnecting = false;
