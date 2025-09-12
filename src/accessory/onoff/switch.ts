@@ -1,7 +1,8 @@
-import { PlatformAccessory, Service } from 'homebridge';
+import { PlatformAccessory } from 'homebridge';
 
 import { OnOffAccessory } from './onoff.js';
 
+import { AccessoryType } from '../../model/enums.js';
 import { CharacteristicType, ServiceType, SwitchConfig } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
@@ -12,7 +13,7 @@ export class SwitchAccessory extends OnOffAccessory<SwitchConfig> {
     super(Service, Characteristic, accessory, config, log);
   }
 
-  protected getAccessoryService(): Service {
-    return this.accessory.getService(this.Service.Switch) || this.accessory.addService(this.Service.Switch);
+  protected getAccessoryType(): AccessoryType {
+    return AccessoryType.Switch;
   }
 }

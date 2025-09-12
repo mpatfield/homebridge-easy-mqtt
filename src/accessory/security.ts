@@ -1,13 +1,13 @@
-import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
+import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
 
 import { BaseAccessory } from './abstract/base.js';
 
 import { strings } from '../i18n/i18n.js';
 
+import { AccessoryType, CharacteristicKey } from '../model/enums.js';
 import { CharacteristicType, SecuritySystemConfig, ServiceType } from '../model/types.js';
 
 import { Log, LogType } from '../tools/log.js';
-import { CharacteristicKey } from '../model/enums.js';
 
 export class SecuritySystemAccessory extends BaseAccessory<SecuritySystemConfig> {
 
@@ -52,8 +52,8 @@ export class SecuritySystemAccessory extends BaseAccessory<SecuritySystemConfig>
     );
   }
 
-  protected getAccessoryService(): Service {
-    return this.accessory.getService(this.Service.SecuritySystem) || this.accessory.addService(this.Service.SecuritySystem);
+  protected getAccessoryType(): AccessoryType {
+    return AccessoryType.SecuritySystem;
   }
 
   private async onCurrentStateUpdate(topic: string, value: PrimitiveTypes): Promise<void> {

@@ -1,10 +1,10 @@
-import { PlatformAccessory, Service } from 'homebridge';
+import { PlatformAccessory } from 'homebridge';
 
 import { SensorAccessory } from './sensor.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { CharacteristicKey } from '../../model/enums.js';
+import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
 import { CharacteristicType, SmokeSensorConfig, ServiceType } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
@@ -22,7 +22,7 @@ export class SmokeSensorAccessory extends SensorAccessory<SmokeSensorConfig> {
       true);
   }
 
-  protected getAccessoryService(): Service {
-    return this.accessory.getService(this.Service.SmokeSensor) || this.accessory.addService(this.Service.SmokeSensor);
+  protected getAccessoryType(): AccessoryType {
+    return AccessoryType.SmokeSensor;
   }
 }

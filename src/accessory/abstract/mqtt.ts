@@ -36,6 +36,8 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
 
     const name = config.info.name;
 
+    const serviceInstance = Service[this.getAccessoryType()];
+
     if (this.assert('mqtt')) {
       this.mqttClient = new MQTT(log, config.mqtt, () => {
         this.topicHandlers.forEach( topicHandler => {
@@ -45,7 +47,7 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
       this.mqttClient.connect();
     }
 
-    this.accessoryService = this.getAccessoryService();
+    this.accessoryService = accessory.getService(serviceInstance) || accessory.addService(serviceInstance);
 
     for (const type of Object.values(AccessoryType)) {
       const existingService = accessory.getService(Service[type]);
@@ -57,7 +59,7 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
     this.setupCustomCharacteristics();
   }
 
-  protected abstract getAccessoryService(): Service;
+  protected abstract getAccessoryType(): AccessoryType;
 
   protected get name(): string {
     return this.config.info.name;

@@ -1,10 +1,10 @@
-import { PlatformAccessory, Service } from 'homebridge';
+import { PlatformAccessory } from 'homebridge';
 
 import { SensorAccessory } from './sensor.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { CharacteristicKey } from '../../model/enums.js';
+import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
 import { CharacteristicType, HumiditySensorConfig, ServiceType } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
@@ -18,7 +18,7 @@ export class HumiditySensorAccessory extends SensorAccessory<HumiditySensorConfi
       this.bindOnUpdateNumeric(CharacteristicKey.CurrentRelativeHumidity, strings.climate.humidityUpdate), true);
   }
 
-  protected getAccessoryService(): Service {
-    return this.accessory.getService(this.Service.HumiditySensor) || this.accessory.addService(this.Service.HumiditySensor);
+  protected getAccessoryType(): AccessoryType {
+    return AccessoryType.HumiditySensor;
   }
 }

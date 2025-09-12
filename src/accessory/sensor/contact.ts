@@ -1,10 +1,10 @@
-import { PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
+import { PlatformAccessory, PrimitiveTypes } from 'homebridge';
 
 import { SensorAccessory } from './sensor.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { CharacteristicKey } from '../../model/enums.js';
+import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
 import { CharacteristicType, ContactSensorConfig, ServiceType } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
@@ -18,8 +18,8 @@ export class ContactSensorAccessory extends SensorAccessory<ContactSensorConfig>
       'topicGetContactSensorState', this.onContactStateUpdate.bind(this), true);
   }
 
-  protected getAccessoryService(): Service {
-    return this.accessory.getService(this.Service.ContactSensor) || this.accessory.addService(this.Service.ContactSensor);
+  protected getAccessoryType(): AccessoryType {
+    return AccessoryType.ContactSensor;
   }
 
   private async onContactStateUpdate(topic: string, value: PrimitiveTypes): Promise<void> {

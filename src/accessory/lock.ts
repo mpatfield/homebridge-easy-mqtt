@@ -1,10 +1,10 @@
-import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
+import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
 
 import { BaseAccessory } from './abstract/base.js';
 
 import { strings } from '../i18n/i18n.js';
 
-import { CharacteristicKey } from '../model/enums.js';
+import { AccessoryType, CharacteristicKey } from '../model/enums.js';
 import { CharacteristicType, LockMechanismConfig, ServiceType } from '../model/types.js';
 
 import { Log, LogType } from '../tools/log.js';
@@ -34,8 +34,8 @@ export class LockMechanismAccessory extends BaseAccessory<LockMechanismConfig> {
     );
   }
 
-  protected getAccessoryService(): Service {
-    return this.accessory.getService(this.Service.LockMechanism) || this.accessory.addService(this.Service.LockMechanism);
+  protected getAccessoryType(): AccessoryType {
+    return AccessoryType.LockMechanism;
   }
 
   private async onCurrentStateUpdate(topic: string, value: PrimitiveTypes): Promise<void> {

@@ -1,10 +1,10 @@
-import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
+import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
 
 import { BaseAccessory } from './abstract/base.js';
 
 import { strings } from '../i18n/i18n.js';
 
-import { CharacteristicKey, TemperatureUnits } from '../model/enums.js';
+import { AccessoryType, CharacteristicKey, TemperatureUnits } from '../model/enums.js';
 import { CharacteristicType, ServiceType, ThermostatConfig } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
@@ -79,8 +79,8 @@ export class ThermostatAccessory extends BaseAccessory<ThermostatConfig> {
     return this.config.temperatureUnits ?? TemperatureUnits.CELSIUS;
   }
 
-  protected getAccessoryService(): Service {
-    return this.accessory.getService(this.Service.Thermostat) || this.accessory.addService(this.Service.Thermostat);
+  protected getAccessoryType(): AccessoryType {
+    return AccessoryType.Thermostat;
   }
 
   private bindOnStateUpdate(charKey: CharacteristicKey, future: boolean = false) {

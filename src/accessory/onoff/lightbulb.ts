@@ -1,13 +1,13 @@
-import { CharacteristicValue, PlatformAccessory, Service } from 'homebridge';
+import { CharacteristicValue, PlatformAccessory } from 'homebridge';
 
 import { OnOffAccessory } from './onoff.js';
 
 import { strings } from '../../i18n/i18n.js';
 
+import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
 import { CharacteristicType, LightbulbConfig, ServiceType } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
-import { CharacteristicKey } from '../../model/enums.js';
 
 export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
 
@@ -35,8 +35,8 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
     );
   }
 
-  protected getAccessoryService(): Service {
-    return this.accessory.getService(this.Service.Lightbulb) || this.accessory.addService(this.Service.Lightbulb);
+  protected getAccessoryType(): AccessoryType {
+    return AccessoryType.Lightbulb;
   }
 
   private onSetValue(key: CharacteristicKey, topic: keyof LightbulbConfig, logTemplate: string) {
