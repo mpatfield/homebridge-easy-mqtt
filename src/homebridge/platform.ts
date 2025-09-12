@@ -1,4 +1,4 @@
-import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig } from 'homebridge';
+import { API, DynamicPlatformPlugin, Logger, PlatformAccessory } from 'homebridge';
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings.js';
 
@@ -7,7 +7,7 @@ import { createAccessory } from '../accessory/abstract/helper.js';
 
 import { setLanguage, strings } from '../i18n/i18n.js';
 
-import { BaseAccessoryConfig } from '../model/types.js';
+import { BaseAccessoryConfig, PlatformConfig } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
 import getVersion from '../tools/version.js';
@@ -68,7 +68,10 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
     const keepIdentifiers = new Set<string>();
 
-    for (const accessoryConfig of this.config.accessories as BaseAccessoryConfig[]) {
+    const Service = this.api.hap.Service;
+    const Characteristic = this.api.hap.Characteristic;
+
+    for (const accessoryConfig of this.config.accessories) {
 
       if (!assert(this.log, PLATFORM_NAME, accessoryConfig, 'info') ||
         !assert(this.log, PLATFORM_NAME, accessoryConfig.info, 'name', 'type')) {
@@ -78,26 +81,10 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
       const id = accessoryConfig.info.id ?? `${PLUGIN_NAME}:${accessoryConfig.info.type}:${accessoryConfig.info.name}`;
       const uuid = this.api.hap.uuid.generate(id);
 
-      let platformAccessory = this.platformAccessories.get(uuid);
-      if (!platformAccessory) {
-
-        platformAccessory = new this.api.platformAccessory(accessoryConfig.info.name, uuid);
-        platformAccessory.context.identifier = uuid;
-
-        this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [platformAccessory]);
-
-        this.platformAccessories.set(uuid, platformAccessory);
-
-        this.log.always(strings.startup.newAccessory, accessoryConfig.info.name);
-      }
-
-      const Service = this.api.hap.Service;
-      const Characteristic = this.api.hap.Characteristic;
-
+      const platformAccessory = this.createPlatformAccessory(accessoryConfig.info.name, uuid);
       const accessory = createAccessory(Service, Characteristic, platformAccessory, accessoryConfig, this.log);
 
       if (accessory === undefined) {
-        this.log.error(strings.startup.unsupportedType, accessoryConfig.info.type);
         continue;
       }
 
@@ -113,6 +100,24 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
     const randIndex = Math.floor(Math.random() * strings.startup.welcome.length);
     this.log.always(strings.startup.complete, strings.startup.welcome[randIndex]);
+  }
+
+  private createPlatformAccessory(name: string, uuid: string): PlatformAccessory {
+
+    let platformAccessory = this.platformAccessories.get(uuid);
+    if (!platformAccessory) {
+
+      platformAccessory = new this.api.platformAccessory(name, uuid);
+      platformAccessory.context.identifier = uuid;
+
+      this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [platformAccessory]);
+
+      this.platformAccessories.set(uuid, platformAccessory);
+
+      this.log.always(strings.startup.newAccessory, name);
+    }
+
+    return platformAccessory;
   }
 
   private removeCachedAccessory(accessory: PlatformAccessory) {

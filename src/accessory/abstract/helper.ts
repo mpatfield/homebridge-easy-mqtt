@@ -2,6 +2,8 @@ import { PlatformAccessory } from 'homebridge';
 
 import { BaseAccessory } from './base.js';
 
+import { strings } from '../../i18n/i18n.js';
+
 import { AccessoryType } from '../../model/enums.js';
 import * as Configs from '../../model/types.js';
 
@@ -66,4 +68,6 @@ export function createAccessory(
   case AccessoryType.Thermostat:
     return new ThermostatAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.ThermostatConfig, log, isGrouped);
   }
+
+  log.error(strings.startup.unsupportedType, accessoryConfig.info.type);
 }
