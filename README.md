@@ -54,6 +54,7 @@ Using the Homebridge Config UI is the easiest way to set up this plugin. However
         "id": "string",
         "name": "string",
         "type": "string",
+        "group": "string",
         "manufacturer": "string",
         "model": "string",
         "serialNumber": "string",
@@ -88,6 +89,8 @@ Required fields are marked with an asterisk (*)
 - `id*` - A unique ID to identify this accessory. Changing this value will result in a new accessory.
 - `name*` - The display name for the accessory in HomeKit
 - `type*` - The type of accessory, currently Lightbulb, LockMechanism, Outlet, SecuritySystem, Switch, and Temperature Sensor are supported
+- `group` - Items sharing the same group name will be grouped together in the Home app UI
+    - ⚠️ Changing the group name will require you to reconfigure any HomeKit scenes/automations for those accessories
 - `manufacturer` - The accessory manufacturer which will display in HomeKit device details
 - `model` - The accessory model which will display in HomeKit device details
 - `serialNumber` - The accessory serial number which will display in HomeKit device details

@@ -15,7 +15,7 @@
           },
           "name": {
             "type": "string",
-            "title": "${config.title.name}" ,
+            "title": "${config.title.name}",
             "required": true
           },
           "type": {
@@ -24,6 +24,10 @@
             "enum": [ "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "HumiditySensor", "LeakSensor", "Lightbulb", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "Switch", "TemperatureSensor", "Thermostat"],
             "enumNames": ["${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.humiditySensor}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}"],
             "required": true
+          },
+          "group": {
+            "type": "string",
+            "title": "${config.title.group}"
           },
           "manufacturer": {
             "type": "string",
@@ -423,11 +427,15 @@
               "items": [
                 {
                   "key": "accessories[].info.name",
-                  "flex": "0 0 50%"
+                  "flex": "0 0 33%"
                 },
                 {
                   "key": "accessories[].info.type",
-                  "flex": "0 0 50%"
+                  "flex": "0 0 33%"
+                },
+                {
+                  "key": "accessories[].info.group",
+                  "flex": "0 0 33%"
                 }
               ]
             },

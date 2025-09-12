@@ -3,6 +3,7 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory } from 'homebridg
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings.js';
 
 import { BaseAccessory } from '../accessory/abstract/base.js';
+import { GroupAccessory } from '../accessory/abstract/group.js';
 import { createAccessory } from '../accessory/abstract/helper.js';
 
 import { setLanguage, strings } from '../i18n/i18n.js';
@@ -18,12 +19,12 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
   private readonly log: Log;
 
   private readonly platformAccessories: Map<string, PlatformAccessory> = new Map();
-  private readonly accessories: BaseAccessory<BaseAccessoryConfig>[] = [];
+  private readonly accessories: (BaseAccessory<BaseAccessoryConfig> | GroupAccessory)[] = [];
 
   constructor(
     logger: Logger,
-    public readonly config: PlatformConfig,
-    public readonly api: API,
+    private readonly config: PlatformConfig,
+    private readonly api: API,
   ) {
 
     const userLang = Intl.DateTimeFormat().resolvedOptions().locale.split('-')[0];
@@ -67,6 +68,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
     }
 
     const keepIdentifiers = new Set<string>();
+    const groups = new Map<string, BaseAccessoryConfig[]>();
 
     const Service = this.api.hap.Service;
     const Characteristic = this.api.hap.Characteristic;
@@ -75,6 +77,16 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
       if (!assert(this.log, PLATFORM_NAME, accessoryConfig, 'info') ||
         !assert(this.log, PLATFORM_NAME, accessoryConfig.info, 'name', 'type')) {
+        continue;
+      }
+
+      const groupName = accessoryConfig.info.group;
+      if (groupName !== undefined) {
+
+        const group = groups.get(groupName) ?? [];
+        group.push(accessoryConfig);
+        groups.set(groupName, group);
+
         continue;
       }
 
@@ -90,6 +102,19 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
       keepIdentifiers.add(uuid);
       this.accessories.push(accessory);
+    }
+
+    for (const groupName of groups.keys()) {
+
+      const uuid = this.api.hap.uuid.generate(groupName);
+      const platformAccessory = this.createPlatformAccessory(groupName, uuid);
+
+      const configs = groups.get(groupName)!;
+
+      const groupAccessory = new GroupAccessory(Service, Characteristic, platformAccessory, this.log, groupName, configs);
+
+      keepIdentifiers.add(uuid);
+      this.accessories.push(groupAccessory);
     }
 
     this.platformAccessories.forEach(accessory => {

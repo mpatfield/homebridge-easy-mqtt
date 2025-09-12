@@ -55,6 +55,7 @@ const en = {
       options: 'Options',
       password: 'Password',
       sourceUnits: 'Source Units',
+      group: 'Group',
       topicGetBatteryLevel: 'Get Battery Level',
       topicGetBatteryLow: 'Get Battery Low',
       topicGetStatusActive: 'Get Availability',

@@ -24,20 +24,18 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
 
   private readonly topicHandlers: TopicHandler[] = [];
 
-  protected readonly accessoryService: Service;
+  private readonly accessoryService: Service;
 
   constructor(
-    protected readonly Service: ServiceType,
+    Service: ServiceType,
     protected readonly Characteristic: CharacteristicType,
-    protected readonly accessory: PlatformAccessory,
+    accessory: PlatformAccessory,
     protected readonly config: C,
     protected readonly log: Log,
     isGrouped: boolean,
   ) {
 
     const name = config.info.name;
-
-    const serviceInstance = Service[this.getAccessoryType()];
 
     if (this.assert('mqtt')) {
       this.mqttClient = new MQTT(log, config.mqtt, () => {
@@ -46,6 +44,21 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
         });
       }, name);
       this.mqttClient.connect();
+    }
+
+    const serviceInstance = Service[this.getAccessoryType()];
+
+    if (isGrouped) {
+
+      let accessoryService = accessory.getServiceById(serviceInstance, config.info.id);
+      if (!accessoryService) {
+        accessoryService = accessory.addService(serviceInstance, config.info.name, config.info.id);
+        accessoryService.setCharacteristic(Characteristic.ConfiguredName, config.info.name);
+      }
+
+      this.accessoryService = accessoryService;
+
+      return;
     }
 
     this.accessoryService = accessory.getService(serviceInstance) || accessory.addService(serviceInstance);
@@ -64,6 +77,10 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
 
   protected get name(): string {
     return this.config.info.name;
+  }
+
+  public get subtype(): string | undefined {
+    return this.accessoryService.subtype;
   }
 
   private setupCustomCharacteristics() {

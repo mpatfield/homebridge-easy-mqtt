@@ -2,21 +2,23 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.3.0-beta.4 (2025-09-XX)
-
-### HELP NEEDED! (no coding experience required)
-
-Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4).
+## 1.3.0-beta.5 (2025-09-XX)
 
 ### Added
-- Support for Thermostats
-- Support for CO, CO2, Contact, Humidity, Leak, Motion, Occupancy, and Smoke sensors
-- Support for arbitrary custom characteristics ([documentation](https://github.com/mpatfield/homebridge-easy-mqtt#custom-characteristics))
+- Groups
+    - ⚠️ Changing the group name will require you to reconfigure any HomeKit scenes/automations for those accessories
+- Thermostats
+- CO, CO2, Contact, Humidity, Leak, Motion, Occupancy, and Smoke sensors
+- Arbitrary custom characteristics ([documentation](https://github.com/mpatfield/homebridge-easy-mqtt#custom-characteristics))
 - JSONPath support in setter topics ([documentation](https://github.com/mpatfield/homebridge-easy-mqtt#jsonpaths))
 - Banner image in config UI
 
 ### Changed
-- Significant under-the-hood DRY cleanup to speed future development
+- Significant under-the-hood cleanup to speed future development
+
+### Notes
+
+• Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
 
 ## 1.2.0 (2025-09-02)
 

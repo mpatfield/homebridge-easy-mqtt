@@ -26,6 +26,7 @@ type InfoConfig = Assertable & {
   id: string,
   name: string,
   type: AccessoryType,
+  group?: string,
 }
 
 type AdditionalInfoConfig = InfoConfig & {
