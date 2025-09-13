@@ -1,0 +1,302 @@
+import merge from 'lodash.merge';
+
+import en from './en.js';
+
+const overrides = {
+
+  accessory: {
+    batteryLevel: 'La batterie de %s est à %d%',
+    batteryLow: 'La batterie de %s est faible',
+    batteryNotLow: 'Le niveau de batterie de %s est correct',
+    missingRequired: '%s ne dispose pas de la variable de configuration requise %s',
+    statusActive: '%s est maintenant disponible',
+    statusInactive: '%s est indisponible',
+  },
+
+  characteristic: {
+    badValue: '%s attendait un nombre pour %s mais a reçu %s',
+    updated: '%s a mis à jour %s avec la valeur %s',
+  },
+
+  climate: {
+    badTemperatureValue: '%s attendait un nombre pour la température mais a reçu %s',
+    humidityUpdate: 'L\'humidité de %s est de %d%',
+    temperatureUpdate: 'La température de %s est de %d°%s',
+  },
+
+  config: {
+    continue: 'Continuer %s',
+    required: 'Les champs obligatoires sont marqués d\'un astérisque (*)',
+    support: 'Pour la documentation et le support, veuillez visiter %s',
+    thankYou: 'Merci d\'avoir installé homebridge-easy-mqtt',
+
+    description: {
+      options: 'Paramètres MQTT supplémentaires tels que clientId ou protocolVersion. Doit être du JSON valide.',
+      topics: 'Prend en charge JSONPath en utilisant la notation point, ex. "mon/sujet$.chemin.vers.valeur"',
+      verbose: 'Si activé, des informations MQTT supplémentaires seront enregistrées à des fins de débogage.',
+    },
+
+    enumNames: {
+      carbonDioxideSensor: 'Capteur CO2',
+      carbonMonoxideSensor: 'Capteur CO',
+      celsius: '°C',
+      contactSensor: 'Capteur de contact',
+      fahrenheit: '°F',
+      humiditySensor: 'Capteur d\'humidité',
+      leakSensor: 'Détecteur de fuite d\'eau',
+      lightbulb: 'Ampoule',
+      lockMechanism: 'Mécanisme de verrouillage',
+      motionSensor: 'Capteur de mouvement',
+      occupancySensor: 'Capteur de présence',
+      outlet: 'Prise',
+      securitySystem: 'Système de sécurité',
+      smokeSensor: 'Détecteur de fumée',
+      switch: 'Interrupteur',
+      temperatureSensor: 'Capteur de température',
+      thermostat: 'Thermostat',
+    },
+
+    title: {
+      accessory: 'Accessoire',
+      broker: 'Courtier',
+      disableLogging: 'Désactiver la journalisation',
+      group: 'Groupe',
+      name: 'Nom',
+      options: 'Options',
+      password: 'Mot de passe',
+      sourceUnits: 'Unités source',
+      topicGetBatteryLevel: 'Obtenir niveau batterie',
+      topicGetBatteryLow: 'Obtenir batterie faible',
+      topicGetBrightness: 'Obtenir luminosité',
+      topicGetCarbonDioxideDetected: 'Obtenir CO2 détecté*',
+      topicGetCarbonDioxideLevel: 'Obtenir niveau CO2',
+      topicGetCarbonDioxidePeakLevel: 'Obtenir niveau pic de CO2',
+      topicGetCarbonMonoxideDetected: 'Obtenir CO détecté*',
+      topicGetCarbonMonoxideLevel: 'Obtenir niveau CO',
+      topicGetCarbonMonoxidePeakLevel: 'Obtenir niveau pic de CO',
+      topicGetColorTemperature: 'Obtenir température couleur',
+      topicGetContactSensorState: 'Obtenir contact détecté*',
+      topicGetCoolingThresholdTemperature: 'Obtenir seuil de refroidissement',
+      topicGetCurrentHeatingCoolingState: 'Obtenir mode actuel*',
+      topicGetCurrentLockState: 'Obtenir état actuel*',
+      topicGetCurrentRelativeHumidity: 'Obtenir humidité relative*',
+      topicGetCurrentRelativeHumidityOptional: 'Obtenir humidité relative',
+      topicGetCurrentSecurityState: 'Obtenir état actuel*',
+      topicGetCurrentTemperature: 'Obtenir température actuelle*',
+      topicGetHeatingThresholdTemperature: 'Obtenir seuil de chauffage',
+      topicGetHue: 'Obtenir teinte',
+      topicGetLeakDetected: 'Obtenir fuite détectée*',
+      topicGetMotionDetected: 'Obtenir mouvement détecté*',
+      topicGetOccupancyDetected: 'Obtenir présence détectée*',
+      topicGetOn: 'Obtenir état marche/arrêt*',
+      topicGetOutletInUse: 'Obtenir état en usage',
+      topicGetSaturation: 'Obtenir saturation',
+      topicGetSmokeDetected: 'Obtenir fumée détectée*',
+      topicGetStatusActive: 'Obtenir disponibilité',
+      topicGetStatusFault: 'Obtenir défaut',
+      topicGetStatusTampered: 'Obtenir altération',
+      topicGetTargetHeatingCoolingState: 'Obtenir mode cible*',
+      topicGetTargetLockState: 'Obtenir état cible*',
+      topicGetTargetRelativeHumidity: 'Obtenir humidité cible',
+      topicGetTargetSecurityState: 'Obtenir état cible*',
+      topicGetTargetTemperature: 'Obtenir température cible*',
+      topicSetBrightness: 'Définir luminosité',
+      topicSetColorTemperature: 'Définir température couleur',
+      topicSetCoolingThresholdTemperature: 'Définir seuil refroidissement',
+      topicSetHeatingThresholdTemperature: 'Définir seuil chauffage',
+      topicSetHue: 'Définir teinte',
+      topicSetOn: 'Définir état marche/arrêt*',
+      topicSetSaturation: 'Définir saturation',
+      topicSetTargetHeatingCoolingState: 'Définir mode cible*',
+      topicSetTargetLockState: 'Définir état cible*',
+      topicSetTargetRelativeHumidity: 'Définir humidité cible',
+      topicSetTargetSecurityState: 'Définir état cible*',
+      topicSetTargetTemperature: 'Définir température cible*',
+      topics: 'Sujets',
+      type: 'Type',
+      username: 'Nom d\'utilisateur',
+      valueAlarmTriggered: 'Déclenché',
+      valueArmAway: 'Armement absent',
+      valueArmNight: 'Armement nuit',
+      valueArmStay: 'Armement présent',
+      valueBatteryLow: 'Batterie faible',
+      valueCarbonDioxideDetected: 'CO2 détecté*',
+      valueCarbonMonoxideDetected: 'CO détecté*',
+      valueContactDetected: 'Contact détecté*',
+      valueDisarm: 'Désarmer',
+      valueFault: 'Défaut',
+      valueLeakDetected: 'Fuite détectée*',
+      valueLockStateJammed: 'Bloqué',
+      valueLockStateSecured: 'Sécurisé/Verrouillé*',
+      valueLockStateUnsecured: 'Non sécurisé/Déverrouillé*',
+      valueModeAuto: 'Auto',
+      valueModeCool: 'Refroidir',
+      valueModeHeat: 'Chauffer',
+      valueModeOff: 'Arrêt',
+      valueMotionDetected: 'Mouvement détecté*',
+      valueOccupancyDetected: 'Présence détectée*',
+      valueOff: 'Arrêt*',
+      valueOn: 'Marche*',
+      valueOutletInUse: 'En usage',
+      valueOutletNotInUse: 'Non utilisé',
+      valueSmokeDetected: 'Fumée détectée*',
+      valueStatusActive: 'Disponible/Accessible',
+      valueTampered: 'Altéré',
+      values: 'Valeurs',
+      verbose: 'Journalisation supplémentaire',
+    },
+  },
+
+  error: {
+    hasFault: '%s a un défaut',
+    isTampered: '%s a été altéré',
+    noFault: '%s n\'a pas de défaut',
+    notTampered: 'L\'état d\'altération de %s a été réinitialisé',
+  },
+
+  lightbulb: {
+    brightness: 'La luminosité de %s est de %d%',
+    brightnessFuture: 'Réglage de la luminosité de %s à %d%…',
+    colorTemperature: 'La température de couleur de %s est de %dM',
+    colorTemperatureFuture: 'Réglage de la température de couleur de %s à %dM…',
+    hue: 'La teinte de %s est de %d°',
+    hueFuture: 'Réglage de la teinte de %s à %d°…',
+    saturation: 'La saturation de %s est de %d%',
+    saturationFuture: 'Réglage de la saturation de %s à %d%…',
+  },
+
+  lock: {
+    badValue: '%s ne peut déterminer l\'état du verrou à partir de %s',
+    stateJammed: '%s est bloqué',
+    stateSecured: '%s est verrouillé',
+    stateSecuredFuture: 'Verrouillage de %s…',
+    stateUnsecured: '%s est déverrouillé',
+    stateUnsecuredFuture: 'Déverrouillage de %s…',
+    stateUnknown: 'L\'état de %s est inconnu',
+  },
+
+  mqtt: {
+    badOptions: 'les options supplémentaires de %s doivent être sous forme de JSON valide',
+    clientError: '%s erreur client :',
+    connected: '%s connecté et en attente de mise à jour…',
+    connectionClosed: 'Connexion à %s fermée',
+    idleConnection: 'Connexion à %s inactive',
+    noListeners: 'Aucun écouteur sur %s pour le sujet %s',
+    notConnected: 'Client de %s non connecté',
+    parseFailed: '%s n\'a pas pu analyser le message',
+    publish: '%s a publié la valeur %s vers le sujet %s',
+    receivedMessage: '%s a reçu un message du sujet %s',
+    reconnectInMinutes: '%s tentera de se reconnecter dans %s minutes…',
+    reconnectInSeconds: '%s tentera de se reconnecter dans %s secondes…',
+  },
+
+  onOff: {
+    stateOff: '%s est éteint',
+    stateOffFuture: 'Extinction de %s…',
+    stateOn: '%s est allumé',
+    stateOnFuture: 'Allumage de %s…',
+    unknownValue: '%s impossible de déterminer l\'état marche/arrêt à partir de %s. Ignoré…',
+  },
+
+  outlet: {
+    badValue: '%s impossible d\'obtenir l\'état d\'usage pour %s',
+    inUse: '%s est en marche',
+    notInUse: '%s n\'est pas en marche',
+  },
+
+  security: {
+    badValue: 'Valeur manquante à %s pour l\'état de sécurité %s',
+    noStateValues: '%s doit avoir au moins une valeur d\'état définie (armement absent, désarmer, etc.)',
+    stateAway: '%s est armé pour absence',
+    stateAwayFuture: 'Armement de %s pour absence…',
+    stateDisarmed: '%s est désarmé',
+    stateDisarmFuture: 'Désarmement de %s…',
+    stateNight: '%s est armé pour la nuit',
+    stateNightFuture: 'Armement de %s pour la nuit…',
+    stateStay: '%s est armé en présence',
+    stateStayFuture: 'Armement de %s en présence…',
+    stateTriggered: 'L\'alarme de %s est déclenchée',
+    stateUnknown: 'L\'état de %s est inconnu',
+    unknownValue: '%s impossible de déterminer l\'état de sécurité à partir de la valeur %s. Ignoré…',
+  },
+
+  sensor: {
+
+    carbonDioxide: {
+      active: '%s a détecté du dioxyde de carbone',
+      inactive: '%s a arrêté de détecter le dioxyde de carbone',
+      level: 'Le niveau de CO2 de %s est de %d',
+      peakLevel: 'Le niveau pic de CO2 de %s est de %d',
+    },
+
+    carbonMonoxide: {
+      active: '%s a détecté du monoxyde de carbone',
+      inactive: '%s a arrêté de détecter le monoxyde de carbone',
+      level: 'Le niveau de CO de %s est de %d',
+      peakLevel: 'Le niveau pic de CO de %s est de %d',
+    },
+
+    contact: {
+      active: '%s a détecté un contact',
+      inactive: '%s a arrêté de détecter le contact',
+    },
+
+    leak: {
+      active: '%s a détecté une fuite',
+      inactive: '%s a arrêté de détecter les fuites',
+    },
+
+    motion: {
+      active: '%s a détecté un mouvement',
+      inactive: '%s a arrêté de détecter le mouvement',
+    },
+
+    occupancy: {
+      active: '%s a détecté une présence',
+      inactive: '%s a arrêté de détecter la présence',
+    },
+
+    smoke: {
+      active: '%s a détecté de la fumée',
+      inactive: '%s a arrêté de détecter la fumée',
+    },
+  },
+
+  startup: {
+    complete: '✓ Configuration terminée',
+    newAccessory: 'Ajout de %s',
+    removeAccessory: 'Suppression de %s',
+    restoringAccessory: 'Restauration de %s',
+    unsupportedType: 'Type d\'accessoire non pris en charge %s',
+    welcome: [
+      'Veuillez ★ ce plugin sur GitHub si vous le trouvez utile ! https://github.com/mpatfield/homebridge-easy-mqtt',
+      'Souhaitez-vous parrainer ce plugin ? https://github.com/sponsors/mpatfield',
+      'Vous voulez voir ce plugin traduit dans votre propre langue ? Veuillez visiter https://github.com/mpatfield/homebridge-easy-mqtt/issues/4',
+    ],
+  },
+
+  thermostat: {
+    badValue: 'Valeur manquante à %s pour l\'état %s du thermostat',
+    coolingThreshold: 'Le seuil de refroidissement de %s est de %d°%s',
+    coolingThresholdFuture: '%s réglage du seuil de refroidissement à %d°%s…',
+    heatingThreshold: 'Le seuil de chauffage de %s est de %d°%s',
+    heatingThresholdFuture: '%s réglage du seuil de chauffage à %d°%s…',
+    humidityFuture: 'Réglage de l\'humidité de %s à %d%…',
+    noStateValues: '%s doit avoir au moins une valeur d\'état définie (arrêt, chauffage, refroidissement)',
+    stateAutoFuture: 'Réglage de %s en automatique…',
+    stateCool: '%s est réglé sur refroidissement',
+    stateCoolFuture: 'Réglage de %s sur refroidissement…',
+    stateHeat: '%s est réglé sur chauffage',
+    stateHeatFuture: 'Réglage de %s sur chauffage…',
+    stateOff: '%s est réglé sur arrêt',
+    stateOffFuture: 'Arrêt de %s…',
+    stateUnknown: 'L\'état de %s est inconnu',
+    temperatureTarget: 'La température cible de %s est de %d°%s',
+    temperatureTargetFuture: '%s réglage de la température à %d°%s…',
+    unknownValue: '%s impossible de déterminer l\'état du thermostat à partir de la valeur %s. Ignoré…',
+  },
+};
+
+const fr = merge({}, en, overrides);
+
+export default fr;
