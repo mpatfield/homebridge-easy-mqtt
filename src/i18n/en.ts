@@ -16,6 +16,10 @@ const en = {
 
   climate: {
     badTemperatureValue: '%s expected a number for temperature but received %s', // accessory name, value
+    coolingThreshold: '%s cooling threshold is %d°%s', // accessory name, number, units
+    coolingThresholdFuture: 'Setting %s cooling threshold to %d°%s…', // accessory name, number, units (fr)
+    heatingThreshold: '%s heating threshold is %d°%s', // accessory name, number, units
+    heatingThresholdFuture: 'Setting %s heating threshold to %d°%s…', // accessory name, number, units (fr)
     humidityUpdate: '%s humidity is %d%', // accessory name, number
     temperatureUpdate: '%s temperature is %d°%s', // accessory name, number, units
   },
@@ -273,10 +277,6 @@ const en = {
 
   thermostat: {
     badValue: '%s missing value for thermostat state %s', // accessory name, value
-    coolingThreshold: '%s cooling threshold is %d°%s', // accessory name, number, units
-    coolingThresholdFuture: '%s setting cooling threshold to %d°%s…', // accessory name, number, units
-    heatingThreshold: '%s heating threshold is %d°%s', // accessory name, number, units
-    heatingThresholdFuture: '%s setting heating threshold to %d°%s…', // accessory name, number, units
     humidityFuture: 'Setting %s humidity to %d%…', // accessory name, number
     noStateValues: '%s must have at least one state value defined (Off, Heat, Cool)', // accessory name
     stateAutoFuture: 'Setting %s to auto…', // accessory name

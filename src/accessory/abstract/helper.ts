@@ -9,7 +9,8 @@ import * as Configs from '../../model/types.js';
 
 import { LockMechanismAccessory } from '../lock.js';
 import { SecuritySystemAccessory } from '../security.js';
-import { ThermostatAccessory } from '../thermostat.js';
+
+import { ThermostatAccessory } from '../climate/thermostat.js';
 
 import { LightbulbAccessory } from '../onoff/lightbulb.js';
 import { OutletAccessory } from '../onoff/outlet.js';

@@ -20,6 +20,10 @@ const overrides = {
 
   climate: {
     badTemperatureValue: '%s attendait un nombre pour la température mais a reçu %s',
+    coolingThreshold: 'Le seuil de refroidissement de %s est de %d°%s',
+    coolingThresholdFuture: '%s réglage du seuil de refroidissement à %d°%s…',
+    heatingThreshold: 'Le seuil de chauffage de %s est de %d°%s',
+    heatingThresholdFuture: '%s réglage du seuil de chauffage à %d°%s…',
     humidityUpdate: 'L\'humidité de %s est de %d%',
     temperatureUpdate: 'La température de %s est de %d°%s',
   },
@@ -277,10 +281,6 @@ const overrides = {
 
   thermostat: {
     badValue: 'Valeur manquante à %s pour l\'état %s du thermostat',
-    coolingThreshold: 'Le seuil de refroidissement de %s est de %d°%s',
-    coolingThresholdFuture: '%s réglage du seuil de refroidissement à %d°%s…',
-    heatingThreshold: 'Le seuil de chauffage de %s est de %d°%s',
-    heatingThresholdFuture: '%s réglage du seuil de chauffage à %d°%s…',
     humidityFuture: 'Réglage de l\'humidité de %s à %d%…',
     noStateValues: '%s doit avoir au moins une valeur d\'état définie (arrêt, chauffage, refroidissement)',
     stateAutoFuture: 'Réglage de %s en automatique…',

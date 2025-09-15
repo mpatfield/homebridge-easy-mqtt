@@ -1,25 +1,20 @@
 import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
 
-import { BaseAccessory } from './abstract/base.js';
+import { ClimateControlAccessory, DEFAULT_TEMPERATURE } from './climate.js';
 
-import { strings } from '../i18n/i18n.js';
+import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, CharacteristicKey, TemperatureUnits } from '../model/enums.js';
-import { CharacteristicType, ServiceType, ThermostatConfig } from '../model/types.js';
+import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
+import { CharacteristicType, ServiceType, ThermostatConfig } from '../../model/types.js';
 
-import { Log } from '../tools/log.js';
-import { fromCelsius } from '../tools/temperature.js';
+import { Log } from '../../tools/log.js';
 
-const DEFAULT_TEMPERATURE = 10;
-
-export class ThermostatAccessory extends BaseAccessory<ThermostatConfig> {
+export class ThermostatAccessory extends ClimateControlAccessory<ThermostatConfig> {
 
   private readonly STATE_MAP: Map<keyof ThermostatConfig, number>;
 
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: ThermostatConfig, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
-
-    this.setCharacteristicValue(CharacteristicKey.TemperatureDisplayUnits, this.temperatureUnits === TemperatureUnits.FAHRENHEIT ? 1 : 0);
 
     this.STATE_MAP = new Map([
       ['valueModeAuto', Characteristic.TargetHeatingCoolingState.AUTO],
@@ -44,13 +39,9 @@ export class ThermostatAccessory extends BaseAccessory<ThermostatConfig> {
       'topicGetCurrentHeatingCoolingState', this.bindOnStateUpdate(CharacteristicKey.CurrentHeatingCoolingState), true)
       ?.setProps({ validValues: validCurrentStates.map((key) => this.STATE_MAP.get(key)!) });
 
-    this.setupCharacteristic(CharacteristicKey.CurrentTemperature, DEFAULT_TEMPERATURE, 'topicGetCurrentTemperature',
-      this.bindTemperatureUpdate(config, CharacteristicKey.CurrentTemperature, strings.climate.temperatureUpdate), true);
-
     this.setupCharacteristic(CharacteristicKey.TargetTemperature, DEFAULT_TEMPERATURE,
       'topicGetTargetTemperature', this.bindTemperatureUpdate(config, CharacteristicKey.TargetTemperature, strings.thermostat.temperatureTarget), true,
-      'topicSetTargetTemperature',
-      this.onSetTemperature.bind(this));
+      'topicSetTargetTemperature', this.onSetTemperature.bind(this));
 
     this.setupCharacteristic(CharacteristicKey.CurrentRelativeHumidity, 0,
       'topicGetCurrentRelativeHumidity', this.bindOnUpdateNumeric(CharacteristicKey.CurrentRelativeHumidity, strings.climate.humidityUpdate), false);
@@ -59,24 +50,6 @@ export class ThermostatAccessory extends BaseAccessory<ThermostatConfig> {
       'topicGetTargetRelativeHumidity', this.bindOnUpdateNumeric(CharacteristicKey.TargetRelativeHumidity, strings.thermostat.humidityFuture), false,
       'topicSetTargetRelativeHumidity', this.onSetHumidity.bind(this),
     );
-
-    this.setupCharacteristic(CharacteristicKey.CoolingThresholdTemperature, 25,
-      'topicGetCoolingThresholdTemperature',
-      this.bindTemperatureUpdate(config, CharacteristicKey.CoolingThresholdTemperature, strings.thermostat.coolingThreshold), false,
-      'topicSetCoolingThresholdTemperature',
-      this.bindOnSetThreshold(CharacteristicKey.CoolingThresholdTemperature, 'topicSetCoolingThresholdTemperature', strings.thermostat.coolingThresholdFuture),
-    );
-
-    this.setupCharacteristic(CharacteristicKey.HeatingThresholdTemperature, 20,
-      'topicGetHeatingThresholdTemperature',
-      this.bindTemperatureUpdate(config, CharacteristicKey.HeatingThresholdTemperature, strings.thermostat.heatingThreshold), false,
-      'topicSetHeatingThresholdTemperature',
-      this.bindOnSetThreshold(CharacteristicKey.HeatingThresholdTemperature, 'topicSetHeatingThresholdTemperature', strings.thermostat.heatingThresholdFuture),
-    );
-  }
-
-  private get temperatureUnits(): TemperatureUnits {
-    return this.config.temperatureUnits ?? TemperatureUnits.CELSIUS;
   }
 
   protected getAccessoryType(): AccessoryType {
@@ -92,14 +65,6 @@ export class ThermostatAccessory extends BaseAccessory<ThermostatConfig> {
       }
 
       this.onUpdate(charKey, state, this.stateStringForCV(state, future));
-    }).bind(this);
-  }
-
-  private bindOnSetThreshold(charKey: CharacteristicKey, topic: keyof ThermostatConfig, logTemplate: string) {
-    return (async (value: CharacteristicValue) => {
-      const temperature = this.temperatureFromCV(value);
-      const logString = logTemplate.replace('%d°%s', `${temperature}°${this.temperatureUnits}`);
-      this.onSet(charKey, value, temperature, topic, logString);
     }).bind(this);
   }
 
@@ -122,11 +87,6 @@ export class ThermostatAccessory extends BaseAccessory<ThermostatConfig> {
   private async onSetHumidity(value: CharacteristicValue) {
     const logString = strings.thermostat.humidityFuture.replace('%d', value.toString());
     this.onSet(CharacteristicKey.TargetRelativeHumidity, value, value as number, 'topicSetTargetRelativeHumidity', logString);
-  }
-
-  private temperatureFromCV(value: CharacteristicValue): number {
-    const celsiusTemperature = value as number;
-    return this.temperatureUnits === TemperatureUnits.FAHRENHEIT ? fromCelsius(celsiusTemperature, this.temperatureUnits) : celsiusTemperature;
   }
 
   private fromCVState(value: CharacteristicValue): PrimitiveTypes | undefined {

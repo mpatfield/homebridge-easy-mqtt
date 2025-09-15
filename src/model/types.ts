@@ -142,6 +142,29 @@ export type TemperatureSensorConfig =  SensorConfig & TemperatureConfig & {
   topicGetCurrentTemperature: string,
 }
 
+export type ClimateControlConfig = BaseAccessoryConfig & TemperatureConfig & {
+  topicGetCoolingThresholdTemperature?: string,
+  topicGetCurrentTemperature: string,
+  topicGetHeatingThresholdTemperature?: string,
+  topicSetCoolingThresholdTemperature?: string,
+  topicSetHeatingThresholdTemperature?: string,
+}
+
+export type ThermostatConfig = ClimateControlConfig & {
+  topicGetCurrentHeatingCoolingState: string,
+  topicGetCurrentRelativeHumidity?: string,
+  topicGetTargetHeatingCoolingState: string,
+  topicGetTargetRelativeHumidity?: string,
+  topicGetTargetTemperature: string,
+  topicSetTargetHeatingCoolingState: string,
+  topicSetTargetRelativeHumidity?: string,
+  topicSetTargetTemperature: string,
+  valueModeAuto?: string,
+  valueModeCool?: string,
+  valueModeHeat?: string,
+  valueModeOff?: string,
+}
+
 export type LockConfig = BaseAccessoryConfig & {
   topicGetCurrentLockState: string,
   topicGetTargetLockState: string,
@@ -163,24 +186,4 @@ export type SecurityConfig = BaseAccessoryConfig & ErrorStatusConfig & {
   valueArmNight?: string,
   valueDisarm?: string,
   valueAlarmTriggered?: string,
-}
-
-export type ThermostatConfig = BaseAccessoryConfig & TemperatureConfig & {
-  topicGetCoolingThresholdTemperature?: string,
-  topicGetCurrentHeatingCoolingState: string,
-  topicGetCurrentRelativeHumidity?: string,
-  topicGetCurrentTemperature: string,
-  topicGetHeatingThresholdTemperature?: string,
-  topicGetTargetHeatingCoolingState: string,
-  topicGetTargetRelativeHumidity?: string,
-  topicGetTargetTemperature: string,
-  topicSetCoolingThresholdTemperature?: string,
-  topicSetHeatingThresholdTemperature?: string,
-  topicSetTargetHeatingCoolingState: string,
-  topicSetTargetRelativeHumidity?: string,
-  topicSetTargetTemperature: string,
-  valueModeAuto?: string,
-  valueModeCool?: string,
-  valueModeHeat?: string,
-  valueModeOff?: string,
 }
