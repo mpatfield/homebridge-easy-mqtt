@@ -2,6 +2,14 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
+## 1.4.0-beta.0 (2025-09-XX)
+
+### Added
+- Support for HeaterCooler
+
+### Notes
+Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
+
 ## 1.3.0 (2025-09-14)
 
 ### Added
@@ -19,10 +27,6 @@ All notable changes to homebridge-dummy will be documented in this file.
 
 ### Fixed
 - Exponential backoff for MQTT connection errors
-
-### Notes
-
-• Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
 
 ## 1.2.0 (2025-09-02)
 

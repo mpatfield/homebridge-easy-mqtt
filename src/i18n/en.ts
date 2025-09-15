@@ -42,6 +42,7 @@ const en = {
       celsius: '°C',
       contactSensor: 'Contact Sensor',
       fahrenheit: '°F',
+      heaterCooler: 'Heater/Cooler', // (fr)
       humiditySensor: 'Humidity Sensor',
       leakSensor: 'Leak Sensor',
       lightbulb: 'Lightbulb',
@@ -65,6 +66,7 @@ const en = {
       options: 'Options',
       password: 'Password',
       sourceUnits: 'Source Units',
+      topicGetActive: 'Get Active*', // (fr)
       topicGetBatteryLevel: 'Get Battery Level',
       topicGetBatteryLow: 'Get Battery Low',
       topicGetBrightness: 'Get Brightness',
@@ -77,6 +79,7 @@ const en = {
       topicGetColorTemperature: 'Get Color Temperature',
       topicGetContactSensorState: 'Get Contact Detected*',
       topicGetCoolingThresholdTemperature: 'Get Cooling Threshold',
+      topicGetCurrentHeaterCoolerState: 'Get Current Mode*', // (fr)
       topicGetCurrentHeatingCoolingState: 'Get Current Mode*',
       topicGetCurrentLockState: 'Get Current State*',
       topicGetCurrentRelativeHumidity: 'Get Relative Humidity*',
@@ -86,27 +89,36 @@ const en = {
       topicGetHeatingThresholdTemperature: 'Get Heating Threshold',
       topicGetHue: 'Get Hue',
       topicGetLeakDetected: 'Get Leak Detected*',
+      topicGetLockPhysicalControls: 'Get Controls Locked', // (fr)
       topicGetMotionDetected: 'Get Motion Detected*',
       topicGetOccupancyDetected: 'Get Occupancy Detected*',
       topicGetOn: 'Get On/Off State*',
       topicGetOutletInUse: 'Get In Use State',
+      topicGetRotationSpeed: 'Get Rotation Speed', // (fr)
       topicGetSaturation: 'Get Saturation',
       topicGetSmokeDetected: 'Get Smoke Detected*',
+      topicGetSwingMode: 'Get Swing Enabled', // (fr)
       topicGetStatusActive: 'Get Availability',
       topicGetStatusFault: 'Get Fault',
       topicGetStatusTampered: 'Get Tampered',
+      topicGetTargetHeaterCoolerState: 'Get Target Mode*', // (fr)
       topicGetTargetHeatingCoolingState: 'Get Target Mode*',
       topicGetTargetLockState: 'Get Target State*',
       topicGetTargetRelativeHumidity: 'Get Target Humidity',
       topicGetTargetSecurityState: 'Get Target State*',
       topicGetTargetTemperature: 'Get Target Temperature*',
+      topicSetActive: 'Set Active*', // (fr)
       topicSetBrightness: 'Set Brightness',
       topicSetColorTemperature: 'Set Color Temperature',
       topicSetCoolingThresholdTemperature: 'Set Cooling Threshold',
       topicSetHeatingThresholdTemperature: 'Set Heating Threshold',
       topicSetHue: 'Set Hue',
+      topicSetLockPhysicalControls: 'Set Lock Controls', // (fr)
       topicSetOn: 'Set On/Off State*',
+      topicSetRotationSpeed: 'Set Rotation Speed', // (fr)
       topicSetSaturation: 'Set Saturation',
+      topicSetSwingMode: 'Set Swing Enabled', // (fr)
+      topicSetTargetHeaterCoolerState: 'Set Target Mode*', // (fr)
       topicSetTargetHeatingCoolingState: 'Set Target Mode*',
       topicSetTargetLockState: 'Set Target State*',
       topicSetTargetRelativeHumidity: 'Set Target Humidity ',
@@ -123,6 +135,8 @@ const en = {
       valueCarbonDioxideDetected: 'CO2 Detected*',
       valueCarbonMonoxideDetected: 'CO Detected*',
       valueContactDetected: 'Contact Detected*',
+      valueControlLock: 'Controls Locked', // (fr)
+      valueControlUnlock: 'Controls Unlocked', // (fr)
       valueDisarm: 'Disarm',
       valueFault: 'Fault',
       valueLeakDetected: 'Leak Detected*',
@@ -132,6 +146,8 @@ const en = {
       valueModeAuto: 'Auto',
       valueModeCool: 'Cool',
       valueModeHeat: 'Heat',
+      valueModeIdle: 'Idle', // (fr)
+      valueModeInactive: 'Inactive', // (fr)
       valueModeOff: 'Off',
       valueMotionDetected: 'Motion Detected*',
       valueOccupancyDetected: 'Occupancy Detected*',
@@ -140,7 +156,11 @@ const en = {
       valueOutletInUse: 'In Use',
       valueOutletNotInUse: 'Not In Use',
       valueSmokeDetected: 'Smoke Detected*',
+      valueStateActive: 'State Active*', // (fr)
+      valueStateInactive: 'State Inactive*', // (fr)
       valueStatusActive: 'Available/Reachable',
+      valueSwingEnabled: 'Swing Enabled', // (fr)
+      valueSwingDisabled: 'Swing Disabled', // (fr)
       valueTampered: 'Tampered',
       values: 'Values',
       verbose: 'Additional Logging',
@@ -152,6 +172,34 @@ const en = {
     isTampered: '%s has been tampered with', // accessory name
     noFault: '%s has no fault', // accessory name
     notTampered: '%s tampered status has been reset', // accessory name
+  },
+
+  heaterCooler: { // (fr)
+    active: '%s is active', // accessory name
+    activeSet: 'Setting %s to active…', // accessory name
+    badValue: '%s missing value for heater/cooler state %s', // accessory name, value
+    controlsLocked: '%s controls are locked', // accessory name
+    controlsLockFuture: 'Setting %s controls to locked…', // accessory name
+    controlsUnLocked: '%s controls are unlocked', // accessory name
+    controlsUnlockFuture: 'Setting %s controls to unlocked…', // accessory name
+    inactiveSet: 'Setting %s to inactive…', // accessory name
+    noStateValues: '%s must have at least one state value defined (Inactive, Idle, Heating, Cooling)', // accessory name
+    notActive: '%s is not active', // accessory name
+    rotationUpdate: '%s rotation is %d%', // accessory name, number
+    rotationSet: 'Setting %s rotation speed to %d%…', // accessory name, number
+    swingDisabled: '%s swing is disabled', // accessory name
+    swingDisabledFuture: 'Setting %s swing to disabled…', // accessory name
+    swingEnabled: '%s swing is enabled', // accessory name
+    swingEnabledFuture: 'Setting %s swing to enabled…', // accessory name
+    stateAuto: 'Setting %s to auto…', // accessory name
+    stateCool: 'Setting %s to cool…', // accessory name
+    stateCooling: '%s is cooling', // accessory name
+    stateHeat: 'Setting %s to heat…', // accessory name
+    stateHeating: '%s is heating', // accessory name
+    stateIdle: '%s is idle', // accessory name
+    stateInactive: '%s is inactive', // accessory name
+    stateUnknown: '%s state is unknown', // accessory name
+    unknownValue: '%s unable to determine heater/cooler state from value %s. Ignoring…', // accessory name, value
   },
 
   lightbulb: {

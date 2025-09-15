@@ -21,8 +21,8 @@
           "type": {
             "type": "string",
             "title": "${config.title.type}",
-            "enum": [ "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "HumiditySensor", "LeakSensor", "Lightbulb", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "Switch", "TemperatureSensor", "Thermostat"],
-            "enumNames": ["${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.humiditySensor}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}"],
+            "enum": [ "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "HeaterCooler", "HumiditySensor", "LeakSensor", "Lightbulb", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "Switch", "TemperatureSensor", "Thermostat"],
+            "enumNames": ["${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.heaterCooler}", "${config.enumNames.humiditySensor}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}"],
             "required": true
           },
           "group": {
@@ -295,6 +295,50 @@
               "type": "string",
               "title": "${config.title.topicSetHeatingThresholdTemperature}"
             },
+            "topicGetActive": {
+              "type": "string",
+              "title": "${config.title.topicGetActive}"
+            },
+            "topicGetCurrentHeaterCoolerState": {
+              "type": "string",
+              "title": "${config.title.topicGetCurrentHeaterCoolerState}"
+            },
+            "topicGetLockPhysicalControls": {
+              "type": "string",
+              "title": "${config.title.topicGetLockPhysicalControls}"
+            },
+            "topicGetRotationSpeed": {
+              "type": "string",
+              "title": "${config.title.topicGetRotationSpeed}"
+            },
+            "topicGetSwingMode": {
+              "type": "string",
+              "title": "${config.title.topicGetSwingMode}"
+            },
+            "topicGetTargetHeaterCoolerState": {
+              "type": "string",
+              "title": "${config.title.topicGetTargetHeaterCoolerState}"
+            },
+            "topicSetActive": {
+              "type": "string",
+              "title": "${config.title.topicSetActive}"
+            },
+            "topicSetLockPhysicalControls": {
+              "type": "string",
+              "title": "${config.title.topicSetLockPhysicalControls}"
+            },
+            "topicSetRotationSpeed": {
+              "type": "string",
+              "title": "${config.title.topicSetRotationSpeed}"
+            },
+            "topicSetSwingMode": {
+              "type": "string",
+              "title": "${config.title.topicSetSwingMode}"
+            },
+            "topicSetTargetHeaterCoolerState": {
+              "type": "string",
+              "title": "${config.title.topicSetTargetHeaterCoolerState}"
+            },
             "valueBatteryLow": {
               "type": "string",
               "title": "${config.title.valueBatteryLow}"
@@ -398,6 +442,38 @@
             "valueModeOff": {
               "type": "string",
               "title": "${config.title.valueModeOff}"
+            },
+            "valueControlLock": {
+              "type": "string",
+              "title": "${config.title.valueControlLock}"
+            },
+            "valueControlUnlock": {
+              "type": "string",
+              "title": "${config.title.valueControlUnlock}"
+            },
+            "valueModeIdle": {
+              "type": "string",
+              "title": "${config.title.valueModeIdle}"
+            },
+            "valueModeInactive": {
+              "type": "string",
+              "title": "${config.title.valueModeInactive}"
+            },
+            "valueStateActive": {
+              "type": "string",
+              "title": "${config.title.valueStateActive}"
+            },
+            "valueStateInactive": {
+              "type": "string",
+              "title": "${config.title.valueStateInactive}"
+            },
+            "valueSwingEnabled": {
+              "type": "string",
+              "title": "${config.title.valueSwingEnabled}"
+            },
+            "valueSwingDisabled": {
+              "type": "string",
+              "title": "${config.title.valueSwingDisabled}"
             },
             "disableLogging": {
               "type": "boolean",
@@ -748,6 +824,147 @@
                   ]
                 },
                 {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'HeaterCooler';"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetCurrentTemperature",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].temperatureUnits",
+                          "title": "${config.title.sourceUnits}",
+                          "flex": "0 0 25%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetActive",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetActive",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetCurrentHeaterCoolerState",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetTargetHeaterCoolerState",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetTargetHeaterCoolerState",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetCoolingThresholdTemperature",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetCoolingThresholdTemperature",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetHeatingThresholdTemperature",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetHeatingThresholdTemperature",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetLockPhysicalControls",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetLockPhysicalControls",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetRotationSpeed",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetRotationSpeed",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetSwingMode",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetSwingMode",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "type": "div",
                   "displayFlex": true,
                   "flex-direction": "row",
@@ -881,7 +1098,7 @@
                         {
                           "key": "accessories[].temperatureUnits",
                           "title": "${config.title.sourceUnits}",
-                          "flex": "0 0 33%"
+                          "flex": "0 0 25%"
                         }
                       ]
                     },
@@ -1012,6 +1229,80 @@
                 "functionBody": "return model.accessories?.[arguments[1]]?.info?.type !== undefined;"
               },
               "items": [
+                  {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'HeaterCooler';"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].valueStateActive",
+                          "flex": "0 0 20%"
+                        },
+                        {
+                          "key": "accessories[].valueStateInactive",
+                          "flex": "0 0 20%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].valueModeAuto",
+                          "flex": "0 0 20%"
+                        },
+                        {
+                          "key": "accessories[].valueModeCool",
+                          "flex": "0 0 20%"
+                        },
+                        {
+                          "key": "accessories[].valueModeHeat",
+                          "flex": "0 0 20%"
+                        },
+                        {
+                          "key": "accessories[].valueModeIdle",
+                          "flex": "0 0 20%"
+                        },
+                        {
+                          "key": "accessories[].valueModeInactive",
+                          "flex": "0 0 20%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].valueControlLock",
+                          "flex": "0 0 20%"
+                        },
+                        {
+                          "key": "accessories[].valueControlUnlock",
+                          "flex": "0 0 20%"
+                        },
+                        {
+                          "key": "accessories[].valueSwingEnabled",
+                          "flex": "0 0 20%"
+                        },
+                        {
+                          "key": "accessories[].valueSwingDisabled",
+                          "flex": "0 0 20%"
+                        }
+                      ]
+                    }
+                  ]
+                },
                 {
                   "type": "div",
                   "displayFlex": true,

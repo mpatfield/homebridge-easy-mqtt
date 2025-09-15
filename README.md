@@ -185,6 +185,52 @@ As with topics, you will also need to populate the appropriate values based on t
 - `topicGetCurrentTemperature*` - The current temperature of the sensor
 - `temperatureUnits` - The temperature units of the incoming value supplied by the sensor, `C` for Celsius  (default) `F` for Fahrenheit
 
+### Climate Controllers
+- `temperatureUnits` - The temperature units of the incoming value supplied by the thermostat, `C` for Celsius  (default) `F` for Fahrenheit
+- `topicGetCoolingThresholdTemperature` - Get the cooling threshold temperature
+- `topicSetCoolingThresholdTemperature` - Set the cooling threshold temparture
+- `topicGetHeatingThresholdTemperature` - Get the heating threshold temperature
+- `topicSetHeatingThresholdTemperature` - Set the heating threshold temperature
+
+#### HeaterCooler
+- `topicGetActive*` - Get whether or not the accessory is currently active
+- `topicSetActive*` - Set whether or not the accessory is currently active
+- `topicGetCurrentHeaterCoolerState*` - Get the current mode (i.e. inactive, idle, heating, cooling)
+- `topicGetTargetHeaterCoolerState*` - Get the target mode (i.e. auto, heat, cool)
+- `topicSetTargetHeaterCoolerState*` - Set the target mode (i.e. auto, heat, cool)
+- `topicGetLockPhysicalControls` - Get whether or not the physical controls are locked
+- `topicSetLockPhysicalControls` - Set whether or not the physical controls are locked
+- `topicGetRotationSpeed` - Get the rotation speed as a percentage
+- `topicSetRotationSpeed` - Set the rotation speed as a percentage
+- `topicGetSwingMode` - Get whether or not accessory is oscillating
+- `topicSetSwingMode` - Set whether or not accessory is oscillating
+- `valueStateActive*` - Accessory is currently active
+- `valueStateInactive*` - Accessory is currently inactive
+- `valueModeAuto` - Mode is auto
+- `valueModeCool` - Mode is cool/cooling
+- `valueModeHeat` - Mode is heat/heating
+- `valueModeIdle` - Mode is idle
+- `valueModeInactive` - Mode is inactive
+- `valueControlLock` - Physical controls are locked
+- `valueControlUnlock` - Physical controls are unlocked
+- `valueSwingEnabled` - Accessory is oscillating
+- `valueSwingDisabled` - Accessory is not oscillating
+
+#### Thermostat
+- `topicGetCurrentHeatingCoolingState*` - Get the current mode (i.e. cooling, heating, off)
+- `topicGetTargetHeatingCoolingState*` - Get the target mode (i.e. auto, cooling, heating, off)
+- `topicSetTargetHeatingCoolingState*` - Set the target mode (i.e. auto, cooling, heating, off)
+- `topicGetCurrentTemperature*` - Get the current temperature
+- `topicGetTargetTemperature*` - Get the target temperature
+- `topicSetTargetTemperature*` - Set the target temperature
+- `topicGetCurrentRelativeHumidity` - Get the current humidity
+- `topicGetTargetRelativeHumidity` - Get the target humidity
+- `topicSetTargetRelativeHumidity` - Set the target humidity
+- `valueModeAuto` - Auto mode
+- `valueModeCool` - Cool mode
+- `valueModeHeat` - Heat mode
+- `valueModeOff` - Thermostat off
+
 ### Others
 
 #### LockMechanism
@@ -208,26 +254,6 @@ As with topics, you will also need to populate the appropriate values based on t
 - `valueAlarmTriggered` - When the alarm has been triggered, e.g. "true" or "1" or "triggered"
 - `valueFault` - Accessory has a fault
 - `valueTampered` - Accessory has been tampered with
-
-### Thermostat
-- `temperatureUnits` - The temperature units of the incoming value supplied by the thermostat, `C` for Celsius  (default) `F` for Fahrenheit
-- `topicGetCurrentHeatingCoolingState*` - Get the current mode (i.e. cooling, heating, off)
-- `topicGetTargetHeatingCoolingState*` - Get the target mode (i.e. auto, cooling, heating, off)
-- `topicSetTargetHeatingCoolingState*` - Set the target mode (i.e. auto, cooling, heating, off)
-- `topicGetCurrentTemperature*` - Get the current temperature
-- `topicGetTargetTemperature*` - Get the target temperature
-- `topicSetTargetTemperature*` - Set the target temperature
-- `topicGetCurrentRelativeHumidity` - Get the current humidity
-- `topicGetTargetRelativeHumidity` - Get the target humidity
-- `topicSetTargetRelativeHumidity` - Set the target humidity
-- `topicGetCoolingThresholdTemperature` - Get the cooling threshold temperature
-- `topicSetCoolingThresholdTemperature` - Set the cooling threshold temparture
-- `topicGetHeatingThresholdTemperature` - Get the heating threshold temperature
-- `topicSetHeatingThresholdTemperature` - Set the heating threshold temperature
-- `valueModeAuto` - Auto mode
-- `valueModeCool` - Cool mode
-- `valueModeHeat` - Heat mode
-- `valueModeOff` - Thermostat off
 
 ## Logging/Debugging:
 

@@ -150,6 +150,31 @@ export type ClimateControlConfig = BaseAccessoryConfig & TemperatureConfig & {
   topicSetHeatingThresholdTemperature?: string,
 }
 
+export type HeaterCoolerConfig = ClimateControlConfig & {
+  topicGetActive: string,
+  topicGetCurrentHeaterCoolerState: string,
+  topicGetLockPhysicalControls?: string,
+  topicGetRotationSpeed?: string,
+  topicGetSwingMode?: string,
+  topicGetTargetHeaterCoolerState: string,
+  topicSetActive: string,
+  topicSetLockPhysicalControls?: string,
+  topicSetRotationSpeed?: string,
+  topicSetSwingMode?: string,
+  topicSetTargetHeaterCoolerState: string,
+  valueControlLock?: string,
+  valueControlUnlock?: string,
+  valueModeAuto?: string,
+  valueModeCool?: string,
+  valueModeHeat?: string,
+  valueModeIdle?: string,
+  valueModeInactive?: string,
+  valueStateActive: string,
+  valueStateInactive: string,
+  valueSwingEnabled?: string,
+  valueSwingDisabled?: string,
+}
+
 export type ThermostatConfig = ClimateControlConfig & {
   topicGetCurrentHeatingCoolingState: string,
   topicGetCurrentRelativeHumidity?: string,
