@@ -17,6 +17,7 @@ export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessor
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: C, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
 
+    if (!isGrouped) {
     accessory.getService(Service.AccessoryInformation)!
       .setCharacteristic(Characteristic.Name, config.info.name)
       .setCharacteristic(Characteristic.ConfiguredName, config.info.name)
@@ -24,6 +25,7 @@ export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessor
       .setCharacteristic(Characteristic.Model, config.info.model ?? config.info.type)
       .setCharacteristic(Characteristic.SerialNumber, config.info.serialNumber ?? config.info.id)
       .setCharacteristic(Characteristic.FirmwareRevision, config.info.version ?? getVersion());
+    }
 
     this.setupCharacteristic(CharacteristicKey.BatteryLevel, 100,
       'topicGetBatteryLevel', this.bindOnUpdateNumeric(CharacteristicKey.BatteryLevel, strings.accessory.batteryLevel), false);
