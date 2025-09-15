@@ -51,7 +51,7 @@ interface MQTTError extends Error {
 }
 
 export class MQTT {
-  private client: mqtt.MqttClient | null = null;
+  private client: mqtt.MqttClient | undefined = undefined;
   private shouldReconnect = false;
   private isReconnecting = false;
   private reconnectCount = 0;
@@ -65,11 +65,20 @@ export class MQTT {
     private readonly caller: string,
   ) {}
 
+  private get host(): string {
+    try {
+      const url = new URL(this.config.broker);
+      return url.hostname;
+    } catch {
+      return this.config.broker;
+    }
+  }
+
   teardown(): void {
     this.shouldReconnect = false;
     if (this.client) {
       this.client.end(true);
-      this.client = null;
+      this.client = undefined;
     }
   }
 
@@ -87,7 +96,7 @@ export class MQTT {
         additionalOptions = JSON.parse(this.config.options);
       }
     } catch (err) {
-      this.log.error(`${strings.mqtt.badOptions}:\n"${this.config.options}"`, this.caller);
+      this.log.error(`${strings.mqttClient.badOptions}:\n"${this.config.options}"`, this.caller);
     }
 
     const options = {
@@ -100,7 +109,7 @@ export class MQTT {
     this.client = mqtt.connect(this.config.broker, options);
 
     this.client.on('connect', () => {
-      this.log.ifVerbose(strings.mqtt.connected, this.caller);
+      this.log.ifVerbose(strings.mqttClient.connected, this.host);
       this.onConnect();
     });
 
@@ -109,14 +118,14 @@ export class MQTT {
     this.client.on('close', () => this.connectionClosed());
 
     this.client.on('error', (error: MQTTError) => {
-      this.log.ifVerbose(LogType.WARNING, strings.mqtt.clientError,  this.caller, error);
+      this.log.ifVerbose(LogType.WARNING, `${strings.mqttClient.error}: ${error}`,  this.host);
     });
   }
 
   public subscribe(topic: string, handler: MQTTMessageHandler) {
 
     if (!this.client) {
-      this.log.error(strings.mqtt.notConnected,  this.caller);
+      this.log.error(strings.mqttClient.notConnected,  this.host);
       return;
     }
 
@@ -132,7 +141,7 @@ export class MQTT {
   publish(rawTopic: string, value: PrimitiveTypes): void {
 
     if (!this.client || !this.client.connected) {
-      this.log.error(strings.mqtt.notConnected, this.caller);
+      this.log.error(strings.mqttClient.notConnected, this.host);
       return;
     }
 
@@ -161,7 +170,7 @@ export class MQTT {
 
     this.client.publish(topic.base, message);
 
-    this.log.ifVerbose(strings.mqtt.publish, this.caller, value, topic);
+    this.log.ifVerbose( `${strings.mqttClient.publish} — ${topic}  ${value}`, this.host);
   }
 
   private messageReceived(topic: string, message: string) {
@@ -172,11 +181,11 @@ export class MQTT {
 
       message = message.trim();
 
-      this.log.ifVerbose(strings.mqtt.receivedMessage, this.caller, topic, message);
+      this.log.ifVerbose(strings.mqttClient.receivedMessage, this.host, topic, `\n${message}`);
 
       const listeners = this.listeners.get(topic);
       if (!listeners || listeners.length === 0) {
-        this.log.ifVerbose(strings.mqtt.noListeners, this.caller, topic);
+        this.log.ifVerbose(strings.mqttClient.noListeners, this.host, topic);
         return;
       }
 
@@ -205,12 +214,12 @@ export class MQTT {
       }
 
     } catch (e) {
-      this.log.error(strings.mqtt.parseFailed, this.caller, `\n${message}`);
+      this.log.error(strings.mqttClient.parseFailed, this.host, `\n${message}`);
     }
   }
 
   private connectionClosed() {
-    this.log.ifVerbose(strings.mqtt.connectionClosed, this.caller);
+    this.log.ifVerbose(strings.mqttClient.connectionClosed, this.host);
     this.reconnect();
   }
 
@@ -224,14 +233,14 @@ export class MQTT {
 
     if (this.client) {
       this.client.end(true);
-      this.client = null;
+      this.client = undefined;
     }
 
     const reconnectDelay = DELAYS[Math.min(this.reconnectCount, DELAYS.length - 1)];
     if (reconnectDelay < MINUTE) {
-      this.log.ifVerbose(strings.mqtt.reconnectInSeconds, this.caller, reconnectDelay / SECOND);
+      this.log.ifVerbose(strings.mqttClient.reconnectSeconds, this.host, reconnectDelay / SECOND);
     } else {
-      this.log.ifVerbose(strings.mqtt.reconnectInMinutes, this.caller, reconnectDelay / MINUTE);
+      this.log.ifVerbose(strings.mqttClient.reconnectMinutes, this.host, reconnectDelay / MINUTE);
     }
 
     this.reconnectCount++;

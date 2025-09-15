@@ -179,21 +179,6 @@ const overrides = {
     stateUnknown: 'L\'état de %s est inconnu',
   },
 
-  mqtt: {
-    badOptions: 'les options supplémentaires de %s doivent être sous forme de JSON valide',
-    clientError: '%s erreur client :',
-    connected: '%s connecté et en attente de mise à jour…',
-    connectionClosed: 'Connexion à %s fermée',
-    idleConnection: 'Connexion à %s inactive',
-    noListeners: 'Aucun écouteur sur %s pour le sujet %s',
-    notConnected: 'Client de %s non connecté',
-    parseFailed: '%s n\'a pas pu analyser le message',
-    publish: '%s a publié la valeur %s vers le sujet %s',
-    receivedMessage: '%s a reçu un message du sujet %s',
-    reconnectInMinutes: '%s tentera de se reconnecter dans %s minutes…',
-    reconnectInSeconds: '%s tentera de se reconnecter dans %s secondes…',
-  },
-
   onOff: {
     stateOff: '%s est éteint',
     stateOffFuture: 'Extinction de %s…',

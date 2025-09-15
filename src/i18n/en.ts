@@ -223,19 +223,18 @@ const en = {
     stateUnknown: '%s state is unknown', // accessory name
   },
 
-  mqtt: {
-    badOptions: '%s additional options must be valid json', // accessory name
-    clientError: '%s client error:', // accessory name
-    connected: '%s connected and listening for updates…', // accessory name
-    connectionClosed: '%s connection closed', // accessory name
-    idleConnection: '%s idle connection', // accessory name
-    noListeners: '%s no listeners for topic %s', // accessory name, topic name
-    notConnected: '%s client not connected', // accessory name
-    parseFailed: '%s failed to parse message', // accessory name
-    publish: '%s publishing value %s to topic %s', // accessory name, value, topic name
-    receivedMessage: '%s received message from topic %s', // accessory name, topic name
-    reconnectInMinutes: '%s will attempt to reconnect in %s minutes…', // accessory name, number
-    reconnectInSeconds: '%s will attempt to reconnect in %s seconds…', // accessory name, number
+  mqttClient: { // (fr)
+    badOptions: 'Additional options for %s must be valid json', // accessory name
+    connected: 'Connected to %s and listening for updates…', // host
+    connectionClosed: 'Closed connection to %s', // host
+    error: 'Client error on %s', // host
+    noListeners: 'No listeners on %s for topic %s', // host, topic
+    notConnected: 'Client not connected to %s', // host
+    parseFailed: 'Failed to parse message on %s', // host
+    publish: 'Publishing to %s', // host
+    receivedMessage: 'Received message on %s with topic %s', // host, topic
+    reconnectMinutes: 'Will attempt to reconnect to %s in %s minutes…', // host, number
+    reconnectSeconds: 'Will attempt to reconnect to %s in %s seconds…', // host, number
   },
 
   onOff: {
