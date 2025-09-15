@@ -30,7 +30,7 @@ export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessor
     this.setupCharacteristic(CharacteristicKey.BatteryLevel, 100,
       'topicGetBatteryLevel', this.bindOnUpdateNumeric(CharacteristicKey.BatteryLevel, strings.accessory.batteryLevel), false);
 
-    this.setupCharacteristic(CharacteristicKey.StatusLowBattery, false,
+    this.setupCharacteristic(CharacteristicKey.StatusLowBattery, Characteristic.StatusLowBattery.BATTERY_LEVEL_NORMAL,
       'topicGetBatteryLow', this.onBatteryLowUpdate.bind(this), false);
 
     this.setupCharacteristic(CharacteristicKey.StatusActive, true,

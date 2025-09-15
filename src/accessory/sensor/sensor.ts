@@ -14,9 +14,11 @@ export abstract class SensorAccessory<C extends SensorConfig = SensorConfig> ext
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: C, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
 
-    this.setupCharacteristic(CharacteristicKey.StatusTampered, 0, 'topicGetStatusTampered', this.onTamperedUpdate.bind(this), false);
+    this.setupCharacteristic(CharacteristicKey.StatusTampered, Characteristic.StatusTampered.NOT_TAMPERED,
+      'topicGetStatusTampered', this.onTamperedUpdate.bind(this), false);
 
-    this.setupCharacteristic(CharacteristicKey.StatusFault, 0, 'topicGetStatusFault', this.onFaultUpdate.bind(this), false);
+    this.setupCharacteristic(CharacteristicKey.StatusFault, Characteristic.StatusFault.NO_FAULT,
+      'topicGetStatusFault', this.onFaultUpdate.bind(this), false);
   }
 
   private async onTamperedUpdate(topic: string, value: PrimitiveTypes): Promise<void> {

@@ -14,7 +14,8 @@ export class COSensorAccessory extends SensorAccessory<COSensorConfig> {
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: COSensorConfig, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
 
-    this.setupCharacteristic(CharacteristicKey.CarbonMonoxideDetected, 0, 'topicGetCarbonMonoxideDetected',
+    this.setupCharacteristic(CharacteristicKey.CarbonMonoxideDetected, Characteristic.CarbonMonoxideDetected.CO_LEVELS_NORMAL,
+      'topicGetCarbonMonoxideDetected',
       this.bindOnUpdateNumericBoolean(
         CharacteristicKey.CarbonMonoxideDetected,
         'valueCarbonMonoxideDetected',

@@ -14,7 +14,8 @@ export class CO2SensorAccessory extends SensorAccessory<CO2SensorConfig> {
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: CO2SensorConfig, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
 
-    this.setupCharacteristic(CharacteristicKey.CarbonDioxideDetected, 0, 'topicGetCarbonDioxideDetected',
+    this.setupCharacteristic(CharacteristicKey.CarbonDioxideDetected, Characteristic.CarbonDioxideDetected.CO2_LEVELS_NORMAL,
+      'topicGetCarbonDioxideDetected',
       this.bindOnUpdateNumericBoolean(
         CharacteristicKey.CarbonDioxideDetected,
         'valueCarbonDioxideDetected',

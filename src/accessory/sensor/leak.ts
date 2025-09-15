@@ -14,12 +14,9 @@ export class LeakSensorAccessory extends SensorAccessory<LeakSensorConfig> {
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: LeakSensorConfig, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
 
-    this.setupCharacteristic(CharacteristicKey.LeakDetected, 0, 'topicGetLeakDetected',
-      this.bindOnUpdateNumericBoolean(
-        CharacteristicKey.LeakDetected,
-        'valueLeakDetected',
-        strings.sensor.leak.active, strings.sensor.leak.inactive),
-      true);
+    this.setupCharacteristic(CharacteristicKey.LeakDetected, Characteristic.LeakDetected.LEAK_NOT_DETECTED,
+      'topicGetLeakDetected',
+      this.bindOnUpdateNumericBoolean(CharacteristicKey.LeakDetected, 'valueLeakDetected', strings.sensor.leak.active, strings.sensor.leak.inactive), true);
   }
 
   protected getAccessoryType(): AccessoryType {

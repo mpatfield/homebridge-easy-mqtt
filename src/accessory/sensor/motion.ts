@@ -15,11 +15,9 @@ export class MotionSensorAccessory extends SensorAccessory<MotionSensorConfig> {
     Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: MotionSensorConfig, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
 
-    this.setupCharacteristic(CharacteristicKey.MotionDetected, 0, 'topicGetMotionDetected',
-      this.bindOnUpdateNumericBoolean(
-        CharacteristicKey.MotionDetected,
-        'valueMotionDetected',
-        strings.sensor.motion.active, strings.sensor.motion.inactive),
+    this.setupCharacteristic(CharacteristicKey.MotionDetected, false,
+      'topicGetMotionDetected',
+      this.bindOnUpdateNumericBoolean(CharacteristicKey.MotionDetected, 'valueMotionDetected', strings.sensor.motion.active, strings.sensor.motion.inactive),
       true);
   }
 

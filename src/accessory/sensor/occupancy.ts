@@ -15,7 +15,8 @@ export class OccupancySensorAccessory extends SensorAccessory<OccupancySensorCon
     Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: OccupancySensorConfig, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
 
-    this.setupCharacteristic(CharacteristicKey.OccupancyDetected, 0, 'topicGetOccupancyDetected',
+    this.setupCharacteristic(CharacteristicKey.OccupancyDetected, Characteristic.OccupancyDetected.OCCUPANCY_NOT_DETECTED,
+      'topicGetOccupancyDetected',
       this.bindOnUpdateNumericBoolean(
         CharacteristicKey.OccupancyDetected,
         'valueOccupancyDetected',
