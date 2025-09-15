@@ -323,14 +323,19 @@ If you use a more advanced HomeKit app like [Eve](https://apps.apple.com/us/app/
 Due to the complexity, this was intentionally left out of the plugin config UI, so this can only be configured manually.
 
 ```json
-"customCharacteristics": [
-  {
-    "uuid": "string",
-    "name": "string",
-    "getTopic": "string",
-    "units": "string",
-  }
-]
+{
+  "info": …
+  "mqtt": …
+  "customCharacteristics": [
+    {
+      "uuid": "string",
+      "name": "string",
+      "getTopic": "string",
+      "units": "string",
+    }
+    … // Topic & Values
+  ],
+}
 ```
 
 - `uuid` — A unique string (recommend using a (UUID generator)[https://www.uuidgenerator.net/])
