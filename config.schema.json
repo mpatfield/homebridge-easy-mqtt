@@ -482,6 +482,10 @@
           }
         },
         "default": []
+      },
+      "verbose": {
+        "type": "boolean",
+        "default": false
       }
     }
   },
