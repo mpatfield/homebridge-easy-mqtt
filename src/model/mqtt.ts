@@ -1,6 +1,6 @@
-import { uuid } from 'hap-nodejs';
 import { PrimitiveTypes } from 'homebridge';
 
+import { createHash } from 'crypto';
 import mqtt from 'mqtt';
 
 import { MQTTConfig } from './types.js';
@@ -98,7 +98,7 @@ export class MQTT {
       seed = config.broker;
     }
 
-    const id = uuid.generate(seed);
+    const id = createHash('md5').update(seed).digest('hex').slice(0, 4);
 
     let instance = MQTT.INSTANCES.get(id);
     if (instance !== undefined) {
