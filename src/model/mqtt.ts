@@ -1,3 +1,4 @@
+import { uuid } from 'hap-nodejs';
 import { PrimitiveTypes } from 'homebridge';
 
 import mqtt from 'mqtt';
@@ -50,7 +51,14 @@ interface MQTTError extends Error {
   code?: string | number;
 }
 
+type OnConnectCallback = ( (client: MQTT) => (void)) ;
+
 export class MQTT {
+
+  private static INSTANCES = new Map<string, MQTT>();
+
+  private onConnectCallbacks: OnConnectCallback[] = [];
+
   private client: mqtt.MqttClient | undefined = undefined;
   private shouldReconnect = false;
   private isReconnecting = false;
@@ -58,59 +66,91 @@ export class MQTT {
 
   private listeners = new Map<string, MQTTListener[]>();
 
-  constructor(
-    private readonly log: Log,
-    private readonly config: MQTTConfig,
-    private readonly onConnect: ()=>(void),
-    private readonly caller: string,
-  ) {}
+  static connect(log: Log, config: MQTTConfig, caller: string, onConnect: OnConnectCallback): MQTT | undefined {
 
-  private get host(): string {
-    try {
-      const url = new URL(this.config.broker);
-      return url.hostname;
-    } catch {
-      return this.config.broker;
-    }
-  }
-
-  teardown(): void {
-    this.shouldReconnect = false;
-    if (this.client) {
-      this.client.end(true);
-      this.client = undefined;
-    }
-  }
-
-  public connect(): void {
-
-    if (!assert(this.log, this.caller, this.config, 'broker')) {
+    if (!assert(log, caller, config, 'broker')) {
       return;
     }
 
-    this.shouldReconnect = true;
-
     let additionalOptions = {};
     try {
-      if (this.config.options) {
-        additionalOptions = JSON.parse(this.config.options);
+      if (config.options) {
+        additionalOptions = JSON.parse(config.options);
       }
     } catch (err) {
-      this.log.error(`${strings.mqttClient.badOptions}:\n"${this.config.options}"`, this.caller);
+      log.error(`${strings.mqttClient.badOptions}:\n"${config.options}"`, this.caller);
+      return;
     }
 
     const options = {
       reconnectPeriod: 0,
-      username: this.config.username,
-      password: this.config.password,
+      username: config.username,
+      password: config.password,
       ...additionalOptions,
     };
 
-    this.client = mqtt.connect(this.config.broker, options);
+    let seed: string;
+    try {
+      const url = new URL(config.broker);
+      url.port = url.port.length ? url.port : '1883';
+      seed = `${url.protocol}//${url.host}|${JSON.stringify(options)}`;
+    } catch (error) {
+      seed = config.broker;
+    }
+
+    const id = uuid.generate(seed);
+
+    let instance = MQTT.INSTANCES.get(id);
+    if (instance !== undefined) {
+      log.ifVerbose(strings.mqttClient.reuse, caller, id);
+
+      if (instance.client?.connected) {
+        onConnect(instance);
+      } else {
+        instance.onConnectCallbacks.push(onConnect);
+      }
+
+      return instance;
+    }
+
+    log.ifVerbose(strings.mqttClient.new, caller, id);
+
+    instance = new MQTT(log, config.broker, options);
+    MQTT.INSTANCES.set(id, instance);
+
+    instance.onConnectCallbacks.push(onConnect);
+
+    instance.connect();
+
+    return instance;
+  }
+
+  private constructor(
+    private readonly log: Log,
+    private readonly broker: string,
+    private readonly options: mqtt.IClientOptions,
+  ) {}
+
+  private get host(): string {
+    try {
+      const url = new URL(this.broker);
+      return url.host;
+    } catch {
+      return this.broker;
+    }
+  }
+
+  private connect(): void {
+
+    this.shouldReconnect = true;
+
+    this.client = mqtt.connect(this.broker, this.options);
 
     this.client.on('connect', () => {
       this.log.ifVerbose(strings.mqttClient.connected, this.host);
-      this.onConnect();
+      while (this.onConnectCallbacks.length > 0) {
+        this.onConnectCallbacks.pop()!(this);
+      }
     });
 
     this.client.on('message', (topic, message) => this.messageReceived(topic, message.toString()));
@@ -122,9 +162,15 @@ export class MQTT {
     });
   }
 
+  teardown(): void {
+    this.shouldReconnect = false;
+    this.client?.end(true);
+    this.client = undefined;
+  }
+
   public subscribe(topic: string, handler: MQTTMessageHandler) {
 
-    if (!this.client) {
+    if (!this.client || !this.client.connected) {
       this.log.error(strings.mqttClient.notConnected,  this.host);
       return;
     }
@@ -170,7 +216,7 @@ export class MQTT {
 
     this.client.publish(topic.base, message);
 
-    this.log.ifVerbose( `${strings.mqttClient.publish} — ${topic}  ${value}`, this.host);
+    this.log.ifVerbose( `${strings.mqttClient.publish} — ${topic.base} ${message}`, this.host);
   }
 
   private messageReceived(topic: string, message: string) {

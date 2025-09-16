@@ -2,10 +2,14 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.4.0-beta.0 (2025-09-XX)
+## 1.4.0-beta.1 (2025-09-XX)
 
 ### Added
 - Support for HeaterCooler
+
+### Changed
+- Optimized MQTT connections by sharing across multiple accessories when possible
+    - Previously, every accessory had its own connection
 
 ### Notes
 Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!

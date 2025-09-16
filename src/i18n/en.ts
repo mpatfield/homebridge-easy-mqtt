@@ -228,10 +228,12 @@ const en = {
     connected: 'Connected to %s and listening for updates…', // host
     connectionClosed: 'Closed connection to %s', // host
     error: 'Client error on %s', // host
+    new: '%s creating a new client with id %s', // accessory name, uuid
     noListeners: 'No listeners on %s for topic %s', // host, topic
     notConnected: 'Client not connected to %s', // host
     parseFailed: 'Failed to parse message on %s', // host
     publish: 'Publishing to %s', // host
+    reuse: '%s reusing existing client with id %s', // accessory name, uuid
     receivedMessage: 'Received message on %s with topic %s', // host, topic
     reconnectMinutes: 'Will attempt to reconnect to %s in %s minutes…', // host, number
     reconnectSeconds: 'Will attempt to reconnect to %s in %s seconds…', // host, number
