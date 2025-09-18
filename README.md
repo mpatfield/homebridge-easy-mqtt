@@ -169,6 +169,9 @@ As with topics, you will also need to populate the appropriate values based on t
 - `topicGetLeakDetected*` - Whether or not sensor has detected a leak
 - `valueLeakDetected*` - Accessory has detected a leak
 
+#### LightSensor
+- `topicGetCurrentAmbientLightLevel` - The current light level in lux units
+
 #### MotionSensor
 - `topicGetMotionDetected*` - Whether or not sensor has detected motion
 - `valueMotionDetected*` - Accessory has detected motion

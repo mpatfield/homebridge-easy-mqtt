@@ -22,6 +22,7 @@ import { COSensorAccessory } from '../sensor/carbonMonoxide.js';
 import { ContactSensorAccessory } from '../sensor/contact.js';
 import { HumiditySensorAccessory } from '../sensor/humidity.js';
 import { LeakSensorAccessory } from '../sensor/leak.js';
+import { LightSensorAccessory } from '../sensor/light.js';
 import { MotionSensorAccessory } from '../sensor/motion.js';
 import { OccupancySensorAccessory } from '../sensor/occupancy.js';
 import { SmokeSensorAccessory } from '../sensor/smoke.js';
@@ -53,6 +54,8 @@ export function createAccessory(
     return new LeakSensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.LeakSensorConfig, log, isGrouped);
   case AccessoryType.Lightbulb:
     return new LightbulbAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.LightbulbConfig, log, isGrouped);
+  case AccessoryType.LightSensor:
+    return new LightSensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.LightSensorConfig, log, isGrouped);
   case AccessoryType.LockMechanism:
     return new LockMechanismAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.LockConfig, log, isGrouped);
   case AccessoryType.MotionSensor:

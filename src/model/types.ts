@@ -123,6 +123,10 @@ export type LeakSensorConfig = SensorConfig & {
   valueLeakDetected: string,
 }
 
+export type LightSensorConfig = SensorConfig & {
+  topicGetCurrentAmbientLightLevel: string,
+}
+
 export type MotionSensorConfig = SensorConfig & {
   topicGetMotionDetected: string,
   valueMotionDetected: string,

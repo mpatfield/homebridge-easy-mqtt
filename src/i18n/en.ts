@@ -46,6 +46,7 @@ const en = {
       humiditySensor: 'Humidity Sensor',
       leakSensor: 'Leak Sensor',
       lightbulb: 'Lightbulb',
+      lightSensor: 'Light Sensor', // (fr)
       lockMechanism: 'Lock Mechanism',
       motionSensor: 'Motion Sensor',
       occupancySensor: 'Occupancy Sensor',
@@ -79,6 +80,7 @@ const en = {
       topicGetColorTemperature: 'Get Color Temperature',
       topicGetContactSensorState: 'Get Contact Detected*',
       topicGetCoolingThresholdTemperature: 'Get Cooling Threshold',
+      topicGetCurrentAmbientLightLevel: 'Get Current Light Level*', // (fr)
       topicGetCurrentHeaterCoolerState: 'Get Current Mode*', // (fr)
       topicGetCurrentHeatingCoolingState: 'Get Current Mode*',
       topicGetCurrentLockState: 'Get Current State*',
@@ -293,6 +295,10 @@ const en = {
     leak: {
       active: '%s detected a leak', // accessory name
       inactive: '%s stopped detecting leaks', // accessory name
+    },
+
+    light: {
+      level: '%s current light level is %d lx', // (fr)
     },
 
     motion: {

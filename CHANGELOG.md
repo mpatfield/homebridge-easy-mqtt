@@ -2,10 +2,11 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.4.0-beta.1 (2025-09-XX)
+## 1.4.0-beta.3 (2025-09-18)
 
 ### Added
 - Support for HeaterCooler
+- Support for LightSensor
 
 ### Changed
 - Optimized MQTT connections by sharing across multiple accessories when possible

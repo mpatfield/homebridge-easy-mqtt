@@ -21,8 +21,8 @@
           "type": {
             "type": "string",
             "title": "${config.title.type}",
-            "enum": [ "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "HeaterCooler", "HumiditySensor", "LeakSensor", "Lightbulb", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "Switch", "TemperatureSensor", "Thermostat"],
-            "enumNames": ["${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.heaterCooler}", "${config.enumNames.humiditySensor}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}"],
+            "enum": [ "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "HeaterCooler", "HumiditySensor", "LeakSensor", "Lightbulb", "LightSensor", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "Switch", "TemperatureSensor", "Thermostat"],
+            "enumNames": ["${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.heaterCooler}", "${config.enumNames.humiditySensor}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lightSensor}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}"],
             "required": true
           },
           "group": {
@@ -234,6 +234,10 @@
             "topicGetLeakDetected": {
               "type": "string",
               "title": "${config.title.topicGetLeakDetected}"
+            },
+            "topicGetCurrentAmbientLightLevel": {
+              "type": "string",
+              "title": "${config.title.topicGetCurrentAmbientLightLevel}"
             },
             "topicGetMotionDetected": {
               "type": "string",
@@ -992,6 +996,20 @@
                   "items": [
                     {
                       "key": "accessories[].topicGetLeakDetected",
+                      "flex": "0 0 50%"
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'LightSensor';"
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].topicGetCurrentAmbientLightLevel",
                       "flex": "0 0 50%"
                     }
                   ]
