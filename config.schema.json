@@ -54,6 +54,7 @@
             "type": "string",
             "title": "${config.title.broker}",
             "placeholder": "mqtts://192.168.0.1:1883",
+            "pattern": "^(https?|mqtts?|wss?|ftp):\\/\\/([\\w.-]+)(:\\d+)?(\\/.*)?$",
             "required": true
           },
           "username": {
@@ -68,7 +69,8 @@
             "type": "string",
             "title": "${config.title.options}",
             "description": "${config.description.options}",
-            "placeholder": "{ \"protocolVersion\": \"4\", \"clientId\": \"my-client-id\", \"rejectUnauthorized\": true }"
+            "placeholder": "{ \"protocolVersion\": \"4\", \"clientId\": \"my-client-id\", \"rejectUnauthorized\": true }",
+            "pattern": "^\\{\\s*(?:\"[^\"\\\\\\r\\n]*\"\\s*:\\s*(?:\"[^\"\\\\\\r\\n]*\"|[0-9.+-eE]+|true|false|null)\\s*,\\s*)*(?:\"[^\"\\\\\\r\\n]*\"\\s*:\\s*(?:\"[^\"\\\\\\r\\n]*\"|[0-9.+-eE]+|true|false|null)\\s*)?\\}$"
           }
         }
       },
@@ -483,7 +485,280 @@
               "type": "boolean",
               "title": "${config.title.disableLogging}"
             }
-          }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": ["mqtt"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
+                        "enum": ["Lightbulb", "Outlet", "Switch"]
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": ["topicGetOn", "topicSetOn", "valueOn", "valueOff"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
+                        "const": "CarbonDioxideSensor"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": ["topicGetCarbonDioxideDetected", "valueCarbonDioxideDetected"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
+                        "const": "CarbonMonoxideSensor"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": ["topicGetCarbonMonoxideDetected", "valueCarbonMonoxideDetected"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
+                        "const": "ContactSensor"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": ["topicGetContactSensorState", "valueContactDetected"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
+                        "const": "HumiditySensor"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": ["topicGetCurrentRelativeHumidity"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
+                        "const": "LeakSensor"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": ["topicGetLeakDetected", "valueLeakDetected"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
+                        "const": "LightSensor"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": ["topicGetCurrentAmbientLightLevel"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
+                        "const": "MotionSensor"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": ["topicGetMotionDetected", "valueMotionDetected"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
+                        "const": "OccupancySensor"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": ["topicGetOccupancyDetected", "valueOccupancyDetected"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
+                        "const": "SmokeSensor"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": ["topicGetSmokeDetected", "valueSmokeDetected"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
+                        "const": "TemperatureSensor"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": ["topicGetCurrentTemperature"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
+                        "const": "HeaterCooler"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": ["topicGetActive", "topicSetActive", "topicGetCurrentHeaterCoolerState", "topicGetCurrentTemperature", "topicGetTargetHeaterCoolerState", "topicSetTargetHeaterCoolerState", "valueStateActive", "valueStateInactive"],
+                "anyOf": [
+                  { "required": ["valueModeCool"] },
+                  { "required": ["valueModeHeat"] }
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
+                        "const": "Thermostat"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": ["topicGetCurrentHeatingCoolingState", "topicGetTargetHeatingCoolingState", "topicSetTargetHeatingCoolingState", "topicGetCurrentTemperature", "topicGetTargetTemperature", "topicSetTargetTemperature"],
+                "anyOf": [
+                  { "required": ["valueModeCool"] },
+                  { "required": ["valueModeHeat"] },
+                  { "required": ["valueModeOff"] }
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
+                        "const": "LockMechanism"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": ["topicGetCurrentLockState", "topicGetTargetLockState", "topicSetTargetLockState", "valueLockStateSecured", "valueLockStateUnsecured"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
+                        "const": "SecuritySystem"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": ["topicGetCurrentSecurityState", "topicGetTargetSecurityState", "topicSetTargetSecurityState"],
+                "anyOf": [
+                  { "required": ["valueArmStay"] },
+                  { "required": ["valueArmAway"] },
+                  { "required": ["valueArmNight"] },
+                  { "required": ["valueDisarm"] },
+                  { "required": ["valueAlarmTriggered"] }
+                ]
+              }
+            }
+          ]
         },
         "default": []
       },

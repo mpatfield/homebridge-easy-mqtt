@@ -124,7 +124,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
     });
 
     const randIndex = Math.floor(Math.random() * strings.startup.welcome.length);
-    this.log.always(strings.startup.complete, strings.startup.welcome[randIndex]);
+    this.log.always(`${strings.startup.complete}\n${strings.startup.welcome[randIndex]}`);
   }
 
   private createPlatformAccessory(name: string, uuid: string): PlatformAccessory {

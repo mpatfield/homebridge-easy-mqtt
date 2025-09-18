@@ -163,14 +163,14 @@ As with topics, you will also need to populate the appropriate values based on t
 - `valueContactDetected*` - Accessory has detected contact
 
 ### HumiditySensor
-- `topicGetCurrentRelativeHumidity` - The current relatively humidity
+- `topicGetCurrentRelativeHumidity*` - The current relatively humidity
 
 #### LeakSensor
 - `topicGetLeakDetected*` - Whether or not sensor has detected a leak
 - `valueLeakDetected*` - Accessory has detected a leak
 
 #### LightSensor
-- `topicGetCurrentAmbientLightLevel` - The current light level in lux units
+- `topicGetCurrentAmbientLightLevel*` - The current light level in lux units
 
 #### MotionSensor
 - `topicGetMotionDetected*` - Whether or not sensor has detected motion
@@ -190,6 +190,7 @@ As with topics, you will also need to populate the appropriate values based on t
 
 ### Climate Controllers
 - `temperatureUnits` - The temperature units of the incoming value supplied by the thermostat, `C` for Celsius  (default) `F` for Fahrenheit
+- `topicGetCurrentTemperature*` - Get the current temperature
 - `topicGetCoolingThresholdTemperature` - Get the cooling threshold temperature
 - `topicSetCoolingThresholdTemperature` - Set the cooling threshold temparture
 - `topicGetHeatingThresholdTemperature` - Get the heating threshold temperature
@@ -223,7 +224,6 @@ As with topics, you will also need to populate the appropriate values based on t
 - `topicGetCurrentHeatingCoolingState*` - Get the current mode (i.e. cooling, heating, off)
 - `topicGetTargetHeatingCoolingState*` - Get the target mode (i.e. auto, cooling, heating, off)
 - `topicSetTargetHeatingCoolingState*` - Set the target mode (i.e. auto, cooling, heating, off)
-- `topicGetCurrentTemperature*` - Get the current temperature
 - `topicGetTargetTemperature*` - Get the target temperature
 - `topicSetTargetTemperature*` - Set the target temperature
 - `topicGetCurrentRelativeHumidity` - Get the current humidity
