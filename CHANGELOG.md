@@ -11,6 +11,9 @@ All notable changes to homebridge-dummy will be documented in this file.
 - Optimized MQTT connections by sharing across multiple accessories when possible
     - Previously, every accessory had its own connection
 
+### Fixed
+- Config UI rendering issue when migrating deprecated fields
+
 ### Notes
 Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
 

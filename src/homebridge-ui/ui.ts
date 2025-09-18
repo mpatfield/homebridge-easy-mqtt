@@ -3,7 +3,7 @@ import { IHomebridgePluginUi } from '@homebridge/plugin-ui-utils/ui.interface';
 import { Translation } from '../i18n/i18n.js';
 
 import { AccessoryType } from '../model/enums.js';
-import { LockMechanismConfig, PlatformConfig } from '../model/types.js';
+import { LockConfig, PlatformConfig } from '../model/types.js';
 
 declare const homebridge: IHomebridgePluginUi;
 
@@ -19,7 +19,7 @@ function translateHtml(strings: Translation) {
     const key = element.getAttribute('i18n') as keyof typeof strings.config;
     let string = strings.config[key] as string;
 
-    const token = element.getAttribute('i18n_replace');
+    const token = element.getAttribute('i18n_replace') as keyof typeof i18n_replacements;
     if (token) {
       string = string.replace('%s', i18n_replacements[token]);
     }
@@ -116,7 +116,7 @@ function updateConfigWithUUIDs(config: PlatformConfig) {
   }
 };
 
-async function updateDeprecatedLockConfigTopics(configs: PlatformConfig[]) {
+async function migrateDeprecatedConfigFields(configs: PlatformConfig[]) {
 
   let changed = false;
 
@@ -127,7 +127,7 @@ async function updateDeprecatedLockConfigTopics(configs: PlatformConfig[]) {
         continue;
       }
 
-      const lockConfig = accessoryConfig as LockMechanismConfig;
+      const lockConfig = accessoryConfig as LockConfig;
 
       if (lockConfig.topicGetLockCurrentState !== undefined) {
         lockConfig.topicGetCurrentLockState = lockConfig.topicGetLockCurrentState;
@@ -169,8 +169,6 @@ function showSettings(strings: Translation) {
     { childList: true, subtree: true },
   );
 
-  homebridge.showSchemaForm();
-
   homebridge.addEventListener('configChanged', (evt: Event) => {
     const configs = (evt as MessageEvent).data as PlatformConfig[];
     if (configs.length) {
@@ -178,8 +176,12 @@ function showSettings(strings: Translation) {
     }
   });
 
-  homebridge.hideSpinner();
-};
+  setTimeout( () => {
+    homebridge.showSchemaForm();
+    homebridge.hideSpinner();
+    homebridge.enableSaveButton();
+  }, 1000);
+}
 
 function showIntro(strings: Translation) {
   const introContinue = document.getElementById('introContinue') as HTMLButtonElement;
@@ -191,6 +193,7 @@ function showIntro(strings: Translation) {
 };
 
 (() => {
+  homebridge.disableSaveButton();
   homebridge.showSpinner();
 })();
 
@@ -200,9 +203,9 @@ function showIntro(strings: Translation) {
   const strings = await homebridge.request('i18n', language);
   translateHtml(strings);
 
-  const config = await homebridge.getPluginConfig()  as PlatformConfig[];
+  const config = await homebridge.getPluginConfig() as PlatformConfig[];
   if (config.length) {
-    await updateDeprecatedLockConfigTopics(config);
+    await migrateDeprecatedConfigFields(config);
     showSettings(strings);
   } else {
     await homebridge.updatePluginConfig([{ name: i18n_replacements.easy_mqtt }]);
