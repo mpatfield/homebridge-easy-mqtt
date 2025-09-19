@@ -53,7 +53,7 @@ export class HeaterCoolerAccessory extends ClimateControlAccessory<HeaterCoolerC
       'topicSetTargetHeaterCoolerState', this.onSetTargetState.bind(this))
       ?.setProps({ validValues: validTargetStates.map((key) => this.TARGET_STATE_MAP.get(key)!) });
 
-    this.setupCharacteristic(CharacteristicKey.Active, 0,
+    this.setupCharacteristic(CharacteristicKey.Active, Characteristic.Active.INACTIVE,
       'topicGetHeaterCoolerActive',
       this.bindOnUpdateNumericBoolean(CharacteristicKey.Active, 'valueStateActive', strings.heaterCooler.active, strings.heaterCooler.notActive), true,
       'topicSetHeaterCoolerActive', this.onSetActive.bind(this),
