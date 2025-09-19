@@ -67,7 +67,7 @@ const en = {
       options: 'Options',
       password: 'Password',
       sourceUnits: 'Source Units',
-      topicGetActive: 'Get Active*', // (fr)
+      topicGetHeaterCoolerActive: 'Get Active*', // (fr)
       topicGetBatteryLevel: 'Get Battery Level',
       topicGetBatteryLow: 'Get Battery Low',
       topicGetBrightness: 'Get Brightness',
@@ -109,7 +109,7 @@ const en = {
       topicGetTargetRelativeHumidity: 'Get Target Humidity',
       topicGetTargetSecurityState: 'Get Target State*',
       topicGetTargetTemperature: 'Get Target Temperature*',
-      topicSetActive: 'Set Active*', // (fr)
+      topicSetHeaterCoolerActive: 'Set Active*', // (fr)
       topicSetBrightness: 'Set Brightness',
       topicSetColorTemperature: 'Set Color Temperature',
       topicSetCoolingThresholdTemperature: 'Set Cooling Threshold',

@@ -197,8 +197,8 @@ As with topics, you will also need to populate the appropriate values based on t
 - `topicSetHeatingThresholdTemperature` - Set the heating threshold temperature
 
 #### HeaterCooler
-- `topicGetActive*` - Get whether or not the accessory is currently active
-- `topicSetActive*` - Set whether or not the accessory is currently active
+- `topicGetHeaterCoolerActive*` - Get whether or not the accessory is currently active
+- `topicSetHeaterCoolerActive*` - Set whether or not the accessory is currently active
 - `topicGetCurrentHeaterCoolerState*` - Get the current mode (i.e. inactive, idle, heating, cooling)
 - `topicGetTargetHeaterCoolerState*` - Get the target mode (i.e. auto, heat, cool)
 - `topicSetTargetHeaterCoolerState*` - Set the target mode (i.e. auto, heat, cool)

@@ -301,9 +301,9 @@
               "type": "string",
               "title": "${config.title.topicSetHeatingThresholdTemperature}"
             },
-            "topicGetActive": {
+            "topicGetHeaterCoolerActive": {
               "type": "string",
-              "title": "${config.title.topicGetActive}"
+              "title": "${config.title.topicGetHeaterCoolerActive}"
             },
             "topicGetCurrentHeaterCoolerState": {
               "type": "string",
@@ -325,9 +325,9 @@
               "type": "string",
               "title": "${config.title.topicGetTargetHeaterCoolerState}"
             },
-            "topicSetActive": {
+            "topicSetHeaterCoolerActive": {
               "type": "string",
-              "title": "${config.title.topicSetActive}"
+              "title": "${config.title.topicSetHeaterCoolerActive}"
             },
             "topicSetLockPhysicalControls": {
               "type": "string",
@@ -691,7 +691,7 @@
                 }
               },
               "then": {
-                "required": ["topicGetActive", "topicSetActive", "topicGetCurrentHeaterCoolerState", "topicGetCurrentTemperature", "topicGetTargetHeaterCoolerState", "topicSetTargetHeaterCoolerState", "valueStateActive", "valueStateInactive"],
+                "required": ["topicGetHeaterCoolerActive", "topicSetHeaterCoolerActive", "topicGetCurrentHeaterCoolerState", "topicGetCurrentTemperature", "topicGetTargetHeaterCoolerState", "topicSetTargetHeaterCoolerState", "valueStateActive", "valueStateInactive"],
                 "anyOf": [
                   { "required": ["valueModeCool"] },
                   { "required": ["valueModeHeat"] }
@@ -1135,11 +1135,11 @@
                       "flex-direction": "row",
                       "items": [
                         {
-                          "key": "accessories[].topicGetActive",
+                          "key": "accessories[].topicGetHeaterCoolerActive",
                           "flex": "0 0 50%"
                         },
                         {
-                          "key": "accessories[].topicSetActive",
+                          "key": "accessories[].topicSetHeaterCoolerActive",
                           "flex": "0 0 50%"
                         }
                       ]

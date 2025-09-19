@@ -54,9 +54,9 @@ export class HeaterCoolerAccessory extends ClimateControlAccessory<HeaterCoolerC
       ?.setProps({ validValues: validTargetStates.map((key) => this.TARGET_STATE_MAP.get(key)!) });
 
     this.setupCharacteristic(CharacteristicKey.Active, 0,
-      'topicGetActive',
+      'topicGetHeaterCoolerActive',
       this.bindOnUpdateNumericBoolean(CharacteristicKey.Active, 'valueStateActive', strings.heaterCooler.active, strings.heaterCooler.notActive), true,
-      'topicSetActive', this.onSetActive.bind(this),
+      'topicSetHeaterCoolerActive', this.onSetActive.bind(this),
     );
 
     this.setupCharacteristic(CharacteristicKey.LockPhysicalControls, Characteristic.LockPhysicalControls.CONTROL_LOCK_DISABLED,
@@ -123,7 +123,7 @@ export class HeaterCoolerAccessory extends ClimateControlAccessory<HeaterCoolerC
     const active = value === this.Characteristic.Active.ACTIVE;
     const logString = active ? strings.heaterCooler.activeSet : strings.heaterCooler.inactiveSet;
     const publish = active ? this.config.valueStateActive : this.config.valueStateInactive;
-    this.onSet(CharacteristicKey.Active, value, publish, 'topicSetActive', logString);
+    this.onSet(CharacteristicKey.Active, value, publish, 'topicSetHeaterCoolerActive', logString);
   }
 
   private async onSetLockControls(value: CharacteristicValue) {

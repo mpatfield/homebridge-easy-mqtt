@@ -155,13 +155,13 @@ export type ClimateControlConfig = BaseAccessoryConfig & TemperatureConfig & {
 }
 
 export type HeaterCoolerConfig = ClimateControlConfig & {
-  topicGetActive: string,
+  topicGetHeaterCoolerActive: string,
   topicGetCurrentHeaterCoolerState: string,
   topicGetLockPhysicalControls?: string,
   topicGetRotationSpeed?: string,
   topicGetSwingMode?: string,
   topicGetTargetHeaterCoolerState: string,
-  topicSetActive: string,
+  topicSetHeaterCoolerActive: string,
   topicSetLockPhysicalControls?: string,
   topicSetRotationSpeed?: string,
   topicSetSwingMode?: string,
