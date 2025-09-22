@@ -104,9 +104,9 @@ export class MQTT {
 
       if (instance.client?.connected) {
         onConnect(instance);
-      } else {
-        instance.onConnectCallbacks.push(onConnect);
       }
+
+      instance.onConnectCallbacks.push(onConnect);
 
       return instance;
     }
@@ -146,9 +146,9 @@ export class MQTT {
 
     this.client.on('connect', () => {
       this.log.ifVerbose(strings.mqttClient.connected, this.host);
-      while (this.onConnectCallbacks.length > 0) {
-        this.onConnectCallbacks.pop()!(this);
-      }
+      this.onConnectCallbacks.forEach( (callback) => {
+        callback(this);
+      });
     });
 
     this.client.on('message', (topic, message) => this.messageReceived(topic, message.toString()));
