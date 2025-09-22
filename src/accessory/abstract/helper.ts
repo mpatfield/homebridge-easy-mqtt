@@ -27,6 +27,7 @@ import { MotionSensorAccessory } from '../sensor/motion.js';
 import { OccupancySensorAccessory } from '../sensor/occupancy.js';
 import { SmokeSensorAccessory } from '../sensor/smoke.js';
 import { TemperatureSensorAccessory } from '../sensor/temperature.js';
+import { ValveAccessory } from '../valve.js';
 
 import { Log } from '../../tools/log.js';
 
@@ -74,6 +75,8 @@ export function createAccessory(
     return new TemperatureSensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.TemperatureSensorConfig, log, isGrouped);
   case AccessoryType.Thermostat:
     return new ThermostatAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.ThermostatConfig, log, isGrouped);
+  case AccessoryType.Valve:
+    return new ValveAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.ValveConfig, log, isGrouped);
   }
 
   log.error(strings.startup.unsupportedType, accessoryConfig.info.type);

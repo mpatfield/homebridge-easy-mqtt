@@ -3,7 +3,7 @@ import { PlatformConfig as HBPlatformConfig } from 'homebridge';
 export type ServiceType = typeof import('homebridge').Service;
 export type CharacteristicType = typeof import('homebridge').Characteristic;
 
-import { AccessoryType, TemperatureUnits } from './enums.js';
+import { AccessoryType, TemperatureUnits, ValveType } from './enums.js';
 
 import { Assertable } from '../tools/validation.js';
 
@@ -215,4 +215,23 @@ export type SecurityConfig = BaseAccessoryConfig & ErrorStatusConfig & {
   valueArmNight?: string,
   valueDisarm?: string,
   valueAlarmTriggered?: string,
+}
+
+export type ValveConfig = BaseAccessoryConfig & {
+  valveType?: ValveType,
+  topicGetStatusFault?: string,
+  topicGetValveActive: string,
+  topicGetValveInUse: string,
+  topicGetValveIsConfigured?: string,
+  topicGetValveRemainingDuration?: string,
+  topicGetValveSetDuration?: string,
+  topicSetValveActive: string,
+  topicSetValveIsConfigured?: string,
+  topicSetValveSetDuration?: string,
+  valueActive: string,
+  valueConfigured?: string,
+  valueFault?: string,
+  valueInactive: string,
+  valueInUse: string,
+  valueNotConfigured?: string,
 }

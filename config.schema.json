@@ -21,8 +21,8 @@
           "type": {
             "type": "string",
             "title": "${config.title.type}",
-            "enum": [ "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "HeaterCooler", "HumiditySensor", "LeakSensor", "Lightbulb", "LightSensor", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "Switch", "TemperatureSensor", "Thermostat"],
-            "enumNames": ["${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.heaterCooler}", "${config.enumNames.humiditySensor}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lightSensor}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}"],
+            "enum": [ "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "HeaterCooler", "HumiditySensor", "LeakSensor", "Lightbulb", "LightSensor", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "Switch", "TemperatureSensor", "Thermostat", "Valve"],
+            "enumNames": ["${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.heaterCooler}", "${config.enumNames.humiditySensor}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lightSensor}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}", "${config.enumNames.valve}"],
             "required": true
           },
           "group": {
@@ -110,8 +110,15 @@
             },
             "temperatureUnits": {
               "type": "string",
+              "title": "${config.title.sourceUnits}",
               "enum": ["C", "F"],
               "enumNames": ["${config.enumNames.celsius}", "${config.enumNames.fahrenheit}"]
+            },
+            "valveType": {
+              "type": "string",
+              "title": "${config.title.valveType}",
+              "enum": ["GENERIC_VALVE", "IRRIGATION", "SHOWER_HEAD", "WATER_FAUCET"],
+              "enumNames": ["${config.enumNames.valveGeneric}", "${config.enumNames.valveIrrigation}", "${config.enumNames.valveShower}", "${config.enumNames.valveFaucet}"]
             },
             "topicGetBatteryLevel": {
               "type": "string",
@@ -345,6 +352,38 @@
               "type": "string",
               "title": "${config.title.topicSetTargetHeaterCoolerState}"
             },
+            "topicGetValveActive": {
+              "type": "string",
+              "title": "${config.title.topicGetValveActive}"
+            },
+            "topicSetValveActive": {
+              "type": "string",
+              "title": "${config.title.topicSetValveActive}"
+            },
+            "topicGetValveInUse": {
+              "type": "string",
+              "title": "${config.title.topicGetValveInUse}"
+            },
+            "topicGetValveIsConfigured": {
+              "type": "string",
+              "title": "${config.title.topicGetValveIsConfigured}"
+            },
+            "topicSetValveIsConfigured": {
+              "type": "string",
+              "title": "${config.title.topicSetValveIsConfigured}"
+            },
+            "topicGetValveRemainingDuration": {
+              "type": "string",
+              "title": "${config.title.topicGetValveRemainingDuration}"
+            },
+            "topicGetValveSetDuration": {
+              "type": "string",
+              "title": "${config.title.topicGetValveSetDuration}"
+            },
+            "topicSetValveSetDuration": {
+              "type": "string",
+              "title": "${config.title.topicSetValveSetDuration}"
+            },
             "valueBatteryLow": {
               "type": "string",
               "title": "${config.title.valueBatteryLow}"
@@ -480,6 +519,26 @@
             "valueSwingDisabled": {
               "type": "string",
               "title": "${config.title.valueSwingDisabled}"
+            },
+            "valueActive": {
+              "type": "string",
+              "title": "${config.title.valueActive}"
+            },
+            "valueConfigured": {
+              "type": "string",
+              "title": "${config.title.valueConfigured}"
+            },
+            "valueNotConfigured": {
+              "type": "string",
+              "title": "${config.title.valueNotConfigured}"
+            },
+            "valueInUse": {
+              "type": "string",
+              "title": "${config.title.valueInUse}"
+            },
+            "valueInactive": {
+              "type": "string",
+              "title": "${config.title.valueInactive}"
             },
             "disableLogging": {
               "type": "boolean",
@@ -757,6 +816,22 @@
                   { "required": ["valueAlarmTriggered"] }
                 ]
               }
+            },
+            {
+              "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
+                        "const": "Valve"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": ["topicGetValveActive", "topicGetValveInUse", "topicSetValveActive", "valueActive", "valueInactive", "valueInUse"]
+              }
             }
           ]
         },
@@ -795,6 +870,26 @@
                 {
                   "key": "accessories[].info.group",
                   "flex": "0 0 33%"
+                }
+              ]
+            },
+            {
+              "type": "fieldset",
+              "notitle": true,
+              "condition": {
+                "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Valve';"
+              },
+              "items": [
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "items": [
+                    {
+                      "key": "accessories[].valveType",
+                      "flex": "0 0 33%"
+                    }
+                  ]
                 }
               ]
             },
@@ -853,6 +948,93 @@
                         },
                         {
                           "key": "accessories[].topicSetTargetLockState",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Valve';"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetValveActive",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetValveActive",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetValveInUse",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetValveIsConfigured",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetValveIsConfigured",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetValveSetDuration",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetValveSetDuration",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetValveRemainingDuration",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetStatusFault",
                           "flex": "0 0 50%"
                         }
                       ]
@@ -1124,7 +1306,6 @@
                         },
                         {
                           "key": "accessories[].temperatureUnits",
-                          "title": "${config.title.sourceUnits}",
                           "flex": "0 0 25%"
                         }
                       ]
@@ -1345,7 +1526,6 @@
                     },
                     {
                       "key": "accessories[].temperatureUnits",
-                      "title": "${config.title.sourceUnits}",
                       "flex": "0 0 33%"
                     }
                   ]
@@ -1394,7 +1574,6 @@
                         },
                         {
                           "key": "accessories[].temperatureUnits",
-                          "title": "${config.title.sourceUnits}",
                           "flex": "0 0 25%"
                         }
                       ]
@@ -1619,6 +1798,53 @@
                     {
                       "key": "accessories[].valueLockStateJammed",
                       "flex": "0 0 25%"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Valve';"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].valueActive",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valueInactive",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valueInUse",
+                          "flex": "0 0 25%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].valueConfigured",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valueNotConfigured",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valueFault",
+                          "flex": "0 0 25%"
+                        }
+                      ]
                     }
                   ]
                 },

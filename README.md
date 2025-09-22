@@ -258,6 +258,24 @@ As with topics, you will also need to populate the appropriate values based on t
 - `valueFault` - Accessory has a fault
 - `valueTampered` - Accessory has been tampered with
 
+#### Valve
+- `valveType` -  One of `GENERIC_VALVE` (default), `IRRIGATION`, `SHOWER_HEAD`, or `WATER_FAUCET`
+- `topicGetValveActive*` - For getting whether or not the valve is active
+- `topicSetValveActive*` - For setting whether or not the valve is active
+- `topicGetValveInUse*` - For getting whether or not the valve is in use
+- `topicGetStatusFault` - For getting whether or not there is a fault
+- `topicGetValveIsConfigured` - For getting wether or not valve is configured
+- `topicSetValveIsConfigured` - For setting wether or not valve is configured
+- `topicGetValveSetDuration` - For getting the set duration in seconds
+- `topicSetValveSetDuration` - For setting the set duration in seconds
+- `topicGetValveRemainingDuration` - For getting the time remaining in seconds
+- `valueActive*` - Valve is active, e.g. "true", or "1", or "active"
+- `valueInactive*` - Valve is not active e.g. "false", or "0", or "active"
+- `valueInUse*` - Valve is in use, e.g. "true", or "1", or "used"
+- `valueConfigured` - Valve is configured, e.g. "true", or "1", or "configured"
+- `valueNotConfigured` - Valve is not configured, e.g. "false", or "0", or "unconfigured"
+- `valueFault` - Valve has a fault, e.g. "error", or "-1"
+
 ## Logging/Debugging:
 
 By default, devices will log activity, for example when a Switch is turned on or a LockMechanism is unlocked.

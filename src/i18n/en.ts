@@ -56,6 +56,11 @@ const en = {
       switch: 'Switch',
       temperatureSensor: 'Temperature Sensor',
       thermostat: 'Thermostat',
+      valve: 'Valve', // (fr) (ro)
+      valveGeneric: 'Generic', // (fr) (ro)
+      valveIrrigation: 'Irrigation', // (fr) (ro)
+      valveShower: 'Shower Head', // (fr) (ro)
+      valveFaucet: 'Water Faucet', // (fr) (ro)
     },
 
     title: {
@@ -109,6 +114,11 @@ const en = {
       topicGetTargetRelativeHumidity: 'Get Target Humidity',
       topicGetTargetSecurityState: 'Get Target State*',
       topicGetTargetTemperature: 'Get Target Temperature*',
+      topicGetValveActive: 'Get Active*', // (fr) (ro)
+      topicGetValveInUse: 'Get In Use*', // (fr) (ro)
+      topicGetValveIsConfigured: 'Get Is Configured', // (fr) (ro)
+      topicGetValveRemainingDuration: 'Get Duration Remaining', // (fr) (ro)
+      topicGetValveSetDuration: 'Get Duration', // (fr) (ro)
       topicSetHeaterCoolerActive: 'Set Active*', // (fr)
       topicSetBrightness: 'Set Brightness',
       topicSetColorTemperature: 'Set Color Temperature',
@@ -126,9 +136,14 @@ const en = {
       topicSetTargetRelativeHumidity: 'Set Target Humidity ',
       topicSetTargetSecurityState: 'Set Target State*',
       topicSetTargetTemperature: 'Set Target Temperature*',
+      topicSetValveActive: 'Set Active*', // (fr) (ro)
+      topicSetValveIsConfigured: 'Set Is Configured', // (fr) (ro)
+      topicSetValveSetDuration: 'Set Duration', // (fr) (ro)
       topics: 'Topics',
       type: 'Type',
       username: 'Username',
+      valveType: 'Valve Type', // (fr) (ro)
+      valueActive: 'Active*', // (fr) (ro)
       valueAlarmTriggered: 'Triggered',
       valueArmAway: 'Arm Away',
       valueArmNight: 'Arm Night',
@@ -136,11 +151,14 @@ const en = {
       valueBatteryLow: 'Battery Low',
       valueCarbonDioxideDetected: 'CO2 Detected*',
       valueCarbonMonoxideDetected: 'CO Detected*',
+      valueConfigured: 'Configured', // (fr) (ro)
       valueContactDetected: 'Contact Detected*',
       valueControlLock: 'Controls Locked', // (fr)
       valueControlUnlock: 'Controls Unlocked', // (fr)
       valueDisarm: 'Disarm',
       valueFault: 'Fault',
+      valueInactive: 'Inactive*', // (fr) (ro)
+      valueInUse: 'In Use*', // (fr) (ro)
       valueLeakDetected: 'Leak Detected*',
       valueLockStateJammed: 'Jammed',
       valueLockStateSecured: 'Secured/Locked*',
@@ -152,6 +170,7 @@ const en = {
       valueModeInactive: 'Inactive', // (fr)
       valueModeOff: 'Off',
       valueMotionDetected: 'Motion Detected*',
+      valueNotConfigured: 'Not Configured', // (fr) (ro)
       valueOccupancyDetected: 'Occupancy Detected*',
       valueOff: 'Off*',
       valueOn: 'On*',
@@ -345,6 +364,22 @@ const en = {
     temperatureTarget: '%s target temperature is %d°%s', // accessory name, number, units
     temperatureTargetFuture: '%s setting temperature to %d°%s…', // accessory name, number, units
     unknownValue: '%s unable to determine thermostat state from value %s. Ignoring…', // accessory name, value
+  },
+
+  valve: { // (fr) (ro)
+    active: '%s is active', // accessory name
+    activeSet: 'Setting %s to active…', // accessory name
+    configured: '%s is configured', // accessory name
+    configuredFuture: 'Setting %s is to configured…', // accessory name
+    durationRemaining: '%s has %d seconds remaining', // accessory name
+    inactive: '%s is inactive', // accessory name
+    inactiveSet: 'Setting %s to inactive…', // accessory name
+    inUse: '%s is in use', // accessory name
+    notConfigured: '%s is not configured', // accessory name
+    notConfiguredFuture: 'Setting %s is to unconfigured…', // accessory name
+    notInUse: '%s is not in use', // accessory name
+    setDuration: '%s set duration is %d seconds', // accessory name
+    setDurationFuture: '%s will run for %d seconds', // accessory name
   },
 };
 

@@ -16,6 +16,7 @@ export enum AccessoryType {
   Switch = 'Switch',
   TemperatureSensor = 'TemperatureSensor',
   Thermostat = 'Thermostat',
+  Valve = 'Valve',
 }
 
 export enum CharacteristicKey {
@@ -38,6 +39,8 @@ export enum CharacteristicKey {
   CurrentTemperature = 'CurrentTemperature',
   HeatingThresholdTemperature = 'HeatingThresholdTemperature',
   Hue = 'Hue',
+  InUse = 'InUse',
+  IsConfigured = 'IsConfigured',
   LeakDetected = 'LeakDetected',
   LockCurrentState = 'LockCurrentState',
   LockPhysicalControls = 'LockPhysicalControls',
@@ -46,10 +49,12 @@ export enum CharacteristicKey {
   OccupancyDetected = 'OccupancyDetected',
   On = 'On',
   OutletInUse = 'OutletInUse',
+  RemainingDuration = 'RemainingDuration',
   RotationSpeed = 'RotationSpeed',
   Saturation = 'Saturation',
   SecuritySystemCurrentState = 'SecuritySystemCurrentState',
   SecuritySystemTargetState = 'SecuritySystemTargetState',
+  SetDuration = 'SetDuration',
   SmokeDetected = 'SmokeDetected',
   StatusActive = 'StatusActive',
   StatusFault = 'StatusFault',
@@ -61,9 +66,17 @@ export enum CharacteristicKey {
   TargetRelativeHumidity = 'TargetRelativeHumidity',
   TargetTemperature = 'TargetTemperature',
   TemperatureDisplayUnits = 'TemperatureDisplayUnits',
+  ValveType = 'ValveType',
 }
 
 export enum TemperatureUnits {
   CELSIUS = 'C',
   FAHRENHEIT = 'F',
+}
+
+export enum ValveType {
+  GENERIC_VALVE = 'GENERIC_VALVE',
+  IRRIGATION = 'IRRIGATION',
+  SHOWER_HEAD = 'SHOWER_HEAD',
+  WATER_FAUCET = 'WATER_FAUCET',
 }
