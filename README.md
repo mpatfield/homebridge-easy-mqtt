@@ -97,10 +97,20 @@ Required fields are marked with an asterisk (*)
 - `version` - The accessory software version which will display in HomeKit device details
 
 ### MQTT:
-- `broker*` - The URL and port to use for communicating with your MQTT device
+- `broker` - The URL and port to use for communicating with your MQTT device, defaults to `mqtt://127.0.0.1:1883/`
 - `username` - Username
 - `password` - Password
 - `options` - See [MQTT Options](#mqtt-options) below
+
+#### Environment Variables
+
+Alternatively, you may set the following environment variables for broker, username, and password:
+
+- `EASYMQTT_BROKER` - expects a fully formed url, `protocol://host:port/` where port is optional
+- `EASYMQTT_USERNAME`
+- `EASYMQTT_PASSWORD`
+
+Note that setting the this information in the JSON config will override the environment variables.
 
 ## Topics & Values
 

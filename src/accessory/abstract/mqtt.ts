@@ -37,13 +37,11 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> {
 
     const name = config.info.name;
 
-    if (this.assert('mqtt')) {
-      this.mqttClient = MQTT.connect(log, config.mqtt, name, (client: MQTT) => {
-        this.topicHandlers.forEach( topicHandler => {
-          client.subscribe(topicHandler.topic, topicHandler.handler);
-        });
+    this.mqttClient = MQTT.connect(log, config.mqtt, name, (client: MQTT) => {
+      this.topicHandlers.forEach( topicHandler => {
+        client.subscribe(topicHandler.topic, topicHandler.handler);
       });
-    }
+    });
 
     const serviceInstance = Service[this.getAccessoryType()];
 

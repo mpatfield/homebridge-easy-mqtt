@@ -31,6 +31,7 @@ const en = {
     thankYou: 'Thank you for installing homebridge-easy-mqtt',
 
     description: {
+      broker: 'If not supplied, defaults to mqtt://127.0.0.1:1883/', // (fr) (ro)
       options: 'Additional MQTT parameters such as clientId or protocolVersion. Must be valid JSON.',
       topics: 'Supports JSONPath using dot notation, i.e. "my/topic$.path.to.value"',
       verbose: 'If true, additional MQTT info will be logged for debugging purposes.',

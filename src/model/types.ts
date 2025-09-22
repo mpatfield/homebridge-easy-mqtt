@@ -37,15 +37,15 @@ type AdditionalInfoConfig = InfoConfig & {
 }
 
 export type MQTTConfig = Assertable & {
-  broker: string,
+  broker?: string,
   username?: string,
   password?: string,
   options?: string,
 }
 
 export type MQTTAccessoryConfig = Assertable & {
-  mqtt: MQTTConfig,
   info: InfoConfig,
+  mqtt?: MQTTConfig,
   customCharacteristics?: CustomCharacteristicConfig[];
   disableLogging: boolean,
 }

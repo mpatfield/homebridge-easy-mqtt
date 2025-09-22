@@ -10,9 +10,10 @@ import { strings } from '../i18n/i18n.js';
 import { Log, LogType } from '../tools/log.js';
 import { toPrimitive } from '../tools/primitive.js';
 import { SECOND, MINUTE } from '../tools/time.js';
-import { assert } from '../tools/validation.js';
 
 const DELAYS = [5 * SECOND, 10 * SECOND, 30 * SECOND, 2 * MINUTE, 5 * MINUTE];
+
+const DEFAULT_BROKER = 'mqtt://127.0.0.1/';
 
 type MQTTMessageHandler = (topic: string, value: PrimitiveTypes) => void;
 
@@ -66,36 +67,33 @@ export class MQTT {
 
   private listeners = new Map<string, MQTTListener[]>();
 
-  static connect(log: Log, config: MQTTConfig, caller: string, onConnect: OnConnectCallback): MQTT | undefined {
-
-    if (!assert(log, caller, config, 'broker')) {
-      return;
-    }
+  static connect(log: Log, config: MQTTConfig | undefined = undefined, caller: string, onConnect: OnConnectCallback): MQTT | undefined {
 
     let additionalOptions = {};
+
+    const configOptions = config?.options ?? '{}';
     try {
-      if (config.options) {
-        additionalOptions = JSON.parse(config.options);
-      }
+      additionalOptions = JSON.parse(configOptions);
     } catch (err) {
-      log.error(`${strings.mqttClient.badOptions}:\n"${config.options}"`, this.caller);
+      log.error(`${strings.mqttClient.badOptions}:\n"${configOptions}"`, this.caller);
       return;
     }
 
     const options = {
       reconnectPeriod: 0,
-      username: config.username,
-      password: config.password,
+      username: config?.username ?? process.env.EASYMQTT_USERNAME,
+      password: config?.password ?? process.env.EASYMQTT_PASSWORD,
       ...additionalOptions,
     };
 
-    let seed: string;
+    let seed: string = DEFAULT_BROKER;
+    const broker = config?.broker ?? process.env.EASYMQTT_BROKER ?? DEFAULT_BROKER;
     try {
-      const url = new URL(config.broker);
+      const url = new URL(broker);
       url.port = url.port.length ? url.port : '1883';
       seed = `${url.protocol}//${url.host}|${JSON.stringify(options)}`;
     } catch (error) {
-      seed = config.broker;
+      seed = broker;
     }
 
     const id = createHash('md5').update(seed).digest('hex').slice(0, 4);
@@ -115,7 +113,7 @@ export class MQTT {
 
     log.ifVerbose(strings.mqttClient.new, caller, id);
 
-    instance = new MQTT(log, config.broker, options);
+    instance = new MQTT(log, broker, options);
     MQTT.INSTANCES.set(id, instance);
 
     instance.onConnectCallbacks.push(onConnect);

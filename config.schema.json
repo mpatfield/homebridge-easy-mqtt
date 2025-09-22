@@ -53,9 +53,9 @@
           "broker": {
             "type": "string",
             "title": "${config.title.broker}",
+            "description": "${config.description.broker}",
             "placeholder": "mqtts://192.168.0.1:1883",
-            "pattern": "^(https?|mqtts?|wss?|ftp):\\/\\/([\\w.-]+)(:\\d+)?(\\/.*)?$",
-            "required": true
+            "pattern": "^(https?|mqtts?|wss?|ftp):\\/\\/([\\w.-]+)(:\\d+)?(\\/.*)?$"
           },
           "username": {
             "type": "string",
@@ -566,21 +566,6 @@
             }
           },
           "allOf": [
-            {
-              "if": {
-                "properties": {
-                  "info": {
-                    "properties": {
-                      "type" : {
-                      }
-                    }
-                  }
-                }
-              },
-              "then": {
-                "required": ["mqtt"]
-              }
-            },
             {
               "if": {
                 "properties": {
