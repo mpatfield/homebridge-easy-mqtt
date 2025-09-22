@@ -146,7 +146,7 @@ export type TemperatureSensorConfig =  SensorConfig & TemperatureConfig & {
   topicGetCurrentTemperature: string,
 }
 
-export type ClimateControlConfig = BaseAccessoryConfig & TemperatureConfig & {
+export type TemperatureControlConfig = BaseAccessoryConfig & TemperatureConfig & {
   topicGetCoolingThresholdTemperature?: string,
   topicGetCurrentTemperature: string,
   topicGetHeatingThresholdTemperature?: string,
@@ -154,32 +154,7 @@ export type ClimateControlConfig = BaseAccessoryConfig & TemperatureConfig & {
   topicSetHeatingThresholdTemperature?: string,
 }
 
-export type HeaterCoolerConfig = ClimateControlConfig & {
-  topicGetHeaterCoolerActive: string,
-  topicGetCurrentHeaterCoolerState: string,
-  topicGetLockPhysicalControls?: string,
-  topicGetRotationSpeed?: string,
-  topicGetSwingMode?: string,
-  topicGetTargetHeaterCoolerState: string,
-  topicSetHeaterCoolerActive: string,
-  topicSetLockPhysicalControls?: string,
-  topicSetRotationSpeed?: string,
-  topicSetSwingMode?: string,
-  topicSetTargetHeaterCoolerState: string,
-  valueControlLock?: string,
-  valueControlUnlock?: string,
-  valueModeAuto?: string,
-  valueModeCool?: string,
-  valueModeHeat?: string,
-  valueModeIdle?: string,
-  valueModeInactive?: string,
-  valueStateActive: string,
-  valueStateInactive: string,
-  valueSwingEnabled?: string,
-  valueSwingDisabled?: string,
-}
-
-export type ThermostatConfig = ClimateControlConfig & {
+export type ThermostatConfig = TemperatureControlConfig & {
   topicGetCurrentHeatingCoolingState: string,
   topicGetCurrentRelativeHumidity?: string,
   topicGetTargetHeatingCoolingState: string,
@@ -192,6 +167,45 @@ export type ThermostatConfig = ClimateControlConfig & {
   valueModeCool?: string,
   valueModeHeat?: string,
   valueModeOff?: string,
+}
+
+export type ActiveClimateConfig = TemperatureControlConfig & {
+  topicGetActive: string,
+  topicGetLockPhysicalControls?: string,
+  topicGetRotationSpeed?: string,
+  topicGetSwingMode?: string,
+  topicSetActive: string,
+  topicSetLockPhysicalControls?: string,
+  topicSetRotationSpeed?: string,
+  topicSetSwingMode?: string,
+  valueControlLock?: string,
+  valueControlUnlock?: string,
+  valueStateActive: string,
+  valueStateInactive: string,
+  valueSwingEnabled?: string,
+  valueSwingDisabled?: string,
+}
+
+export type HeaterCoolerConfig = ActiveClimateConfig & {
+  topicGetCurrentHeaterCoolerState: string,
+  topicGetTargetHeaterCoolerState: string,
+  topicSetTargetHeaterCoolerState: string,
+  valueModeAuto?: string,
+  valueModeCool?: string,
+  valueModeHeat?: string,
+  valueModeIdle?: string,
+  valueModeInactive?: string,
+}
+
+export type PurifierConfig = ActiveClimateConfig & {
+  topicGetCurrentPurifierState: string,
+  topicGetTargetPurifierState: string,
+  topicSetTargetPurifierState: string,
+  valueModeAuto?: string,
+  valueModeIdle?: string,
+  valueModeInactive?: string,
+  valueModeManual?: string,
+  valueModePurifying?: string,
 }
 
 export type LockConfig = BaseAccessoryConfig & {

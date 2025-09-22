@@ -37,6 +37,7 @@ const en = {
     },
 
     enumNames: {
+      airPurifier: 'Air Purifier', // (fr) (ro)
       carbonDioxideSensor: 'CO2 Sensor',
       carbonMonoxideSensor: 'CO Sensor',
       celsius: '°C',
@@ -72,7 +73,7 @@ const en = {
       options: 'Options',
       password: 'Password',
       sourceUnits: 'Source Units',
-      topicGetHeaterCoolerActive: 'Get Active*', // (fr)
+      topicGetActive: 'Get Active*', // (fr) (ro)
       topicGetBatteryLevel: 'Get Battery Level',
       topicGetBatteryLow: 'Get Battery Low',
       topicGetBrightness: 'Get Brightness',
@@ -88,6 +89,7 @@ const en = {
       topicGetCurrentAmbientLightLevel: 'Get Current Light Level*', // (fr)
       topicGetCurrentHeaterCoolerState: 'Get Current Mode*', // (fr)
       topicGetCurrentHeatingCoolingState: 'Get Current Mode*',
+      topicGetCurrentPurifierState: 'Get Current Mode*', // (fr) (ro)
       topicGetCurrentLockState: 'Get Current State*',
       topicGetCurrentRelativeHumidity: 'Get Relative Humidity*',
       topicGetCurrentRelativeHumidityOptional: 'Get Relative Humidity',
@@ -110,6 +112,7 @@ const en = {
       topicGetStatusTampered: 'Get Tampered',
       topicGetTargetHeaterCoolerState: 'Get Target Mode*', // (fr)
       topicGetTargetHeatingCoolingState: 'Get Target Mode*',
+      topicGetTargetPurifierState: 'Get Target Mode*', // (fr) (ro)
       topicGetTargetLockState: 'Get Target State*',
       topicGetTargetRelativeHumidity: 'Get Target Humidity',
       topicGetTargetSecurityState: 'Get Target State*',
@@ -119,7 +122,7 @@ const en = {
       topicGetValveIsConfigured: 'Get Is Configured', // (fr) (ro)
       topicGetValveRemainingDuration: 'Get Duration Remaining', // (fr) (ro)
       topicGetValveSetDuration: 'Get Duration', // (fr) (ro)
-      topicSetHeaterCoolerActive: 'Set Active*', // (fr)
+      topicSetActive: 'Set Active*', // (fr) (ro)
       topicSetBrightness: 'Set Brightness',
       topicSetColorTemperature: 'Set Color Temperature',
       topicSetCoolingThresholdTemperature: 'Set Cooling Threshold',
@@ -132,6 +135,7 @@ const en = {
       topicSetSwingMode: 'Set Swing Enabled', // (fr)
       topicSetTargetHeaterCoolerState: 'Set Target Mode*', // (fr)
       topicSetTargetHeatingCoolingState: 'Set Target Mode*',
+      topicSetTargetPurifierState: 'Set Target Mode*', // (fr) (ro)
       topicSetTargetLockState: 'Set Target State*',
       topicSetTargetRelativeHumidity: 'Set Target Humidity ',
       topicSetTargetSecurityState: 'Set Target State*',
@@ -168,7 +172,9 @@ const en = {
       valueModeHeat: 'Heat',
       valueModeIdle: 'Idle', // (fr)
       valueModeInactive: 'Inactive', // (fr)
+      valueModeManual: 'Manual', // (fr) (ro)
       valueModeOff: 'Off',
+      valueModePurifying: 'Purifying', // (fr) (ro)
       valueMotionDetected: 'Motion Detected*',
       valueNotConfigured: 'Not Configured', // (fr) (ro)
       valueOccupancyDetected: 'Occupancy Detected*',
@@ -272,6 +278,19 @@ const en = {
     badValue: '%s unable to get in-use state for %s', // accessory name, value
     inUse: '%s is in use', // accessory name
     notInUse: '%s is not in use', // accessory name
+  },
+
+  purifier: { // (fr) (ro)
+    badValue: '%s missing value for air purifier state %s', // accessory name, value
+    noCurrentStateValues: '%s must have at least one state value defined (Inactive, Idle, Purifying)', // accessory name
+    noTargetStateValues: '%s must have at least one state value defined (Auto, Manual)', // accessory name
+    stateAuto: 'Setting %s to auto…', // accessory name
+    stateIdle: '%s is idle', // accessory name
+    stateInactive: '%s is inactive', // accessory name    stateUnknown: '%s state is unknown', // accessory name
+    stateManual: 'Setting %s to manual…', // accessory name
+    statePurifying: '%s is purifying', // accessory name
+    stateUnknown: '%s state is unknown', // accessory name
+    unknownValue: '%s unable to determine air purifier state from value %s. Ignoring…', // accessory name, value
   },
 
   security: {

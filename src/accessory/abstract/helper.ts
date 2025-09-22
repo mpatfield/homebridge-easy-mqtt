@@ -11,6 +11,7 @@ import { LockMechanismAccessory } from '../lock.js';
 import { SecuritySystemAccessory } from '../security.js';
 
 import { HeaterCoolerAccessory } from '../climate/heaterCooler.js';
+import { PurifierAccessory } from '../climate/purifier.js';
 import { ThermostatAccessory } from '../climate/thermostat.js';
 
 import { LightbulbAccessory } from '../onoff/lightbulb.js';
@@ -49,6 +50,8 @@ export function createAccessory(
     return new ContactSensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.ContactSensorConfig, log, isGrouped);
   case AccessoryType.HeaterCooler:
     return new HeaterCoolerAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.HeaterCoolerConfig, log, isGrouped);
+  case AccessoryType.AirPurifier:
+    return new PurifierAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.PurifierConfig, log, isGrouped);
   case AccessoryType.HumiditySensor:
     return new HumiditySensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.HumiditySensorConfig, log, isGrouped);
   case AccessoryType.LeakSensor:

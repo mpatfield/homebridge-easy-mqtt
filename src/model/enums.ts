@@ -1,4 +1,5 @@
 export enum AccessoryType {
+  AirPurifier = 'AirPurifier',
   CarbonDioxideSensor = 'CarbonDioxideSensor',
   CarbonMonoxideSensor = 'CarbonMonoxideSensor',
   ContactSensor = 'ContactSensor',
@@ -33,6 +34,7 @@ export enum CharacteristicKey {
   ContactSensorState = 'ContactSensorState',
   CoolingThresholdTemperature = 'CoolingThresholdTemperature',
   CurrentAmbientLightLevel = 'CurrentAmbientLightLevel',
+  CurrentAirPurifierState = 'CurrentAirPurifierState',
   CurrentHeaterCoolerState = 'CurrentHeaterCoolerState',
   CurrentHeatingCoolingState = 'CurrentHeatingCoolingState',
   CurrentRelativeHumidity = 'CurrentRelativeHumidity',
@@ -61,6 +63,7 @@ export enum CharacteristicKey {
   StatusLowBattery = 'StatusLowBattery',
   StatusTampered = 'StatusTampered',
   SwingMode = 'SwingMode',
+  TargetAirPurifierState = 'TargetAirPurifierState',
   TargetHeaterCoolerState = 'TargetHeaterCoolerState',
   TargetHeatingCoolingState = 'TargetHeatingCoolingState',
   TargetRelativeHumidity = 'TargetRelativeHumidity',

@@ -1,6 +1,6 @@
 import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
 
-import { ClimateControlAccessory } from './climate.js';
+import { ActiveClimateAccessory } from './active.js';
 
 import { strings } from '../../i18n/i18n.js';
 
@@ -9,7 +9,7 @@ import { CharacteristicType, ServiceType, HeaterCoolerConfig } from '../../model
 
 import { Log } from '../../tools/log.js';
 
-export class HeaterCoolerAccessory extends ClimateControlAccessory<HeaterCoolerConfig> {
+export class HeaterCoolerAccessory extends ActiveClimateAccessory<HeaterCoolerConfig> {
 
   private readonly CURRENT_STATE_MAP: Map<keyof HeaterCoolerConfig, number>;
   private readonly TARGET_STATE_MAP: Map<keyof HeaterCoolerConfig, number>;
@@ -18,6 +18,8 @@ export class HeaterCoolerAccessory extends ClimateControlAccessory<HeaterCoolerC
     Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory,
     config: HeaterCoolerConfig, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
+
+    this.setupTemperatureControlCharacteristics();
 
     this.CURRENT_STATE_MAP = new Map([
       ['valueModeInactive', Characteristic.CurrentHeaterCoolerState.INACTIVE],
@@ -52,34 +54,6 @@ export class HeaterCoolerAccessory extends ClimateControlAccessory<HeaterCoolerC
       'topicGetTargetHeaterCoolerState', this.onTargetStateUpdate.bind(this), true,
       'topicSetTargetHeaterCoolerState', this.onSetTargetState.bind(this))
       ?.setProps({ validValues: validTargetStates.map((key) => this.TARGET_STATE_MAP.get(key)!) });
-
-    this.setupCharacteristic(CharacteristicKey.Active, Characteristic.Active.INACTIVE,
-      'topicGetHeaterCoolerActive',
-      this.bindOnUpdateNumericBoolean(CharacteristicKey.Active, 'valueStateActive', strings.heaterCooler.active, strings.heaterCooler.notActive), true,
-      'topicSetHeaterCoolerActive', this.onSetActive.bind(this),
-    );
-
-    this.setupCharacteristic(CharacteristicKey.LockPhysicalControls, Characteristic.LockPhysicalControls.CONTROL_LOCK_DISABLED,
-      'topicGetLockPhysicalControls',
-      this.bindOnUpdateNumericBoolean(
-        CharacteristicKey.LockPhysicalControls, 'valueControlLock',
-        strings.heaterCooler.controlsLocked, strings.heaterCooler.controlsUnLocked),
-      false,
-      'topicSetLockPhysicalControls', this.onSetLockControls.bind(this),
-    );
-
-    this.setupCharacteristic(CharacteristicKey.RotationSpeed, 0,
-      'topicGetRotationSpeed', this.bindOnUpdateNumeric(CharacteristicKey.RotationSpeed, strings.heaterCooler.rotationUpdate), false,
-      'topicSetRotationSpeed', this.onSetRotationSpeed.bind(this),
-    );
-
-    this.setupCharacteristic(CharacteristicKey.SwingMode, Characteristic.SwingMode.SWING_DISABLED,
-      'topicGetSwingMode',
-      this.bindOnUpdateNumericBoolean(CharacteristicKey.SwingMode, 'valueSwingEnabled',
-        strings.heaterCooler.swingEnabled, strings.heaterCooler.swingDisabled),
-      false,
-      'topicSetSwingMode', this.onSetSwingMode.bind(this),
-    );
   }
 
   protected getAccessoryType(): AccessoryType {
@@ -112,47 +86,6 @@ export class HeaterCoolerAccessory extends ClimateControlAccessory<HeaterCoolerC
     }
 
     this.onSet(CharacteristicKey.TargetHeaterCoolerState, value, target, 'topicSetTargetHeaterCoolerState', this.stateStringForTargetCV(value));
-  }
-
-  private async onSetActive(value: CharacteristicValue) {
-
-    if (!this.assert('valueStateActive', 'valueStateInactive')) {
-      return;
-    }
-
-    const active = value === this.Characteristic.Active.ACTIVE;
-    const logString = active ? strings.heaterCooler.activeSet : strings.heaterCooler.inactiveSet;
-    const publish = active ? this.config.valueStateActive : this.config.valueStateInactive;
-    this.onSet(CharacteristicKey.Active, value, publish, 'topicSetHeaterCoolerActive', logString);
-  }
-
-  private async onSetLockControls(value: CharacteristicValue) {
-
-    if (!this.assert('valueControlLock', 'valueControlUnlock')) {
-      return;
-    }
-
-    const lock = value === this.Characteristic.LockPhysicalControls.CONTROL_LOCK_ENABLED;
-    const logString = lock ? strings.heaterCooler.controlsLockFuture : strings.heaterCooler.controlsUnlockFuture;
-    const publish = lock ? this.config.valueControlLock! : this.config.valueControlUnlock!;
-    this.onSet(CharacteristicKey.LockPhysicalControls, value, publish, 'topicSetLockPhysicalControls', logString);
-  }
-
-  private async onSetRotationSpeed(value: CharacteristicValue) {
-    const logString = strings.heaterCooler.rotationSet.replace('%d', value.toString());
-    this.onSet(CharacteristicKey.RotationSpeed, value, value as number, 'topicSetRotationSpeed', logString);
-  }
-
-  private async onSetSwingMode(value: CharacteristicValue) {
-
-    if (!this.assert('valueSwingEnabled', 'valueSwingDisabled')) {
-      return;
-    }
-
-    const swing = value === this.Characteristic.SwingMode.SWING_ENABLED;
-    const logString = swing ? strings.heaterCooler.swingEnabledFuture : strings.heaterCooler.swingDisabledFuture;
-    const publish = swing ? this.config.valueSwingEnabled! : this.config.valueSwingDisabled!;
-    this.onSet(CharacteristicKey.SwingMode, value, publish, 'topicSetSwingMode', logString);
   }
 
   private fromCVState(value: CharacteristicValue): PrimitiveTypes | undefined {

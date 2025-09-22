@@ -1,6 +1,6 @@
 import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
 
-import { ClimateControlAccessory, DEFAULT_TEMPERATURE } from './climate.js';
+import { TemperatureControlAccessory, DEFAULT_TEMPERATURE } from './temperatureControl.js';
 
 import { strings } from '../../i18n/i18n.js';
 
@@ -9,12 +9,14 @@ import { CharacteristicType, ServiceType, ThermostatConfig } from '../../model/t
 
 import { Log } from '../../tools/log.js';
 
-export class ThermostatAccessory extends ClimateControlAccessory<ThermostatConfig> {
+export class ThermostatAccessory extends TemperatureControlAccessory<ThermostatConfig> {
 
   private readonly STATE_MAP: Map<keyof ThermostatConfig, number>;
 
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: ThermostatConfig, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
+
+    this.setupTemperatureControlCharacteristics();
 
     this.STATE_MAP = new Map([
       ['valueModeAuto', Characteristic.TargetHeatingCoolingState.AUTO],

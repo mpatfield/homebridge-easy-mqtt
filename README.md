@@ -188,37 +188,13 @@ As with topics, you will also need to populate the appropriate values based on t
 - `topicGetCurrentTemperature*` - The current temperature of the sensor
 - `temperatureUnits` - The temperature units of the incoming value supplied by the sensor, `C` for Celsius  (default) `F` for Fahrenheit
 
-### Climate Controllers
+### Temperature Control
 - `temperatureUnits` - The temperature units of the incoming value supplied by the thermostat, `C` for Celsius  (default) `F` for Fahrenheit
 - `topicGetCurrentTemperature*` - Get the current temperature
 - `topicGetCoolingThresholdTemperature` - Get the cooling threshold temperature
 - `topicSetCoolingThresholdTemperature` - Set the cooling threshold temparture
 - `topicGetHeatingThresholdTemperature` - Get the heating threshold temperature
 - `topicSetHeatingThresholdTemperature` - Set the heating threshold temperature
-
-#### HeaterCooler
-- `topicGetHeaterCoolerActive*` - Get whether or not the accessory is currently active
-- `topicSetHeaterCoolerActive*` - Set whether or not the accessory is currently active
-- `topicGetCurrentHeaterCoolerState*` - Get the current mode (i.e. inactive, idle, heating, cooling)
-- `topicGetTargetHeaterCoolerState*` - Get the target mode (i.e. auto, heat, cool)
-- `topicSetTargetHeaterCoolerState*` - Set the target mode (i.e. auto, heat, cool)
-- `topicGetLockPhysicalControls` - Get whether or not the physical controls are locked
-- `topicSetLockPhysicalControls` - Set whether or not the physical controls are locked
-- `topicGetRotationSpeed` - Get the rotation speed as a percentage
-- `topicSetRotationSpeed` - Set the rotation speed as a percentage
-- `topicGetSwingMode` - Get whether or not accessory is oscillating
-- `topicSetSwingMode` - Set whether or not accessory is oscillating
-- `valueStateActive*` - Accessory is currently active
-- `valueStateInactive*` - Accessory is currently inactive
-- `valueModeAuto` - Mode is auto
-- `valueModeCool` - Mode is cool/cooling
-- `valueModeHeat` - Mode is heat/heating
-- `valueModeIdle` - Mode is idle
-- `valueModeInactive` - Mode is inactive
-- `valueControlLock` - Physical controls are locked
-- `valueControlUnlock` - Physical controls are unlocked
-- `valueSwingEnabled` - Accessory is oscillating
-- `valueSwingDisabled` - Accessory is not oscillating
 
 #### Thermostat
 - `topicGetCurrentHeatingCoolingState*` - Get the current mode (i.e. cooling, heating, off)
@@ -233,6 +209,43 @@ As with topics, you will also need to populate the appropriate values based on t
 - `valueModeCool` - Cool mode
 - `valueModeHeat` - Heat mode
 - `valueModeOff` - Thermostat off
+
+### Active Climate Control
+`Temperature Control` topics above plus…
+- `topicGetActive*` - Get whether or not the accessory is currently active
+- `topicSetActive*` - Set whether or not the accessory is currently active
+- `topicGetLockPhysicalControls` - Get whether or not the physical controls are locked
+- `topicSetLockPhysicalControls` - Set whether or not the physical controls are locked
+- `topicGetRotationSpeed` - Get the rotation speed as a percentage
+- `topicSetRotationSpeed` - Set the rotation speed as a percentage
+- `topicGetSwingMode` - Get whether or not accessory is oscillating
+- `topicSetSwingMode` - Set whether or not accessory is oscillating
+- `valueStateActive*` - Accessory is currently active
+- `valueStateInactive*` - Accessory is currently inactive
+- `valueControlLock` - Physical controls are locked
+- `valueControlUnlock` - Physical controls are unlocked
+- `valueSwingEnabled` - Accessory is oscillating
+- `valueSwingDisabled` - Accessory is not oscillating
+
+#### Air Purifier
+- `topicGetCurrentPurifierState*` - Get the current mode (i.e. inactive, idle, purifying)
+- `topicGetTargetPurifierState*` - Get the target mode (i.e. auto, manual)
+- `topicSetTargetPurifierState*` - Set the target mode (i.e. auto, manual)
+- `valueModeAuto` - Auto target mode
+- `valueModeIdle` - Idle mode
+- `valueModeInactive` - Inactive mode
+- `valueModeManual` - Manual target mode
+- `valueModePurifying` - Purifying mode
+
+#### HeaterCooler
+- `topicGetCurrentHeaterCoolerState*` - Get the current mode (i.e. inactive, idle, heating, cooling)
+- `topicGetTargetHeaterCoolerState*` - Get the target mode (i.e. auto, heat, cool)
+- `topicSetTargetHeaterCoolerState*` - Set the target mode (i.e. auto, heat, cool)
+- `valueModeAuto` - Mode is auto
+- `valueModeCool` - Mode is cool/cooling
+- `valueModeHeat` - Mode is heat/heating
+- `valueModeIdle` - Mode is idle
+- `valueModeInactive` - Mode is inactive
 
 ### Others
 
