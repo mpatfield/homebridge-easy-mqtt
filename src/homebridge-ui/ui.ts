@@ -176,11 +176,9 @@ function showSettings(strings: Translation) {
     }
   });
 
-  setTimeout( () => {
-    homebridge.showSchemaForm();
-    homebridge.hideSpinner();
-    homebridge.enableSaveButton();
-  }, 1000);
+  homebridge.showSchemaForm();
+  homebridge.hideSpinner();
+  homebridge.enableSaveButton();
 }
 
 function showIntro(strings: Translation) {
