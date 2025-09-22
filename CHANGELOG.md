@@ -2,10 +2,11 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.4.0-beta.6 (2025-09-18)
+## 1.4.0-beta.7 (2025-09-22)
 
 ### Added
 - Support for Air Purifier, HeaterCooler, LightSensor, and Valve
+- Traduceri în limba română. Mulțumesc, [@rursache](https://github.com/sponsors/rursache)!
 
 ### Changed
 - Optimized MQTT connections by sharing across multiple accessories when possible

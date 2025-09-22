@@ -37,7 +37,7 @@ const en = {
     },
 
     enumNames: {
-      airPurifier: 'Air Purifier', // (fr) (ro)
+      airPurifier: 'Air Purifier', // (fr)
       carbonDioxideSensor: 'CO2 Sensor',
       carbonMonoxideSensor: 'CO Sensor',
       celsius: '°C',
@@ -57,11 +57,11 @@ const en = {
       switch: 'Switch',
       temperatureSensor: 'Temperature Sensor',
       thermostat: 'Thermostat',
-      valve: 'Valve', // (fr) (ro)
-      valveGeneric: 'Generic', // (fr) (ro)
-      valveIrrigation: 'Irrigation', // (fr) (ro)
-      valveShower: 'Shower Head', // (fr) (ro)
-      valveFaucet: 'Water Faucet', // (fr) (ro)
+      valve: 'Valve', // (fr)
+      valveGeneric: 'Generic', // (fr)
+      valveIrrigation: 'Irrigation', // (fr)
+      valveShower: 'Shower Head', // (fr)
+      valveFaucet: 'Water Faucet', // (fr)
     },
 
     title: {
@@ -73,7 +73,7 @@ const en = {
       options: 'Options',
       password: 'Password',
       sourceUnits: 'Source Units',
-      topicGetActive: 'Get Active*', // (fr) (ro)
+      topicGetActive: 'Get Active*', // (fr)
       topicGetBatteryLevel: 'Get Battery Level',
       topicGetBatteryLow: 'Get Battery Low',
       topicGetBrightness: 'Get Brightness',
@@ -89,7 +89,7 @@ const en = {
       topicGetCurrentAmbientLightLevel: 'Get Current Light Level*', // (fr)
       topicGetCurrentHeaterCoolerState: 'Get Current Mode*', // (fr)
       topicGetCurrentHeatingCoolingState: 'Get Current Mode*',
-      topicGetCurrentPurifierState: 'Get Current Mode*', // (fr) (ro)
+      topicGetCurrentPurifierState: 'Get Current Mode*', // (fr)
       topicGetCurrentLockState: 'Get Current State*',
       topicGetCurrentRelativeHumidity: 'Get Relative Humidity*',
       topicGetCurrentRelativeHumidityOptional: 'Get Relative Humidity',
@@ -112,17 +112,17 @@ const en = {
       topicGetStatusTampered: 'Get Tampered',
       topicGetTargetHeaterCoolerState: 'Get Target Mode*', // (fr)
       topicGetTargetHeatingCoolingState: 'Get Target Mode*',
-      topicGetTargetPurifierState: 'Get Target Mode*', // (fr) (ro)
+      topicGetTargetPurifierState: 'Get Target Mode*', // (fr)
       topicGetTargetLockState: 'Get Target State*',
       topicGetTargetRelativeHumidity: 'Get Target Humidity',
       topicGetTargetSecurityState: 'Get Target State*',
       topicGetTargetTemperature: 'Get Target Temperature*',
-      topicGetValveActive: 'Get Active*', // (fr) (ro)
-      topicGetValveInUse: 'Get In Use*', // (fr) (ro)
-      topicGetValveIsConfigured: 'Get Is Configured', // (fr) (ro)
-      topicGetValveRemainingDuration: 'Get Duration Remaining', // (fr) (ro)
-      topicGetValveSetDuration: 'Get Duration', // (fr) (ro)
-      topicSetActive: 'Set Active*', // (fr) (ro)
+      topicGetValveActive: 'Get Active*', // (fr)
+      topicGetValveInUse: 'Get In Use*', // (fr)
+      topicGetValveIsConfigured: 'Get Is Configured', // (fr)
+      topicGetValveRemainingDuration: 'Get Duration Remaining', // (fr)
+      topicGetValveSetDuration: 'Get Duration', // (fr)
+      topicSetActive: 'Set Active*', // (fr)
       topicSetBrightness: 'Set Brightness',
       topicSetColorTemperature: 'Set Color Temperature',
       topicSetCoolingThresholdTemperature: 'Set Cooling Threshold',
@@ -135,19 +135,19 @@ const en = {
       topicSetSwingMode: 'Set Swing Enabled', // (fr)
       topicSetTargetHeaterCoolerState: 'Set Target Mode*', // (fr)
       topicSetTargetHeatingCoolingState: 'Set Target Mode*',
-      topicSetTargetPurifierState: 'Set Target Mode*', // (fr) (ro)
+      topicSetTargetPurifierState: 'Set Target Mode*', // (fr)
       topicSetTargetLockState: 'Set Target State*',
       topicSetTargetRelativeHumidity: 'Set Target Humidity ',
       topicSetTargetSecurityState: 'Set Target State*',
       topicSetTargetTemperature: 'Set Target Temperature*',
-      topicSetValveActive: 'Set Active*', // (fr) (ro)
-      topicSetValveIsConfigured: 'Set Is Configured', // (fr) (ro)
-      topicSetValveSetDuration: 'Set Duration', // (fr) (ro)
+      topicSetValveActive: 'Set Active*', // (fr)
+      topicSetValveIsConfigured: 'Set Is Configured', // (fr)
+      topicSetValveSetDuration: 'Set Duration', // (fr)
       topics: 'Topics',
       type: 'Type',
       username: 'Username',
-      valveType: 'Valve Type', // (fr) (ro)
-      valueActive: 'Active*', // (fr) (ro)
+      valveType: 'Valve Type', // (fr)
+      valueActive: 'Active*', // (fr)
       valueAlarmTriggered: 'Triggered',
       valueArmAway: 'Arm Away',
       valueArmNight: 'Arm Night',
@@ -155,14 +155,14 @@ const en = {
       valueBatteryLow: 'Battery Low',
       valueCarbonDioxideDetected: 'CO2 Detected*',
       valueCarbonMonoxideDetected: 'CO Detected*',
-      valueConfigured: 'Configured', // (fr) (ro)
+      valueConfigured: 'Configured', // (fr)
       valueContactDetected: 'Contact Detected*',
       valueControlLock: 'Controls Locked', // (fr)
       valueControlUnlock: 'Controls Unlocked', // (fr)
       valueDisarm: 'Disarm',
       valueFault: 'Fault',
-      valueInactive: 'Inactive*', // (fr) (ro)
-      valueInUse: 'In Use*', // (fr) (ro)
+      valueInactive: 'Inactive*', // (fr)
+      valueInUse: 'In Use*', // (fr)
       valueLeakDetected: 'Leak Detected*',
       valueLockStateJammed: 'Jammed',
       valueLockStateSecured: 'Secured/Locked*',
@@ -172,11 +172,11 @@ const en = {
       valueModeHeat: 'Heat',
       valueModeIdle: 'Idle', // (fr)
       valueModeInactive: 'Inactive', // (fr)
-      valueModeManual: 'Manual', // (fr) (ro)
+      valueModeManual: 'Manual', // (fr)
       valueModeOff: 'Off',
-      valueModePurifying: 'Purifying', // (fr) (ro)
+      valueModePurifying: 'Purifying', // (fr)
       valueMotionDetected: 'Motion Detected*',
-      valueNotConfigured: 'Not Configured', // (fr) (ro)
+      valueNotConfigured: 'Not Configured', // (fr)
       valueOccupancyDetected: 'Occupancy Detected*',
       valueOff: 'Off*',
       valueOn: 'On*',
@@ -280,7 +280,7 @@ const en = {
     notInUse: '%s is not in use', // accessory name
   },
 
-  purifier: { // (fr) (ro)
+  purifier: { // (fr)
     badValue: '%s missing value for air purifier state %s', // accessory name, value
     noCurrentStateValues: '%s must have at least one state value defined (Inactive, Idle, Purifying)', // accessory name
     noTargetStateValues: '%s must have at least one state value defined (Auto, Manual)', // accessory name
@@ -385,7 +385,7 @@ const en = {
     unknownValue: '%s unable to determine thermostat state from value %s. Ignoring…', // accessory name, value
   },
 
-  valve: { // (fr) (ro)
+  valve: { // (fr)
     active: '%s is active', // accessory name
     activeSet: 'Setting %s to active…', // accessory name
     badValveType: '%s has a bad valve type %s. Should be one of %s.', // accessory name, value, list of values
