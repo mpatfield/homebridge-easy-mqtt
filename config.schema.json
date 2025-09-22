@@ -769,6 +769,25 @@
                   "info": {
                     "properties": {
                       "type" : {
+                        "const": "AirPurifier"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "anyOf": [
+                  { "required": ["valueModeAuto"] },
+                  { "required": ["valueModeManual"] }
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
                         "const": "HeaterCooler"
                       }
                     }
@@ -779,7 +798,29 @@
                 "required": ["topicGetActive", "topicSetActive", "topicGetCurrentHeaterCoolerState", "topicGetCurrentTemperature", "topicGetTargetHeaterCoolerState", "topicSetTargetHeaterCoolerState", "valueStateActive", "valueStateInactive"],
                 "anyOf": [
                   { "required": ["valueModeCool"] },
-                  { "required": ["valueModeHeat"] }
+                  { "required": ["valueModeHeat"] },
+                  { "required": ["valueModeIdle"] },
+                  { "required": ["valueModeInactive"] }
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
+                        "const": "HeaterCooler"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "anyOf": [
+                  { "required": ["valueModeAuto"] },
+                  { "required": ["valueModeHeat"] },
+                  { "required": ["valueModeCool"] }
                 ]
               }
             },
@@ -838,8 +879,7 @@
                   { "required": ["valueArmStay"] },
                   { "required": ["valueArmAway"] },
                   { "required": ["valueArmNight"] },
-                  { "required": ["valueDisarm"] },
-                  { "required": ["valueAlarmTriggered"] }
+                  { "required": ["valueDisarm"] }
                 ]
               }
             },
@@ -857,6 +897,149 @@
               },
               "then": {
                 "required": ["topicGetValveActive", "topicGetValveInUse", "topicSetValveActive", "valueActive", "valueInactive", "valueInUse"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicGetLockPhysicalControls": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicGetLockPhysicalControls"]
+              },
+              "then": {
+                "required": ["valueControlLock"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicSetLockPhysicalControls": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicSetLockPhysicalControls"]
+              },
+              "then": {
+                "required": ["valueControlLock", "valueControlUnlock"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicGetSwingMode": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicGetSwingMode"]
+              },
+              "then": {
+                "required": ["valueSwingEnabled"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicSetSwingMode": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicSetSwingMode"]
+              },
+              "then": {
+                "required": ["valueSwingEnabled", "valueSwingDisabled"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicGetBatteryLow": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicGetBatteryLow"]
+              },
+              "then": {
+                "required": ["valueBatteryLow"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicGetStatusActive": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicGetStatusActive"]
+              },
+              "then": {
+                "required": ["valueStatusActive"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicGetStatusFault": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicGetStatusFault"]
+              },
+              "then": {
+                "required": ["valueFault"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicGetStatusTampered": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicGetStatusTampered"]
+              },
+              "then": {
+                "required": ["valueTampered"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicGetOutletInUse": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicGetOutletInUse"]
+              },
+              "then": {
+                "required": ["valueOutletInUse"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicGetValveIsConfigured": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicGetValveIsConfigured"]
+              },
+              "then": {
+                "required": ["valueConfigured"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicSetValveIsConfigured": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicSetValveIsConfigured"]
+              },
+              "then": {
+                "required": ["valueConfigured", "valueNotConfigured"]
               }
             }
           ]

@@ -2,7 +2,7 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.4.0-beta.8 (2025-09-22)
+## 1.4.0-beta.9 (2025-09-22)
 
 ### Added
 - Support for Air Purifier, HeaterCooler, LightSensor, and Valve
