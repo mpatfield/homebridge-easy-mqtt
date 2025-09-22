@@ -388,6 +388,7 @@ const en = {
   valve: { // (fr) (ro)
     active: '%s is active', // accessory name
     activeSet: 'Setting %s to active…', // accessory name
+    badValveType: '%s has a bad valve type %s. Should be one of %s.', // accessory name, value, list of values
     configured: '%s is configured', // accessory name
     configuredFuture: 'Setting %s is to configured…', // accessory name
     durationRemaining: '%s has %d seconds remaining', // accessory name

@@ -109,7 +109,7 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
       return this.Characteristic.ValveType.WATER_FAUCET;
     }
 
-    this.log.error('bad value'); // TODO
+    this.log.error(strings.valve.badValveType, this.name, `'${value}'`, Object.values(ValveType).join(', '));
     return this.Characteristic.ValveType.GENERIC_VALVE;
   }
 }
