@@ -39,7 +39,7 @@ export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessor
 
   private async onBatteryLowUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
-    const batteryLow = value === this.getPrimitiveValue('valueBatteryLow');
+    const batteryLow = value === this.getPrimitiveValue('valueBatteryLow') ? 1 : 0;
     if (!this.onUpdate(CharacteristicKey.StatusLowBattery, batteryLow)) {
       return;
     }

@@ -23,7 +23,7 @@ export abstract class SensorAccessory<C extends SensorConfig = SensorConfig> ext
 
   private async onTamperedUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
-    const tampered = value === this.getPrimitiveValue('valueTampered');
+    const tampered = value === this.getPrimitiveValue('valueTampered') ? 1 : 0;
     if (!this.onUpdate(CharacteristicKey.StatusTampered, tampered)) {
       return;
     }
@@ -37,7 +37,7 @@ export abstract class SensorAccessory<C extends SensorConfig = SensorConfig> ext
 
   private async onFaultUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
-    const fault = value === this.getPrimitiveValue('valueFault');
+    const fault = value === this.getPrimitiveValue('valueFault') ? 1 : 0;
     if (!this.onUpdate(CharacteristicKey.StatusFault, fault)) {
       return;
     }

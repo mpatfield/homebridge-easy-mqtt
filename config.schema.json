@@ -396,6 +396,18 @@
               "type": "string",
               "title": "${config.title.topicSetTargetPurifierState}"
             },
+            "topicGetFilterChangeIndication": {
+              "type": "string",
+              "title": "${config.title.topicGetFilterChangeIndication}"
+            },
+            "topicGetFilterLifeLevel": {
+              "type": "string",
+              "title": "${config.title.topicGetFilterLifeLevel}"
+            },
+            "topicResetFilterIndication": {
+              "type": "string",
+              "title": "${config.title.topicResetFilterIndication}"
+            },
             "valueBatteryLow": {
               "type": "string",
               "title": "${config.title.valueBatteryLow}"
@@ -559,6 +571,14 @@
             "valueModePurifying": {
               "type": "string",
               "title": "${config.title.valueModePurifying}"
+            },
+            "valueFilterChange": {
+              "type": "string",
+              "title": "${config.title.valueFilterChange}"
+            },
+            "valueFilterReset": {
+              "type": "string",
+              "title": "${config.title.valueFilterReset}"
             },
             "disableLogging": {
               "type": "boolean",
@@ -1040,6 +1060,45 @@
               },
               "then": {
                 "required": ["valueConfigured", "valueNotConfigured"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicGetFilterChangeIndication": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicGetFilterChangeIndication"]
+              },
+              "then": {
+                "required": ["valueFilterChange"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicGetFilterLifeLevel": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicGetFilterLifeLevel"]
+              },
+              "then": {
+                "required": ["topicGetFilterChangeIndication"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicResetFilterIndication": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicResetFilterIndication"]
+              },
+              "then": {
+                "required": ["topicGetFilterChangeIndication", "valueFilterReset"]
               }
             }
           ]
@@ -1586,7 +1645,7 @@
                   "type": "fieldset",
                   "notitle": true,
                   "condition": {
-                    "functionBody": "return ['HeaterCooler', 'AirPurifier'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                    "functionBody": "return ['AirPurifier', 'HeaterCooler'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {
@@ -1610,7 +1669,7 @@
                   "type": "fieldset",
                   "notitle": true,
                   "condition": {
-                    "functionBody": "return ['HeaterCooler', 'AirPurifier'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                    "functionBody": "return ['AirPurifier', 'HeaterCooler'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {
@@ -1894,6 +1953,41 @@
                   ]
                 },
                 {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "return ['AirPurifier', 'HeaterCooler', 'Thermostat'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetFilterChangeIndication",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicGetFilterLifeLevel",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicResetFilterIndication",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "type": "div",
                   "displayFlex": true,
                   "flex-direction": "row",
@@ -1950,7 +2044,7 @@
                   "type": "fieldset",
                   "notitle": true,
                   "condition": {
-                    "functionBody": "return ['HeaterCooler', 'AirPurifier'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                    "functionBody": "return ['AirPurifier', 'HeaterCooler'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {
@@ -2046,7 +2140,7 @@
                   "type": "fieldset",
                   "notitle": true,
                   "condition": {
-                    "functionBody": "return ['HeaterCooler', 'AirPurifier'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                    "functionBody": "return ['AirPurifier', 'HeaterCooler'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {
@@ -2068,6 +2162,30 @@
                         },
                         {
                           "key": "accessories[].valueSwingDisabled",
+                          "flex": "0 0 20%"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "return ['AirPurifier', 'HeaterCooler', 'Thermostat'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].valueFilterChange",
+                          "flex": "0 0 20%"
+                        },
+                        {
+                          "key": "accessories[].valueFilterReset",
                           "flex": "0 0 20%"
                         }
                       ]

@@ -128,12 +128,12 @@ As with topics, you will also need to populate the appropriate values based on t
 - `valueBatteryLow` - Accessory has a low battery level
 
 ### On/Off Accessories
+
+#### Lightbulb
 - `topicGetOn*` - The current state of the outlet, i.e. on/off
 - `topicSetOn*` - For setting the state of the outlet
 - `valueOn*` - Turned on, e.g. "true", or "1", or "On"
 - `valueOff*` - Turned off, e.g. "false", or "0", or "Off"
-
-#### Lightbulb
 - `topicGetBrightness` - The current brightness as a percent
 - `topicSetBrightness` - For setting the brightness
 - `topicGetColorTemperature` - The current color temperature of the lightbulb
@@ -144,118 +144,190 @@ As with topics, you will also need to populate the appropriate values based on t
 - `topicSetSaturation` - For setting the saturation setting of the lightbulb
 
 #### Outlet
+- `topicGetOn*` - The current state of the outlet, i.e. on/off
+- `topicSetOn*` - For setting the state of the outlet
+- `valueOn*` - Turned on, e.g. "true", or "1", or "On"
+- `valueOff*` - Turned off, e.g. "false", or "0", or "Off"
 - `topicGetOutletInUse` - Whether or not the outlet is currently being used
 - `valueOutletInUse` - Currently being used, e.g. "true", or "1", or "On"
 
 #### Switch
--
+- `topicGetOn*` - The current state of the outlet, i.e. on/off
+- `topicSetOn*` - For setting the state of the outlet
+- `valueOn*` - Turned on, e.g. "true", or "1", or "On"
+- `valueOff*` - Turned off, e.g. "false", or "0", or "Off"
 
 ### Sensors
-- `topicGetStatusFault` - Whether or not the sensor has a generic fault
-- `topicGetStatusTampered` - Whether or not the sensor has been tampered with
-- `valueFault` - Accessory has a fault
-- `valueTampered` - Accessory has been tampered with
 
 #### CarbonDioxideSensor
 - `topicGetCarbonDioxideDetected*` - Whether or not the sensor has detected carbon dioxide
 - `topicGetCarbonDioxideLevel` - The current carbon dioxide level
 - `topicGetCarbonDioxidePeakLevel` - The peak carbon dioxide level
+- `topicGetStatusFault` - Whether or not the sensor has a generic fault
+- `topicGetStatusTampered` - Whether or not the sensor has been tampered with
 - `valueCarbonDioxideDetected*` - Accessory has detected carbon dioxide
+- `valueFault` - Accessory has a fault
+- `valueTampered` - Accessory has been tampered with
 
 #### CarbonMonoxideSensor
 - `topicGetCarbonMonoxideDetected*` - Whether or not the sensor has detected carbon monoxide
 - `topicGetCarbonMonoxideLevel` - The current carbon monoxide level
 - `topicGetCarbonMonoxidePeakLevel` - The peak carbon monoxide level
+- `topicGetStatusFault` - Whether or not the sensor has a generic fault
+- `topicGetStatusTampered` - Whether or not the sensor has been tampered with
 - `valueCarbonMonoxideDetected*` - Accessory has detected carbon monoxide
+- `valueFault` - Accessory has a fault
+- `valueTampered` - Accessory has been tampered with
 
 #### ContactSensor
 - `topicGetContactSensorState*` - Whether or not sensor has detected contact
+- `topicGetStatusFault` - Whether or not the sensor has a generic fault
+- `topicGetStatusTampered` - Whether or not the sensor has been tampered with
 - `valueContactDetected*` - Accessory has detected contact
+- `valueFault` - Accessory has a fault
+- `valueTampered` - Accessory has been tampered with
 
 ### HumiditySensor
 - `topicGetCurrentRelativeHumidity*` - The current relatively humidity
+- `topicGetStatusFault` - Whether or not the sensor has a generic fault
+- `topicGetStatusTampered` - Whether or not the sensor has been tampered with
+- `valueFault` - Accessory has a fault
+- `valueTampered` - Accessory has been tampered with
 
 #### LeakSensor
 - `topicGetLeakDetected*` - Whether or not sensor has detected a leak
+- `topicGetStatusFault` - Whether or not the sensor has a generic fault
+- `topicGetStatusTampered` - Whether or not the sensor has been tampered with
 - `valueLeakDetected*` - Accessory has detected a leak
+- `valueFault` - Accessory has a fault
+- `valueTampered` - Accessory has been tampered with
 
 #### LightSensor
 - `topicGetCurrentAmbientLightLevel*` - The current light level in lux units
+- `topicGetStatusFault` - Whether or not the sensor has a generic fault
+- `topicGetStatusTampered` - Whether or not the sensor has been tampered with
+- `valueFault` - Accessory has a fault
+- `valueTampered` - Accessory has been tampered with
 
 #### MotionSensor
 - `topicGetMotionDetected*` - Whether or not sensor has detected motion
+- `topicGetStatusFault` - Whether or not the sensor has a generic fault
+- `topicGetStatusTampered` - Whether or not the sensor has been tampered with
 - `valueMotionDetected*` - Accessory has detected motion
+- `valueFault` - Accessory has a fault
+- `valueTampered` - Accessory has been tampered with
 
 #### OccupancySensor
 - `topicGetOccupancyDetected*` - Whether or not sensor has detected occupancy
+- `topicGetStatusFault` - Whether or not the sensor has a generic fault
+- `topicGetStatusTampered` - Whether or not the sensor has been tampered with
 - `valueOccupancyDetected*` - Accessory has detected occupancy
+- `valueFault` - Accessory has a fault
+- `valueTampered` - Accessory has been tampered with
 
 #### SmokeSensor
 - `topicGetSmokeDetected*` - Whether or not sensor has detected smoke
+- `topicGetStatusFault` - Whether or not the sensor has a generic fault
+- `topicGetStatusTampered` - Whether or not the sensor has been tampered with
 - `valueSmokeDetected*` - Accessory has detected smoke
+- `valueFault` - Accessory has a fault
+- `valueTampered` - Accessory has been tampered with
 
 #### TemperatureSensor
 - `topicGetCurrentTemperature*` - The current temperature of the sensor
 - `temperatureUnits` - The temperature units of the incoming value supplied by the sensor, `C` for Celsius  (default) `F` for Fahrenheit
+- `topicGetStatusFault` - Whether or not the sensor has a generic fault
+- `topicGetStatusTampered` - Whether or not the sensor has been tampered with
+- `valueFault` - Accessory has a fault
+- `valueTampered` - Accessory has been tampered with
 
-### Temperature Control
-- `temperatureUnits` - The temperature units of the incoming value supplied by the thermostat, `C` for Celsius  (default) `F` for Fahrenheit
-- `topicGetCurrentTemperature*` - Get the current temperature
-- `topicGetCoolingThresholdTemperature` - Get the cooling threshold temperature
-- `topicSetCoolingThresholdTemperature` - Set the cooling threshold temparture
-- `topicGetHeatingThresholdTemperature` - Get the heating threshold temperature
-- `topicSetHeatingThresholdTemperature` - Set the heating threshold temperature
+### Climate Controllers
 
 #### Thermostat
+- `temperatureUnits` - The temperature units of the incoming value supplied by the thermostat, `C` for Celsius  (default) `F` for Fahrenheit
+- `topicGetCurrentTemperature*` - Get the current temperature
 - `topicGetCurrentHeatingCoolingState*` - Get the current mode (i.e. cooling, heating, off)
 - `topicGetTargetHeatingCoolingState*` - Get the target mode (i.e. auto, cooling, heating, off)
 - `topicSetTargetHeatingCoolingState*` - Set the target mode (i.e. auto, cooling, heating, off)
 - `topicGetTargetTemperature*` - Get the target temperature
 - `topicSetTargetTemperature*` - Set the target temperature
+- `topicGetCoolingThresholdTemperature` - Get the cooling threshold temperature
+- `topicSetCoolingThresholdTemperature` - Set the cooling threshold temparture
+- `topicGetHeatingThresholdTemperature` - Get the heating threshold temperature
+- `topicSetHeatingThresholdTemperature` - Set the heating threshold temperature
 - `topicGetCurrentRelativeHumidity` - Get the current humidity
 - `topicGetTargetRelativeHumidity` - Get the target humidity
 - `topicSetTargetRelativeHumidity` - Set the target humidity
+- `topicGetFilterChangeIndication` - Whether or not the filter needs to be changed. *Required if other filter topics are defined.
+- `topicGetFilterLifeLevel` - Filter life remaining as a percentage
+- `topicResetFilterIndication` - Used to reset the filter
 - `valueModeAuto` - Auto mode
 - `valueModeCool` - Cool mode
 - `valueModeHeat` - Heat mode
 - `valueModeOff` - Thermostat off
+- `valueFilterChange` - Indicates that the filter needs to be changed. *Required if `topicGetFilterChangeIndication` is defined.
 
-### Active Climate Control
-`Temperature Control` topics above plus…
+#### Air Purifier
 - `topicGetActive*` - Get whether or not the accessory is currently active
 - `topicSetActive*` - Set whether or not the accessory is currently active
+- `topicGetCurrentPurifierState*` - Get the current mode (i.e. inactive, idle, purifying)
+- `topicGetTargetPurifierState*` - Get the target mode (i.e. auto, manual)
+- `topicSetTargetPurifierState*` - Set the target mode (i.e. auto, manual)
 - `topicGetLockPhysicalControls` - Get whether or not the physical controls are locked
 - `topicSetLockPhysicalControls` - Set whether or not the physical controls are locked
 - `topicGetRotationSpeed` - Get the rotation speed as a percentage
 - `topicSetRotationSpeed` - Set the rotation speed as a percentage
 - `topicGetSwingMode` - Get whether or not accessory is oscillating
 - `topicSetSwingMode` - Set whether or not accessory is oscillating
+- `topicGetFilterChangeIndication` - Whether or not the filter needs to be changed. *Required if other filter topics are defined.
+- `topicGetFilterLifeLevel` - Filter life remaining as a percentage
+- `topicResetFilterIndication` - Used to reset the filter
 - `valueStateActive*` - Accessory is currently active
 - `valueStateInactive*` - Accessory is currently inactive
-- `valueControlLock` - Physical controls are locked
-- `valueControlUnlock` - Physical controls are unlocked
-- `valueSwingEnabled` - Accessory is oscillating
-- `valueSwingDisabled` - Accessory is not oscillating
-
-#### Air Purifier
-- `topicGetCurrentPurifierState*` - Get the current mode (i.e. inactive, idle, purifying)
-- `topicGetTargetPurifierState*` - Get the target mode (i.e. auto, manual)
-- `topicSetTargetPurifierState*` - Set the target mode (i.e. auto, manual)
 - `valueModeAuto` - Auto target mode
 - `valueModeIdle` - Idle mode
 - `valueModeInactive` - Inactive mode
 - `valueModeManual` - Manual target mode
 - `valueModePurifying` - Purifying mode
+- `valueControlLock` - Physical controls are locked
+- `valueControlUnlock` - Physical controls are unlocked
+- `valueSwingEnabled` - Accessory is oscillating
+- `valueSwingDisabled` - Accessory is not oscillating
+- `valueFilterChange` - Indicates that the filter needs to be changed. *Required if `topicGetFilterChangeIndication` is defined.
 
 #### HeaterCooler
+- `temperatureUnits` - The temperature units of the incoming value supplied by the thermostat, `C` for Celsius  (default) `F` for Fahrenheit
+- `topicGetActive*` - Get whether or not the accessory is currently active
+- `topicSetActive*` - Set whether or not the accessory is currently active
+- `topicGetCurrentTemperature*` - Get the current temperature
 - `topicGetCurrentHeaterCoolerState*` - Get the current mode (i.e. inactive, idle, heating, cooling)
 - `topicGetTargetHeaterCoolerState*` - Get the target mode (i.e. auto, heat, cool)
 - `topicSetTargetHeaterCoolerState*` - Set the target mode (i.e. auto, heat, cool)
+- `topicGetCoolingThresholdTemperature` - Get the cooling threshold temperature
+- `topicSetCoolingThresholdTemperature` - Set the cooling threshold temparture
+- `topicGetHeatingThresholdTemperature` - Get the heating threshold temperature
+- `topicSetHeatingThresholdTemperature` - Set the heating threshold temperature
+- `topicGetLockPhysicalControls` - Get whether or not the physical controls are locked
+- `topicSetLockPhysicalControls` - Set whether or not the physical controls are locked
+- `topicGetRotationSpeed` - Get the rotation speed as a percentage
+- `topicSetRotationSpeed` - Set the rotation speed as a percentage
+- `topicGetSwingMode` - Get whether or not accessory is oscillating
+- `topicSetSwingMode` - Set whether or not accessory is oscillating
+- `topicGetFilterChangeIndication` - Whether or not the filter needs to be changed. *Required if other filter topics are defined.
+- `topicGetFilterLifeLevel` - Filter life remaining as a percentage
+- `topicResetFilterIndication` - Used to reset the filter
+- `valueStateActive*` - Accessory is currently active
+- `valueStateInactive*` - Accessory is currently inactive
 - `valueModeAuto` - Mode is auto
 - `valueModeCool` - Mode is cool/cooling
 - `valueModeHeat` - Mode is heat/heating
 - `valueModeIdle` - Mode is idle
 - `valueModeInactive` - Mode is inactive
+- `valueControlLock` - Physical controls are locked
+- `valueControlUnlock` - Physical controls are unlocked
+- `valueSwingEnabled` - Accessory is oscillating
+- `valueSwingDisabled` - Accessory is not oscillating
+- `valueFilterChange` - Indicates that the filter needs to be changed. *Required if `topicGetFilterChangeIndication` is defined.
 
 ### Others
 

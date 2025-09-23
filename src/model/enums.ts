@@ -20,6 +20,10 @@ export enum AccessoryType {
   Valve = 'Valve',
 }
 
+export enum AddonType {
+  FilterMaintenance = 'FilterMaintenance',
+}
+
 export enum CharacteristicKey {
   Active = 'Active',
   BatteryLevel = 'BatteryLevel',
@@ -39,6 +43,8 @@ export enum CharacteristicKey {
   CurrentHeatingCoolingState = 'CurrentHeatingCoolingState',
   CurrentRelativeHumidity = 'CurrentRelativeHumidity',
   CurrentTemperature = 'CurrentTemperature',
+  FilterChangeIndication = 'FilterChangeIndication',
+  FilterLifeLevel = 'FilterLifeLevel',
   HeatingThresholdTemperature = 'HeatingThresholdTemperature',
   Hue = 'Hue',
   InUse = 'InUse',
@@ -52,6 +58,7 @@ export enum CharacteristicKey {
   On = 'On',
   OutletInUse = 'OutletInUse',
   RemainingDuration = 'RemainingDuration',
+  ResetFilterIndication = 'ResetFilterIndication',
   RotationSpeed = 'RotationSpeed',
   Saturation = 'Saturation',
   SecuritySystemCurrentState = 'SecuritySystemCurrentState',

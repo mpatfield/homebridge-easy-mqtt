@@ -15,6 +15,17 @@ export type TemperatureConfig = {
   temperatureUnits?: TemperatureUnits,
 }
 
+export type AddonConfig = Assertable & {
+}
+
+export type FilterMaintenanceConfig = AddonConfig & {
+  topicGetFilterChangeIndication: string,
+  topicGetFilterLifeLevel?: string,
+  topicResetFilterIndication?: string,
+  valueFilterChange: string,
+  valueFilterReset: string,
+}
+
 type ErrorStatusConfig = {
   topicGetStatusFault?: string,
   topicGetStatusTampered?: string,
@@ -142,7 +153,7 @@ export type SmokeSensorConfig = SensorConfig & {
   valueSmokeDetected: string,
 }
 
-export type TemperatureSensorConfig =  SensorConfig & TemperatureConfig & {
+export type TemperatureSensorConfig = SensorConfig & TemperatureConfig & {
   topicGetCurrentTemperature: string,
 }
 
@@ -154,7 +165,7 @@ export type TemperatureControlConfig = BaseAccessoryConfig & TemperatureConfig &
   topicSetHeatingThresholdTemperature?: string,
 }
 
-export type ThermostatConfig = TemperatureControlConfig & {
+export type ThermostatConfig = TemperatureControlConfig & FilterMaintenanceConfig &{
   topicGetCurrentHeatingCoolingState: string,
   topicGetCurrentRelativeHumidity?: string,
   topicGetTargetHeatingCoolingState: string,
@@ -186,7 +197,7 @@ export type ActiveClimateConfig = TemperatureControlConfig & {
   valueSwingDisabled?: string,
 }
 
-export type HeaterCoolerConfig = ActiveClimateConfig & {
+export type HeaterCoolerConfig = ActiveClimateConfig & FilterMaintenanceConfig & {
   topicGetCurrentHeaterCoolerState: string,
   topicGetTargetHeaterCoolerState: string,
   topicSetTargetHeaterCoolerState: string,
@@ -197,7 +208,7 @@ export type HeaterCoolerConfig = ActiveClimateConfig & {
   valueModeInactive?: string,
 }
 
-export type PurifierConfig = ActiveClimateConfig & {
+export type PurifierConfig = ActiveClimateConfig & FilterMaintenanceConfig & {
   topicGetCurrentPurifierState: string,
   topicGetTargetPurifierState: string,
   topicSetTargetPurifierState: string,

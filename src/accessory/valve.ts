@@ -51,7 +51,7 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
 
   private async onFaultUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
-    const fault = value === this.getPrimitiveValue('valueFault');
+    const fault = value === this.getPrimitiveValue('valueFault') ? 1 : 0;
     if (!this.onUpdate(CharacteristicKey.StatusFault, fault)) {
       return;
     }

@@ -2,6 +2,8 @@ import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebrid
 
 import { ActiveClimateAccessory } from './active.js';
 
+import { FilterMaintenance } from '../addons/filter.js';
+
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
@@ -54,6 +56,10 @@ export class HeaterCoolerAccessory extends ActiveClimateAccessory<HeaterCoolerCo
       'topicGetTargetHeaterCoolerState', this.onTargetStateUpdate.bind(this), true,
       'topicSetTargetHeaterCoolerState', this.onSetTargetState.bind(this))
       ?.setProps({ validValues: validTargetStates.map((key) => this.TARGET_STATE_MAP.get(key)!) });
+
+    this.addTopicHandlers(
+      FilterMaintenance.topicHandlers(Service, Characteristic, accessory, this.name, config, log, config.disableLogging, this.publish.bind(this)),
+    );
   }
 
   protected getAccessoryType(): AccessoryType {

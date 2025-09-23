@@ -96,6 +96,8 @@ const en = {
       topicGetCurrentRelativeHumidityOptional: 'Get Relative Humidity',
       topicGetCurrentSecurityState: 'Get Current State*',
       topicGetCurrentTemperature: 'Get Current Temperature*',
+      topicGetFilterChangeIndication: 'Filter Change Indication', // (fr) (ro)
+      topicGetFilterLifeLevel: 'Filter Life Remaining', // (fr) (ro)
       topicGetHeatingThresholdTemperature: 'Get Heating Threshold',
       topicGetHue: 'Get Hue',
       topicGetLeakDetected: 'Get Leak Detected*',
@@ -123,6 +125,7 @@ const en = {
       topicGetValveIsConfigured: 'Get Is Configured', // (fr)
       topicGetValveRemainingDuration: 'Get Duration Remaining', // (fr)
       topicGetValveSetDuration: 'Get Duration', // (fr)
+      topicResetFilterIndication: 'Reset Filter', // (fr) (ro)
       topicSetActive: 'Set Active*', // (fr)
       topicSetBrightness: 'Set Brightness',
       topicSetColorTemperature: 'Set Color Temperature',
@@ -162,6 +165,8 @@ const en = {
       valueControlUnlock: 'Controls Unlocked', // (fr)
       valueDisarm: 'Disarm',
       valueFault: 'Fault',
+      valueFilterChange: 'Filter Dirty', // (fr) (ro)
+      valueFilterReset: 'Reset Filter', // (fr) (ro)
       valueInactive: 'Inactive*', // (fr)
       valueInUse: 'In Use*', // (fr)
       valueLeakDetected: 'Leak Detected*',
@@ -200,6 +205,13 @@ const en = {
     isTampered: '%s has been tampered with', // accessory name
     noFault: '%s has no fault', // accessory name
     notTampered: '%s tampered status has been reset', // accessory name
+  },
+
+  filter: { // (fr) (ro)
+    change: '%s filter requires maintenance', // accessory name
+    level: '%s filter is at %d%', // accessory name, number
+    ok: '%s filter is ok', // accessory name
+    reset: 'Resetting filter for %s…', // accessory name
   },
 
   heaterCooler: { // (fr)
