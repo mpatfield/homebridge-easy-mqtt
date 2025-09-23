@@ -34,6 +34,7 @@ const en = {
       broker: 'If not supplied, defaults to mqtt://127.0.0.1:1883/', // (fr) (ro)
       options: 'Additional MQTT parameters such as clientId or protocolVersion. Must be valid JSON.',
       topics: 'Supports JSONPath using dot notation, i.e. "my/topic$.path.to.value"',
+      values: 'Used for both get and set (publish), where appropriate', // (fr) (ro)
       verbose: 'If true, additional MQTT info will be logged for debugging purposes.',
     },
 
@@ -265,6 +266,7 @@ const en = {
 
   mqttClient: { // (fr)
     badOptions: 'Additional options for %s must be valid json', // accessory name
+    badMessages: 'onConnect messages must be an array of topic/message objects', // (fr) (ro)
     connected: 'Connected to %s and listening for updates…', // host
     connectionClosed: 'Closed connection to %s', // host
     error: 'Client error on %s', // host

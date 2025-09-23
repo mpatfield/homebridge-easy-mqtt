@@ -47,11 +47,17 @@ type AdditionalInfoConfig = InfoConfig & {
   version?: string,
 }
 
+export type MQTTMessage = Assertable & {
+  topic: string,
+  message: string,
+}
+
 export type MQTTConfig = Assertable & {
   broker?: string,
   username?: string,
   password?: string,
   options?: string,
+  onConnect?: MQTTMessage[]
 }
 
 export type MQTTAccessoryConfig = Assertable & {

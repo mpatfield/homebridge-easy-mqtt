@@ -71,6 +71,20 @@
             "description": "${config.description.options}",
             "placeholder": "{ \"protocolVersion\": \"4\", \"clientId\": \"my-client-id\", \"rejectUnauthorized\": true }",
             "pattern": "^\\{\\s*(?:\"[^\"\\\\\\r\\n]*\"\\s*:\\s*(?:\"[^\"\\\\\\r\\n]*\"|[0-9.+-eE]+|true|false|null)\\s*,\\s*)*(?:\"[^\"\\\\\\r\\n]*\"\\s*:\\s*(?:\"[^\"\\\\\\r\\n]*\"|[0-9.+-eE]+|true|false|null)\\s*)?\\}$"
+          },
+          "onConnect": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "topic": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       },
@@ -2036,6 +2050,7 @@
             {
               "type": "fieldset",
               "title": "${config.title.values}",
+              "description": "${config.description.values}",
               "condition": {
                 "functionBody": "return model.accessories?.[arguments[1]]?.info?.type !== undefined;"
               },

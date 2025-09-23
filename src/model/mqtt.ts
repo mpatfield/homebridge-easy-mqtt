@@ -3,7 +3,7 @@ import { PrimitiveTypes } from 'homebridge';
 import { createHash } from 'crypto';
 import mqtt from 'mqtt';
 
-import { MQTTConfig } from './types.js';
+import { MQTTConfig, MQTTMessage } from './types.js';
 
 import { strings } from '../i18n/i18n.js';
 
@@ -56,16 +56,18 @@ type OnConnectCallback = ( (client: MQTT) => (void)) ;
 
 export class MQTT {
 
-  private static INSTANCES = new Map<string, MQTT>();
+  private static readonly INSTANCES = new Map<string, MQTT>();
 
-  private onConnectCallbacks: OnConnectCallback[] = [];
+  private readonly onConnectCallbacks: OnConnectCallback[] = [];
+
+  private readonly onConnectMessages = new Map<string, MQTTMessage>();
 
   private client: mqtt.MqttClient | undefined = undefined;
   private shouldReconnect = false;
   private isReconnecting = false;
   private reconnectCount = 0;
 
-  private listeners = new Map<string, MQTTListener[]>();
+  private readonly listeners = new Map<string, MQTTListener[]>();
 
   static connect(log: Log, config: MQTTConfig | undefined = undefined, caller: string, onConnect: OnConnectCallback): MQTT | undefined {
 
@@ -108,6 +110,26 @@ export class MQTT {
 
       instance.onConnectCallbacks.push(onConnect);
 
+      const onConnectMessages = config?.onConnect;
+      if (onConnectMessages !== undefined) {
+
+        const errorLog = '\n[ { "topic": "example/topic", "message": "example message" } ]';
+        if (!Array.isArray(onConnectMessages)) {
+          log.error(strings.mqttClient.badMessages, errorLog);
+        } else {
+          for (const message of onConnectMessages) {
+
+            if (message.topic === undefined || message.message === undefined) {
+              log.error(strings.mqttClient.badMessages, errorLog);
+              continue;
+            }
+
+            const key = `${message.topic}|${message.message}`;
+            instance?.onConnectMessages.set(key, message);
+          }
+        }
+      }
+
       return instance;
     }
 
@@ -146,8 +168,13 @@ export class MQTT {
 
     this.client.on('connect', () => {
       this.log.ifVerbose(strings.mqttClient.connected, this.host);
-      this.onConnectCallbacks.forEach( (callback) => {
+
+      this.onConnectCallbacks.forEach( callback => {
         callback(this);
+      });
+
+      this.onConnectMessages.forEach( message => {
+        this.publish(message.topic, message.message);
       });
     });
 

@@ -64,7 +64,14 @@ Using the Homebridge Config UI is the easiest way to set up this plugin. However
         "broker": "string",
         "username": "string",
         "password": "string",
-        "options": "string"
+        "options": "string",
+        "onConnect": [
+          {
+            "topic": "string",
+            "message": "string",
+          }
+          …
+        ]
       },
       "customCharacteristics": [
         {
@@ -101,6 +108,7 @@ Required fields are marked with an asterisk (*)
 - `username` - Username
 - `password` - Password
 - `options` - See [MQTT Options](#mqtt-options) below
+- `onConnect` - See [MQTT OnConnect](#mqtt-onconnect) below
 
 #### Environment Variables
 
@@ -119,6 +127,8 @@ You will need to make sure to populate the appropriate topics based on the acces
 You may define topics using a JSONPath dot notation to assist the parser in finding the right value within the message. See [JSONPaths](#jsonpaths) below for more details.
 
 As with topics, you will also need to populate the appropriate values based on the type. Note that while they are defined as strings, they will be auto-converted to the appropriate primitives (e.g. boolean or number) where appropriate.
+
+These values are used for both determining current state and, where appropriate, publishing the new state to MQTT
 
 ### General Purpose
 - `topicGetStatusActive` - Whether or not the accessory is connected/reachable
@@ -389,6 +399,25 @@ You are able to pass in any arbitrary MQTT options via `mqtt.options` in the con
 
 ```
 "options": "{ \"protocolVersion\": \"4\", \"clientId\": \"my-client-id\", \"rejectUnauthorized\": true }"
+```
+
+## MQTT OnConnect
+
+Accessories can be configured to publish any number of arbitratry messages to the MQTT server on connect. This can be useful to invoke accessories to give updates on their current status.
+
+Each entry should have a topic and a message:
+
+```
+"onConnect": [
+  {
+    "topic": "some/arbitrary/topic",
+    "message": "connected",
+  },
+  {
+    "topic": "another/arbitrary/topic",
+    "message": "{ \"value\": \"can also be json\" }",
+  }
+]
 ```
 
 ## JSONPaths

@@ -8,6 +8,7 @@ All notable changes to homebridge-dummy will be documented in this file.
 - Support for Air Purifier, HeaterCooler, LightSensor, and Valve
 - FilterMaintenance to climate control accessories
 - Broker, username, and password can be set via environment variables ([documentation](https://github.com/mpatfield/homebridge-easy-mqtt#environment-variables))
+- Publish arbitrary MQTT messages on connect ([documentation] (https://github.com/mpatfield/homebridge-easy-mqtt#mqtt-onconnect))
 - Traduceri în limba română. Mulțumesc, [@rursache](https://github.com/sponsors/rursache)!
 
 ### Changed
