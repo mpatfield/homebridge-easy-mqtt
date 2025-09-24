@@ -56,7 +56,10 @@ export class ThermostatAccessory extends TemperatureControlAccessory<ThermostatC
     );
 
     this.addTopicHandlers(
-      FilterMaintenance.topicHandlers(Service, Characteristic, accessory, this.name, config, log, config.disableLogging, this.publish.bind(this)),
+      FilterMaintenance.topicHandlers(
+        Service, Characteristic, log, config.disableLogging, accessory,
+        this.accessoryService, config, this.name, this.publish.bind(this),
+      ),
     );
   }
 

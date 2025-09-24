@@ -14,19 +14,19 @@ import { Log, LogType } from '../../tools/log.js';
 export class FilterMaintenance extends Addon<FilterMaintenanceConfig> {
 
   static topicHandlers(
-    Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, name: string, config: FilterMaintenanceConfig,
-    log: Log, disableLogging: boolean, publishHandler: PublishHandler,
+    Service: ServiceType, Characteristic: CharacteristicType, log: Log, disableLogging: boolean, accessory: PlatformAccessory,
+    parentService: Service, config: FilterMaintenanceConfig, name: string, publishHandler: PublishHandler,
   ): TopicHandler[] {
-    const filterMaintenance = Addon.new(Service, Characteristic, accessory, name, config, log, disableLogging, publishHandler,
+    const filterMaintenance = Addon.new(Service, Characteristic, accessory, parentService, name, config, log, disableLogging, publishHandler,
       AddonType.FilterMaintenance, FilterMaintenance, ['topicGetFilterChangeIndication']);
     return filterMaintenance?.topicHandlers ?? [];
   }
 
   public constructor(
-    service: Service, Characteristic: CharacteristicType, name: string, config: FilterMaintenanceConfig,
-    log: Log, disableLogging: boolean, publishHandler: PublishHandler,
+    service: Service, Characteristic: CharacteristicType, log: Log, disableLogging: boolean,
+    config: FilterMaintenanceConfig, name: string, publishHandler: PublishHandler,
   ) {
-    super(service, Characteristic, name, config, log, disableLogging, publishHandler);
+    super(service, Characteristic, log, disableLogging, config, name, publishHandler);
 
     this.setupCharacteristic(CharacteristicKey.FilterChangeIndication, Characteristic.FilterChangeIndication.FILTER_OK,
       'topicGetFilterChangeIndication', this.onChangeIndicationUpdate.bind(this));

@@ -52,7 +52,10 @@ export class PurifierAccessory extends ActiveClimateAccessory<PurifierConfig> {
       ?.setProps({ validValues: validTargetStates.map((key) => this.TARGET_STATE_MAP.get(key)!) });
 
     this.addTopicHandlers(
-      FilterMaintenance.topicHandlers(Service, Characteristic, accessory, this.name, config, log, config.disableLogging, this.publish.bind(this)),
+      FilterMaintenance.topicHandlers(
+        Service, Characteristic, log, config.disableLogging, accessory,
+        this.accessoryService, config, this.name, this.publish.bind(this),
+      ),
     );
   }
 

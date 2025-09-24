@@ -13,7 +13,7 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
 
   private readonly mqttClient: MQTT | undefined;
 
-  private readonly accessoryService: Service;
+  protected readonly accessoryService: Service;
 
   constructor(
     Service: ServiceType,
@@ -24,7 +24,7 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
     isGrouped: boolean,
   ) {
 
-    super(Characteristic, config, log, config.info.name, config.disableLogging, (topic, value) => {
+    super(Characteristic, log, config.disableLogging, config, config.info.name, (topic, value) => {
       this.mqttClient?.publish(topic, value);
     });
 

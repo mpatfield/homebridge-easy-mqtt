@@ -23,10 +23,10 @@ export abstract class Common<C extends Assertable> {
 
   constructor(
     protected readonly Characteristic: CharacteristicType,
-    protected readonly config: C,
     protected readonly log: Log,
-    protected readonly name: string,
     private readonly disableLogging: boolean,
+    protected readonly config: C,
+    protected readonly name: string,
     private readonly publishHandler: PublishHandler,
   ) {}
 
