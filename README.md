@@ -25,12 +25,16 @@ This plugin is designed to be a simple replacement for the fantastic [homebridge
 
 **HomebridgeEasyMQTT** currently supports the following accessory types but will be expanded over time as more use cases are requested. If there is an accessory type you'd like to see supported, please [create an issue in GitHub](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
 
+  - `AirPurifier`
   - `CarbonDioxideSensor`
   - `CarbonMonoxideSensor`
   - `ContactSensor`
+  - `GarageDoorOpener`
+  - `HeaterCooler`
   - `HumiditySensor`
   - `LeakSensor`
   - `Lightbulb`
+  - `LightSensor`
   - `LockMechanism`
   - `MotionSensor`
   - `OccupancySensor`
@@ -40,6 +44,7 @@ This plugin is designed to be a simple replacement for the fantastic [homebridge
   - `Switch`
   - `TemperatureSensor`
   - `Thermostat`
+  - `Valve`
 
 ## Configuration
 
@@ -95,7 +100,7 @@ Required fields are marked with an asterisk (*)
 ### Info
 - `id*` - A unique ID to identify this accessory. Changing this value will result in a new accessory.
 - `name*` - The display name for the accessory in HomeKit
-- `type*` - The type of accessory, currently Lightbulb, LockMechanism, Outlet, SecuritySystem, Switch, and Temperature Sensor are supported
+- `type*` - The type of accessory. See list of currently supported types above.
 - `group` - Items sharing the same group name will be grouped together in the Home app UI
     - ⚠️ Changing the group name will require you to reconfigure any HomeKit scenes/automations for those accessories
 - `manufacturer` - The accessory manufacturer which will display in HomeKit device details
@@ -277,7 +282,7 @@ These values are used for both determining current state and, where appropriate,
 - `valueModeOff` - Thermostat off
 - `valueFilterChange` - Indicates that the filter needs to be changed. *Required if `topicGetFilterChangeIndication` is defined.
 
-#### Air Purifier
+#### AirPurifier
 - `topicGetActive*` - Get whether or not the accessory is currently active
 - `topicSetActive*` - Set whether or not the accessory is currently active
 - `topicGetCurrentPurifierState*` - Get the current mode (i.e. inactive, idle, purifying)
@@ -340,6 +345,24 @@ These values are used for both determining current state and, where appropriate,
 - `valueFilterChange` - Indicates that the filter needs to be changed. *Required if `topicGetFilterChangeIndication` is defined.
 
 ### Others
+
+#### GarageDoorOpener
+- `topicGetCurrentDoorState*` - Current state of the garage door, i.e. open/opening/closed/closing/stopped
+- `topicGetTargetDoorState*` - Target state of the garage door, i.e. open/closed
+- `topicSetTargetDoorState*` - Set the target door state, i.e. open/closed
+- `topicGetObstructionDetected*` - Whether or not the garage door is obstructed
+- `topicGetCurrentLockState` - The current state of the garage lock, i.e. locked/unlocked
+- `topicGetTargetLockState` - The target (i.e. desired) state of the garage lock
+- `topicSetTargetLockState` - For setting the target (i.e. desired) state of the garage lock
+- `valueDoorObstructed*` - Door is obstructed
+- `valueDoorStateClosed` - Door is closed
+- `valueDoorStateClosing` - Door is closing
+- `valueDoorStateOpen` - Door is open
+- `valueDoorStateOpening` - Door is opening
+- `valueDoorStateStopped` - Door is stopped
+- `valueLockStateJammed` - Door lock is jammed
+- `valueLockStateSecured` - Door is locked
+- `valueLockStateUnsecured` - Door is unlocked
 
 #### LockMechanism
 - `topicGetCurrentLockState*` - The current state of the lock, i.e. locked/unlocked

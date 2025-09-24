@@ -21,8 +21,8 @@
           "type": {
             "type": "string",
             "title": "${config.title.type}",
-            "enum": [ "AirPurifier", "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "HeaterCooler", "HumiditySensor", "LeakSensor", "Lightbulb", "LightSensor", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "Switch", "TemperatureSensor", "Thermostat", "Valve"],
-            "enumNames": ["${config.enumNames.airPurifier}", "${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.heaterCooler}", "${config.enumNames.humiditySensor}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lightSensor}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}", "${config.enumNames.valve}"],
+            "enum": [ "AirPurifier", "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "GarageDoorOpener", "HeaterCooler", "HumiditySensor", "LeakSensor", "Lightbulb", "LightSensor", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "Switch", "TemperatureSensor", "Thermostat", "Valve"],
+            "enumNames": ["${config.enumNames.airPurifier}", "${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.garageDoorOpener}", "${config.enumNames.heaterCooler}", "${config.enumNames.humiditySensor}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lightSensor}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}", "${config.enumNames.valve}"],
             "required": true
           },
           "group": {
@@ -422,6 +422,22 @@
               "type": "string",
               "title": "${config.title.topicResetFilterIndication}"
             },
+            "topicGetCurrentDoorState": {
+              "type": "string",
+              "title": "${config.title.topicGetCurrentDoorState}"
+            },
+            "topicGetObstructionDetected": {
+              "type": "string",
+              "title": "${config.title.topicGetObstructionDetected}"
+            },
+            "topicGetTargetDoorState": {
+              "type": "string",
+              "title": "${config.title.topicGetTargetDoorState}"
+            },
+            "topicSetTargetDoorState": {
+              "type": "string",
+              "title": "${config.title.topicSetTargetDoorState}"
+            },
             "valueBatteryLow": {
               "type": "string",
               "title": "${config.title.valueBatteryLow}"
@@ -593,6 +609,30 @@
             "valueFilterReset": {
               "type": "string",
               "title": "${config.title.valueFilterReset}"
+            },
+            "valueDoorObstructed": {
+              "type": "string",
+              "title": "${config.title.valueDoorObstructed}"
+            },
+            "valueDoorStateClosed": {
+              "type": "string",
+              "title": "${config.title.valueDoorStateClosed}"
+            },
+            "valueDoorStateClosing": {
+              "type": "string",
+              "title": "${config.title.valueDoorStateClosing}"
+            },
+            "valueDoorStateOpen": {
+              "type": "string",
+              "title": "${config.title.valueDoorStateOpen}"
+            },
+            "valueDoorStateOpening": {
+              "type": "string",
+              "title": "${config.title.valueDoorStateOpening}"
+            },
+            "valueDoorStateStopped": {
+              "type": "string",
+              "title": "${config.title.valueDoorStateStopped}"
             },
             "disableLogging": {
               "type": "boolean",
@@ -885,6 +925,26 @@
                   "info": {
                     "properties": {
                       "type" : {
+                        "const": "GarageDoorOpener"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": ["topicGetCurrentDoorState", "topicGetTargetDoorState", "topicSetTargetDoorState", "topicGetObstructionDetected", "valueDoorObstructed"],
+                "anyOf": [
+                  { "required": ["valueDoorStateOpen"] },
+                  { "required": ["valueDoorStateClosed"] }
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
                         "const": "LockMechanism"
                       }
                     }
@@ -1114,6 +1174,45 @@
               "then": {
                 "required": ["topicGetFilterChangeIndication", "valueFilterReset"]
               }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicGetCurrentLockState": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicGetCurrentLockState"]
+              },
+              "then": {
+                "required": ["valueLockStateSecured", "valueLockStateUnsecured"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicGetTargetLockState": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicGetTargetLockState"]
+              },
+              "then": {
+                "required": ["topicGetCurrentLockState", "topicSetTargetLockState"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicSetTargetLockState": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicSetTargetLockState"]
+              },
+              "then": {
+                "required": ["topicGetTargetLockState"]
+              }
             }
           ]
         },
@@ -1201,6 +1300,74 @@
                 "functionBody": "return model.accessories?.[arguments[1]]?.info?.type !== undefined;"
               },
               "items": [
+                {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'GarageDoorOpener';"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetCurrentDoorState",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicGetObstructionDetected",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetTargetDoorState",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetTargetDoorState",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetCurrentLockState",
+                          "title": "${config.title.topicGetCurrentLockStateOptional}",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetTargetLockState",
+                          "title": "${config.title.topicGetTargetLockStateOptional}",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetTargetLockState",
+                          "title": "${config.title.topicSetTargetLockStateOptional}",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    }
+                  ]
+                },
                 {
                   "type": "fieldset",
                   "notitle": true,
@@ -2208,11 +2375,58 @@
                   ]
                 },
                 {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'GarageDoorOpener';"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].valueDoorStateOpen",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valueDoorStateClosed",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valueDoorStateOpening",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valueDoorStateClosing",
+                          "flex": "0 0 25%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].valueDoorStateStopped",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valueDoorObstructed",
+                          "flex": "0 0 25%"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "type": "div",
                   "displayFlex": true,
                   "flex-direction": "row",
                   "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'LockMechanism';"
+                    "functionBody": "return ['GarageDoorOpener', 'LockMechanism'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {

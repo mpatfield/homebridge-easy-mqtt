@@ -9,15 +9,17 @@ import { CharacteristicType, LockConfig, ServiceType } from '../model/types.js';
 
 import { Log, LogType } from '../tools/log.js';
 
-export class LockMechanismAccessory extends BaseAccessory<LockConfig> {
+export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends BaseAccessory<C> {
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: LockConfig, log: Log, isGrouped: boolean) {
+  constructor(
+    Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory,
+    config: C, log: Log, isGrouped: boolean, requireTopics: boolean = true) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
 
     const getTopicCurrent = this.config.topicGetLockCurrentState !== undefined && this.config.topicGetCurrentLockState === undefined
       ? 'topicGetLockCurrentState' : 'topicGetCurrentLockState';
     this.setupCharacteristic(CharacteristicKey.LockCurrentState, Characteristic.LockCurrentState.UNKNOWN,
-      getTopicCurrent, this.onCurrentStateUpdate.bind(this), true);
+      getTopicCurrent, this.onCurrentStateUpdate.bind(this), requireTopics);
 
     let getTargetTopic: keyof LockConfig, setTargetTopic : keyof LockConfig;
     if (this.config.topicGetLockTargetState !== undefined && this.config.topicGetTargetLockState === undefined) {
@@ -29,7 +31,7 @@ export class LockMechanismAccessory extends BaseAccessory<LockConfig> {
     }
 
     this.setupCharacteristic(CharacteristicKey.LockTargetState, Characteristic.LockTargetState.SECURED,
-      getTargetTopic, this.onTargetStateUpdate.bind(this), true,
+      getTargetTopic, this.onTargetStateUpdate.bind(this), requireTopics,
       setTargetTopic, this.onSetTargetState.bind(this),
     );
   }

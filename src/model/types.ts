@@ -225,6 +225,25 @@ export type PurifierConfig = ActiveClimateConfig & FilterMaintenanceConfig & {
   valueModePurifying?: string,
 }
 
+export type GarageDoorConfig = LockConfig & {
+  topicGetCurrentDoorState: string,
+  topicGetCurrentLockState?: string,
+  topicGetObstructionDetected: string,
+  topicGetTargetDoorState: string,
+  topicGetTargetLockState?: string,
+  topicSetTargetDoorState: string,
+  topicSetTargetLockState?: string,
+  valueDoorObstructed: string,
+  valueDoorStateClosed?: string,
+  valueDoorStateClosing?: string,
+  valueDoorStateOpen?: string,
+  valueDoorStateOpening?: string,
+  valueDoorStateStopped?: string,
+  valueLockStateJammed?: string,
+  valueLockStateSecured?: string,
+  valueLockStateUnsecured?: string,
+}
+
 export type LockConfig = BaseAccessoryConfig & {
   topicGetCurrentLockState: string,
   topicGetTargetLockState: string,

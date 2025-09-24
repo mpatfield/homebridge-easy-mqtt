@@ -7,6 +7,7 @@ import { strings } from '../../i18n/i18n.js';
 import { AccessoryType } from '../../model/enums.js';
 import * as Configs from '../../model/types.js';
 
+import { GarageDoorAccessory } from '../garage.js';
 import { LockMechanismAccessory } from '../lock.js';
 import { SecuritySystemAccessory } from '../security.js';
 
@@ -42,16 +43,18 @@ export function createAccessory(
 ): BaseAccessory | undefined {
 
   switch(accessoryConfig.info.type) {
+  case AccessoryType.AirPurifier:
+    return new PurifierAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.PurifierConfig, log, isGrouped);
   case AccessoryType.CarbonDioxideSensor:
     return new CO2SensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.CO2SensorConfig, log, isGrouped);
   case AccessoryType.CarbonMonoxideSensor:
     return new COSensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.COSensorConfig, log, isGrouped);
   case AccessoryType.ContactSensor:
     return new ContactSensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.ContactSensorConfig, log, isGrouped);
+  case AccessoryType.GarageDoorOpener:
+    return new GarageDoorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.GarageDoorConfig, log, isGrouped);
   case AccessoryType.HeaterCooler:
     return new HeaterCoolerAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.HeaterCoolerConfig, log, isGrouped);
-  case AccessoryType.AirPurifier:
-    return new PurifierAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.PurifierConfig, log, isGrouped);
   case AccessoryType.HumiditySensor:
     return new HumiditySensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.HumiditySensorConfig, log, isGrouped);
   case AccessoryType.LeakSensor:

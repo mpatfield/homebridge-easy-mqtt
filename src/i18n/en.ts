@@ -45,6 +45,7 @@ const en = {
       celsius: '°C',
       contactSensor: 'Contact Sensor',
       fahrenheit: '°F',
+      garageDoorOpener: 'Garage Door', // (fr) (ro)
       heaterCooler: 'Heater/Cooler', // (fr)
       humiditySensor: 'Humidity Sensor',
       leakSensor: 'Leak Sensor',
@@ -89,10 +90,12 @@ const en = {
       topicGetContactSensorState: 'Get Contact Detected*',
       topicGetCoolingThresholdTemperature: 'Get Cooling Threshold',
       topicGetCurrentAmbientLightLevel: 'Get Current Light Level*', // (fr)
+      topicGetCurrentDoorState: 'Get Current Door State*', // (fr) (ro)
       topicGetCurrentHeaterCoolerState: 'Get Current Mode*', // (fr)
       topicGetCurrentHeatingCoolingState: 'Get Current Mode*',
       topicGetCurrentPurifierState: 'Get Current Mode*', // (fr)
       topicGetCurrentLockState: 'Get Current State*',
+      topicGetCurrentLockStateOptional: 'Get Current Lock State', // (fr) (ro)
       topicGetCurrentRelativeHumidity: 'Get Relative Humidity*',
       topicGetCurrentRelativeHumidityOptional: 'Get Relative Humidity',
       topicGetCurrentSecurityState: 'Get Current State*',
@@ -104,6 +107,7 @@ const en = {
       topicGetLeakDetected: 'Get Leak Detected*',
       topicGetLockPhysicalControls: 'Get Controls Locked', // (fr)
       topicGetMotionDetected: 'Get Motion Detected*',
+      topicGetObstructionDetected: 'Get Obstruction Detected*', // (fr) (ro)
       topicGetOccupancyDetected: 'Get Occupancy Detected*',
       topicGetOn: 'Get On/Off State*',
       topicGetOutletInUse: 'Get In Use State',
@@ -114,10 +118,12 @@ const en = {
       topicGetStatusActive: 'Get Availability',
       topicGetStatusFault: 'Get Fault',
       topicGetStatusTampered: 'Get Tampered',
+      topicGetTargetDoorState: 'Get Target Door State*', // (fr) (ro)
       topicGetTargetHeaterCoolerState: 'Get Target Mode*', // (fr)
       topicGetTargetHeatingCoolingState: 'Get Target Mode*',
       topicGetTargetPurifierState: 'Get Target Mode*', // (fr)
       topicGetTargetLockState: 'Get Target State*',
+      topicGetTargetLockStateOptional: 'Get Target Lock State', // (fr) (ro)
       topicGetTargetRelativeHumidity: 'Get Target Humidity',
       topicGetTargetSecurityState: 'Get Target State*',
       topicGetTargetTemperature: 'Get Target Temperature*',
@@ -138,10 +144,12 @@ const en = {
       topicSetRotationSpeed: 'Set Rotation Speed', // (fr)
       topicSetSaturation: 'Set Saturation',
       topicSetSwingMode: 'Set Swing Enabled', // (fr)
+      topicSetTargetDoorState: 'Set Target Door State*', // (fr) (ro)
       topicSetTargetHeaterCoolerState: 'Set Target Mode*', // (fr)
       topicSetTargetHeatingCoolingState: 'Set Target Mode*',
       topicSetTargetPurifierState: 'Set Target Mode*', // (fr)
       topicSetTargetLockState: 'Set Target State*',
+      topicSetTargetLockStateOptional: 'Set Target Lock State', // (fr) (ro)
       topicSetTargetRelativeHumidity: 'Set Target Humidity ',
       topicSetTargetSecurityState: 'Set Target State*',
       topicSetTargetTemperature: 'Set Target Temperature*',
@@ -165,6 +173,12 @@ const en = {
       valueControlLock: 'Controls Locked', // (fr)
       valueControlUnlock: 'Controls Unlocked', // (fr)
       valueDisarm: 'Disarm',
+      valueDoorObstructed: 'Obstructed', // (fr) (ro)
+      valueDoorStateClosed: 'Closed', // (fr) (ro)
+      valueDoorStateClosing: 'Closing', // (fr) (ro)
+      valueDoorStateOpen: 'Open', // (fr) (ro)
+      valueDoorStateOpening: 'Opening', // (fr) (ro)
+      valueDoorStateStopped: 'Stopped', // (fr) (ro)
       valueFault: 'Fault',
       valueFilterChange: 'Filter Dirty', // (fr) (ro)
       valueFilterReset: 'Reset Filter', // (fr) (ro)
@@ -213,6 +227,23 @@ const en = {
     level: '%s filter is at %d%', // accessory name, number
     ok: '%s filter is ok', // accessory name
     reset: 'Resetting filter for %s…', // accessory name
+  },
+
+  garage: { // (fr) (ro)
+    badValue: '%s missing value for garage door state %s', // accessory name, value
+    noCurrentStateValues: '%s must have at least one state value defined (Open, Closed, Opening, Closing, Stopped)', // accessory name
+    noTargetStateValues: '%s must have at least one target state value defined (Open, Closed)', // accessory name
+    obstructed: '%s is obstructed', // accessory name
+    stateClosed: '%s is closed', // accessory name
+    stateClosedFuture: 'Closing %s…', // accessory name
+    stateClosing: '%s is closing', // accessory name
+    stateOpen: '%s is open', // accessory name
+    stateOpenFuture: 'Opening %s…', // accessory name
+    stateOpening: '%s is opening', // accessory name
+    stateStopped: '%s is stopped', // accessory name
+    stateUnknown: '%s state is unknown', // accessory name
+    unknownValue: '%s unable to determine door state from value %s. Ignoring…', // accessory name, value
+    unobstructed: '%s is unobstructed', // accessory name
   },
 
   heaterCooler: { // (fr)
