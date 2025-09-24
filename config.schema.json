@@ -2418,6 +2418,27 @@
                           "flex": "0 0 25%"
                         }
                       ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].valueLockStateSecured",
+                          "title": "${config.title.valueLockStateSecuredOptional}",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valueLockStateUnsecured",
+                          "title": "${config.title.valueLockStateUnsecuredOptional}",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valueLockStateJammed",
+                          "flex": "0 0 25%"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -2426,7 +2447,7 @@
                   "displayFlex": true,
                   "flex-direction": "row",
                   "condition": {
-                    "functionBody": "return ['GarageDoorOpener', 'LockMechanism'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'LockMechanism';"
                   },
                   "items": [
                     {

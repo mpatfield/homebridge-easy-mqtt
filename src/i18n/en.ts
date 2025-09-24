@@ -187,7 +187,9 @@ const en = {
       valueLeakDetected: 'Leak Detected*',
       valueLockStateJammed: 'Jammed',
       valueLockStateSecured: 'Secured/Locked*',
+      valueLockStateSecuredOptional: 'Secured/Locked', // (fr) (ro)
       valueLockStateUnsecured: 'Unsecured/Unlocked*',
+      valueLockStateUnsecuredOptional: 'Unsecured/Unlocked', // (fr) (ro)
       valueModeAuto: 'Auto',
       valueModeCool: 'Cool',
       valueModeHeat: 'Heat',
