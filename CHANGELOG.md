@@ -2,11 +2,10 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.4.0-beta.13 (2025-09-24)
+## 1.4.0-beta.14 (2025-09-25)
 
 ### Added
-- Support for Air Purifier, GarageDoorOpener, HeaterCooler, LightSensor, and Valve
-- FilterMaintenance to climate control accessories
+- Support for Air Purifier, Fan (v2) GarageDoorOpener, HeaterCooler, LightSensor, and Valve
 - Broker, username, and password can be set via environment variables ([documentation](https://github.com/mpatfield/homebridge-easy-mqtt#environment-variables))
 - Publish arbitrary MQTT messages on connect ([documentation] (https://github.com/mpatfield/homebridge-easy-mqtt#mqtt-onconnect))
 - Traduceri în limba română. Mulțumesc, [@rursache](https://github.com/sponsors/rursache)!

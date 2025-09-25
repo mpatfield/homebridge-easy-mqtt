@@ -45,6 +45,7 @@ const en = {
       celsius: '°C',
       contactSensor: 'Contact Sensor',
       fahrenheit: '°F',
+      fan: 'Fan', // (fr) (ro)
       garageDoorOpener: 'Garage Door', // (fr) (ro)
       heaterCooler: 'Heater/Cooler', // (fr)
       humiditySensor: 'Humidity Sensor',
@@ -92,6 +93,7 @@ const en = {
       topicGetCoolingThresholdTemperature: 'Get Cooling Threshold',
       topicGetCurrentAmbientLightLevel: 'Get Current Light Level*', // (fr)
       topicGetCurrentDoorState: 'Get Current Door State*', // (fr) (ro)
+      topicGetCurrentFanState: 'Get Current Mode', // (fr) (ro)
       topicGetCurrentHeaterCoolerState: 'Get Current Mode*', // (fr)
       topicGetCurrentHeatingCoolingState: 'Get Current Mode*',
       topicGetCurrentPurifierState: 'Get Current Mode*', // (fr)
@@ -112,6 +114,7 @@ const en = {
       topicGetOccupancyDetected: 'Get Occupancy Detected*',
       topicGetOn: 'Get On/Off State*',
       topicGetOutletInUse: 'Get In Use State',
+      topicGetRotationDirection: 'Get Direction', // (fr) (ro)
       topicGetRotationSpeed: 'Get Rotation Speed', // (fr)
       topicGetSaturation: 'Get Saturation',
       topicGetSmokeDetected: 'Get Smoke Detected*',
@@ -120,6 +123,7 @@ const en = {
       topicGetStatusFault: 'Get Fault',
       topicGetStatusTampered: 'Get Tampered',
       topicGetTargetDoorState: 'Get Target Door State*', // (fr) (ro)
+      topicGetTargetFanState: 'Get Target Mode', // (fr) (ro)
       topicGetTargetHeaterCoolerState: 'Get Target Mode*', // (fr)
       topicGetTargetHeatingCoolingState: 'Get Target Mode*',
       topicGetTargetPurifierState: 'Get Target Mode*', // (fr)
@@ -142,10 +146,12 @@ const en = {
       topicSetHue: 'Set Hue',
       topicSetLockPhysicalControls: 'Set Lock Controls', // (fr)
       topicSetOn: 'Set On/Off State*',
+      topicSetRotationDirection: 'Set Direction', // (fr) (ro)
       topicSetRotationSpeed: 'Set Rotation Speed', // (fr)
       topicSetSaturation: 'Set Saturation',
       topicSetSwingMode: 'Set Swing Enabled', // (fr)
       topicSetTargetDoorState: 'Set Target Door State*', // (fr) (ro)
+      topicSetTargetFanState: 'Set Target Mode', // (fr) (ro)
       topicSetTargetHeaterCoolerState: 'Set Target Mode*', // (fr)
       topicSetTargetHeatingCoolingState: 'Set Target Mode*',
       topicSetTargetPurifierState: 'Set Target Mode*', // (fr)
@@ -173,6 +179,8 @@ const en = {
       valueContactDetected: 'Contact Detected*',
       valueControlLock: 'Controls Locked', // (fr)
       valueControlUnlock: 'Controls Unlocked', // (fr)
+      valueDirectionClockwise: 'Clockwise', // (fr) (ro)
+      valueDirectionCounterClockwise: 'Counter Clockwise', // (fr) (ro)
       valueDisarm: 'Disarm',
       valueDoorObstructed: 'Obstructed', // (fr) (ro)
       valueDoorStateClosed: 'Closed', // (fr) (ro)
@@ -192,6 +200,7 @@ const en = {
       valueLockStateUnsecured: 'Unsecured/Unlocked*',
       valueLockStateUnsecuredOptional: 'Unsecured/Unlocked', // (fr) (ro)
       valueModeAuto: 'Auto',
+      valueModeBlowing: 'Blowing', // (fr) (ro)
       valueModeCool: 'Cool',
       valueModeHeat: 'Heat',
       valueModeIdle: 'Idle', // (fr)
@@ -223,6 +232,23 @@ const en = {
     isTampered: '%s has been tampered with', // accessory name
     noFault: '%s has no fault', // accessory name
     notTampered: '%s tampered status has been reset', // accessory name
+  },
+
+  fan: {  // (fr) (ro)
+    badValue: '%s missing value for fan state %s', // accessory name, value
+    clockwise: '%s is rotation clockwise', // accessory name
+    counterClockwise: '%s is rotation counter clockwise', // accessory name
+    noCurrentStateValues: '%s must have at least one state value defined (Inactive, Idle, Blowing)', // accessory name
+    noTargetStateValues: '%s must have at least one target state value defined (Auto, Manual)', // accessory name
+    setDirectionClockwise: 'Setting %s rotation direction to clockwise…', // accessory name
+    setDirectionCounterClockwise: 'Setting %s rotation direction to counter clockwise…', // accessory name
+    stateAuto: 'Setting %s to auto…', // accessory name
+    stateBlowing: '%s is blowing air', // accessory name
+    stateIdle: '%s is idle', // accessory name
+    stateInactive: '%s is inactive', // accessory name
+    stateManual: 'Setting %s to manual…', // accessory name
+    stateUnknown: '%s state is unknown', // accessory name
+    unknownValue: '%s unable to determine fan state from value %s. Ignoring…', // accessory name, value
   },
 
   filter: { // (fr) (ro)

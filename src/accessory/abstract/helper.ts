@@ -34,6 +34,7 @@ import { ValveAccessory } from '../valve.js';
 import { PLUGIN_NAME } from '../../homebridge/settings.js';
 
 import { Log } from '../../tools/log.js';
+import { FanAccessory } from '../climate/fan.js';
 
 export function createIdentifier(info: Configs.InfoConfig): string {
   return info.id ?? `${PLUGIN_NAME}:${info.type}:${info.name}`;
@@ -57,6 +58,8 @@ export function createAccessory(
     return new COSensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.COSensorConfig, log, isGrouped);
   case AccessoryType.ContactSensor:
     return new ContactSensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.ContactSensorConfig, log, isGrouped);
+  case AccessoryType.Fanv2:
+    return new FanAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.FanConfig, log, isGrouped);
   case AccessoryType.GarageDoorOpener:
     return new GarageDoorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.GarageDoorConfig, log, isGrouped);
   case AccessoryType.HeaterCooler:

@@ -21,8 +21,8 @@
           "type": {
             "type": "string",
             "title": "${config.title.type}",
-            "enum": [ "AirPurifier", "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "GarageDoorOpener", "HeaterCooler", "HumiditySensor", "LeakSensor", "Lightbulb", "LightSensor", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "Switch", "TemperatureSensor", "Thermostat", "Valve"],
-            "enumNames": ["${config.enumNames.airPurifier}", "${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.garageDoorOpener}", "${config.enumNames.heaterCooler}", "${config.enumNames.humiditySensor}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lightSensor}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}", "${config.enumNames.valve}"],
+            "enum": [ "AirPurifier", "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "Fanv2", "GarageDoorOpener", "HeaterCooler", "HumiditySensor", "LeakSensor", "Lightbulb", "LightSensor", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "Switch", "TemperatureSensor", "Thermostat", "Valve"],
+            "enumNames": ["${config.enumNames.airPurifier}", "${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.fan}", "${config.enumNames.garageDoorOpener}", "${config.enumNames.heaterCooler}", "${config.enumNames.humiditySensor}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lightSensor}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}", "${config.enumNames.valve}"],
             "required": true
           },
           "group": {
@@ -438,6 +438,26 @@
               "type": "string",
               "title": "${config.title.topicSetTargetDoorState}"
             },
+            "topicGetCurrentFanState": {
+              "type": "string",
+              "title": "${config.title.topicGetCurrentFanState}"
+            },
+            "topicGetRotationDirection": {
+              "type": "string",
+              "title": "${config.title.topicGetRotationDirection}"
+            },
+            "topicGetTargetFanState": {
+              "type": "string",
+              "title": "${config.title.topicGetTargetFanState}"
+            },
+            "topicSetRotationDirection": {
+              "type": "string",
+              "title": "${config.title.topicSetRotationDirection}"
+            },
+            "topicSetTargetFanState": {
+              "type": "string",
+              "title": "${config.title.topicSetTargetFanState}"
+            },
             "valueBatteryLow": {
               "type": "string",
               "title": "${config.title.valueBatteryLow}"
@@ -633,6 +653,18 @@
             "valueDoorStateStopped": {
               "type": "string",
               "title": "${config.title.valueDoorStateStopped}"
+            },
+            "valueDirectionClockwise": {
+              "type": "string",
+              "title": "${config.title.valueDirectionClockwise}"
+            },
+            "valueDirectionCounterClockwise": {
+              "type": "string",
+              "title": "${config.title.valueDirectionCounterClockwise}"
+            },
+            "valueModeBlowing": {
+              "type": "string",
+              "title": "${config.title.valueModeBlowing}"
             },
             "resetOnRestart": {
               "type": "boolean",
@@ -858,6 +890,22 @@
                   { "required": ["valueModeAuto"] },
                   { "required": ["valueModeManual"] }
                 ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
+                        "const": "Fanv2"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": ["topicGetActive", "topicSetActive", "valueStateActive", "valueStateInactive"]
               }
             },
             {
@@ -1216,6 +1264,79 @@
               },
               "then": {
                 "required": ["topicGetTargetLockState"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicGetCurrentFanState": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicGetCurrentFanState"]
+              },
+              "then": {
+                "anyOf": [
+                  { "required": ["valueModeInactive"] },
+                  { "required": ["valueModeIdle"] },
+                  { "required": ["valueModeBlowing"] }
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicGetTargetFanState": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicGetTargetFanState"]
+              },
+              "then": {
+                "required": ["topicSetTargetFanState"],
+                "anyOf": [
+                  { "required": ["valueModeAuto"] },
+                  { "required": ["valueModeManual"] }
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicSetTargetFanState": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicSetTargetFanState"]
+              },
+              "then": {
+                "required": ["topicGetTargetFanState"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicGetRotationDirection": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicGetRotationDirection"]
+              },
+              "then": {
+                "required": ["topicSetRotationDirection", "valueDirectionClockwise", "valueDirectionCounterClockwise"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicSetRotationDirection": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicSetRotationDirection"]
+              },
+              "then": {
+                "required": ["topicGetRotationDirection"]
               }
             }
           ]
@@ -1844,7 +1965,7 @@
                   "type": "fieldset",
                   "notitle": true,
                   "condition": {
-                    "functionBody": "return ['AirPurifier', 'HeaterCooler'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                    "functionBody": "return ['AirPurifier', 'Fanv2', 'HeaterCooler'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {
@@ -1868,7 +1989,57 @@
                   "type": "fieldset",
                   "notitle": true,
                   "condition": {
-                    "functionBody": "return ['AirPurifier', 'HeaterCooler'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Fanv2';"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetCurrentFanState",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetTargetFanState",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetTargetFanState",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetRotationDirection",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetRotationDirection",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "return ['AirPurifier', 'Fanv2', 'HeaterCooler'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {
@@ -2244,7 +2415,7 @@
                   "type": "fieldset",
                   "notitle": true,
                   "condition": {
-                    "functionBody": "return ['AirPurifier', 'HeaterCooler'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                    "functionBody": "return ['AirPurifier', 'Fanv2, 'HeaterCooler'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {
@@ -2258,6 +2429,57 @@
                         },
                         {
                           "key": "accessories[].valueStateInactive",
+                          "flex": "0 0 20%"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Fanv2';"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].valueModeAuto",
+                          "flex": "0 0 20%"
+                        },
+                        {
+                          "key": "accessories[].valueModeManual",
+                          "flex": "0 0 20%"
+                        },
+                        {
+                          "key": "accessories[].valueModeBlowing",
+                          "flex": "0 0 20%"
+                        },
+                        {
+                          "key": "accessories[].valueModeIdle",
+                          "flex": "0 0 20%"
+                        },
+                        {
+                          "key": "accessories[].valueModeInactive",
+                          "flex": "0 0 20%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].valueDirectionClockwise",
+                          "flex": "0 0 20%"
+                        },
+                        {
+                          "key": "accessories[].valueDirectionCounterClockwise",
                           "flex": "0 0 20%"
                         }
                       ]
@@ -2340,7 +2562,7 @@
                   "type": "fieldset",
                   "notitle": true,
                   "condition": {
-                    "functionBody": "return ['AirPurifier', 'HeaterCooler'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                    "functionBody": "return ['AirPurifier', 'Fanv2, 'HeaterCooler'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {

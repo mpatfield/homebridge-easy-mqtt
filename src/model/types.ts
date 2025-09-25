@@ -204,6 +204,21 @@ export type ActiveClimateConfig = TemperatureControlConfig & {
   valueSwingDisabled?: string,
 }
 
+export type FanConfig = ActiveClimateConfig & {
+  topicGetCurrentFanState?: string,
+  topicGetRotationDirection?: string,
+  topicGetTargetFanState?: string,
+  topicSetRotationDirection?: string,
+  topicSetTargetFanState?: string,
+  valueDirectionClockwise?: string,
+  valueDirectionCounterClockwise?: string,
+  valueModeAuto?: string,
+  valueModeBlowing?: string,
+  valueModeIdle?: string,
+  valueModeInactive?: string,
+  valueModeManual?: string,
+}
+
 export type HeaterCoolerConfig = ActiveClimateConfig & FilterMaintenanceConfig & {
   topicGetCurrentHeaterCoolerState: string,
   topicGetTargetHeaterCoolerState: string,

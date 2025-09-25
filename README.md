@@ -29,6 +29,7 @@ This plugin is designed to be a simple replacement for the fantastic [homebridge
   - `CarbonDioxideSensor`
   - `CarbonMonoxideSensor`
   - `ContactSensor`
+  - `Fanv2`
   - `GarageDoorOpener`
   - `HeaterCooler`
   - `HumiditySensor`
@@ -310,6 +311,21 @@ These values are used for both determining current state and, where appropriate,
 - `valueSwingEnabled` - Accessory is oscillating
 - `valueSwingDisabled` - Accessory is not oscillating
 - `valueFilterChange` - Indicates that the filter needs to be changed. *Required if `topicGetFilterChangeIndication` is defined.
+
+#### Fanv2
+  topicGetCurrentFanState?: string,
+  topicGetRotationDirection?: string,
+  topicGetTargetFanState?: string,
+  topicSetRotationDirection?: string,
+  topicSetTargetFanState?: string,
+  valueDirectionClockwise?: string,
+  valueDirectionCounterClockwise?: string,
+  valueModeAuto?: string,
+  valueModeBlowing?: string,
+  valueModeIdle?: string,
+  valueModeInactive?: string,
+  valueModeManual?: string,
+
 
 #### HeaterCooler
 - `temperatureUnits` - The temperature units of the incoming value supplied by the thermostat, `C` for Celsius  (default) `F` for Fahrenheit
