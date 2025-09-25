@@ -172,7 +172,7 @@ export type TemperatureControlConfig = BaseAccessoryConfig & TemperatureConfig &
   topicSetHeatingThresholdTemperature?: string,
 }
 
-export type ThermostatConfig = TemperatureControlConfig & FilterMaintenanceConfig &{
+export type ThermostatConfig = TemperatureControlConfig & {
   topicGetCurrentHeatingCoolingState: string,
   topicGetCurrentRelativeHumidity?: string,
   topicGetTargetHeatingCoolingState: string,

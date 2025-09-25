@@ -2155,7 +2155,7 @@
                   "type": "fieldset",
                   "notitle": true,
                   "condition": {
-                    "functionBody": "return ['AirPurifier', 'HeaterCooler', 'Thermostat'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                    "functionBody": "return ['AirPurifier', 'HeaterCooler'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {
@@ -2372,7 +2372,7 @@
                   "type": "fieldset",
                   "notitle": true,
                   "condition": {
-                    "functionBody": "return ['AirPurifier', 'HeaterCooler', 'Thermostat'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                    "functionBody": "return ['AirPurifier', 'HeaterCooler'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {

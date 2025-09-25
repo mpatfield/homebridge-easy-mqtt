@@ -2,8 +2,6 @@ import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebrid
 
 import { TemperatureControlAccessory, DEFAULT_TEMPERATURE } from './temperatureControl.js';
 
-import { FilterMaintenance } from '../addons/filter.js';
-
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
@@ -54,8 +52,6 @@ export class ThermostatAccessory extends TemperatureControlAccessory<ThermostatC
       'topicGetTargetRelativeHumidity', this.bindOnUpdateNumeric(CharacteristicKey.TargetRelativeHumidity, strings.thermostat.humidityFuture), false,
       'topicSetTargetRelativeHumidity', this.onSetHumidity.bind(this),
     );
-
-    this.addTopicHandlers(FilterMaintenance.topicHandlers(Service, this, config));
   }
 
   protected getAccessoryType(): AccessoryType {
