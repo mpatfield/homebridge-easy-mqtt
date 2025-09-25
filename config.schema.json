@@ -634,6 +634,10 @@
               "type": "string",
               "title": "${config.title.valueDoorStateStopped}"
             },
+            "resetOnRestart": {
+              "type": "boolean",
+              "title": "${config.title.resetOnRestart}"
+            },
             "disableLogging": {
               "type": "boolean",
               "title": "${config.title.disableLogging}"
@@ -1291,7 +1295,21 @@
               ]
             },
             "accessories[].mqtt.options",
-            "accessories[].disableLogging",
+            {
+              "type": "div",
+              "displayFlex": true,
+              "flex-direction": "row",
+              "items": [
+                {
+                  "key": "accessories[].resetOnRestart",
+                  "flex": "0 0 25%"
+                },
+                {
+                  "key": "accessories[].disableLogging",
+                  "flex": "0 0 25%"
+                }
+              ]
+            },
             {
               "type": "fieldset",
               "title": "${config.title.topics}",

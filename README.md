@@ -87,6 +87,7 @@ Using the Homebridge Config UI is the easiest way to set up this plugin. However
         }
         …
       ],
+      "resetOnRestart": false,
       "disableLogging": false,
       … // See Topics & Values below for additional attributes for each accessory type
   ],
@@ -538,6 +539,12 @@ Due to the complexity, this was intentionally left out of the plugin config UI, 
 - `units` - The units which will be displayed at the end of the numeric value
 
 Since `customCharacteristics` is an array, you may define as many custom characteristics as you wish.
+
+## Persistance
+
+By default, all accessory values are saved and reloaded when the plugin restarts. However, you may override this behavior by selecting `Reset on Restart` option and accessories will be reset to defaults whenever the plugin or Homebridge restarts.
+
+- `"resetOnRestart": true`
 
 ## Credits
 

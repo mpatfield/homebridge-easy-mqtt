@@ -51,12 +51,7 @@ export class PurifierAccessory extends ActiveClimateAccessory<PurifierConfig> {
       'topicSetTargetPurifierState', this.onSetTargetState.bind(this))
       ?.setProps({ validValues: validTargetStates.map((key) => this.TARGET_STATE_MAP.get(key)!) });
 
-    this.addTopicHandlers(
-      FilterMaintenance.topicHandlers(
-        Service, Characteristic, log, config.disableLogging, accessory,
-        this.accessoryService, config, this.name, this.publish.bind(this),
-      ),
-    );
+    this.addTopicHandlers(FilterMaintenance.topicHandlers(Service, this, config));
   }
 
   protected getAccessoryType(): AccessoryType {

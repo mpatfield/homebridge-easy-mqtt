@@ -9,6 +9,7 @@ import { Log, LogType } from '../../tools/log.js';
 import { toNumber, toPrimitive } from '../../tools/primitive.js';
 import { assert, Assertable } from '../../tools/validation.js';
 import { toCelsius } from '../../tools/temperature.js';
+import { Properties } from '../../tools/properties.js';
 
 type OnUpdateHandler = (topic: string, value: PrimitiveTypes) => (Promise<void>);
 export type TopicHandler = {topic: string, handler: OnUpdateHandler};
@@ -17,20 +18,35 @@ export type PublishHandler = (topic: string, value: PrimitiveTypes) => void
 
 export abstract class Common<C extends Assertable> {
 
-  protected readonly properties = new Map<string, CharacteristicValue>();
+  private _properties: Properties | undefined = undefined;
 
   public readonly topicHandlers: TopicHandler[] = [];
 
   constructor(
-    protected readonly Characteristic: CharacteristicType,
-    protected readonly log: Log,
-    private readonly disableLogging: boolean,
-    protected readonly config: C,
-    protected readonly name: string,
-    private readonly publishHandler: PublishHandler,
+    public readonly name: string,
   ) {}
 
   protected abstract get service(): Service;
+  protected abstract get Characteristic(): CharacteristicType;
+
+  protected abstract get log(): Log;
+  protected abstract get disableLogging(): boolean;
+
+  protected abstract get config(): C;
+
+  protected abstract get identifier(): string;
+  protected abstract get useStoredProperties(): boolean;
+
+  protected abstract publish(rawTopic: string, value: PrimitiveTypes): void;
+
+  protected get properties(): Properties {
+
+    if (this._properties === undefined) {
+      this._properties = new Properties(this.identifier, this.useStoredProperties);
+    }
+
+    return this._properties;
+  }
 
   protected assert(...keys: (keyof C)[]): boolean {
     return assert(this.log, this.name, this.config, ...keys);
@@ -72,7 +88,7 @@ export abstract class Common<C extends Assertable> {
     this.setupCharacteristicOnSet(characteristicKey, setTopicKey, onSetHandler);
   }
 
-  protected setupCharacteristicOnGet(characteristicKey: CharacteristicKey, defaultValue: CharacteristicValue,
+  private setupCharacteristicOnGet(characteristicKey: CharacteristicKey, defaultValue: CharacteristicValue,
     getTopicKey: keyof C, onUpdateHandler: OnUpdateHandler, assertGetTopic: boolean = false,
   ): Characteristic | undefined {
 
@@ -94,8 +110,12 @@ export abstract class Common<C extends Assertable> {
       return;
     }
 
+    const startingValue = (this.useStoredProperties && this.properties.get(characteristicKey)) ?? defaultValue;
+
     const characteristic = this.service.getCharacteristic(this.Characteristic[characteristicKey]);
-    this.properties.set(characteristicKey, defaultValue);
+    characteristic.setValue(startingValue);
+
+    this.properties.set(characteristicKey, startingValue);
 
     characteristic.onGet( async (): Promise<Nullable<CharacteristicValue>> => {
       return this.properties.get(characteristicKey) ?? null;
@@ -195,7 +215,7 @@ export abstract class Common<C extends Assertable> {
 
     this.service.updateCharacteristic(this.Characteristic[key], value);
 
-    this.publishHandler(this.config[topic] as string, publish);
+    this.publish(this.config[topic] as string, publish);
   }
 
   protected logIfDesired(message: string, ...parameters: string[]): void;

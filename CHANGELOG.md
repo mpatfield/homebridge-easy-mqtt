@@ -2,7 +2,7 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.4.0-beta.12 (2025-09-24)
+## 1.4.0-beta.13 (2025-09-24)
 
 ### Added
 - Support for Air Purifier, GarageDoorOpener, HeaterCooler, LightSensor, and Valve
@@ -12,6 +12,8 @@ All notable changes to homebridge-dummy will be documented in this file.
 - Traduceri în limba română. Mulțumesc, [@rursache](https://github.com/sponsors/rursache)!
 
 ### Changed
+- ⚠️ All accessory states are now saved across plugin/Homebridge restarts
+    - If you want to keep the old behavior, select the `Reset on Restart` option for each accessory you want to reset
 - Optimized MQTT connections by sharing across multiple accessories when possible
     - Previously, every accessory had its own connection
 - Better field validation in config UI (Thank you, [@justjam2013](https://github.com/sponsors/justjam2013) for teaching me this!)

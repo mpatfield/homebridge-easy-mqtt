@@ -55,12 +55,7 @@ export class ThermostatAccessory extends TemperatureControlAccessory<ThermostatC
       'topicSetTargetRelativeHumidity', this.onSetHumidity.bind(this),
     );
 
-    this.addTopicHandlers(
-      FilterMaintenance.topicHandlers(
-        Service, Characteristic, log, config.disableLogging, accessory,
-        this.accessoryService, config, this.name, this.publish.bind(this),
-      ),
-    );
+    this.addTopicHandlers(FilterMaintenance.topicHandlers(Service, this, config));
   }
 
   protected getAccessoryType(): AccessoryType {

@@ -64,6 +64,7 @@ export type MQTTAccessoryConfig = Assertable & {
   info: InfoConfig,
   mqtt?: MQTTConfig,
   customCharacteristics?: CustomCharacteristicConfig[];
+  resetOnRestart?: boolean,
   disableLogging: boolean,
 }
 

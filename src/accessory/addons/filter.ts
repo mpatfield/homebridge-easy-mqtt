@@ -1,34 +1,38 @@
-import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
+import { CharacteristicValue, PrimitiveTypes, Service } from 'homebridge';
 
 import { Addon } from './addon.js';
 
-import { PublishHandler, TopicHandler } from '../abstract/common.js';
+import { TopicHandler } from '../abstract/common.js';
 
 import { strings } from '../../i18n/i18n.js';
 
 import { AddonType, CharacteristicKey } from '../../model/enums.js';
-import { CharacteristicType, FilterMaintenanceConfig, ServiceType } from '../../model/types.js';
+import { FilterMaintenanceConfig, MQTTAccessoryConfig, ServiceType } from '../../model/types.js';
 
-import { Log, LogType } from '../../tools/log.js';
+import { LogType } from '../../tools/log.js';
+import { MQTTAccessory } from '../abstract/mqtt.js';
 
 export class FilterMaintenance extends Addon<FilterMaintenanceConfig> {
 
   static topicHandlers(
-    Service: ServiceType, Characteristic: CharacteristicType, log: Log, disableLogging: boolean, accessory: PlatformAccessory,
-    parentService: Service, config: FilterMaintenanceConfig, name: string, publishHandler: PublishHandler,
+    Service: ServiceType,
+    parentAccessory: MQTTAccessory<MQTTAccessoryConfig>,
+    config: FilterMaintenanceConfig,
   ): TopicHandler[] {
-    const filterMaintenance = Addon.new(Service, Characteristic, accessory, parentService, name, config, log, disableLogging, publishHandler,
-      AddonType.FilterMaintenance, FilterMaintenance, ['topicGetFilterChangeIndication']);
+    const FilterMaintenanceService = Service[AddonType.FilterMaintenance];
+    const filterMaintenance =
+      Addon.new(parentAccessory, FilterMaintenanceService, config, ['topicGetFilterChangeIndication'], FilterMaintenance);
     return filterMaintenance?.topicHandlers ?? [];
   }
 
   public constructor(
-    service: Service, Characteristic: CharacteristicType, log: Log, disableLogging: boolean,
-    config: FilterMaintenanceConfig, name: string, publishHandler: PublishHandler,
+    service: Service,
+    parentAccessory: MQTTAccessory<MQTTAccessoryConfig>,
+    config: FilterMaintenanceConfig,
   ) {
-    super(service, Characteristic, log, disableLogging, config, name, publishHandler);
+    super(parentAccessory, service, config);
 
-    this.setupCharacteristic(CharacteristicKey.FilterChangeIndication, Characteristic.FilterChangeIndication.FILTER_OK,
+    this.setupCharacteristic(CharacteristicKey.FilterChangeIndication, this.Characteristic.FilterChangeIndication.FILTER_OK,
       'topicGetFilterChangeIndication', this.onChangeIndicationUpdate.bind(this));
 
     this.setupCharacteristic(CharacteristicKey.FilterLifeLevel, 100,

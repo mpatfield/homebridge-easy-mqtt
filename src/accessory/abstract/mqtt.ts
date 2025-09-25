@@ -14,20 +14,17 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
 
   private readonly mqttClient: MQTT | undefined;
 
-  protected readonly accessoryService: Service;
+  private readonly accessoryService: Service;
 
   constructor(
     Service: ServiceType,
-    Characteristic: CharacteristicType,
-    accessory: PlatformAccessory,
-    config: C,
-    log: Log,
+    public readonly Characteristic: CharacteristicType,
+    public readonly platformAccessory: PlatformAccessory,
+    public readonly config: C,
+    public readonly log: Log,
     isGrouped: boolean,
   ) {
-
-    super(Characteristic, log, config.disableLogging, config, config.info.name, (topic, value) => {
-      this.mqttClient?.publish(topic, value);
-    });
+    super(config.info.name);
 
     this.mqttClient = MQTT.connect(log, config.mqtt, this.name, (client: MQTT) => {
       this.topicHandlers.forEach( topicHandler => {
@@ -39,9 +36,9 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
 
     if (isGrouped) {
 
-      let accessoryService = accessory.getServiceById(serviceInstance, this.identifier);
+      let accessoryService = platformAccessory.getServiceById(serviceInstance, this.identifier);
       if (!accessoryService) {
-        accessoryService = accessory.addService(serviceInstance, config.info.name, this.identifier);
+        accessoryService = platformAccessory.addService(serviceInstance, config.info.name, this.identifier);
         accessoryService.setCharacteristic(Characteristic.ConfiguredName, config.info.name);
       }
 
@@ -50,12 +47,12 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
       return;
     }
 
-    this.accessoryService = accessory.getService(serviceInstance) || accessory.addService(serviceInstance);
+    this.accessoryService = platformAccessory.getService(serviceInstance) || platformAccessory.addService(serviceInstance);
 
     for (const type of Object.values(AccessoryType)) {
-      const existingService = accessory.getService(Service[type]);
+      const existingService = platformAccessory.getService(Service[type]);
       if (existingService && type !== config.info.type) {
-        accessory.removeService(existingService);
+        platformAccessory.removeService(existingService);
       }
     }
 
@@ -64,12 +61,20 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
 
   protected abstract getAccessoryType(): AccessoryType;
 
-  protected get service(): Service {
+  public get service(): Service {
     return this.accessoryService;
   }
 
-  protected get identifier(): string {
+  public get identifier(): string {
     return createIdentifier(this.config.info);
+  }
+
+  public get useStoredProperties(): boolean {
+    return this.config.resetOnRestart !== true;
+  }
+
+  public get disableLogging(): boolean {
+    return this.config.disableLogging;
   }
 
   public get subtype(): string | undefined {
@@ -98,7 +103,7 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
     }
   }
 
-  protected publish(topic: string, value: PrimitiveTypes) {
+  public publish(topic: string, value: PrimitiveTypes) {
     this.mqttClient?.publish(topic, value);
   }
 

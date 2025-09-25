@@ -13,6 +13,7 @@ import { BaseAccessoryConfig, PlatformConfig } from '../model/types.js';
 import { Log } from '../tools/log.js';
 import getVersion from '../tools/version.js';
 import { assert } from '../tools/validation.js';
+import { Properties } from '../tools/properties.js';
 
 export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
@@ -62,6 +63,8 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
   }
 
   private async setup(): Promise<void> {
+
+    await Properties.initStorage(this.api.user.persistPath());
 
     if (!this.config.accessories) {
       this.config.accessories = [];

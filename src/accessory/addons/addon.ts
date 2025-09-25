@@ -1,61 +1,88 @@
-import { PlatformAccessory, Service } from 'homebridge';
+import { PrimitiveTypes, Service } from 'homebridge';
 
-import { Common, PublishHandler } from '../abstract/common.js';
+import { Common } from '../abstract/common.js';
 
 import { AddonType } from '../../model/enums.js';
-import { AddonConfig, CharacteristicType, ServiceType } from '../../model/types.js';
+import { AddonConfig, CharacteristicType, MQTTAccessoryConfig } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
 import { assert } from '../../tools/validation.js';
+import { MQTTAccessory } from '../abstract/mqtt.js';
 
 type AddonConstructor<C extends AddonConfig, A extends Addon<C>> =
-  new (service: Service, Characteristic: CharacteristicType, log: Log, disableLogging: boolean, config: C, name: string, publishHandler: PublishHandler) => A;
+  new (
+    service: Service,
+    parentAccessory: MQTTAccessory<MQTTAccessoryConfig>,
+    config: C,
+  ) => A;
+
+type AddonServiceType = typeof import('homebridge').Service[AddonType];
 
 export abstract class Addon<C extends AddonConfig> extends Common<C> {
 
   static new<C extends AddonConfig, A extends Addon<C>>(
-    Service: ServiceType,
-    Characteristic: CharacteristicType,
-    accessory: PlatformAccessory,
-    parentService: Service,
-    name: string,
+    parentAccessory: MQTTAccessory<MQTTAccessoryConfig>,
+    addonServiceInstance: AddonServiceType,
     config: C,
-    log: Log,
-    disableLogging: boolean,
-    publishHandler: PublishHandler,
-    addonType: AddonType,
-    constructor: AddonConstructor<C, A>,
     required: (keyof C)[],
+    constructor: AddonConstructor<C, A>,
   ): A | undefined {
 
-    const addonServiceInstance = Service[addonType];
-    const existingAddonService = accessory.getService(addonServiceInstance);
+    const existingAddonService = parentAccessory.platformAccessory.getService(addonServiceInstance);
 
-    if (required.filter( (key) => config[key] !== undefined ).length === 0 || !assert(log, name, config, ...required)) {
+    if (required.filter( (key) => config[key] !== undefined ).length === 0 || !assert(parentAccessory.log, parentAccessory.name, config, ...required)) {
       if (existingAddonService !== undefined) {
-        accessory.removeService(existingAddonService);
+        parentAccessory.platformAccessory.removeService(existingAddonService);
       }
       return;
     }
 
-    const addonService = existingAddonService ?? accessory.addService(addonServiceInstance);
+    const addonService = existingAddonService ?? parentAccessory.platformAccessory.addService(addonServiceInstance);
 
     if (existingAddonService === undefined) {
-      parentService.addLinkedService(addonService);
+      parentAccessory.service.addLinkedService(addonService);
     }
 
-    return new constructor(addonService, Characteristic, log, disableLogging, config, name, publishHandler);
+    return new constructor(addonService, parentAccessory, config);
   }
 
   protected constructor(
-    protected readonly service: Service,
-    Characteristic: CharacteristicType,
-    log: Log,
-    disableLogging: boolean,
-    config: C,
-    name: string,
-    publishHandler: PublishHandler,
+    private readonly parentAccessory: MQTTAccessory<MQTTAccessoryConfig>,
+    private readonly addonService: Service,
+    private readonly addonConfig: C,
   ) {
-    super(Characteristic, log, disableLogging, config, name, publishHandler);
+    super(parentAccessory.name);
+  }
+
+  protected get service(): Service {
+    return this.addonService;
+  }
+
+  protected get Characteristic(): CharacteristicType {
+    return this.parentAccessory.Characteristic;
+  }
+
+  protected get log(): Log {
+    return this.parentAccessory.log;
+  }
+
+  protected get disableLogging(): boolean {
+    return this.parentAccessory.disableLogging;
+  }
+
+  protected get config(): C {
+    return this.addonConfig;
+  }
+
+  protected get identifier(): string {
+    return `${this.parentAccessory.identifier}:${this.addonService.UUID}`;
+  }
+
+  protected get useStoredProperties(): boolean {
+    return this.parentAccessory.useStoredProperties;
+  }
+
+  protected publish(rawTopic: string, value: PrimitiveTypes): void {
+    return this.parentAccessory.publish(rawTopic, value);
   }
 }

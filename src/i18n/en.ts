@@ -75,6 +75,7 @@ const en = {
       name: 'Name',
       options: 'Options',
       password: 'Password',
+      resetOnRestart: 'Reset on Restart', // (fr) (ro)
       sourceUnits: 'Source Units',
       topicGetActive: 'Get Active*', // (fr)
       topicGetBatteryLevel: 'Get Battery Level',
