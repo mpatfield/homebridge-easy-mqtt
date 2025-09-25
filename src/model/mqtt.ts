@@ -59,7 +59,6 @@ export class MQTT {
   private static readonly INSTANCES = new Map<string, MQTT>();
 
   private readonly onConnectCallbacks: OnConnectCallback[] = [];
-
   private readonly onConnectMessages = new Map<string, MQTTMessage>();
 
   private client: mqtt.MqttClient | undefined = undefined;
@@ -108,39 +107,36 @@ export class MQTT {
         onConnect(instance);
       }
 
-      instance.onConnectCallbacks.push(onConnect);
+    } else {
+      log.ifVerbose(strings.mqttClient.new, caller, id);
 
-      const onConnectMessages = config?.onConnect;
-      if (onConnectMessages !== undefined) {
+      instance = new MQTT(log, broker, options);
+      MQTT.INSTANCES.set(id, instance);
 
-        const errorLog = '\n[ { "topic": "example/topic", "message": "example message" } ]';
-        if (!Array.isArray(onConnectMessages)) {
-          log.error(strings.mqttClient.badMessages, errorLog);
-        } else {
-          for (const message of onConnectMessages) {
-
-            if (message.topic === undefined || message.message === undefined) {
-              log.error(strings.mqttClient.badMessages, errorLog);
-              continue;
-            }
-
-            const key = `${message.topic}|${message.message}`;
-            instance?.onConnectMessages.set(key, message);
-          }
-        }
-      }
-
-      return instance;
+      instance.connect();
     }
-
-    log.ifVerbose(strings.mqttClient.new, caller, id);
-
-    instance = new MQTT(log, broker, options);
-    MQTT.INSTANCES.set(id, instance);
 
     instance.onConnectCallbacks.push(onConnect);
 
-    instance.connect();
+    const onConnectMessages = config?.onConnect;
+    if (onConnectMessages !== undefined) {
+
+      const errorLog = '\n[ { "topic": "example/topic", "message": "example message" } ]';
+      if (!Array.isArray(onConnectMessages)) {
+        log.error(strings.mqttClient.badMessages, errorLog);
+      } else {
+        for (const message of onConnectMessages) {
+
+          if (message.topic === undefined || message.message === undefined) {
+            log.error(strings.mqttClient.badMessages, errorLog);
+            continue;
+          }
+
+          const key = `${message.topic}|${message.message}`;
+          instance?.onConnectMessages.set(key, message);
+        }
+      }
+    }
 
     return instance;
   }
