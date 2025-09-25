@@ -33,7 +33,7 @@ type ErrorStatusConfig = {
   valueTampered?: string,
 }
 
-type InfoConfig = Assertable & {
+export type InfoConfig = Assertable & {
   id: string,
   name: string,
   type: AccessoryType,

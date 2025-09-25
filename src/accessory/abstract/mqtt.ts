@@ -8,6 +8,7 @@ import { MQTT } from '../../model/mqtt.js';
 import { CharacteristicType, MQTTAccessoryConfig, ServiceType } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
+import { createIdentifier } from './helper.js';
 
 export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Common<C> {
 
@@ -38,9 +39,9 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
 
     if (isGrouped) {
 
-      let accessoryService = accessory.getServiceById(serviceInstance, config.info.id);
+      let accessoryService = accessory.getServiceById(serviceInstance, this.identifier);
       if (!accessoryService) {
-        accessoryService = accessory.addService(serviceInstance, config.info.name, config.info.id);
+        accessoryService = accessory.addService(serviceInstance, config.info.name, this.identifier);
         accessoryService.setCharacteristic(Characteristic.ConfiguredName, config.info.name);
       }
 
@@ -65,6 +66,10 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
 
   protected get service(): Service {
     return this.accessoryService;
+  }
+
+  protected get identifier(): string {
+    return createIdentifier(this.config.info);
   }
 
   public get subtype(): string | undefined {

@@ -31,7 +31,13 @@ import { SmokeSensorAccessory } from '../sensor/smoke.js';
 import { TemperatureSensorAccessory } from '../sensor/temperature.js';
 import { ValveAccessory } from '../valve.js';
 
+import { PLUGIN_NAME } from '../../homebridge/settings.js';
+
 import { Log } from '../../tools/log.js';
+
+export function createIdentifier(info: Configs.InfoConfig): string {
+  return info.id ?? `${PLUGIN_NAME}:${info.type}:${info.name}`;
+}
 
 export function createAccessory(
   Service: Configs.ServiceType,

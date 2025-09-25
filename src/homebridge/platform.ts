@@ -4,7 +4,7 @@ import { PLATFORM_NAME, PLUGIN_NAME } from './settings.js';
 
 import { BaseAccessory } from '../accessory/abstract/base.js';
 import { GroupAccessory } from '../accessory/abstract/group.js';
-import { createAccessory } from '../accessory/abstract/helper.js';
+import { createAccessory, createIdentifier } from '../accessory/abstract/helper.js';
 
 import { setLanguage, strings } from '../i18n/i18n.js';
 
@@ -90,7 +90,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
         continue;
       }
 
-      const id = accessoryConfig.info.id ?? `${PLUGIN_NAME}:${accessoryConfig.info.type}:${accessoryConfig.info.name}`;
+      const id = createIdentifier(accessoryConfig.info);
       const uuid = this.api.hap.uuid.generate(id);
 
       const platformAccessory = this.createPlatformAccessory(accessoryConfig.info.name, uuid);

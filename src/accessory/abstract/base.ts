@@ -23,7 +23,7 @@ export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessor
       .setCharacteristic(Characteristic.ConfiguredName, config.info.name)
       .setCharacteristic(Characteristic.Manufacturer, config.info.manufacturer ?? PLATFORM_NAME)
       .setCharacteristic(Characteristic.Model, config.info.model ?? config.info.type)
-      .setCharacteristic(Characteristic.SerialNumber, config.info.serialNumber ?? config.info.id)
+      .setCharacteristic(Characteristic.SerialNumber, config.info.serialNumber ?? this.identifier)
       .setCharacteristic(Characteristic.FirmwareRevision, config.info.version ?? getVersion());
     }
 
