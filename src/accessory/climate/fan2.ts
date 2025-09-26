@@ -31,7 +31,7 @@ export class FanV2Accessory extends ActiveClimateAccessory<FanV2Config> {
     ]);
 
     const validCurrentStates = Array.from(this.CURRENT_STATE_MAP.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
-    if (validCurrentStates.length === 0) {
+    if (config.topicGetCurrentFanState !== undefined && validCurrentStates.length === 0) {
       this.log.error(strings.fanv2.noCurrentStateValues, this.name);
       return;
     }
@@ -41,7 +41,7 @@ export class FanV2Accessory extends ActiveClimateAccessory<FanV2Config> {
       ?.setProps({ validValues: validCurrentStates.map((key) => this.CURRENT_STATE_MAP.get(key)!) });
 
     const validTargetStates = Array.from(this.TARGET_STATE_MAP.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
-    if (validTargetStates.length === 0) {
+    if (config.topicGetTargetFanState !== undefined && validTargetStates.length === 0) {
       this.log.error(strings.fanv2.noTargetStateValues, this.name);
       return;
     }
