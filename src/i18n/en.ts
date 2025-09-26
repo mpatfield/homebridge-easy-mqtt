@@ -32,7 +32,7 @@ const en = {
 
     description: {
       broker: 'If not supplied, defaults to mqtt://127.0.0.1:1883/', // (fr) (ro)
-      options: 'Additional MQTT parameters such as clientId or protocolVersion. Must be valid JSON.',
+      options: 'A combination of additional client or publish options as valid JSON', // (fr) (ro)
       topics: 'Supports JSONPath using dot notation, i.e. "my/topic$.path.to.value"',
       values: 'Used for both get and set (publish), where appropriate', // (fr) (ro)
       verbose: 'If true, additional MQTT info will be logged for debugging purposes.',

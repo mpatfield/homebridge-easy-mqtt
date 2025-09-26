@@ -313,19 +313,32 @@ These values are used for both determining current state and, where appropriate,
 - `valueFilterChange` - Indicates that the filter needs to be changed. *Required if `topicGetFilterChangeIndication` is defined.
 
 #### Fanv2
-  topicGetCurrentFanState?: string,
-  topicGetRotationDirection?: string,
-  topicGetTargetFanState?: string,
-  topicSetRotationDirection?: string,
-  topicSetTargetFanState?: string,
-  valueDirectionClockwise?: string,
-  valueDirectionCounterClockwise?: string,
-  valueModeAuto?: string,
-  valueModeBlowing?: string,
-  valueModeIdle?: string,
-  valueModeInactive?: string,
-  valueModeManual?: string,
-
+- `topicGetActive*` - Get whether or not the accessory is currently active
+- `topicSetActive*` - Set whether or not the accessory is currently active
+- `topicGetCurrentFanState` - Get current fan mode (blowing, idle, inactive)
+- `topicGetTargetFanState` - Get target fan mode (auto, manual)
+- `topicSetTargetFanState` - Set target fan mode (auto, manual)
+- `topicGetLockPhysicalControls` - Get whether or not the physical controls are locked
+- `topicSetLockPhysicalControls` - Set whether or not the physical controls are locked
+- `topicGetRotationDirection` - Get the fan rotation direction (clockwise, counter clockwise)
+- `topicSetRotationDirection` - Set the fan rotation direction (clockwise, counter clockwise)
+- `topicGetRotationSpeed` - Get the rotation speed as a percentage
+- `topicSetRotationSpeed` - Set the rotation speed as a percentage
+- `topicGetSwingMode` - Get whether or not accessory is oscillating
+- `topicSetSwingMode` - Set whether or not accessory is oscillating
+- `valueStateActive*` - Accessory is currently active
+- `valueStateInactive*` - Accessory is currently inactive
+- `valueModeBlowing` - Air blowing mode
+- `valueModeIdle` - Idle mode
+- `valueModeInactive` - Inactive mode
+- `valueModeAuto` - Auto target mode
+- `valueModeManual` - Manual target mode
+- `valueDirectionClockwise` - Rotating clockwise
+- `valueDirectionCounterClockwise` - Rotating counter clockwise
+- `valueControlLock` - Physical controls are locked
+- `valueControlUnlock` - Physical controls are unlocked
+- `valueSwingEnabled` - Accessory is oscillating
+- `valueSwingDisabled` - Accessory is not oscillating
 
 #### HeaterCooler
 - `temperatureUnits` - The temperature units of the incoming value supplied by the thermostat, `C` for Celsius  (default) `F` for Fahrenheit
@@ -435,10 +448,10 @@ You may also turn on additional logging if you'd like to see the MQTT messages p
 
 ## MQTT Options
 
-You are able to pass in any arbitrary MQTT options via `mqtt.options` in the config. This can include, for example, such as clientId, protocolVersion, etc. Just make sure the value provided is valid JSON. For example:
+You are able to pass in any arbitrary MQTT options via `mqtt.options` in the config. This can be a combination of [client options](https://github.com/mqttjs/MQTT.js?tab=readme-ov-file#mqttclientstreambuilder-options) and [publish options](https://github.com/mqttjs/MQTT.js?tab=readme-ov-file#mqttclientpublishtopic-message-options-callback). Just make sure the value provided is valid JSON. For example:
 
 ```
-"options": "{ \"protocolVersion\": \"4\", \"clientId\": \"my-client-id\", \"rejectUnauthorized\": true }"
+"options": "{ \"protocolVersion\": \"4\", \"clientId\": \"my-client-id\", \"retain\": true }"
 ```
 
 ## MQTT OnConnect

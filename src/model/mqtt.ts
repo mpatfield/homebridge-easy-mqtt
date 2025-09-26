@@ -144,7 +144,7 @@ export class MQTT {
   private constructor(
     private readonly log: Log,
     private readonly broker: string,
-    private readonly options: mqtt.IClientOptions,
+    private readonly options: mqtt.IClientOptions & mqtt.IClientPublishOptions,
   ) {}
 
   private get host(): string {
@@ -235,7 +235,7 @@ export class MQTT {
       message = value.toString();
     }
 
-    this.client.publish(topic.base, message);
+    this.client.publish(topic.base, message, this.options);
 
     this.log.ifVerbose( `${strings.mqttClient.publish} — ${topic.base} ${message}`, this.host);
   }
