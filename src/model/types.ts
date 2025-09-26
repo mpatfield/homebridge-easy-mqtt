@@ -113,6 +113,22 @@ export type SwitchConfig = OnOffConfig & {
 export type SensorConfig = BaseAccessoryConfig & ErrorStatusConfig & {
 }
 
+export type AirSensorConfig = SensorConfig & {
+  topicGetAirQuality: string,
+  topicGetNitrogenDioxideDensity?: string,
+  topicGetOzoneDensity?: string,
+  topicGetPM10Density?: string,
+  topicGetPM2_5Density?: string,
+  topicGetSulphurDioxideDensity?: string,
+  topicGetVOCDensity?: string,
+  valueAQExcellent?: string,
+  valueAQFair?: string,
+  valueAQGood?: string,
+  valueAQInferior?: string,
+  valueAQPoor?: string,
+  valueAQUnknown?: string,
+}
+
 export type COSensorConfig = SensorConfig & {
   topicGetCarbonMonoxideDetected: string,
   topicGetCarbonMonoxideLevel?: string,

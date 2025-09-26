@@ -40,6 +40,7 @@ const en = {
 
     enumNames: {
       airPurifier: 'Air Purifier', // (fr)
+      airQualitySensor: 'Air Quality Sensor', // (fr) (ro)
       carbonDioxideSensor: 'CO2 Sensor',
       carbonMonoxideSensor: 'CO Sensor',
       celsius: '°C',
@@ -79,6 +80,7 @@ const en = {
       resetOnRestart: 'Reset on Restart', // (fr) (ro)
       sourceUnits: 'Source Units',
       topicGetActive: 'Get Active*', // (fr)
+      topicGetAirQuality: 'Get Air Quality*', // (fr) (ro)
       topicGetBatteryLevel: 'Get Battery Level',
       topicGetBatteryLow: 'Get Battery Low',
       topicGetBrightness: 'Get Brightness',
@@ -110,10 +112,14 @@ const en = {
       topicGetLeakDetected: 'Get Leak Detected*',
       topicGetLockPhysicalControls: 'Get Controls Locked', // (fr)
       topicGetMotionDetected: 'Get Motion Detected*',
+      topicGetNitrogenDioxideDensity: 'Get Nitrogen Dioxide', // (fr) (ro)
       topicGetObstructionDetected: 'Get Obstruction Detected*', // (fr) (ro)
       topicGetOccupancyDetected: 'Get Occupancy Detected*',
       topicGetOn: 'Get On/Off State*',
       topicGetOutletInUse: 'Get In Use State',
+      topicGetOzoneDensity: 'Get Ozone', // (fr) (ro)
+      topicGetPM10Density: 'Get PM10', // (fr) (ro)
+      topicGetPM2_5Density: 'Get PM2.5', // (fr) (ro)
       topicGetRotationDirection: 'Get Direction', // (fr) (ro)
       topicGetRotationSpeed: 'Get Rotation Speed', // (fr)
       topicGetSaturation: 'Get Saturation',
@@ -122,6 +128,7 @@ const en = {
       topicGetStatusActive: 'Get Availability',
       topicGetStatusFault: 'Get Fault',
       topicGetStatusTampered: 'Get Tampered',
+      topicGetSulphurDioxideDensity: 'Get Sulphur Dioxide', // (fr) (ro)
       topicGetTargetDoorState: 'Get Target Door State*', // (fr) (ro)
       topicGetTargetFanState: 'Get Target Mode', // (fr) (ro)
       topicGetTargetHeaterCoolerState: 'Get Target Mode*', // (fr)
@@ -137,6 +144,7 @@ const en = {
       topicGetValveIsConfigured: 'Get Is Configured', // (fr)
       topicGetValveRemainingDuration: 'Get Duration Remaining', // (fr)
       topicGetValveSetDuration: 'Get Duration', // (fr)
+      topicGetVOCDensity: 'Get VOC', // (fr) (ro)
       topicResetFilterIndication: 'Reset Filter', // (fr) (ro)
       topicSetActive: 'Set Active*', // (fr)
       topicSetBrightness: 'Set Brightness',
@@ -169,6 +177,12 @@ const en = {
       valveType: 'Valve Type', // (fr)
       valueActive: 'Active*', // (fr)
       valueAlarmTriggered: 'Triggered',
+      valueAQExcellent: 'AQ Excellent', // (fr) (ro),
+      valueAQFair: 'AQ Fair', // (fr) (ro),
+      valueAQGood: 'AQ Good', // (fr) (ro),
+      valueAQInferior: 'AQ Inferior', // (fr) (ro),
+      valueAQPoor: 'AQ Poor', // (fr) (ro),
+      valueAQUnknown: 'AQ Unknown', // (fr) (ro),
       valueArmAway: 'Arm Away',
       valueArmNight: 'Arm Night',
       valueArmStay: 'Arm Stay',
@@ -385,6 +399,23 @@ const en = {
   },
 
   sensor: {
+
+    air: { // (fr) (ro)
+      noStateValues: '%s must have at least one state value defined (Excellent, Good, Fair, Inferior, Poor)', // accessory name
+      densityNitrogen: '%s nitrogen density is %d µg/m³', // accessory name, number
+      densityOzone: '%s ozone density is %d µg/m³', // accessory name, number
+      densityPM10: '%s PM10 density is %d µg/m³', // accessory name, number
+      densityPM2_5: '%s PM2.5 density is %d µg/m³', // accessory name, number
+      densitySulphur: '%s sulphur dioxide density is %d µg/m³', // accessory name, number
+      densityVOC: '%s VOC density is %d µg/m³', // accessory name, number
+      qualityExcellent: '%s air quality is excellent', // accessory name
+      qualityFair: '%s air quality is fair', // accessory name
+      qualityGood: '%s air quality is good', // accessory name
+      qualityInferior: '%s air quality is inferior', // accessory name
+      qualityPoor: '%s air quality is poor', // accessory name
+      qualityUnknown: '%s air quality is unknown', // accessory name
+      unknownValue: '%s unable to determine air quality from value %s. Ignoring…', // accessory name, value
+    },
 
     carbonDioxide: {
       active: '%s detected carbon dioxide', // accessory name

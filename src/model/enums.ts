@@ -1,5 +1,6 @@
 export enum AccessoryType {
   AirPurifier = 'AirPurifier',
+  AirQualitySensor = 'AirQualitySensor',
   CarbonDioxideSensor = 'CarbonDioxideSensor',
   CarbonMonoxideSensor = 'CarbonMonoxideSensor',
   ContactSensor = 'ContactSensor',
@@ -28,6 +29,7 @@ export enum AddonType {
 
 export enum CharacteristicKey {
   Active = 'Active',
+  AirQuality = 'AirQuality',
   BatteryLevel = 'BatteryLevel',
   Brightness = 'Brightness',
   CarbonDioxideDetected = 'CarbonDioxideDetected',
@@ -58,10 +60,14 @@ export enum CharacteristicKey {
   LockPhysicalControls = 'LockPhysicalControls',
   LockTargetState = 'LockTargetState',
   MotionDetected = 'MotionDetected',
+  NitrogenDioxideDensity = 'NitrogenDioxideDensity',
   ObstructionDetected = 'ObstructionDetected',
   OccupancyDetected = 'OccupancyDetected',
   On = 'On',
   OutletInUse = 'OutletInUse',
+  OzoneDensity = 'OzoneDensity',
+  PM10Density = 'PM10Density',
+  PM2_5Density = 'PM2_5Density',
   RemainingDuration = 'RemainingDuration',
   ResetFilterIndication = 'ResetFilterIndication',
   RotationDirection = 'RotationDirection',
@@ -75,6 +81,7 @@ export enum CharacteristicKey {
   StatusFault = 'StatusFault',
   StatusLowBattery = 'StatusLowBattery',
   StatusTampered = 'StatusTampered',
+  SulphurDioxideDensity = 'SulphurDioxideDensity',
   SwingMode = 'SwingMode',
   TargetAirPurifierState = 'TargetAirPurifierState',
   TargetDoorState = 'TargetDoorState',
@@ -85,6 +92,7 @@ export enum CharacteristicKey {
   TargetTemperature = 'TargetTemperature',
   TemperatureDisplayUnits = 'TemperatureDisplayUnits',
   ValveType = 'ValveType',
+  VOCDensity = 'VOCDensity',
 }
 
 export enum TemperatureUnits {

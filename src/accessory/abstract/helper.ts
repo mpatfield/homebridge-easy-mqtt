@@ -20,6 +20,7 @@ import { LightbulbAccessory } from '../onoff/lightbulb.js';
 import { OutletAccessory } from '../onoff/outlet.js';
 import { SwitchAccessory } from '../onoff/switch.js';
 
+import { AirSensorAccessory } from '../sensor/air.js';
 import { CO2SensorAccessory } from '../sensor/carbonDioxide.js';
 import { COSensorAccessory } from '../sensor/carbonMonoxide.js';
 import { ContactSensorAccessory } from '../sensor/contact.js';
@@ -52,6 +53,8 @@ export function createAccessory(
   switch(accessoryConfig.info.type) {
   case AccessoryType.AirPurifier:
     return new PurifierAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.PurifierConfig, log, isGrouped);
+  case AccessoryType.AirQualitySensor:
+    return new AirSensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.AirSensorConfig, log, isGrouped);
   case AccessoryType.CarbonDioxideSensor:
     return new CO2SensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.CO2SensorConfig, log, isGrouped);
   case AccessoryType.CarbonMonoxideSensor:

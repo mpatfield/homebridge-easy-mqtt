@@ -21,8 +21,8 @@
           "type": {
             "type": "string",
             "title": "${config.title.type}",
-            "enum": [ "AirPurifier", "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "Fanv2", "GarageDoorOpener", "HeaterCooler", "HumiditySensor", "LeakSensor", "Lightbulb", "LightSensor", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "Switch", "TemperatureSensor", "Thermostat", "Valve"],
-            "enumNames": ["${config.enumNames.airPurifier}", "${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.fanv2}", "${config.enumNames.garageDoorOpener}", "${config.enumNames.heaterCooler}", "${config.enumNames.humiditySensor}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lightSensor}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}", "${config.enumNames.valve}"],
+            "enum": [ "AirPurifier", "AirQualitySensor", "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "Fanv2", "GarageDoorOpener", "HeaterCooler", "HumiditySensor", "LeakSensor", "Lightbulb", "LightSensor", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "Switch", "TemperatureSensor", "Thermostat", "Valve"],
+            "enumNames": ["${config.enumNames.airPurifier}", "${config.enumNames.airQualitySensor}", "${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.fanv2}", "${config.enumNames.garageDoorOpener}", "${config.enumNames.heaterCooler}", "${config.enumNames.humiditySensor}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lightSensor}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}", "${config.enumNames.valve}"],
             "required": true
           },
           "group": {
@@ -458,6 +458,34 @@
               "type": "string",
               "title": "${config.title.topicSetTargetFanState}"
             },
+            "topicGetAirQuality": {
+              "type": "string",
+              "title": "${config.title.topicGetAirQuality}"
+            },
+            "topicGetNitrogenDioxideDensity": {
+              "type": "string",
+              "title": "${config.title.topicGetNitrogenDioxideDensity}"
+            },
+            "topicGetOzoneDensity": {
+              "type": "string",
+              "title": "${config.title.topicGetOzoneDensity}"
+            },
+            "topicGetPM10Density": {
+              "type": "string",
+              "title": "${config.title.topicGetPM10Density}"
+            },
+            "topicGetPM2_5Density": {
+              "type": "string",
+              "title": "${config.title.topicGetPM2_5Density}"
+            },
+            "topicGetSulphurDioxideDensity": {
+              "type": "string",
+              "title": "${config.title.topicGetSulphurDioxideDensity}"
+            },
+            "topicGetVOCDensity": {
+              "type": "string",
+              "title": "${config.title.topicGetVOCDensity}"
+            },
             "valueBatteryLow": {
               "type": "string",
               "title": "${config.title.valueBatteryLow}"
@@ -666,6 +694,30 @@
               "type": "string",
               "title": "${config.title.valueModeBlowing}"
             },
+            "valueAQExcellent": {
+              "type": "string",
+              "title": "${config.title.valueAQExcellent}"
+            },
+            "valueAQFair": {
+              "type": "string",
+              "title": "${config.title.valueAQFair}"
+            },
+            "valueAQGood": {
+              "type": "string",
+              "title": "${config.title.valueAQGood}"
+            },
+            "valueAQInferior": {
+              "type": "string",
+              "title": "${config.title.valueAQInferior}"
+            },
+            "valueAQPoor": {
+              "type": "string",
+              "title": "${config.title.valueAQPoor}"
+            },
+            "valueAQUnknown": {
+              "type": "string",
+              "title": "${config.title.valueAQUnknown}"
+            },
             "resetOnRestart": {
               "type": "boolean",
               "title": "${config.title.resetOnRestart}"
@@ -690,6 +742,29 @@
               },
               "then": {
                 "required": ["topicGetOn", "topicSetOn", "valueOn", "valueOff"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
+                        "const": "AirQualitySensor"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": ["topicGetAirQuality"],
+                "anyOf": [
+                  { "required": ["valueAQExcellent"] },
+                  { "required": ["valueAQFair"] },
+                  { "required": ["valueAQGood"] },
+                  { "required": ["valueAQInferior"] },
+                  { "required": ["valueAQPoor"] }
+                ]
               }
             },
             {
@@ -1796,6 +1871,71 @@
                   "type": "fieldset",
                   "notitle": true,
                   "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'AirQualitySensor';"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetAirQuality",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetNitrogenDioxideDensity",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicGetOzoneDensity",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetPM2_5Density",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicGetPM10Density",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetSulphurDioxideDensity",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicGetVOCDensity",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
                     "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'CarbonDioxideSensor';"
                   },
                   "items": [
@@ -2857,6 +2997,53 @@
                     {
                       "key": "accessories[].valueModeOff",
                       "flex": "0 0 25%"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'AirQualitySensor';"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].valueAQExcellent",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valueAQGood",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valueAQFair",
+                          "flex": "0 0 25%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].valueAQInferior",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valueAQPoor",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valueAQUnknown",
+                          "flex": "0 0 25%"
+                        }
+                      ]
                     }
                   ]
                 },

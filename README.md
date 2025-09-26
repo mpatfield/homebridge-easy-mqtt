@@ -26,6 +26,7 @@ This plugin is designed to be a simple replacement for the fantastic [homebridge
 **HomebridgeEasyMQTT** currently supports the following accessory types but will be expanded over time as more use cases are requested. If there is an accessory type you'd like to see supported, please [create an issue in GitHub](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
 
   - `AirPurifier`
+  - `AirQualitySensor`
   - `CarbonDioxideSensor`
   - `CarbonMonoxideSensor`
   - `ContactSensor`
@@ -175,6 +176,25 @@ These values are used for both determining current state and, where appropriate,
 - `valueOff*` - Turned off, e.g. "false", or "0", or "Off"
 
 ### Sensors
+
+#### AirQualitySensor
+- `topicGetAirQuality*` - Get air quality
+- `topicGetNitrogenDioxideDensity` - Get nitrogen dioxide density in µg/m³
+- `topicGetOzoneDensity` - Get ozone density in µg/m³
+- `topicGetPM2_5Density` - Get PM2.5 density in µg/m³
+- `topicGetPM10Density` - Get PM10 density in µg/m³
+- `topicGetSulphurDioxideDensity` - Get sulphur dioxide density in µg/m³
+- `topicGetVOCDensity` - Get VOC density in µg/m³
+- `topicGetStatusFault` - Whether or not the sensor has a generic fault
+- `topicGetStatusTampered` - Whether or not the sensor has been tampered with
+- `valueAQExcellent` - Air quality excellent
+- `valueAQGood` - Air quality good
+- `valueAQFair` - Air quality fair
+- `valueAQInferior` - Air quality inferior
+- `valueAQPoor` - Air quality poor
+- `valueAQUnknown` - Air quality unknown
+- `valueFault` - Accessory has a fault
+- `valueTampered` - Accessory has been tampered with
 
 #### CarbonDioxideSensor
 - `topicGetCarbonDioxideDetected*` - Whether or not the sensor has detected carbon dioxide
