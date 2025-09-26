@@ -17,6 +17,7 @@ export class AirSensorAccessory extends SensorAccessory<AirSensorConfig> {
     super(Service, Characteristic, accessory, config, log, isGrouped);
 
     this.STATE_MAP = new Map([
+      ['valueAQUnknown', Characteristic.AirQuality.UNKNOWN],
       ['valueAQExcellent', Characteristic.AirQuality.EXCELLENT],
       ['valueAQGood', Characteristic.AirQuality.GOOD],
       ['valueAQFair', Characteristic.AirQuality.FAIR],
@@ -25,12 +26,10 @@ export class AirSensorAccessory extends SensorAccessory<AirSensorConfig> {
     ]);
 
     const validStates = Array.from(this.STATE_MAP.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
-    if (validStates.length === 0) {
+    if (validStates.length === 0 || (validStates.length === 1 && validStates[0] === 'valueAQUnknown')) {
       this.log.error(strings.sensor.air.noStateValues, this.name);
       return;
     }
-
-    this.STATE_MAP.set('valueAQUnknown', Characteristic.AirQuality.UNKNOWN);
 
     this.setupCharacteristic(CharacteristicKey.AirQuality, Characteristic.AirQuality.UNKNOWN,
       'topicGetAirQuality', this.onAirQualityUpdate.bind(this), true,
