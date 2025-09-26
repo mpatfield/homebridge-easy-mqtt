@@ -22,7 +22,7 @@
             "type": "string",
             "title": "${config.title.type}",
             "enum": [ "AirPurifier", "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "Fanv2", "GarageDoorOpener", "HeaterCooler", "HumiditySensor", "LeakSensor", "Lightbulb", "LightSensor", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "Switch", "TemperatureSensor", "Thermostat", "Valve"],
-            "enumNames": ["${config.enumNames.airPurifier}", "${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.fan}", "${config.enumNames.garageDoorOpener}", "${config.enumNames.heaterCooler}", "${config.enumNames.humiditySensor}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lightSensor}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}", "${config.enumNames.valve}"],
+            "enumNames": ["${config.enumNames.airPurifier}", "${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.fanv2}", "${config.enumNames.garageDoorOpener}", "${config.enumNames.heaterCooler}", "${config.enumNames.humiditySensor}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lightSensor}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}", "${config.enumNames.valve}"],
             "required": true
           },
           "group": {
@@ -2415,7 +2415,7 @@
                   "type": "fieldset",
                   "notitle": true,
                   "condition": {
-                    "functionBody": "return ['AirPurifier', 'Fanv2, 'HeaterCooler'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                    "functionBody": "return ['AirPurifier', 'Fanv2', 'HeaterCooler'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {
@@ -2562,7 +2562,7 @@
                   "type": "fieldset",
                   "notitle": true,
                   "condition": {
-                    "functionBody": "return ['AirPurifier', 'Fanv2, 'HeaterCooler'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                    "functionBody": "return ['AirPurifier', 'Fanv2', 'HeaterCooler'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {

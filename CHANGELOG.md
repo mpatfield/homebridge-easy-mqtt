@@ -5,8 +5,7 @@ All notable changes to homebridge-dummy will be documented in this file.
 ## 1.4.0-beta.15 (2025-09-25)
 
 ### Added
-- Support for Air Purifier, Fan (v2) GarageDoorOpener, HeaterCooler, LightSensor, and Valve
-- MQTT options JSON can now also include publish options, such as `retain`
+- Support for Air Purifier, Fan, Fanv2 GarageDoorOpener, HeaterCooler, LightSensor, and Valve
 - Broker, username, and password can be set via environment variables ([documentation](https://github.com/mpatfield/homebridge-easy-mqtt#environment-variables))
 - Publish arbitrary MQTT messages on connect ([documentation] (https://github.com/mpatfield/homebridge-easy-mqtt#mqtt-onconnect))
 - Traduceri în limba română. Mulțumesc, [@rursache](https://github.com/sponsors/rursache)!
@@ -14,12 +13,10 @@ All notable changes to homebridge-dummy will be documented in this file.
 ### Changed
 - ⚠️ All accessory states are now saved across plugin/Homebridge restarts
     - If you want to keep the old behavior, select the `Reset on Restart` option for each accessory you want to reset
+- MQTT `options` JSON can now also include publish options, such as `retain`, in addition to client options
 - Optimized MQTT connections by sharing across multiple accessories when possible
-    - Previously, every accessory had its own connection
+    - Previously, every accessory always had its own connection
 - Better field validation in config UI (Thank you, [@justjam2013](https://github.com/sponsors/justjam2013) for teaching me this!)
-
-### Fixed
-- Config UI rendering issue when migrating deprecated fields
 
 ### Notes
 Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!

@@ -45,7 +45,7 @@ const en = {
       celsius: '°C',
       contactSensor: 'Contact Sensor',
       fahrenheit: '°F',
-      fan: 'Fan', // (fr) (ro)
+      fanv2: 'Fan (v2)', // (fr) (ro)
       garageDoorOpener: 'Garage Door', // (fr) (ro)
       heaterCooler: 'Heater/Cooler', // (fr)
       humiditySensor: 'Humidity Sensor',
@@ -234,7 +234,7 @@ const en = {
     notTampered: '%s tampered status has been reset', // accessory name
   },
 
-  fan: {  // (fr) (ro)
+  fanv2: {  // (fr) (ro)
     badValue: '%s missing value for fan state %s', // accessory name, value
     clockwise: '%s is rotation clockwise', // accessory name
     counterClockwise: '%s is rotation counter clockwise', // accessory name

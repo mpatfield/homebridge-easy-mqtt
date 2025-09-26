@@ -11,6 +11,7 @@ import { GarageDoorAccessory } from '../garage.js';
 import { LockMechanismAccessory } from '../lock.js';
 import { SecuritySystemAccessory } from '../security.js';
 
+import { FanV2Accessory } from '../climate/fan2.js';
 import { HeaterCoolerAccessory } from '../climate/heaterCooler.js';
 import { PurifierAccessory } from '../climate/purifier.js';
 import { ThermostatAccessory } from '../climate/thermostat.js';
@@ -34,7 +35,6 @@ import { ValveAccessory } from '../valve.js';
 import { PLUGIN_NAME } from '../../homebridge/settings.js';
 
 import { Log } from '../../tools/log.js';
-import { FanAccessory } from '../climate/fan.js';
 
 export function createIdentifier(info: Configs.InfoConfig): string {
   return info.id ?? `${PLUGIN_NAME}:${info.type}:${info.name}`;
@@ -59,7 +59,7 @@ export function createAccessory(
   case AccessoryType.ContactSensor:
     return new ContactSensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.ContactSensorConfig, log, isGrouped);
   case AccessoryType.Fanv2:
-    return new FanAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.FanConfig, log, isGrouped);
+    return new FanV2Accessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.FanV2Config, log, isGrouped);
   case AccessoryType.GarageDoorOpener:
     return new GarageDoorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.GarageDoorConfig, log, isGrouped);
   case AccessoryType.HeaterCooler:

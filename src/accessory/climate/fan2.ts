@@ -5,18 +5,18 @@ import { ActiveClimateAccessory } from './active.js';
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
-import { CharacteristicType, ServiceType, FanConfig } from '../../model/types.js';
+import { CharacteristicType, ServiceType, FanV2Config } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
 
-export class FanAccessory extends ActiveClimateAccessory<FanConfig> {
+export class FanV2Accessory extends ActiveClimateAccessory<FanV2Config> {
 
-  private readonly CURRENT_STATE_MAP: Map<keyof FanConfig, number>;
-  private readonly TARGET_STATE_MAP: Map<keyof FanConfig, number>;
+  private readonly CURRENT_STATE_MAP: Map<keyof FanV2Config, number>;
+  private readonly TARGET_STATE_MAP: Map<keyof FanV2Config, number>;
 
   constructor(
     Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory,
-    config: FanConfig, log: Log, isGrouped: boolean) {
+    config: FanV2Config, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
 
     this.CURRENT_STATE_MAP = new Map([
@@ -32,7 +32,7 @@ export class FanAccessory extends ActiveClimateAccessory<FanConfig> {
 
     const validCurrentStates = Array.from(this.CURRENT_STATE_MAP.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
     if (validCurrentStates.length === 0) {
-      this.log.error(strings.fan.noCurrentStateValues, this.name);
+      this.log.error(strings.fanv2.noCurrentStateValues, this.name);
       return;
     }
 
@@ -42,7 +42,7 @@ export class FanAccessory extends ActiveClimateAccessory<FanConfig> {
 
     const validTargetStates = Array.from(this.TARGET_STATE_MAP.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
     if (validTargetStates.length === 0) {
-      this.log.error(strings.fan.noTargetStateValues, this.name);
+      this.log.error(strings.fanv2.noTargetStateValues, this.name);
       return;
     }
 
@@ -54,7 +54,7 @@ export class FanAccessory extends ActiveClimateAccessory<FanConfig> {
     this.setupCharacteristic(CharacteristicKey.RotationDirection, Characteristic.RotationDirection.CLOCKWISE,
       'topicGetRotationDirection',
       this.bindOnUpdateNumericBoolean(CharacteristicKey.RotationDirection, 'valueDirectionCounterClockwise',
-        strings.fan.clockwise, strings.fan.counterClockwise),
+        strings.fanv2.clockwise, strings.fanv2.counterClockwise),
       false,
       'topicSetRotationDirection', this.onSetDirection.bind(this),
     );
@@ -99,7 +99,7 @@ export class FanAccessory extends ActiveClimateAccessory<FanConfig> {
     }
 
     const clockwise = value === this.Characteristic.RotationDirection.CLOCKWISE;
-    const logString = clockwise ? strings.fan.setDirectionClockwise : strings.fan.setDirectionCounterClockwise;
+    const logString = clockwise ? strings.fanv2.setDirectionClockwise : strings.fanv2.setDirectionCounterClockwise;
     const publish = clockwise ? this.config.valueDirectionClockwise! : this.config.valueDirectionCounterClockwise!;
     this.onSet(CharacteristicKey.RotationDirection, value, publish, 'topicSetRotationDirection', logString);
 
@@ -116,7 +116,7 @@ export class FanAccessory extends ActiveClimateAccessory<FanConfig> {
     });
 
     if (primative === undefined) {
-      this.log.error(strings.fan.badValue, this.name, `'${value}'`);
+      this.log.error(strings.fanv2.badValue, this.name, `'${value}'`);
     }
 
     return primative;
@@ -132,7 +132,7 @@ export class FanAccessory extends ActiveClimateAccessory<FanConfig> {
       return this.CURRENT_STATE_MAP.get('valueModeBlowing');
     }
 
-    this.logIfDesired(strings.fan.unknownValue, `'${value}'`);
+    this.logIfDesired(strings.fanv2.unknownValue, `'${value}'`);
   }
 
   private toTargetCVState(value: PrimitiveTypes): CharacteristicValue | undefined {
@@ -143,30 +143,30 @@ export class FanAccessory extends ActiveClimateAccessory<FanConfig> {
       return this.TARGET_STATE_MAP.get('valueModeManual');
     }
 
-    this.logIfDesired(strings.fan.unknownValue, `'${value}'`);
+    this.logIfDesired(strings.fanv2.unknownValue, `'${value}'`);
   }
 
   private stateStringForCurrentCV(state: CharacteristicValue): string {
     switch(state) {
     case this.Characteristic.CurrentFanState.INACTIVE:
-      return strings.fan.stateInactive;
+      return strings.fanv2.stateInactive;
     case this.Characteristic.CurrentFanState.IDLE:
-      return strings.fan.stateIdle;
+      return strings.fanv2.stateIdle;
     case this.Characteristic.CurrentFanState.BLOWING_AIR:
-      return strings.fan.stateBlowing;
+      return strings.fanv2.stateBlowing;
     default:
-      return strings.fan.stateUnknown;
+      return strings.fanv2.stateUnknown;
     }
   }
 
   private stateStringForTargetCV(state: CharacteristicValue): string {
     switch(state) {
     case this.Characteristic.TargetFanState.AUTO:
-      return strings.fan.stateAuto;
+      return strings.fanv2.stateAuto;
     case this.Characteristic.TargetFanState.MANUAL:
-      return strings.fan.stateManual;
+      return strings.fanv2.stateManual;
     default:
-      return strings.fan.stateUnknown;
+      return strings.fanv2.stateUnknown;
     }
   }
 }

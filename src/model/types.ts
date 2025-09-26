@@ -204,7 +204,7 @@ export type ActiveClimateConfig = TemperatureControlConfig & {
   valueSwingDisabled?: string,
 }
 
-export type FanConfig = ActiveClimateConfig & {
+export type FanV2Config = ActiveClimateConfig & {
   topicGetCurrentFanState?: string,
   topicGetRotationDirection?: string,
   topicGetTargetFanState?: string,
