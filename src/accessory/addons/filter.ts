@@ -33,10 +33,10 @@ export class FilterMaintenance extends Addon<FilterMaintenanceConfig> {
     super(parentAccessory, service, config);
 
     this.setupCharacteristic(CharacteristicKey.FilterChangeIndication, this.Characteristic.FilterChangeIndication.FILTER_OK,
-      'topicGetFilterChangeIndication', this.onChangeIndicationUpdate.bind(this));
+      'topicGetFilterChangeIndication', this.onChangeIndicationUpdate.bind(this), false);
 
     this.setupCharacteristic(CharacteristicKey.FilterLifeLevel, 100,
-      'topicGetFilterLifeLevel', this.bindOnUpdateNumeric(CharacteristicKey.FilterLifeLevel, strings.filter.level));
+      'topicGetFilterLifeLevel', this.bindOnUpdateNumeric(CharacteristicKey.FilterLifeLevel, strings.filter.level), false);
 
     this.setupCharacteristicOnSet(CharacteristicKey.ResetFilterIndication, 'topicResetFilterIndication', this.onResetIndication.bind(this));
   }

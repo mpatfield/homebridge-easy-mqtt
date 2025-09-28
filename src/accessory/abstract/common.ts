@@ -76,7 +76,7 @@ export abstract class Common<C extends Assertable> {
 
   protected setupCharacteristic(
     characteristicKey: CharacteristicKey, defaultValue: CharacteristicValue,
-    getTopicKey: keyof C, onUpdateHandler: OnUpdateHandler, assertGetTopic: boolean = false,
+    getTopicKey: keyof C, onUpdateHandler: OnUpdateHandler, assertGetTopic: boolean,
     setTopicKey: keyof C | undefined = undefined, onSetHandler: CharacteristicSetHandler | undefined = undefined,
   ): Characteristic | undefined {
 
