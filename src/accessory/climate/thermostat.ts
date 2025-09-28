@@ -19,10 +19,10 @@ export class ThermostatAccessory extends TemperatureControlAccessory<ThermostatC
     this.setupTemperatureControlCharacteristics();
 
     this.STATE_MAP = new Map([
-      ['valueModeAuto', Characteristic.TargetHeatingCoolingState.AUTO],
-      ['valueModeCool', Characteristic.TargetHeatingCoolingState.COOL],
-      ['valueModeHeat', Characteristic.TargetHeatingCoolingState.HEAT],
       ['valueModeOff', Characteristic.TargetHeatingCoolingState.OFF],
+      ['valueModeHeat', Characteristic.TargetHeatingCoolingState.HEAT],
+      ['valueModeCool', Characteristic.TargetHeatingCoolingState.COOL],
+      ['valueModeAuto', Characteristic.TargetHeatingCoolingState.AUTO],
     ]);
 
     const validTargetStates = Array.from(this.STATE_MAP.keys()).filter((key) => this.getRawValue(key, false) !== undefined);

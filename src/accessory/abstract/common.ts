@@ -86,6 +86,8 @@ export abstract class Common<C extends Assertable> {
     }
 
     this.setupCharacteristicOnSet(characteristicKey, setTopicKey, onSetHandler);
+
+    return characteristic;
   }
 
   private setupCharacteristicOnGet(characteristicKey: CharacteristicKey, defaultValue: CharacteristicValue,

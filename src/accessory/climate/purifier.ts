@@ -26,8 +26,8 @@ export class PurifierAccessory extends ActiveClimateAccessory<PurifierConfig> {
     ]);
 
     this.TARGET_STATE_MAP = new Map([
-      ['valueModeAuto', Characteristic.TargetAirPurifierState.AUTO],
       ['valueModeManual', Characteristic.TargetAirPurifierState.MANUAL],
+      ['valueModeAuto', Characteristic.TargetAirPurifierState.AUTO],
     ]);
 
     const validCurrentStates = Array.from(this.CURRENT_STATE_MAP.keys()).filter((key) => this.getRawValue(key, false) !== undefined);

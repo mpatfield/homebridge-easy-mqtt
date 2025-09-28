@@ -26,8 +26,8 @@ export class FanV2Accessory extends ActiveClimateAccessory<FanV2Config> {
     ]);
 
     this.TARGET_STATE_MAP = new Map([
-      ['valueModeAuto', Characteristic.TargetFanState.AUTO],
       ['valueModeManual', Characteristic.TargetFanState.MANUAL],
+      ['valueModeAuto', Characteristic.TargetFanState.AUTO],
     ]);
 
     const validCurrentStates = Array.from(this.CURRENT_STATE_MAP.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
