@@ -9,6 +9,8 @@ import { CharacteristicType, AirSensorConfig, ServiceType } from '../../model/ty
 
 import { Log } from '../../tools/log.js';
 
+const MAX_DENSITY = 5000;
+
 export class AirSensorAccessory extends SensorAccessory<AirSensorConfig> {
 
   private readonly STATE_MAP: Map<keyof AirSensorConfig, number>;
@@ -45,7 +47,8 @@ export class AirSensorAccessory extends SensorAccessory<AirSensorConfig> {
     ]);
 
     densityMap.forEach( (key, topic) => {
-      this.setupCharacteristic(key, 0, topic, this.bindOnUpdateNumeric(key, this.logTemplateForDensityKey(key)), false);
+      this.setupCharacteristic(key, 0, topic, this.bindOnUpdateNumeric(key, this.logTemplateForDensityKey(key)), false)
+        ?.setProps({ maxValue: MAX_DENSITY });
     });
   }
 

@@ -148,16 +148,28 @@ export abstract class Common<C extends Assertable> {
     characteristic.onSet(onSetHandler);
   }
 
-  protected bindOnUpdateNumeric(charKey: CharacteristicKey, logTemplate: string): OnUpdateHandler {
+  protected bindOnUpdateNumeric(key: CharacteristicKey, logTemplate: string): OnUpdateHandler {
     return (async (_topic: string, value: PrimitiveTypes) => {
 
       if (typeof value !== 'number') {
-        this.log.error(strings.characteristic.badValue, this.name, charKey, `'${value.toString()}'`);
+        this.log.error(strings.characteristic.badValue, this.name, key, `'${value.toString()}'`);
         return;
       }
 
+
+      const characteristic = this.service.getCharacteristic(this.Characteristic[key]);
+      const minValue = characteristic.props.minValue;
+      const maxValue = characteristic.props.maxValue;
+      if (minValue !== undefined && value < minValue) {
+        this.logIfDesired(LogType.WARNING, strings.characteristic.outOfRange, key, `'${value.toString()}'`, `'${minValue.toString()}'`);
+        value = minValue;
+      } else if (maxValue !== undefined && value > maxValue) {
+        this.logIfDesired(LogType.WARNING, strings.characteristic.outOfRange, key, `'${value.toString()}'`, `'${maxValue.toString()}'`);
+        value = maxValue;
+      }
+
       const logString = logTemplate.replace('%d', value.toString());
-      this.onUpdate(charKey, value, logString);
+      this.onUpdate(key, value, logString);
 
     }).bind(this);
   }

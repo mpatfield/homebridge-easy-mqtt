@@ -11,6 +11,7 @@ const en = {
 
   characteristic: {
     badValue: '%s expected a number for %s but received %s', // accessory name, characteristic name, value
+    outOfRange: '%s is trying to set %s to %s which is out of the allowed range. Setting to %s.', // accessory name, characteristic name, number, number
     updated: '%s updated %s with value %s', // accessory name, characteristic name, value
   },
 
