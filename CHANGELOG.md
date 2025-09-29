@@ -2,7 +2,7 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.4.0-beta.18 (2025-09-30)
+## 1.4.0-beta.19 (2025-09-29)
 
 ### Added
 - A bunch of new accessory types:
@@ -25,6 +25,7 @@ All notable changes to homebridge-dummy will be documented in this file.
 - Optimized MQTT connections by sharing across multiple accessories when possible
     - Previously, every accessory always had its own connection
 - Better field validation in config UI (Thank you, [@justjam2013](https://github.com/sponsors/justjam2013) for teaching me this!)
+- Significant under-the-hood cleanup to speed future development
 
 ### Notes
 Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
