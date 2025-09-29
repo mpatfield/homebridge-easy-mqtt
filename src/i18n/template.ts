@@ -4,10 +4,10 @@ import en from './en.js';
 
 const overrides = {
 
-  // Copy strings from en.js to here and translate
+  // TODO copy strings from en.js to here and translate
 
 };
 
-const REPLACE_THIS_WITH_ISO_CODE = merge({}, en, overrides);
+const TODO_REPLACE_THIS_WITH_ISO_CODE = merge({}, en, overrides);
 
-export default REPLACE_THIS_WITH_ISO_CODE;
+export default TODO_REPLACE_THIS_WITH_ISO_CODE;
