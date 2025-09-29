@@ -18,9 +18,9 @@ const en = {
   climate: {
     badTemperatureValue: '%s expected a number for temperature but received %s', // accessory name, value
     coolingThreshold: '%s cooling threshold is %d°%s', // accessory name, number, units
-    coolingThresholdFuture: 'Setting %s cooling threshold to %d°%s…', // accessory name, number, units (fr)
+    coolingThresholdFuture: 'Setting %s cooling threshold to %d°%s…', // accessory name, number, units
     heatingThreshold: '%s heating threshold is %d°%s', // accessory name, number, units
-    heatingThresholdFuture: 'Setting %s heating threshold to %d°%s…', // accessory name, number, units (fr)
+    heatingThresholdFuture: 'Setting %s heating threshold to %d°%s…', // accessory name, number, units
     humidityUpdate: '%s humidity is %d%', // accessory name, number
     temperatureUpdate: '%s temperature is %d°%s', // accessory name, number, units
   },
@@ -32,28 +32,28 @@ const en = {
     thankYou: 'Thank you for installing homebridge-easy-mqtt',
 
     description: {
-      broker: 'If not supplied, defaults to mqtt://127.0.0.1:1883/', // (fr) (ro)
-      options: 'A combination of additional client or publish options as valid JSON', // (fr) (ro)
+      broker: 'If not supplied, defaults to mqtt://127.0.0.1:1883/',
+      options: 'A combination of additional client or publish options as valid JSON',
       topics: 'Supports JSONPath using dot notation, i.e. "my/topic$.path.to.value"',
-      values: 'Used for both get and set (publish), where appropriate', // (fr) (ro)
+      values: 'Used for both get and set (publish), where appropriate',
       verbose: 'If true, additional MQTT info will be logged for debugging purposes.',
     },
 
     enumNames: {
-      airPurifier: 'Air Purifier', // (fr)
-      airQualitySensor: 'Air Quality Sensor', // (fr) (ro)
+      airPurifier: 'Air Purifier',
+      airQualitySensor: 'Air Quality Sensor',
       carbonDioxideSensor: 'CO2 Sensor',
       carbonMonoxideSensor: 'CO Sensor',
       celsius: '°C',
       contactSensor: 'Contact Sensor',
       fahrenheit: '°F',
-      fanv2: 'Fan (v2)', // (fr) (ro)
-      garageDoorOpener: 'Garage Door', // (fr) (ro)
-      heaterCooler: 'Heater/Cooler', // (fr)
+      fanv2: 'Fan (v2)',
+      garageDoorOpener: 'Garage Door',
+      heaterCooler: 'Heater/Cooler',
       humiditySensor: 'Humidity Sensor',
       leakSensor: 'Leak Sensor',
       lightbulb: 'Lightbulb',
-      lightSensor: 'Light Sensor', // (fr)
+      lightSensor: 'Light Sensor',
       lockMechanism: 'Lock Mechanism',
       motionSensor: 'Motion Sensor',
       occupancySensor: 'Occupancy Sensor',
@@ -63,12 +63,12 @@ const en = {
       switch: 'Switch',
       temperatureSensor: 'Temperature Sensor',
       thermostat: 'Thermostat',
-      valve: 'Valve', // (fr)
-      valveGeneric: 'Generic', // (fr)
-      valveIrrigation: 'Irrigation', // (fr)
-      valveShower: 'Shower Head', // (fr)
-      valveFaucet: 'Water Faucet', // (fr)
-      windowCovering: 'Window Covering', // (fr) (ro)
+      valve: 'Valve',
+      valveGeneric: 'Generic',
+      valveIrrigation: 'Irrigation',
+      valveShower: 'Shower Head',
+      valveFaucet: 'Water Faucet',
+      windowCovering: 'Window Covering',
     },
 
     title: {
@@ -79,10 +79,10 @@ const en = {
       name: 'Name',
       options: 'Options',
       password: 'Password',
-      resetOnRestart: 'Reset on Restart', // (fr) (ro)
+      resetOnRestart: 'Reset on Restart',
       sourceUnits: 'Source Units',
-      topicGetActive: 'Get Active*', // (fr)
-      topicGetAirQuality: 'Get Air Quality*', // (fr) (ro)
+      topicGetActive: 'Get Active*',
+      topicGetAirQuality: 'Get Air Quality*',
       topicGetBatteryLevel: 'Get Battery Level',
       topicGetBatteryLow: 'Get Battery Low',
       topicGetBrightness: 'Get Brightness',
@@ -95,166 +95,166 @@ const en = {
       topicGetColorTemperature: 'Get Color Temperature',
       topicGetContactSensorState: 'Get Contact Detected*',
       topicGetCoolingThresholdTemperature: 'Get Cooling Threshold',
-      topicGetCurrentAmbientLightLevel: 'Get Current Light Level*', // (fr)
-      topicGetCurrentDoorState: 'Get Current Door State*', // (fr) (ro)
-      topicGetCurrentFanState: 'Get Current Mode', // (fr) (ro)
-      topicGetCurrentHeaterCoolerState: 'Get Current Mode*', // (fr)
+      topicGetCurrentAmbientLightLevel: 'Get Current Light Level*',
+      topicGetCurrentDoorState: 'Get Current Door State*',
+      topicGetCurrentFanState: 'Get Current Mode',
+      topicGetCurrentHeaterCoolerState: 'Get Current Mode*',
       topicGetCurrentHeatingCoolingState: 'Get Current Mode*',
-      topicGetCurrentHorizontalTiltAngle: 'Get Horizontal Angle', // (fr) (ro)
-      topicGetCurrentPurifierState: 'Get Current Mode*', // (fr)
+      topicGetCurrentHorizontalTiltAngle: 'Get Horizontal Angle',
+      topicGetCurrentPurifierState: 'Get Current Mode*',
       topicGetCurrentLockState: 'Get Current State*',
-      topicGetCurrentLockStateOptional: 'Get Current Lock State', // (fr) (ro)
-      topicGetCurrentPosition: 'Get Current Position*', // (fr) (ro)
+      topicGetCurrentLockStateOptional: 'Get Current Lock State',
+      topicGetCurrentPosition: 'Get Current Position*',
       topicGetCurrentRelativeHumidity: 'Get Relative Humidity*',
       topicGetCurrentRelativeHumidityOptional: 'Get Relative Humidity',
       topicGetCurrentSecurityState: 'Get Current State*',
       topicGetCurrentTemperature: 'Get Current Temperature*',
-      topicGetCurrentVerticalTiltAngle: 'Get Vertical Angle', // (fr) (ro)
-      topicGetFilterChangeIndication: 'Filter Change Indication', // (fr) (ro)
-      topicGetFilterLifeLevel: 'Filter Life Remaining', // (fr) (ro)
+      topicGetCurrentVerticalTiltAngle: 'Get Vertical Angle',
+      topicGetFilterChangeIndication: 'Filter Change Indication',
+      topicGetFilterLifeLevel: 'Filter Life Remaining',
       topicGetHeatingThresholdTemperature: 'Get Heating Threshold',
       topicGetHue: 'Get Hue',
       topicGetLeakDetected: 'Get Leak Detected*',
-      topicGetLockPhysicalControls: 'Get Controls Locked', // (fr)
+      topicGetLockPhysicalControls: 'Get Controls Locked',
       topicGetMotionDetected: 'Get Motion Detected*',
-      topicGetNitrogenDioxideDensity: 'Get Nitrogen Dioxide', // (fr) (ro)
-      topicGetObstructionDetected: 'Get Obstruction Detected*', // (fr) (ro)
-      topicGetObstructionDetectedOptional: 'Get Obstruction Detected', // (fr) (ro)
+      topicGetNitrogenDioxideDensity: 'Get Nitrogen Dioxide',
+      topicGetObstructionDetected: 'Get Obstruction Detected*',
+      topicGetObstructionDetectedOptional: 'Get Obstruction Detected',
       topicGetOccupancyDetected: 'Get Occupancy Detected*',
       topicGetOn: 'Get On/Off State*',
       topicGetOutletInUse: 'Get In Use State',
-      topicGetOzoneDensity: 'Get Ozone', // (fr) (ro)
-      topicGetPM10Density: 'Get PM10', // (fr) (ro)
-      topicGetPM2_5Density: 'Get PM2.5', // (fr) (ro)
-      topicGetPositionState: 'Get Position State*', // (fr) (ro)
-      topicGetRotationDirection: 'Get Direction', // (fr) (ro)
-      topicGetRotationSpeed: 'Get Rotation Speed', // (fr)
+      topicGetOzoneDensity: 'Get Ozone',
+      topicGetPM10Density: 'Get PM10',
+      topicGetPM2_5Density: 'Get PM2.5',
+      topicGetPositionState: 'Get Position State*',
+      topicGetRotationDirection: 'Get Direction',
+      topicGetRotationSpeed: 'Get Rotation Speed',
       topicGetSaturation: 'Get Saturation',
       topicGetSmokeDetected: 'Get Smoke Detected*',
-      topicGetSwingMode: 'Get Swing Enabled', // (fr)
+      topicGetSwingMode: 'Get Swing Enabled',
       topicGetStatusActive: 'Get Availability',
       topicGetStatusFault: 'Get Fault',
       topicGetStatusTampered: 'Get Tampered',
-      topicGetSulphurDioxideDensity: 'Get Sulphur Dioxide', // (fr) (ro)
-      topicGetTargetDoorState: 'Get Target Door State*', // (fr) (ro)
-      topicGetTargetFanState: 'Get Target Mode', // (fr) (ro)
-      topicGetTargetHeaterCoolerState: 'Get Target Mode*', // (fr)
+      topicGetSulphurDioxideDensity: 'Get Sulphur Dioxide',
+      topicGetTargetDoorState: 'Get Target Door State*',
+      topicGetTargetFanState: 'Get Target Mode',
+      topicGetTargetHeaterCoolerState: 'Get Target Mode*',
       topicGetTargetHeatingCoolingState: 'Get Target Mode*',
-      topicGetTargetHorizontalTiltAngle: 'Get Target Horizontal Angle', // (fr) (ro)
-      topicGetTargetPosition: 'Get Target Position*', // (fr) (ro)
-      topicGetTargetPurifierState: 'Get Target Mode*', // (fr)
+      topicGetTargetHorizontalTiltAngle: 'Get Target Horizontal Angle',
+      topicGetTargetPosition: 'Get Target Position*',
+      topicGetTargetPurifierState: 'Get Target Mode*',
       topicGetTargetLockState: 'Get Target State*',
-      topicGetTargetLockStateOptional: 'Get Target Lock State', // (fr) (ro)
+      topicGetTargetLockStateOptional: 'Get Target Lock State',
       topicGetTargetRelativeHumidity: 'Get Target Humidity',
       topicGetTargetSecurityState: 'Get Target State*',
       topicGetTargetTemperature: 'Get Target Temperature*',
-      topicGetTargetVerticalTiltAngle: 'Get Target Vertical Angle', // (fr) (ro)
-      topicGetValveActive: 'Get Active*', // (fr)
-      topicGetValveInUse: 'Get In Use*', // (fr)
-      topicGetValveIsConfigured: 'Get Is Configured', // (fr)
-      topicGetValveRemainingDuration: 'Get Duration Remaining', // (fr)
-      topicGetValveSetDuration: 'Get Duration', // (fr)
-      topicGetVOCDensity: 'Get VOC', // (fr) (ro)
-      topicResetFilterIndication: 'Reset Filter', // (fr) (ro)
-      topicSetActive: 'Set Active*', // (fr)
+      topicGetTargetVerticalTiltAngle: 'Get Target Vertical Angle',
+      topicGetValveActive: 'Get Active*',
+      topicGetValveInUse: 'Get In Use*',
+      topicGetValveIsConfigured: 'Get Is Configured',
+      topicGetValveRemainingDuration: 'Get Duration Remaining',
+      topicGetValveSetDuration: 'Get Duration',
+      topicGetVOCDensity: 'Get VOC',
+      topicResetFilterIndication: 'Reset Filter',
+      topicSetActive: 'Set Active*',
       topicSetBrightness: 'Set Brightness',
       topicSetColorTemperature: 'Set Color Temperature',
       topicSetCoolingThresholdTemperature: 'Set Cooling Threshold',
       topicSetHeatingThresholdTemperature: 'Set Heating Threshold',
-      topicSetHoldPosition: 'Set Hold Position', // (fr) (ro)
+      topicSetHoldPosition: 'Set Hold Position',
       topicSetHue: 'Set Hue',
-      topicSetLockPhysicalControls: 'Set Lock Controls', // (fr)
+      topicSetLockPhysicalControls: 'Set Lock Controls',
       topicSetOn: 'Set On/Off State*',
-      topicSetRotationDirection: 'Set Direction', // (fr) (ro)
-      topicSetRotationSpeed: 'Set Rotation Speed', // (fr)
+      topicSetRotationDirection: 'Set Direction',
+      topicSetRotationSpeed: 'Set Rotation Speed',
       topicSetSaturation: 'Set Saturation',
-      topicSetSwingMode: 'Set Swing Enabled', // (fr)
-      topicSetTargetDoorState: 'Set Target Door State*', // (fr) (ro)
-      topicSetTargetFanState: 'Set Target Mode', // (fr) (ro)
-      topicSetTargetHeaterCoolerState: 'Set Target Mode*', // (fr)
+      topicSetSwingMode: 'Set Swing Enabled',
+      topicSetTargetDoorState: 'Set Target Door State*',
+      topicSetTargetFanState: 'Set Target Mode',
+      topicSetTargetHeaterCoolerState: 'Set Target Mode*',
       topicSetTargetHeatingCoolingState: 'Set Target Mode*',
-      topicSetTargetHorizontalTiltAngle: 'Set Target Horizontal Angle', // (fr) (ro)
-      topicSetTargetPosition: 'Set Target Position*', // (fr) (ro)
-      topicSetTargetPurifierState: 'Set Target Mode*', // (fr)
+      topicSetTargetHorizontalTiltAngle: 'Set Target Horizontal Angle',
+      topicSetTargetPosition: 'Set Target Position*',
+      topicSetTargetPurifierState: 'Set Target Mode*',
       topicSetTargetLockState: 'Set Target State*',
-      topicSetTargetLockStateOptional: 'Set Target Lock State', // (fr) (ro)
+      topicSetTargetLockStateOptional: 'Set Target Lock State',
       topicSetTargetRelativeHumidity: 'Set Target Humidity ',
       topicSetTargetSecurityState: 'Set Target State*',
       topicSetTargetTemperature: 'Set Target Temperature*',
-      topicSetTargetVerticalTiltAngle: 'Set Target Vertical Angle', // (fr) (ro)
-      topicSetValveActive: 'Set Active*', // (fr)
-      topicSetValveIsConfigured: 'Set Is Configured', // (fr)
-      topicSetValveSetDuration: 'Set Duration', // (fr)
+      topicSetTargetVerticalTiltAngle: 'Set Target Vertical Angle',
+      topicSetValveActive: 'Set Active*',
+      topicSetValveIsConfigured: 'Set Is Configured',
+      topicSetValveSetDuration: 'Set Duration',
       topics: 'Topics',
       type: 'Type',
       username: 'Username',
-      valveType: 'Valve Type', // (fr)
-      valueActive: 'Active*', // (fr)
+      valveType: 'Valve Type',
+      valueActive: 'Active*',
       valueAlarmTriggered: 'Triggered',
-      valueAQExcellent: 'AQ Excellent', // (fr) (ro),
-      valueAQFair: 'AQ Fair', // (fr) (ro),
-      valueAQGood: 'AQ Good', // (fr) (ro),
-      valueAQInferior: 'AQ Inferior', // (fr) (ro),
-      valueAQPoor: 'AQ Poor', // (fr) (ro),
-      valueAQUnknown: 'AQ Unknown', // (fr) (ro),
+      valueAQExcellent: 'AQ Excellent',
+      valueAQFair: 'AQ Fair',
+      valueAQGood: 'AQ Good',
+      valueAQInferior: 'AQ Inferior',
+      valueAQPoor: 'AQ Poor',
+      valueAQUnknown: 'AQ Unknown',
       valueArmAway: 'Arm Away',
       valueArmNight: 'Arm Night',
       valueArmStay: 'Arm Stay',
       valueBatteryLow: 'Battery Low',
       valueCarbonDioxideDetected: 'CO2 Detected*',
       valueCarbonMonoxideDetected: 'CO Detected*',
-      valueConfigured: 'Configured', // (fr)
+      valueConfigured: 'Configured',
       valueContactDetected: 'Contact Detected*',
-      valueControlLock: 'Controls Locked', // (fr)
-      valueControlUnlock: 'Controls Unlocked', // (fr)
-      valueDirectionClockwise: 'Clockwise', // (fr) (ro)
-      valueDirectionCounterClockwise: 'Counter Clockwise', // (fr) (ro)
+      valueControlLock: 'Controls Locked',
+      valueControlUnlock: 'Controls Unlocked',
+      valueDirectionClockwise: 'Clockwise',
+      valueDirectionCounterClockwise: 'Counter Clockwise',
       valueDisarm: 'Disarm',
-      valueDoorObstructed: 'Obstructed', // (fr) (ro)
-      valueDoorStateClosed: 'Closed', // (fr) (ro)
-      valueDoorStateClosing: 'Closing', // (fr) (ro)
-      valueDoorStateOpen: 'Open', // (fr) (ro)
-      valueDoorStateOpening: 'Opening', // (fr) (ro)
-      valueDoorStateStopped: 'Stopped', // (fr) (ro)
+      valueDoorObstructed: 'Obstructed',
+      valueDoorStateClosed: 'Closed',
+      valueDoorStateClosing: 'Closing',
+      valueDoorStateOpen: 'Open',
+      valueDoorStateOpening: 'Opening',
+      valueDoorStateStopped: 'Stopped',
       valueFault: 'Fault',
-      valueFilterChange: 'Filter Dirty', // (fr) (ro)
-      valueFilterReset: 'Reset Filter', // (fr) (ro)
-      valueInactive: 'Inactive*', // (fr)
-      valueInUse: 'In Use*', // (fr)
+      valueFilterChange: 'Filter Dirty',
+      valueFilterReset: 'Reset Filter',
+      valueInactive: 'Inactive*',
+      valueInUse: 'In Use*',
       valueLeakDetected: 'Leak Detected*',
       valueLockStateJammed: 'Jammed',
       valueLockStateSecured: 'Secured/Locked*',
-      valueLockStateSecuredOptional: 'Secured/Locked', // (fr) (ro)
+      valueLockStateSecuredOptional: 'Secured/Locked',
       valueLockStateUnsecured: 'Unsecured/Unlocked*',
-      valueLockStateUnsecuredOptional: 'Unsecured/Unlocked', // (fr) (ro)
+      valueLockStateUnsecuredOptional: 'Unsecured/Unlocked',
       valueModeAuto: 'Auto',
-      valueModeBlowing: 'Blowing', // (fr) (ro)
+      valueModeBlowing: 'Blowing',
       valueModeCool: 'Cool',
       valueModeHeat: 'Heat',
-      valueModeIdle: 'Idle', // (fr)
-      valueModeInactive: 'Inactive', // (fr)
-      valueModeManual: 'Manual', // (fr)
+      valueModeIdle: 'Idle',
+      valueModeInactive: 'Inactive',
+      valueModeManual: 'Manual',
       valueModeOff: 'Off',
-      valueModePurifying: 'Purifying', // (fr)
+      valueModePurifying: 'Purifying',
       valueMotionDetected: 'Motion Detected*',
-      valueNotConfigured: 'Not Configured', // (fr)
+      valueNotConfigured: 'Not Configured',
       valueOccupancyDetected: 'Occupancy Detected*',
       valueOff: 'Off*',
       valueOn: 'On*',
       valueOutletInUse: 'In Use',
       valueOutletNotInUse: 'Not In Use',
-      valuePositionHold: 'Hold', // (fr) (ro)
-      valuePositionDecreasing: 'Decreasing', // (fr) (ro)
-      valuePositionIncreasing: 'Increasing', // (fr) (ro)
-      valuePositionObstructed: 'Obstructed', // (fr) (ro)
-      valuePositionResume: 'Resume', // (fr) (ro)
-      valuePositionStopped: 'Stopped', // (fr) (ro)
+      valuePositionHold: 'Hold',
+      valuePositionDecreasing: 'Decreasing',
+      valuePositionIncreasing: 'Increasing',
+      valuePositionObstructed: 'Obstructed',
+      valuePositionResume: 'Resume',
+      valuePositionStopped: 'Stopped',
       valueSmokeDetected: 'Smoke Detected*',
-      valueStateActive: 'State Active*', // (fr)
-      valueStateInactive: 'State Inactive*', // (fr)
+      valueStateActive: 'State Active*',
+      valueStateInactive: 'State Inactive*',
       valueStatusActive: 'Available/Reachable',
-      valueSwingEnabled: 'Swing Enabled', // (fr)
-      valueSwingDisabled: 'Swing Disabled', // (fr)
+      valueSwingEnabled: 'Swing Enabled',
+      valueSwingDisabled: 'Swing Disabled',
       valueTampered: 'Tampered',
       values: 'Values',
       verbose: 'Additional Logging',
@@ -268,7 +268,7 @@ const en = {
     notTampered: '%s tampered status has been reset', // accessory name
   },
 
-  fanv2: {  // (fr) (ro)
+  fanv2: {
     badValue: '%s missing value for fan state %s', // accessory name, value
     clockwise: '%s is rotation clockwise', // accessory name
     counterClockwise: '%s is rotation counter clockwise', // accessory name
@@ -285,14 +285,14 @@ const en = {
     unknownValue: '%s unable to determine fan state from value %s. Ignoring…', // accessory name, value
   },
 
-  filter: { // (fr) (ro)
+  filter: {
     change: '%s filter requires maintenance', // accessory name
     level: '%s filter is at %d%', // accessory name, number
     ok: '%s filter is ok', // accessory name
     reset: 'Resetting filter for %s…', // accessory name
   },
 
-  garage: { // (fr) (ro)
+  garage: {
     badValue: '%s missing value for garage door state %s', // accessory name, value
     noCurrentStateValues: '%s must have at least one state value defined (Open, Closed, Opening, Closing, Stopped)', // accessory name
     noTargetStateValues: '%s must have at least one target state value defined (Open, Closed)', // accessory name
@@ -309,7 +309,7 @@ const en = {
     unobstructed: '%s is unobstructed', // accessory name
   },
 
-  heaterCooler: { // (fr)
+  heaterCooler: {
     active: '%s is active', // accessory name
     activeSet: 'Setting %s to active…', // accessory name
     badValue: '%s missing value for heater/cooler state %s', // accessory name, value
@@ -358,9 +358,9 @@ const en = {
     stateUnknown: '%s state is unknown', // accessory name
   },
 
-  mqttClient: { // (fr)
+  mqttClient: {
     badOptions: 'Additional options for %s must be valid json', // accessory name
-    badMessages: 'onConnect messages must be an array of topic/message objects', // (fr) (ro)
+    badMessages: 'onConnect messages must be an array of topic/message objects',
     connected: 'Connected to %s and listening for updates…', // host
     connectionClosed: 'Closed connection to %s', // host
     error: 'Client error on %s', // host
@@ -389,7 +389,7 @@ const en = {
     notInUse: '%s is not in use', // accessory name
   },
 
-  position: { // (fr) (ro)
+  position: {
 
     blind: {
       currentHorizontal: '%s current horizontal angle is %d°', // accessory name, number
@@ -415,7 +415,7 @@ const en = {
     unobstructed: '%s is unobstructed', // accessory name
   },
 
-  purifier: { // (fr)
+  purifier: {
     badValue: '%s missing value for air purifier state %s', // accessory name, value
     noCurrentStateValues: '%s must have at least one state value defined (Inactive, Idle, Purifying)', // accessory name
     noTargetStateValues: '%s must have at least one state value defined (Auto, Manual)', // accessory name
@@ -446,7 +446,7 @@ const en = {
 
   sensor: {
 
-    air: { // (fr) (ro)
+    air: {
       noStateValues: '%s must have at least one state value defined (Excellent, Good, Fair, Inferior, Poor)', // accessory name
       densityNitrogen: '%s nitrogen density is %d µg/m³', // accessory name, number
       densityOzone: '%s ozone density is %d µg/m³', // accessory name, number
@@ -488,7 +488,7 @@ const en = {
     },
 
     light: {
-      level: '%s current light level is %d lx', // (fr)
+      level: '%s current light level is %d lx', // accessory name, number
     },
 
     motion: {
@@ -537,7 +537,7 @@ const en = {
     unknownValue: '%s unable to determine thermostat state from value %s. Ignoring…', // accessory name, value
   },
 
-  valve: { // (fr)
+  valve: {
     active: '%s is active', // accessory name
     activeSet: 'Setting %s to active…', // accessory name
     badValveType: '%s has a bad valve type %s. Should be one of %s.', // accessory name, value, list of values
