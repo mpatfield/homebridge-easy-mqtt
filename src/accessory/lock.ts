@@ -18,7 +18,7 @@ export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends B
 
     const getTopicCurrent = this.config.topicGetLockCurrentState !== undefined && this.config.topicGetCurrentLockState === undefined
       ? 'topicGetLockCurrentState' : 'topicGetCurrentLockState';
-    this.setupCharacteristic(CharacteristicKey.LockCurrentState, Characteristic.LockCurrentState.UNKNOWN,
+    this.setup(CharacteristicKey.LockCurrentState, Characteristic.LockCurrentState.UNKNOWN,
       getTopicCurrent, this.onCurrentStateUpdate.bind(this), requireTopics);
 
     let getTargetTopic: keyof LockConfig, setTargetTopic : keyof LockConfig;
@@ -30,7 +30,7 @@ export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends B
       setTargetTopic = 'topicSetTargetLockState';
     }
 
-    this.setupCharacteristic(CharacteristicKey.LockTargetState, Characteristic.LockTargetState.SECURED,
+    this.setup(CharacteristicKey.LockTargetState, Characteristic.LockTargetState.SECURED,
       getTargetTopic, this.onTargetStateUpdate.bind(this), requireTopics,
       setTargetTopic, this.onSetTargetState.bind(this),
     );

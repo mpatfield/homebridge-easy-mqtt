@@ -16,28 +16,28 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
 
     this.setCharacteristicValue(CharacteristicKey.ValveType, this.toValveTypeCV(this.config.valveType));
 
-    this.setupCharacteristic(CharacteristicKey.Active, Characteristic.Active.INACTIVE,
+    this.setup(CharacteristicKey.Active, Characteristic.Active.INACTIVE,
       'topicGetValveActive',
       this.bindOnUpdateNumericBoolean(CharacteristicKey.Active, 'valueActive', strings.valve.active, strings.valve.inactive), true,
       'topicSetValveActive', this.onSetActive.bind(this),
     );
 
-    this.setupCharacteristic(CharacteristicKey.InUse, Characteristic.InUse.NOT_IN_USE,
+    this.setup(CharacteristicKey.InUse, Characteristic.InUse.NOT_IN_USE,
       'topicGetValveInUse', this.bindOnUpdateNumericBoolean(CharacteristicKey.InUse, 'valueInUse', strings.valve.inUse, strings.valve.notInUse), true,
     );
 
-    this.setupCharacteristic(CharacteristicKey.StatusFault, Characteristic.StatusFault.NO_FAULT,
+    this.setup(CharacteristicKey.StatusFault, Characteristic.StatusFault.NO_FAULT,
       'topicGetStatusFault', this.onFaultUpdate.bind(this), false);
 
-    this.setupCharacteristic(CharacteristicKey.SetDuration, 0,
+    this.setup(CharacteristicKey.SetDuration, 0,
       'topicGetValveSetDuration', this.bindOnUpdateNumeric(CharacteristicKey.SetDuration, strings.valve.setDuration), false,
       'topicSetValveSetDuration', this.onSetSetDuration.bind(this),
     );
 
-    this.setupCharacteristic(CharacteristicKey.RemainingDuration, 0,
+    this.setup(CharacteristicKey.RemainingDuration, 0,
       'topicGetValveRemainingDuration', this.bindOnUpdateNumeric(CharacteristicKey.RemainingDuration, strings.valve.durationRemaining), false);
 
-    this.setupCharacteristic(CharacteristicKey.IsConfigured, Characteristic.IsConfigured.NOT_CONFIGURED,
+    this.setup(CharacteristicKey.IsConfigured, Characteristic.IsConfigured.NOT_CONFIGURED,
       'topicGetValveIsConfigured',
       this.bindOnUpdateNumericBoolean(CharacteristicKey.IsConfigured, 'valueConfigured', strings.valve.configured, strings.valve.notConfigured),
       false,

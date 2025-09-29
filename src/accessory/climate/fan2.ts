@@ -36,7 +36,7 @@ export class FanV2Accessory extends ActiveClimateAccessory<FanV2Config> {
       return;
     }
 
-    this.setupCharacteristic(CharacteristicKey.CurrentFanState, this.CURRENT_STATE_MAP.get(validCurrentStates[0])!,
+    this.setup(CharacteristicKey.CurrentFanState, this.CURRENT_STATE_MAP.get(validCurrentStates[0])!,
       'topicGetCurrentFanState', this.onCurrentStateUpdate.bind(this), false)
       ?.setProps({ validValues: validCurrentStates.map((key) => this.CURRENT_STATE_MAP.get(key)!) });
 
@@ -46,12 +46,12 @@ export class FanV2Accessory extends ActiveClimateAccessory<FanV2Config> {
       return;
     }
 
-    this.setupCharacteristic(CharacteristicKey.TargetFanState, this.TARGET_STATE_MAP.get(validTargetStates[0])!,
+    this.setup(CharacteristicKey.TargetFanState, this.TARGET_STATE_MAP.get(validTargetStates[0])!,
       'topicGetTargetFanState', this.onTargetStateUpdate.bind(this), false,
       'topicSetTargetFanState', this.onSetTargetState.bind(this))
       ?.setProps({ validValues: validTargetStates.map((key) => this.TARGET_STATE_MAP.get(key)!) });
 
-    this.setupCharacteristic(CharacteristicKey.RotationDirection, Characteristic.RotationDirection.CLOCKWISE,
+    this.setup(CharacteristicKey.RotationDirection, Characteristic.RotationDirection.CLOCKWISE,
       'topicGetRotationDirection',
       this.bindOnUpdateNumericBoolean(CharacteristicKey.RotationDirection, 'valueDirectionCounterClockwise',
         strings.fanv2.clockwise, strings.fanv2.counterClockwise),

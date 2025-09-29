@@ -14,7 +14,7 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: C, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
 
-    this.setupCharacteristic(CharacteristicKey.On, false,
+    this.setup(CharacteristicKey.On, false,
       'topicGetOn', this.onOnUpdate.bind(this), true,
       'topicSetOn', this.onSetOn.bind(this),
     );

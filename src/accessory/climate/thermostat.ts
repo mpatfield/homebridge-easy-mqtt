@@ -31,24 +31,24 @@ export class ThermostatAccessory extends TemperatureControlAccessory<ThermostatC
       return;
     }
 
-    this.setupCharacteristic(CharacteristicKey.TargetHeatingCoolingState, this.STATE_MAP.get(validTargetStates[0])!,
+    this.setup(CharacteristicKey.TargetHeatingCoolingState, this.STATE_MAP.get(validTargetStates[0])!,
       'topicGetTargetHeatingCoolingState', this.bindOnStateUpdate(CharacteristicKey.TargetHeatingCoolingState, true), true,
       'topicSetTargetHeatingCoolingState', this.onSetTargetState.bind(this))
       ?.setProps({ validValues: validTargetStates.map((key) => this.STATE_MAP.get(key)!) });
 
     const validCurrentStates = validTargetStates.filter((key) => key !== 'valueModeAuto');
-    this.setupCharacteristic(CharacteristicKey.CurrentHeatingCoolingState, this.STATE_MAP.get(validCurrentStates[0])!,
+    this.setup(CharacteristicKey.CurrentHeatingCoolingState, this.STATE_MAP.get(validCurrentStates[0])!,
       'topicGetCurrentHeatingCoolingState', this.bindOnStateUpdate(CharacteristicKey.CurrentHeatingCoolingState), true)
       ?.setProps({ validValues: validCurrentStates.map((key) => this.STATE_MAP.get(key)!) });
 
-    this.setupCharacteristic(CharacteristicKey.TargetTemperature, DEFAULT_TEMPERATURE,
+    this.setup(CharacteristicKey.TargetTemperature, DEFAULT_TEMPERATURE,
       'topicGetTargetTemperature', this.bindTemperatureUpdate(config, CharacteristicKey.TargetTemperature, strings.thermostat.temperatureTarget), true,
       'topicSetTargetTemperature', this.onSetTemperature.bind(this));
 
-    this.setupCharacteristic(CharacteristicKey.CurrentRelativeHumidity, 0,
+    this.setup(CharacteristicKey.CurrentRelativeHumidity, 0,
       'topicGetCurrentRelativeHumidity', this.bindOnUpdateNumeric(CharacteristicKey.CurrentRelativeHumidity, strings.climate.humidityUpdate), false);
 
-    this.setupCharacteristic(CharacteristicKey.TargetRelativeHumidity, 0,
+    this.setup(CharacteristicKey.TargetRelativeHumidity, 0,
       'topicGetTargetRelativeHumidity', this.bindOnUpdateNumeric(CharacteristicKey.TargetRelativeHumidity, strings.thermostat.humidityFuture), false,
       'topicSetTargetRelativeHumidity', this.onSetHumidity.bind(this),
     );

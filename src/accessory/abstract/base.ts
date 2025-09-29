@@ -27,13 +27,13 @@ export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessor
       .setCharacteristic(Characteristic.FirmwareRevision, config.info.version ?? getVersion());
     }
 
-    this.setupCharacteristic(CharacteristicKey.BatteryLevel, 100,
+    this.setup(CharacteristicKey.BatteryLevel, 100,
       'topicGetBatteryLevel', this.bindOnUpdateNumeric(CharacteristicKey.BatteryLevel, strings.accessory.batteryLevel), false);
 
-    this.setupCharacteristic(CharacteristicKey.StatusLowBattery, Characteristic.StatusLowBattery.BATTERY_LEVEL_NORMAL,
+    this.setup(CharacteristicKey.StatusLowBattery, Characteristic.StatusLowBattery.BATTERY_LEVEL_NORMAL,
       'topicGetBatteryLow', this.onBatteryLowUpdate.bind(this), false);
 
-    this.setupCharacteristic(CharacteristicKey.StatusActive, true,
+    this.setup(CharacteristicKey.StatusActive, true,
       'topicGetStatusActive', this.onStatusActiveUpdate.bind(this), false);
   }
 

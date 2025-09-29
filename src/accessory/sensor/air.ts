@@ -33,7 +33,7 @@ export class AirSensorAccessory extends SensorAccessory<AirSensorConfig> {
       return;
     }
 
-    this.setupCharacteristic(CharacteristicKey.AirQuality, Characteristic.AirQuality.UNKNOWN,
+    this.setup(CharacteristicKey.AirQuality, Characteristic.AirQuality.UNKNOWN,
       'topicGetAirQuality', this.onAirQualityUpdate.bind(this), true,
     )?.setProps({ validValues: validStates.map((key) => this.STATE_MAP.get(key)!) });
 
@@ -47,7 +47,7 @@ export class AirSensorAccessory extends SensorAccessory<AirSensorConfig> {
     ]);
 
     densityMap.forEach( (key, topic) => {
-      this.setupCharacteristic(key, 0, topic, this.bindOnUpdateNumeric(key, this.logTemplateForDensityKey(key)), false)
+      this.setup(key, 0, topic, this.bindOnUpdateNumeric(key, this.logTemplateForDensityKey(key)), false)
         ?.setProps({ maxValue: MAX_DENSITY });
     });
   }

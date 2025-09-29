@@ -14,7 +14,7 @@ export class COSensorAccessory extends SensorAccessory<COSensorConfig> {
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: COSensorConfig, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
 
-    this.setupCharacteristic(CharacteristicKey.CarbonMonoxideDetected, Characteristic.CarbonMonoxideDetected.CO_LEVELS_NORMAL,
+    this.setup(CharacteristicKey.CarbonMonoxideDetected, Characteristic.CarbonMonoxideDetected.CO_LEVELS_NORMAL,
       'topicGetCarbonMonoxideDetected',
       this.bindOnUpdateNumericBoolean(
         CharacteristicKey.CarbonMonoxideDetected,
@@ -22,10 +22,10 @@ export class COSensorAccessory extends SensorAccessory<COSensorConfig> {
         strings.sensor.carbonMonoxide.active, strings.sensor.carbonMonoxide.inactive),
       true);
 
-    this.setupCharacteristic(CharacteristicKey.CarbonMonoxideLevel, 0,
+    this.setup(CharacteristicKey.CarbonMonoxideLevel, 0,
       'topicGetCarbonMonoxideLevel', this.bindOnUpdateNumeric(CharacteristicKey.CarbonMonoxideLevel, strings.sensor.carbonMonoxide.level), false);
 
-    this.setupCharacteristic(CharacteristicKey.CarbonMonoxidePeakLevel, 0,
+    this.setup(CharacteristicKey.CarbonMonoxidePeakLevel, 0,
       'topicGetCarbonMonoxidePeakLevel', this.bindOnUpdateNumeric(CharacteristicKey.CarbonMonoxidePeakLevel, strings.sensor.carbonMonoxide.peakLevel), false);
   }
 

@@ -36,7 +36,7 @@ export class PurifierAccessory extends ActiveClimateAccessory<PurifierConfig> {
       return;
     }
 
-    this.setupCharacteristic(CharacteristicKey.CurrentAirPurifierState, this.CURRENT_STATE_MAP.get(validCurrentStates[0])!,
+    this.setup(CharacteristicKey.CurrentAirPurifierState, this.CURRENT_STATE_MAP.get(validCurrentStates[0])!,
       'topicGetCurrentPurifierState', this.onCurrentStateUpdate.bind(this), true)
       ?.setProps({ validValues: validCurrentStates.map((key) => this.CURRENT_STATE_MAP.get(key)!) });
 
@@ -46,7 +46,7 @@ export class PurifierAccessory extends ActiveClimateAccessory<PurifierConfig> {
       return;
     }
 
-    this.setupCharacteristic(CharacteristicKey.TargetAirPurifierState, this.TARGET_STATE_MAP.get(validTargetStates[0])!,
+    this.setup(CharacteristicKey.TargetAirPurifierState, this.TARGET_STATE_MAP.get(validTargetStates[0])!,
       'topicGetTargetPurifierState', this.onTargetStateUpdate.bind(this), true,
       'topicSetTargetPurifierState', this.onSetTargetState.bind(this))
       ?.setProps({ validValues: validTargetStates.map((key) => this.TARGET_STATE_MAP.get(key)!) });

@@ -42,7 +42,7 @@ export class HeaterCoolerAccessory extends ActiveClimateAccessory<HeaterCoolerCo
       return;
     }
 
-    this.setupCharacteristic(CharacteristicKey.CurrentHeaterCoolerState, this.CURRENT_STATE_MAP.get(validCurrentStates[0])!,
+    this.setup(CharacteristicKey.CurrentHeaterCoolerState, this.CURRENT_STATE_MAP.get(validCurrentStates[0])!,
       'topicGetCurrentHeaterCoolerState', this.onCurrentStateUpdate.bind(this), true)
       ?.setProps({ validValues: validCurrentStates.map((key) => this.CURRENT_STATE_MAP.get(key)!) });
 
@@ -52,7 +52,7 @@ export class HeaterCoolerAccessory extends ActiveClimateAccessory<HeaterCoolerCo
       return;
     }
 
-    this.setupCharacteristic(CharacteristicKey.TargetHeaterCoolerState, this.TARGET_STATE_MAP.get(validTargetStates[0])!,
+    this.setup(CharacteristicKey.TargetHeaterCoolerState, this.TARGET_STATE_MAP.get(validTargetStates[0])!,
       'topicGetTargetHeaterCoolerState', this.onTargetStateUpdate.bind(this), true,
       'topicSetTargetHeaterCoolerState', this.onSetTargetState.bind(this))
       ?.setProps({ validValues: validTargetStates.map((key) => this.TARGET_STATE_MAP.get(key)!) });

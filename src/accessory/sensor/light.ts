@@ -14,7 +14,7 @@ export class LightSensorAccessory extends SensorAccessory<LightSensorConfig> {
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: LightSensorConfig, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
 
-    this.setupCharacteristic(
+    this.setup(
       CharacteristicKey.CurrentAmbientLightLevel, 0.0001,
       'topicGetCurrentAmbientLightLevel', this.bindOnUpdateNumeric(CharacteristicKey.CurrentAmbientLightLevel, strings.sensor.light.level),
       true);

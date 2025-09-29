@@ -15,7 +15,7 @@ export class ContactSensorAccessory extends SensorAccessory<ContactSensorConfig>
     Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: ContactSensorConfig, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
 
-    this.setupCharacteristic(CharacteristicKey.ContactSensorState, Characteristic.ContactSensorState.CONTACT_NOT_DETECTED,
+    this.setup(CharacteristicKey.ContactSensorState, Characteristic.ContactSensorState.CONTACT_NOT_DETECTED,
       'topicGetContactSensorState', this.onContactStateUpdate.bind(this), true);
   }
 

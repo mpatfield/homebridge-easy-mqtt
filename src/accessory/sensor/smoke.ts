@@ -14,7 +14,7 @@ export class SmokeSensorAccessory extends SensorAccessory<SmokeSensorConfig> {
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: SmokeSensorConfig, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
 
-    this.setupCharacteristic(CharacteristicKey.SmokeDetected, Characteristic.SmokeDetected.SMOKE_NOT_DETECTED,
+    this.setup(CharacteristicKey.SmokeDetected, Characteristic.SmokeDetected.SMOKE_NOT_DETECTED,
       'topicGetSmokeDetected',
       this.bindOnUpdateNumericBoolean(CharacteristicKey.SmokeDetected, 'valueSmokeDetected', strings.sensor.smoke.active, strings.sensor.smoke.inactive),
       true);

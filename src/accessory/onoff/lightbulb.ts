@@ -14,22 +14,22 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: LightbulbConfig, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
 
-    this.setupCharacteristic(CharacteristicKey.Brightness, 100,
+    this.setup(CharacteristicKey.Brightness, 100,
       'topicGetBrightness', this.bindOnUpdateNumeric(CharacteristicKey.Brightness, strings.lightbulb.brightness), false,
       'topicSetBrightness', this.onSetValue(CharacteristicKey.Brightness, 'topicSetBrightness', strings.lightbulb.brightnessFuture),
     );
 
-    this.setupCharacteristic(CharacteristicKey.ColorTemperature, 500,
+    this.setup(CharacteristicKey.ColorTemperature, 500,
       'topicGetColorTemperature', this.bindOnUpdateNumeric(CharacteristicKey.ColorTemperature, strings.lightbulb.colorTemperature), false,
       'topicSetColorTemperature', this.onSetValue(CharacteristicKey.ColorTemperature, 'topicSetColorTemperature', strings.lightbulb.colorTemperatureFuture),
     );
 
-    this.setupCharacteristic(CharacteristicKey.Hue, 0,
+    this.setup(CharacteristicKey.Hue, 0,
       'topicGetHue', this.bindOnUpdateNumeric(CharacteristicKey.Hue, strings.lightbulb.hue), false,
       'topicSetHue', this.onSetValue(CharacteristicKey.Hue, 'topicSetHue', strings.lightbulb.hueFuture),
     );
 
-    this.setupCharacteristic(CharacteristicKey.Saturation, 100,
+    this.setup(CharacteristicKey.Saturation, 100,
       'topicGetSaturation', this.bindOnUpdateNumeric(CharacteristicKey.Saturation, strings.lightbulb.saturation), false,
       'topicSetSaturation', this.onSetValue(CharacteristicKey.Saturation, 'topicSetSaturation', strings.lightbulb.saturationFuture),
     );

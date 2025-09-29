@@ -14,13 +14,13 @@ export abstract class ActiveClimateAccessory<C extends ActiveClimateConfig = Act
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: C, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
 
-    this.setupCharacteristic(CharacteristicKey.Active, Characteristic.Active.INACTIVE,
+    this.setup(CharacteristicKey.Active, Characteristic.Active.INACTIVE,
       'topicGetActive',
       this.bindOnUpdateNumericBoolean(CharacteristicKey.Active, 'valueStateActive', strings.heaterCooler.active, strings.heaterCooler.notActive), true,
       'topicSetActive', this.onSetActive.bind(this),
     );
 
-    this.setupCharacteristic(CharacteristicKey.LockPhysicalControls, Characteristic.LockPhysicalControls.CONTROL_LOCK_DISABLED,
+    this.setup(CharacteristicKey.LockPhysicalControls, Characteristic.LockPhysicalControls.CONTROL_LOCK_DISABLED,
       'topicGetLockPhysicalControls',
       this.bindOnUpdateNumericBoolean(
         CharacteristicKey.LockPhysicalControls, 'valueControlLock',
@@ -29,12 +29,12 @@ export abstract class ActiveClimateAccessory<C extends ActiveClimateConfig = Act
       'topicSetLockPhysicalControls', this.onSetLockControls.bind(this),
     );
 
-    this.setupCharacteristic(CharacteristicKey.RotationSpeed, 0,
+    this.setup(CharacteristicKey.RotationSpeed, 0,
       'topicGetRotationSpeed', this.bindOnUpdateNumeric(CharacteristicKey.RotationSpeed, strings.heaterCooler.rotationUpdate), false,
       'topicSetRotationSpeed', this.onSetRotationSpeed.bind(this),
     );
 
-    this.setupCharacteristic(CharacteristicKey.SwingMode, Characteristic.SwingMode.SWING_DISABLED,
+    this.setup(CharacteristicKey.SwingMode, Characteristic.SwingMode.SWING_DISABLED,
       'topicGetSwingMode',
       this.bindOnUpdateNumericBoolean(CharacteristicKey.SwingMode, 'valueSwingEnabled',
         strings.heaterCooler.swingEnabled, strings.heaterCooler.swingDisabled),

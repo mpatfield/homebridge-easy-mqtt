@@ -15,19 +15,19 @@ export class BlindAccessory extends PositionAccessory<BlindConfig> {
     Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: BlindConfig, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
 
-    this.setupCharacteristic(CharacteristicKey.CurrentHorizontalTiltAngle, 0, 'topicGetCurrentHorizontalTiltAngle',
+    this.setup(CharacteristicKey.CurrentHorizontalTiltAngle, 0, 'topicGetCurrentHorizontalTiltAngle',
       this.bindOnUpdateNumeric(CharacteristicKey.CurrentHorizontalTiltAngle, strings.position.blind.currentHorizontal), false);
 
-    this.setupCharacteristic(CharacteristicKey.CurrentVerticalTiltAngle, 0, 'topicGetCurrentVerticalTiltAngle',
+    this.setup(CharacteristicKey.CurrentVerticalTiltAngle, 0, 'topicGetCurrentVerticalTiltAngle',
       this.bindOnUpdateNumeric(CharacteristicKey.CurrentVerticalTiltAngle, strings.position.blind.currentVertical), false);
 
-    this.setupCharacteristic(CharacteristicKey.TargetHorizontalTiltAngle, 0,
+    this.setup(CharacteristicKey.TargetHorizontalTiltAngle, 0,
       'topicGetTargetHorizontalTiltAngle',
       this.bindOnUpdateNumeric(CharacteristicKey.TargetHorizontalTiltAngle, strings.position.blind.targetHorizontal), false,
       'topicSetTargetHorizontalTiltAngle',
       this.onSetTilt(CharacteristicKey.TargetHorizontalTiltAngle, 'topicSetTargetHorizontalTiltAngle', strings.position.blind.targetHorizontalSet));
 
-    this.setupCharacteristic(CharacteristicKey.TargetVerticalTiltAngle, 0,
+    this.setup(CharacteristicKey.TargetVerticalTiltAngle, 0,
       'topicGetTargetVerticalTiltAngle',
       this.bindOnUpdateNumeric(CharacteristicKey.TargetVerticalTiltAngle, strings.position.blind.targetVertical), false,
       'topicSetTargetVerticalTiltAngle',

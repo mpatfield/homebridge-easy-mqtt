@@ -74,31 +74,31 @@ export abstract class Common<C extends Assertable> {
     this.topicHandlers.push(...topicHandlers);
   }
 
-  protected setupCharacteristic(
+  protected setup(
     characteristicKey: CharacteristicKey, defaultValue: CharacteristicValue,
     getTopicKey: keyof C, onUpdateHandler: OnUpdateHandler, assertGetTopic: boolean,
     setTopicKey: keyof C | undefined = undefined, onSetHandler: CharacteristicSetHandler | undefined = undefined,
   ): Characteristic | undefined {
 
-    const characteristic = this.setupCharacteristicOnGet(characteristicKey, defaultValue, getTopicKey, onUpdateHandler, assertGetTopic);
+    const characteristic = this.setupGet(characteristicKey, defaultValue, getTopicKey, onUpdateHandler, assertGetTopic);
     if (!characteristic) {
       return;
     }
 
-    this.setupCharacteristicOnSet(characteristicKey, setTopicKey, onSetHandler);
+    this.setupSet(characteristicKey, setTopicKey, onSetHandler);
 
     return characteristic;
   }
 
-  private setupCharacteristicOnGet(characteristicKey: CharacteristicKey, defaultValue: CharacteristicValue,
-    getTopicKey: keyof C, onUpdateHandler: OnUpdateHandler, assertGetTopic: boolean = false,
+  private setupGet(characteristicKey: CharacteristicKey, defaultValue: CharacteristicValue,
+    getTopicKey: keyof C, onUpdateHandler: OnUpdateHandler, assertTopic: boolean,
   ): Characteristic | undefined {
 
     if (!getTopicKey.toString().startsWith('topic')) {
       throw new Error(`Trying to fetch topic with unexpected property name '${getTopicKey.toString()}'`);
     }
 
-    if (assertGetTopic) {
+    if (assertTopic) {
       this.assert(getTopicKey);
     }
 
@@ -128,7 +128,7 @@ export abstract class Common<C extends Assertable> {
     return characteristic;
   }
 
-  protected setupCharacteristicOnSet(characteristicKey: CharacteristicKey,
+  protected setupSet(characteristicKey: CharacteristicKey,
     setTopicKey: keyof C | undefined = undefined, onSetHandler: CharacteristicSetHandler | undefined = undefined,
   ) {
 

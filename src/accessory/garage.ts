@@ -32,7 +32,7 @@ export class GarageDoorAccessory extends LockMechanismAccessory<GarageDoorConfig
       return;
     }
 
-    this.setupCharacteristic(CharacteristicKey.CurrentDoorState, Characteristic.CurrentDoorState.CLOSED,
+    this.setup(CharacteristicKey.CurrentDoorState, Characteristic.CurrentDoorState.CLOSED,
       'topicGetCurrentDoorState', this.onCurrentDoorStateUpdate.bind(this), true,
     )?.setProps({ validValues: validCurrentStates.map((key) => this.STATE_MAP.get(key)!) });
 
@@ -42,12 +42,12 @@ export class GarageDoorAccessory extends LockMechanismAccessory<GarageDoorConfig
       return;
     }
 
-    this.setupCharacteristic(CharacteristicKey.TargetDoorState, Characteristic.TargetDoorState.CLOSED,
+    this.setup(CharacteristicKey.TargetDoorState, Characteristic.TargetDoorState.CLOSED,
       'topicGetTargetDoorState', this.onTargetDoorStateUpdate.bind(this), true,
       'topicSetTargetDoorState', this.onSetTargetDoorState.bind(this),
     )?.setProps({ validValues: validTargetStates.map((key) => this.STATE_MAP.get(key)!) });
 
-    this.setupCharacteristic(CharacteristicKey.ObstructionDetected, false, 'topicGetObstructionDetected', this.onObstructionUpdate.bind(this), true);
+    this.setup(CharacteristicKey.ObstructionDetected, false, 'topicGetObstructionDetected', this.onObstructionUpdate.bind(this), true);
   }
 
   protected getAccessoryType(): AccessoryType {

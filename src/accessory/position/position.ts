@@ -16,10 +16,10 @@ export abstract class PositionAccessory<C extends PositionConfig = PositionConfi
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: C, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
 
-    this.setupCharacteristic(CharacteristicKey.CurrentPosition, 0,
+    this.setup(CharacteristicKey.CurrentPosition, 0,
       'topicGetCurrentPosition', this.bindOnUpdateNumeric(CharacteristicKey.CurrentPosition, strings.position.current), true);
 
-    this.setupCharacteristic(CharacteristicKey.TargetPosition, 0,
+    this.setup(CharacteristicKey.TargetPosition, 0,
       'topicGetTargetPosition', this.bindOnUpdateNumeric(CharacteristicKey.TargetPosition, strings.position.target), true,
       'topicSetTargetPosition', this.onSetTargetPosition.bind(this));
 
@@ -35,13 +35,13 @@ export abstract class PositionAccessory<C extends PositionConfig = PositionConfi
       return;
     }
 
-    this.setupCharacteristic(CharacteristicKey.PositionState, Characteristic.PositionState.STOPPED,
+    this.setup(CharacteristicKey.PositionState, Characteristic.PositionState.STOPPED,
       'topicGetPositionState', this.onPositionStateUpdate.bind(this), true,
     )?.setProps({ validValues: validStates.map((key) => this.STATE_MAP.get(key)!) });
 
-    this.setupCharacteristicOnSet(CharacteristicKey.HoldPosition, 'topicSetHoldPosition', this.onSetHoldPosition.bind(this));
+    this.setupSet(CharacteristicKey.HoldPosition, 'topicSetHoldPosition', this.onSetHoldPosition.bind(this));
 
-    this.setupCharacteristic(CharacteristicKey.ObstructionDetected, false, 'topicGetObstructionDetected', this.onObstructionUpdate.bind(this), false);
+    this.setup(CharacteristicKey.ObstructionDetected, false, 'topicGetObstructionDetected', this.onObstructionUpdate.bind(this), false);
   }
 
   private async onSetTargetPosition(value: CharacteristicValue) {
