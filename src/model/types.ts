@@ -276,6 +276,30 @@ export type GarageDoorConfig = LockConfig & {
   valueLockStateUnsecured?: string,
 }
 
+export type PositionConfig = BaseAccessoryConfig & {
+  topicGetCurrentPosition: string,
+  topicSetHoldPosition?: string,
+  topicGetObstructionDetected?: string,
+  topicGetPositionState: string,
+  topicGetTargetPosition: string,
+  topicSetTargetPosition: string,
+  valuePositionHold?: string,
+  valuePositionDecreasing?: string,
+  valuePositionIncreasing?: string,
+  valuePositionObstructed?: string,
+  valuePositionResume?: string,
+  valuePositionStopped?: string,
+}
+
+export type BlindConfig = PositionConfig & {
+  topicGetCurrentHorizontalTiltAngle?: string,
+  topicGetCurrentVerticalTiltAngle?: string,
+  topicGetTargetHorizontalTiltAngle? :string,
+  topicGetTargetVerticalTiltAngle? :string,
+  topicSetTargetHorizontalTiltAngle? :string,
+  topicSetTargetVerticalTiltAngle? :string,
+}
+
 export type LockConfig = BaseAccessoryConfig & {
   topicGetCurrentLockState: string,
   topicGetTargetLockState: string,

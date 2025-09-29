@@ -47,6 +47,7 @@ This plugin is designed to be a simple replacement for the fantastic [homebridge
   - `TemperatureSensor`
   - `Thermostat`
   - `Valve`
+  - `WindowCovering`
 
 ## Configuration
 
@@ -174,6 +175,28 @@ These values are used for both determining current state and, where appropriate,
 - `topicSetOn*` - For setting the state of the outlet
 - `valueOn*` - Turned on, e.g. "true", or "1", or "On"
 - `valueOff*` - Turned off, e.g. "false", or "0", or "Off"
+
+### Position Accessories
+
+#### WindowCovering
+- `topicGetPositionState*` - Get position state (Decreasing, Increasing, Stopped)
+- `topicGetCurrentPosition*` - Get current position percent
+- `topicGetTargetPosition*` - Get target position percent
+- `topicSetTargetPosition*` - Set target position percent
+- `topicGetCurrentHorizontalTiltAngle` - Get current horizontal angle (-90° to 90°)
+- `topicGetTargetHorizontalTiltAngle` - Get target horizontal angle (-90° to 90°)
+- `topicSetTargetHorizontalTiltAngle` - Set target horizontal angle (-90° to 90°)
+- `topicGetCurrentVerticalTiltAngle` - Get current vertical angle (-90° to 90°)
+- `topicGetTargetVerticalTiltAngle` - Get target vertical angle (-90° to 90°)
+- `topicSetTargetVerticalTiltAngle` - Set target vertical angle (-90° to 90°)
+- `topicSetHoldPosition` - Set hold (true/false)
+- `topicGetObstructionDetected` - Get obstruction detected
+- `valuePositionDecreasing` - Closing
+- `valuePositionIncreasing` - Opening
+- `valuePositionStopped` - Stopped
+- `valuePositionHold` - Hold
+- `valuePositionResume` - Resume
+- `valuePositionObstructed` - Obstruction detected
 
 ### Sensors
 

@@ -67,6 +67,7 @@ const en = {
       valveIrrigation: 'Irrigation', // (fr)
       valveShower: 'Shower Head', // (fr)
       valveFaucet: 'Water Faucet', // (fr)
+      windowCovering: 'Window Covering', // (fr) (ro)
     },
 
     title: {
@@ -98,13 +99,16 @@ const en = {
       topicGetCurrentFanState: 'Get Current Mode', // (fr) (ro)
       topicGetCurrentHeaterCoolerState: 'Get Current Mode*', // (fr)
       topicGetCurrentHeatingCoolingState: 'Get Current Mode*',
+      topicGetCurrentHorizontalTiltAngle: 'Get Horizontal Angle', // (fr) (ro)
       topicGetCurrentPurifierState: 'Get Current Mode*', // (fr)
       topicGetCurrentLockState: 'Get Current State*',
       topicGetCurrentLockStateOptional: 'Get Current Lock State', // (fr) (ro)
+      topicGetCurrentPosition: 'Get Current Position*', // (fr) (ro)
       topicGetCurrentRelativeHumidity: 'Get Relative Humidity*',
       topicGetCurrentRelativeHumidityOptional: 'Get Relative Humidity',
       topicGetCurrentSecurityState: 'Get Current State*',
       topicGetCurrentTemperature: 'Get Current Temperature*',
+      topicGetCurrentVerticalTiltAngle: 'Get Vertical Angle', // (fr) (ro)
       topicGetFilterChangeIndication: 'Filter Change Indication', // (fr) (ro)
       topicGetFilterLifeLevel: 'Filter Life Remaining', // (fr) (ro)
       topicGetHeatingThresholdTemperature: 'Get Heating Threshold',
@@ -114,12 +118,14 @@ const en = {
       topicGetMotionDetected: 'Get Motion Detected*',
       topicGetNitrogenDioxideDensity: 'Get Nitrogen Dioxide', // (fr) (ro)
       topicGetObstructionDetected: 'Get Obstruction Detected*', // (fr) (ro)
+      topicGetObstructionDetectedOptional: 'Get Obstruction Detected', // (fr) (ro)
       topicGetOccupancyDetected: 'Get Occupancy Detected*',
       topicGetOn: 'Get On/Off State*',
       topicGetOutletInUse: 'Get In Use State',
       topicGetOzoneDensity: 'Get Ozone', // (fr) (ro)
       topicGetPM10Density: 'Get PM10', // (fr) (ro)
       topicGetPM2_5Density: 'Get PM2.5', // (fr) (ro)
+      topicGetPositionState: 'Get Position State*', // (fr) (ro)
       topicGetRotationDirection: 'Get Direction', // (fr) (ro)
       topicGetRotationSpeed: 'Get Rotation Speed', // (fr)
       topicGetSaturation: 'Get Saturation',
@@ -133,12 +139,15 @@ const en = {
       topicGetTargetFanState: 'Get Target Mode', // (fr) (ro)
       topicGetTargetHeaterCoolerState: 'Get Target Mode*', // (fr)
       topicGetTargetHeatingCoolingState: 'Get Target Mode*',
+      topicGetTargetHorizontalTiltAngle: 'Get Target Horizontal Angle', // (fr) (ro)
+      topicGetTargetPosition: 'Get Target Position*', // (fr) (ro)
       topicGetTargetPurifierState: 'Get Target Mode*', // (fr)
       topicGetTargetLockState: 'Get Target State*',
       topicGetTargetLockStateOptional: 'Get Target Lock State', // (fr) (ro)
       topicGetTargetRelativeHumidity: 'Get Target Humidity',
       topicGetTargetSecurityState: 'Get Target State*',
       topicGetTargetTemperature: 'Get Target Temperature*',
+      topicGetTargetVerticalTiltAngle: 'Get Target Vertical Angle', // (fr) (ro)
       topicGetValveActive: 'Get Active*', // (fr)
       topicGetValveInUse: 'Get In Use*', // (fr)
       topicGetValveIsConfigured: 'Get Is Configured', // (fr)
@@ -151,6 +160,7 @@ const en = {
       topicSetColorTemperature: 'Set Color Temperature',
       topicSetCoolingThresholdTemperature: 'Set Cooling Threshold',
       topicSetHeatingThresholdTemperature: 'Set Heating Threshold',
+      topicSetHoldPosition: 'Set Hold Position', // (fr) (ro)
       topicSetHue: 'Set Hue',
       topicSetLockPhysicalControls: 'Set Lock Controls', // (fr)
       topicSetOn: 'Set On/Off State*',
@@ -162,12 +172,15 @@ const en = {
       topicSetTargetFanState: 'Set Target Mode', // (fr) (ro)
       topicSetTargetHeaterCoolerState: 'Set Target Mode*', // (fr)
       topicSetTargetHeatingCoolingState: 'Set Target Mode*',
+      topicSetTargetHorizontalTiltAngle: 'Set Target Horizontal Angle', // (fr) (ro)
+      topicSetTargetPosition: 'Set Target Position*', // (fr) (ro)
       topicSetTargetPurifierState: 'Set Target Mode*', // (fr)
       topicSetTargetLockState: 'Set Target State*',
       topicSetTargetLockStateOptional: 'Set Target Lock State', // (fr) (ro)
       topicSetTargetRelativeHumidity: 'Set Target Humidity ',
       topicSetTargetSecurityState: 'Set Target State*',
       topicSetTargetTemperature: 'Set Target Temperature*',
+      topicSetTargetVerticalTiltAngle: 'Set Target Vertical Angle', // (fr) (ro)
       topicSetValveActive: 'Set Active*', // (fr)
       topicSetValveIsConfigured: 'Set Is Configured', // (fr)
       topicSetValveSetDuration: 'Set Duration', // (fr)
@@ -229,6 +242,12 @@ const en = {
       valueOn: 'On*',
       valueOutletInUse: 'In Use',
       valueOutletNotInUse: 'Not In Use',
+      valuePositionHold: 'Hold', // (fr) (ro)
+      valuePositionDecreasing: 'Decreasing', // (fr) (ro)
+      valuePositionIncreasing: 'Increasing', // (fr) (ro)
+      valuePositionObstructed: 'Obstructed', // (fr) (ro)
+      valuePositionResume: 'Resume', // (fr) (ro)
+      valuePositionStopped: 'Stopped', // (fr) (ro)
       valueSmokeDetected: 'Smoke Detected*',
       valueStateActive: 'State Active*', // (fr)
       valueStateInactive: 'State Inactive*', // (fr)
@@ -367,6 +386,32 @@ const en = {
     badValue: '%s unable to get in-use state for %s', // accessory name, value
     inUse: '%s is in use', // accessory name
     notInUse: '%s is not in use', // accessory name
+  },
+
+  position: { // (fr) (ro)
+
+    blind: {
+      currentHorizontal: '%s current horizontal angle is %d°', // accessory name, number
+      currentVertical: '%s current vertical angle is %d°', // accessory name, number
+      targetHorizontal: '%s target horizontal angle is %d°', // accessory name, number
+      targetHorizontalSet: 'Setting %s target horizontal angle to %d°…', // accessory name, number
+      targetVertical: '%s target vertical angle is %d°', // accessory name, number
+      targetVerticalSet: 'Setting %s target vertical angle to %d°…', // accessory name, number
+    },
+
+    current: '%s current position is %d%', // accessory name, number
+    hold: 'Setting %s position to hold…', // accessory name
+    noPositionValues: '%s must have at least one position value defined (Decreasing, Increasing, Stopped)', // accessory name
+    obstructed: '%s is obstructed', // accessory name
+    resume: 'Setting %s position to resume…', // accessory name
+    stateDecreasing: '%s position is decreasing', // accessory name
+    stateIncreasing: '%s position is increasing', // accessory name
+    stateStopped: '%s position is stopped', // accessory name
+    stateUnknown: '%s position state is unknown', // accessory name
+    target: '%s target position is %d%', // accessory name, number
+    targetSet: 'Setting %s target position to %d%…', // accessory name, number
+    unknownValue: '%s unable to determine position state from value %s. Ignoring…', // accessory name, value
+    unobstructed: '%s is unobstructed', // accessory name
   },
 
   purifier: { // (fr)

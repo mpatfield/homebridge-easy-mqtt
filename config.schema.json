@@ -21,8 +21,8 @@
           "type": {
             "type": "string",
             "title": "${config.title.type}",
-            "enum": [ "AirPurifier", "AirQualitySensor", "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "Fanv2", "GarageDoorOpener", "HeaterCooler", "HumiditySensor", "LeakSensor", "Lightbulb", "LightSensor", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "Switch", "TemperatureSensor", "Thermostat", "Valve"],
-            "enumNames": ["${config.enumNames.airPurifier}", "${config.enumNames.airQualitySensor}", "${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.fanv2}", "${config.enumNames.garageDoorOpener}", "${config.enumNames.heaterCooler}", "${config.enumNames.humiditySensor}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lightSensor}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}", "${config.enumNames.valve}"],
+            "enum": [ "AirPurifier", "AirQualitySensor", "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "Fanv2", "GarageDoorOpener", "HeaterCooler", "HumiditySensor", "LeakSensor", "Lightbulb", "LightSensor", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "Switch", "TemperatureSensor", "Thermostat", "Valve", "WindowCovering"],
+            "enumNames": ["${config.enumNames.airPurifier}", "${config.enumNames.airQualitySensor}", "${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.fanv2}", "${config.enumNames.garageDoorOpener}", "${config.enumNames.heaterCooler}", "${config.enumNames.humiditySensor}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lightSensor}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}", "${config.enumNames.valve}", "${config.enumNames.windowCovering}"],
             "required": true
           },
           "group": {
@@ -486,6 +486,50 @@
               "type": "string",
               "title": "${config.title.topicGetVOCDensity}"
             },
+            "topicGetCurrentPosition": {
+              "type": "string",
+              "title": "${config.title.topicGetCurrentPosition}"
+            },
+            "topicSetHoldPosition": {
+              "type": "string",
+              "title": "${config.title.topicSetHoldPosition}"
+            },
+            "topicGetPositionState": {
+              "type": "string",
+              "title": "${config.title.topicGetPositionState}"
+            },
+            "topicGetTargetPosition": {
+              "type": "string",
+              "title": "${config.title.topicGetTargetPosition}"
+            },
+            "topicSetTargetPosition": {
+              "type": "string",
+              "title": "${config.title.topicSetTargetPosition}"
+            },
+            "topicGetCurrentHorizontalTiltAngle": {
+              "type": "string",
+              "title": "${config.title.topicGetCurrentHorizontalTiltAngle}"
+            },
+            "topicGetCurrentVerticalTiltAngle": {
+              "type": "string",
+              "title": "${config.title.topicGetCurrentVerticalTiltAngle}"
+            },
+            "topicGetTargetHorizontalTiltAngle": {
+              "type": "string",
+              "title": "${config.title.topicGetTargetHorizontalTiltAngle}"
+            },
+            "topicGetTargetVerticalTiltAngle": {
+              "type": "string",
+              "title": "${config.title.topicGetTargetVerticalTiltAngle}"
+            },
+            "topicSetTargetHorizontalTiltAngle": {
+              "type": "string",
+              "title": "${config.title.topicSetTargetHorizontalTiltAngle}"
+            },
+            "topicSetTargetVerticalTiltAngle": {
+              "type": "string",
+              "title": "${config.title.topicSetTargetVerticalTiltAngle}"
+            },
             "valueBatteryLow": {
               "type": "string",
               "title": "${config.title.valueBatteryLow}"
@@ -718,6 +762,30 @@
               "type": "string",
               "title": "${config.title.valueAQUnknown}"
             },
+            "valuePositionHold": {
+              "type": "string",
+              "title": "${config.title.valuePositionHold}"
+            },
+            "valuePositionDecreasing": {
+              "type": "string",
+              "title": "${config.title.valuePositionDecreasing}"
+            },
+            "valuePositionIncreasing": {
+              "type": "string",
+              "title": "${config.title.valuePositionIncreasing}"
+            },
+            "valuePositionObstructed": {
+              "type": "string",
+              "title": "${config.title.valuePositionObstructed}"
+            },
+            "valuePositionResume": {
+              "type": "string",
+              "title": "${config.title.valuePositionResume}"
+            },
+            "valuePositionStopped": {
+              "type": "string",
+              "title": "${config.title.valuePositionStopped}"
+            },
             "resetOnRestart": {
               "type": "boolean",
               "title": "${config.title.resetOnRestart}"
@@ -742,6 +810,27 @@
               },
               "then": {
                 "required": ["topicGetOn", "topicSetOn", "valueOn", "valueOff"]
+              }
+            },
+            {
+               "if": {
+                "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
+                        "enum": ["WindowCovering"]
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "required": ["topicGetCurrentPosition", "topicGetTargetPosition", "topicSetTargetPosition", "topicGetPositionState"],
+                "anyOf": [
+                  { "required": ["valuePositionDecreasing"] },
+                  { "required": ["valuePositionIncreasing"] },
+                  { "required": ["valuePositionStopped"] }
+                ]
               }
             },
             {
@@ -1413,6 +1502,84 @@
               "then": {
                 "required": ["topicGetRotationDirection"]
               }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicSetHoldPosition": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicSetHoldPosition"]
+              },
+              "then": {
+                "required": ["valuePositionHold", "valuePositionResume"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicGetObstructionDetected": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicGetObstructionDetected"]
+              },
+              "then": {
+                "required": ["valuePositionObstructed"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicGetCurrentHorizontalTiltAngle": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicGetCurrentHorizontalTiltAngle"]
+              },
+              "then": {
+                "required": ["topicGetTargetHorizontalTiltAngle", "topicSetTargetHorizontalTiltAngle"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicSetTargetHorizontalTiltAngle": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicSetTargetHorizontalTiltAngle"]
+              },
+              "then": {
+                "required": ["topicGetTargetHorizontalTiltAngle"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicGetTargetVerticalTiltAngle": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicGetTargetVerticalTiltAngle"]
+              },
+              "then": {
+                "required": ["topicGetCurrentVerticalTiltAngle", "topicSetTargetVerticalTiltAngle"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicSetTargetVerticalTiltAngle": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicSetTargetVerticalTiltAngle"]
+              },
+              "then": {
+                "required": ["topicGetCurrentVerticalTiltAngle"]
+              }
             }
           ]
         },
@@ -1811,6 +1978,150 @@
                       "items": [
                         {
                           "key": "accessories[].topicGetOutletInUse",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "return ['WindowCovering'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                  },
+                  "items": [
+                    {
+                      "type": "fieldset",
+                      "notitle": true,
+                      "items": [
+                        {
+                          "type": "div",
+                          "displayFlex": true,
+                          "flex-direction": "row",
+                          "items": [
+                            {
+                              "key": "accessories[].topicGetCurrentPosition",
+                              "flex": "0 0 50%"
+                            },
+                            {
+                              "key": "accessories[].topicGetPositionState",
+                              "flex": "0 0 50%"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "div",
+                          "displayFlex": true,
+                          "flex-direction": "row",
+                          "items": [
+                            {
+                              "key": "accessories[].topicGetTargetPosition",
+                              "flex": "0 0 50%"
+                            },
+                            {
+                              "key": "accessories[].topicSetTargetPosition",
+                              "flex": "0 0 50%"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'WindowCovering';"
+                  },
+                  "items": [
+                    {
+                      "type": "fieldset",
+                      "notitle": true,
+                      "items": [
+                        {
+                          "type": "div",
+                          "displayFlex": true,
+                          "flex-direction": "row",
+                          "items": [
+                            {
+                              "key": "accessories[].topicGetCurrentHorizontalTiltAngle",
+                              "flex": "0 0 50%"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "div",
+                          "displayFlex": true,
+                          "flex-direction": "row",
+                          "items": [
+                            {
+                              "key": "accessories[].topicGetTargetHorizontalTiltAngle",
+                              "flex": "0 0 50%"
+                            },
+                            {
+                              "key": "accessories[].topicSetTargetHorizontalTiltAngle",
+                              "flex": "0 0 50%"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "div",
+                          "displayFlex": true,
+                          "flex-direction": "row",
+                          "items": [
+                            {
+                              "type": "div",
+                              "displayFlex": true,
+                              "flex-direction": "row",
+                              "items": [
+                                {
+                                  "key": "accessories[].topicGetCurrentVerticalTiltAngle",
+                                  "flex": "0 0 50%"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "div",
+                          "displayFlex": true,
+                          "flex-direction": "row",
+                          "items": [
+                            {
+                              "key": "accessories[].topicGetTargetVerticalTiltAngle",
+                              "flex": "0 0 50%"
+                            },
+                            {
+                              "key": "accessories[].topicSetTargetVerticalTiltAngle",
+                              "flex": "0 0 50%"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "return ['WindowCovering'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicSetHoldPosition",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicGetObstructionDetected",
+                          "title": "${config.title.topicGetObstructionDetectedOptional}",
                           "flex": "0 0 50%"
                         }
                       ]
@@ -2920,6 +3231,53 @@
                     {
                       "key": "accessories[].valueOutletInUse",
                       "flex": "0 0 25%"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "return ['WindowCovering'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].valuePositionDecreasing",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valuePositionIncreasing",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valuePositionStopped",
+                          "flex": "0 0 25%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].valuePositionHold",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valuePositionResume",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valuePositionObstructed",
+                          "flex": "0 0 25%"
+                        }
+                      ]
                     }
                   ]
                 },
