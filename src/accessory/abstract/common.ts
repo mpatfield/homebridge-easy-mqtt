@@ -2,14 +2,14 @@ import { Characteristic, CharacteristicSetHandler, CharacteristicValue, Nullable
 
 import { strings } from '../../i18n/i18n.js';
 
-import { CharacteristicKey, TemperatureUnits } from '../../model/enums.js';
+import { CharacteristicKey } from '../../model/enums.js';
 import { CharacteristicType, TemperatureConfig } from '../../model/types.js';
 
 import { Log, LogType } from '../../tools/log.js';
 import { toNumber, toPrimitive } from '../../tools/primitive.js';
-import { assert, Assertable } from '../../tools/validation.js';
-import { toCelsius } from '../../tools/temperature.js';
 import { Properties } from '../../tools/properties.js';
+import { assert, Assertable } from '../../tools/validation.js';
+import { temperatureUnits, toCelsius } from '../../tools/temperature.js';
 
 type OnUpdateHandler = (topic: string, value: PrimitiveTypes) => (Promise<void>);
 export type TopicHandler = {topic: string, handler: OnUpdateHandler};
@@ -177,7 +177,7 @@ export abstract class Common<C extends Assertable> {
         return;
       }
 
-      const units = config.temperatureUnits ?? TemperatureUnits.CELSIUS;
+      const units = temperatureUnits(config.temperatureUnits);
       const temperature = toCelsius(toNumber(value), units);
 
       const logString = logTemplate.replace('%d°%s', `${value}°${units}`);

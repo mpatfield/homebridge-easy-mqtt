@@ -3,8 +3,9 @@ import { PlatformConfig as HBPlatformConfig } from 'homebridge';
 export type ServiceType = typeof import('homebridge').Service;
 export type CharacteristicType = typeof import('homebridge').Characteristic;
 
-import { AccessoryType, TemperatureUnits, ValveType } from './enums.js';
+import { AccessoryType, ValveType } from './enums.js';
 
+import { TemperatureUnits } from '../tools/temperature.js';
 import { Assertable } from '../tools/validation.js';
 
 export type PlatformConfig = HBPlatformConfig & {

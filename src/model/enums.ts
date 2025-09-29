@@ -104,11 +104,6 @@ export enum CharacteristicKey {
   VOCDensity = 'VOCDensity',
 }
 
-export enum TemperatureUnits {
-  CELSIUS = 'C',
-  FAHRENHEIT = 'F',
-}
-
 export enum ValveType {
   GENERIC_VALVE = 'GENERIC_VALVE',
   IRRIGATION = 'IRRIGATION',

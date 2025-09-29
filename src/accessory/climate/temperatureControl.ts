@@ -4,11 +4,11 @@ import { BaseAccessory } from '../abstract/base.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { CharacteristicKey, TemperatureUnits } from '../../model/enums.js';
+import { CharacteristicKey } from '../../model/enums.js';
 import { CharacteristicType, TemperatureControlConfig, ServiceType } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
-import { fromCelsius } from '../../tools/temperature.js';
+import { fromCelsius, temperatureUnits, TemperatureUnits } from '../../tools/temperature.js';
 
 export const DEFAULT_TEMPERATURE = 10;
 const DEFAULT_COOLING_THRESHOLD = 25;
@@ -22,7 +22,9 @@ export abstract class TemperatureControlAccessory<C extends TemperatureControlCo
 
   protected setupTemperatureControlCharacteristics() {
 
-    this.setCharacteristicValue(CharacteristicKey.TemperatureDisplayUnits, this.temperatureUnits === TemperatureUnits.FAHRENHEIT ? 1 : 0);
+    const temperatureDisplayUnits = this.temperatureUnits === TemperatureUnits.FAHRENHEIT
+      ? this.Characteristic.TemperatureDisplayUnits.FAHRENHEIT : this.Characteristic.TemperatureDisplayUnits.CELSIUS;
+    this.setCharacteristicValue(CharacteristicKey.TemperatureDisplayUnits, temperatureDisplayUnits);
 
     this.setupCharacteristic(CharacteristicKey.CurrentTemperature, DEFAULT_TEMPERATURE, 'topicGetCurrentTemperature',
       this.bindTemperatureUpdate(this.config, CharacteristicKey.CurrentTemperature, strings.climate.temperatureUpdate), true);
@@ -43,7 +45,7 @@ export abstract class TemperatureControlAccessory<C extends TemperatureControlCo
   }
 
   protected get temperatureUnits(): TemperatureUnits {
-    return this.config.temperatureUnits ?? TemperatureUnits.CELSIUS;
+    return temperatureUnits(this.config.temperatureUnits);
   }
 
   private bindOnSetThreshold(charKey: CharacteristicKey, topic: keyof TemperatureControlConfig, logTemplate: string) {
@@ -56,6 +58,6 @@ export abstract class TemperatureControlAccessory<C extends TemperatureControlCo
 
   protected temperatureFromCV(value: CharacteristicValue): number {
     const celsiusTemperature = value as number;
-    return this.temperatureUnits === TemperatureUnits.FAHRENHEIT ? fromCelsius(celsiusTemperature, this.temperatureUnits) : celsiusTemperature;
+    return fromCelsius(celsiusTemperature, this.temperatureUnits);
   }
 }
