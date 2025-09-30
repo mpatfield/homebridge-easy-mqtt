@@ -2,7 +2,7 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.4.0-beta.19 (2025-09-29)
+## 1.4.0-beta.20 (2025-09-30)
 
 ### Added
 - A bunch of new accessory types:
@@ -17,6 +17,7 @@ All notable changes to homebridge-dummy will be documented in this file.
 - Broker, username, and password can be set via environment variables ([documentation](https://github.com/mpatfield/homebridge-easy-mqtt#environment-variables))
 - Publish arbitrary MQTT messages on connect ([documentation] (https://github.com/mpatfield/homebridge-easy-mqtt#mqtt-onconnect))
 - Traduceri în limba română. Mulțumesc, [@rursache](https://github.com/sponsors/rursache)!
+- Bản dịch tiếng Việt. Cảm ơn [@khanhnd88](https://github.com/sponsors/khanhnd88)!
 
 ### Changed
 - ⚠️ All accessory states are now saved across plugin/Homebridge restarts
