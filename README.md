@@ -459,6 +459,11 @@ These values are used for both determining current state and, where appropriate,
 - `valueFault` - Accessory has a fault
 - `valueTampered` - Accessory has been tampered with
 
+### StatelessProgrammableSwitch
+- `topicEventSinglePress` - Event for single press
+- `topicEventDoublePress` - Event for double press
+- `topicEventLongPress` - Event for long press
+
 #### Valve
 - `valveType` -  One of `GENERIC_VALVE` (default), `IRRIGATION`, `SHOWER_HEAD`, or `WATER_FAUCET`
 - `topicGetValveActive*` - For getting whether or not the valve is active

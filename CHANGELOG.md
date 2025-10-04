@@ -2,7 +2,7 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.4.0-beta.21 (2025-10-01)
+## 1.4.0-beta.22 (2025-10-03)
 
 ### Added
 - A bunch of new accessory types:
@@ -12,6 +12,7 @@ All notable changes to homebridge-dummy will be documented in this file.
     - `GarageDoorOpener`
     - `HeaterCooler`
     - `LightSensor`
+    - `StatelessProgrammableSwitch`
     - `Valve`
     - `Window Covering`
 - Broker, username, and password can be set via environment variables ([documentation](https://github.com/mpatfield/homebridge-easy-mqtt#environment-variables))

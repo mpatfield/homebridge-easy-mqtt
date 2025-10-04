@@ -33,6 +33,8 @@ import { MotionSensorAccessory } from '../sensor/motion.js';
 import { OccupancySensorAccessory } from '../sensor/occupancy.js';
 import { SmokeSensorAccessory } from '../sensor/smoke.js';
 import { TemperatureSensorAccessory } from '../sensor/temperature.js';
+
+import { ButtonAccessory } from '../button.js';
 import { ValveAccessory } from '../valve.js';
 
 import { PLUGIN_NAME } from '../../homebridge/settings.js';
@@ -91,6 +93,8 @@ export function createAccessory(
     return new SecuritySystemAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.SecurityConfig, log, isGrouped);
   case AccessoryType.SmokeSensor:
     return new SmokeSensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.SmokeSensorConfig, log, isGrouped);
+  case AccessoryType.StatelessProgrammableSwitch:
+    return new ButtonAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.GarageDoorConfig, log, isGrouped);
   case AccessoryType.Switch:
     return new SwitchAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.SwitchConfig, log, isGrouped);
   case AccessoryType.TemperatureSensor:

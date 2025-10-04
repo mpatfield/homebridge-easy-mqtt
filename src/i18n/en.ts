@@ -9,6 +9,12 @@ const en = {
     statusInactive: '%s is unavailable', // accessory name
   },
 
+  button: {
+    doublePress: '%s was double pressed', // accessory name
+    longPress: '%s was long pressed', // accessory name
+    singlePress: '%s was single pressed', // accessory name
+  },
+
   characteristic: {
     badValue: '%s expected a number for %s but received %s', // accessory name, characteristic name, value
     outOfRange: '%s is trying to set %s to %s which is out of the allowed range. Setting to %s.', // accessory name, characteristic name, number, number
@@ -60,6 +66,7 @@ const en = {
       outlet: 'Outlet',
       securitySystem: 'Security System',
       smokeSensor: 'Smoke Sensor',
+      statelessSwitch: 'Stateless Switch',
       switch: 'Switch',
       temperatureSensor: 'Temperature Sensor',
       thermostat: 'Thermostat',
@@ -81,6 +88,9 @@ const en = {
       password: 'Password',
       resetOnRestart: 'Reset on Restart',
       sourceUnits: 'Source Units',
+      topicEventSinglePress: 'Single Press',
+      topicEventDoublePress: 'Double Press',
+      topicEventLongPress: 'Long Press',
       topicGetActive: 'Get Active*',
       topicGetAirQuality: 'Get Air Quality*',
       topicGetBatteryLevel: 'Get Battery Level',

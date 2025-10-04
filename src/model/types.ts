@@ -324,6 +324,12 @@ export type SecurityConfig = BaseAccessoryConfig & ErrorStatusConfig & {
   valueAlarmTriggered?: string,
 }
 
+export type ButtonConfig = BaseAccessoryConfig & {
+  topicEventSinglePress?: string,
+  topicEventDoublePress?: string,
+  topicEventLongPress?: string,
+}
+
 export type ValveConfig = BaseAccessoryConfig & {
   valveType?: ValveType,
   topicGetStatusFault?: string,
