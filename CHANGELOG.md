@@ -17,6 +17,7 @@ All notable changes to homebridge-dummy will be documented in this file.
     - `Window Covering`
 - Broker, username, and password can be set via environment variables ([documentation](https://github.com/mpatfield/homebridge-easy-mqtt#environment-variables))
 - Publish arbitrary MQTT messages on connect ([documentation] (https://github.com/mpatfield/homebridge-easy-mqtt#mqtt-onconnect))
+- `maximumBrightness` to use values (i.e. 1, 2, 3) rather than a percentage for lightbulb brightness
 - Traduceri în limba română. Mulțumesc, [@rursache](https://github.com/sponsors/rursache)!
 - Bản dịch tiếng Việt. Cảm ơn [@khanhnd88](https://github.com/sponsors/khanhnd88)!
 

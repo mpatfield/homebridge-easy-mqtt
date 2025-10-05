@@ -16,12 +16,22 @@ export abstract class PositionAccessory<C extends PositionConfig = PositionConfi
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: C, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
 
+    let currentLogString = strings.position.currentValue;
+    let targetLogString = strings.position.targetValue;
+    if (!config.maximumPosition || !this.assertType('number', 'maximumPosition')) {
+      config.maximumPosition = 100;
+      currentLogString = strings.position.currentPercent;
+      targetLogString = strings.position.targetPercent;
+    }
+
     this.setup(CharacteristicKey.CurrentPosition, 0,
-      'topicGetCurrentPosition', this.bindOnUpdateNumeric(CharacteristicKey.CurrentPosition, strings.position.current), true);
+      'topicGetCurrentPosition', this.bindOnUpdateNumeric(CharacteristicKey.CurrentPosition, currentLogString), true,
+    )?.setProps({ maxValue: config.maximumPosition });
 
     this.setup(CharacteristicKey.TargetPosition, 0,
-      'topicGetTargetPosition', this.bindOnUpdateNumeric(CharacteristicKey.TargetPosition, strings.position.target), true,
-      'topicSetTargetPosition', this.onSetTargetPosition.bind(this));
+      'topicGetTargetPosition', this.bindOnUpdateNumeric(CharacteristicKey.TargetPosition, targetLogString), true,
+      'topicSetTargetPosition', this.onSetTargetPosition.bind(this),
+    )?.setProps({ maxValue: config.maximumPosition });
 
     this.STATE_MAP = new Map([
       ['valuePositionDecreasing', Characteristic.PositionState.DECREASING],
@@ -45,7 +55,8 @@ export abstract class PositionAccessory<C extends PositionConfig = PositionConfi
   }
 
   private async onSetTargetPosition(value: CharacteristicValue) {
-    const logString = strings.position.targetSet.replace('%d', value.toString());
+    const isPercent = this.config.maximumPosition === undefined || this.config.maximumPosition === 100;
+    const logString = (isPercent ? strings.position.targetPercentSet : strings.position.targetValueSet).replace('%d', value.toString());
     this.onSet(CharacteristicKey.TargetPosition, value, value as number, 'topicSetTargetPosition', logString);
   }
 

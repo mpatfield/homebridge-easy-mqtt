@@ -93,6 +93,7 @@ export type OnOffConfig = BaseAccessoryConfig & {
 }
 
 export type LightbulbConfig = OnOffConfig & {
+  maximumBrightness?: number,
   topicGetBrightness?: string,
   topicGetColorTemperature?: string,
   topicGetHue?: string,
@@ -205,6 +206,7 @@ export type ThermostatConfig = TemperatureControlConfig & {
 }
 
 export type ActiveClimateConfig = TemperatureControlConfig & {
+  maximumRotationSpeed?: number,
   topicGetActive: string,
   topicGetLockPhysicalControls?: string,
   topicGetRotationSpeed?: string,
@@ -278,6 +280,7 @@ export type GarageDoorConfig = LockConfig & {
 }
 
 export type PositionConfig = BaseAccessoryConfig & {
+  maximumPosition?: number,
   topicGetCurrentPosition: string,
   topicSetHoldPosition?: string,
   topicGetObstructionDetected?: string,

@@ -22,8 +22,8 @@ const overrides = {
     controlsUnlockFuture: 'Déverrouillage des contrôles de %s…',
     inactiveSet: 'Réglage de %s sur inactif…',
     notActive: '%s n\'est pas actif',
-    rotationUpdate: 'La rotation de %s est de %d%',
-    rotationSet: 'Réglage de la vitesse de rotation de %s à %d%…',
+    rotationPercentUpdate: 'La rotation de %s est de %d%',
+    rotationPercentSet: 'Réglage de la vitesse de rotation de %s à %d%…',
     swingDisabled: 'L\'oscillation de %s est désactivée',
     swingDisabledFuture: 'Désactivation de l\'oscillation de %s…',
     swingEnabled: 'L\'oscillation de %s est activée',
@@ -345,8 +345,8 @@ const overrides = {
   },
 
   lightbulb: {
-    brightness: 'La luminosité de %s est de %d%',
-    brightnessFuture: 'Réglage de la luminosité de %s à %d%…',
+    brightnessPercent: 'La luminosité de %s est de %d%',
+    brightnessPercentFuture: 'Réglage de la luminosité de %s à %d%…',
     colorTemperature: 'La température de couleur de %s est de %dM',
     colorTemperatureFuture: 'Réglage de la température de couleur de %s à %dM…',
     hue: 'La teinte de %s est de %d°',

@@ -122,6 +122,18 @@
               "type": "array",
               "items": { "$ref": "#/definitions/customCharacteristic" }
             },
+            "maximumBrightness": {
+              "type": "integer",
+              "title": "${config.title.maximum}"
+            },
+            "maximumPosition": {
+              "type": "integer",
+              "title": "${config.title.maximum}"
+            },
+            "maximumRotationSpeed": {
+              "type": "integer",
+              "title": "${config.title.maximum}"
+            },
             "temperatureUnits": {
               "type": "string",
               "title": "${config.title.sourceUnits}",
@@ -1966,11 +1978,15 @@
                       "items": [
                         {
                           "key": "accessories[].topicGetBrightness",
-                          "flex": "0 0 50%"
+                          "flex": "0 0 40%"
                         },
                         {
                           "key": "accessories[].topicSetBrightness",
-                          "flex": "0 0 50%"
+                          "flex": "0 0 40%"
+                        },
+                        {
+                          "key": "accessories[].maximumBrightness",
+                          "flex": "0 0 20%"
                         }
                       ]
                     },
@@ -2058,12 +2074,23 @@
                           "flex-direction": "row",
                           "items": [
                             {
-                              "key": "accessories[].topicGetCurrentPosition",
-                              "flex": "0 0 50%"
-                            },
-                            {
                               "key": "accessories[].topicGetPositionState",
                               "flex": "0 0 50%"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "div",
+                          "displayFlex": true,
+                          "flex-direction": "row",
+                          "items": [
+                            {
+                              "key": "accessories[].topicGetCurrentPosition",
+                              "flex": "0 0 80%"
+                            },
+                            {
+                              "key": "accessories[].maximumPosition",
+                              "flex": "0 0 20%"
                             }
                           ]
                         },
@@ -2572,11 +2599,15 @@
                       "items": [
                         {
                           "key": "accessories[].topicGetRotationSpeed",
-                          "flex": "0 0 50%"
+                          "flex": "0 0 40%"
                         },
                         {
                           "key": "accessories[].topicSetRotationSpeed",
-                          "flex": "0 0 50%"
+                          "flex": "0 0 40%"
+                        },
+                        {
+                          "key": "accessories[].maximumRotationSpeed",
+                          "flex": "0 0 20%"
                         }
                       ]
                     },

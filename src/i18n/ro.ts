@@ -22,8 +22,8 @@ const overrides = {
     controlsUnlockFuture: 'Se deblochează comenzile %s…',
     inactiveSet: 'Se setează %s ca inactiv…',
     notActive: '%s nu este activ',
-    rotationUpdate: 'Rotația %s este %d%%',
-    rotationSet: 'Se setează viteza de rotație %s la %d%%…',
+    rotationPercentUpdate: 'Rotația %s este %d%%',
+    rotationPercentSet: 'Se setează viteza de rotație %s la %d%%…',
     swingDisabled: 'Oscilarea %s este dezactivată',
     swingDisabledFuture: 'Se dezactivează oscilarea %s…',
     swingEnabled: 'Oscilarea %s este activată',
@@ -345,8 +345,8 @@ const overrides = {
   },
 
   lightbulb: {
-    brightness: 'Luminozitatea %s este %d%%',
-    brightnessFuture: 'Se setează luminozitatea %s la %d%%…',
+    brightnessPercent: 'Luminozitatea %s este %d%%',
+    brightnessPercentFuture: 'Se setează luminozitatea %s la %d%%…',
     colorTemperature: 'Temperatura culorii %s este %dM',
     colorTemperatureFuture: 'Se setează temperatura culorii %s la %dM…',
     hue: 'Nuanța %s este %d°',

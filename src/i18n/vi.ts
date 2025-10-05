@@ -22,8 +22,8 @@ const overrides = {
     controlsUnlockFuture: 'Đang đặt điều khiển của %s thành mở khóa…', // accessory name
     inactiveSet: 'Đang đặt %s thành không hoạt động…', // accessory name
     notActive: '%s không hoạt động', // accessory name
-    rotationUpdate: 'Tốc độ quay của %s là %d%', // accessory name, number
-    rotationSet: 'Đang đặt tốc độ quay của %s thành %d%…', // accessory name, number
+    rotationPercentUpdate: 'Tốc độ quay của %s là %d%', // accessory name, number
+    rotationPercentSet: 'Đang đặt tốc độ quay của %s thành %d%…', // accessory name, number
     swingDisabled: 'Chế độ lắc của %s đã tắt', // accessory name
     swingDisabledFuture: 'Đang tắt chế độ lắc của %s…', // accessory name
     swingEnabled: 'Chế độ lắc của %s đã bật', // accessory name
@@ -345,8 +345,8 @@ const overrides = {
   },
 
   lightbulb: {
-    brightness: 'Độ sáng của %s là %d%', // accessory name, number
-    brightnessFuture: 'Đang đặt độ sáng của %s thành %d%…', // accessory name, number
+    brightnessPercent: 'Độ sáng của %s là %d%', // accessory name, number
+    brightnessPercentFuture: 'Đang đặt độ sáng của %s thành %d%…', // accessory name, number
     colorTemperature: 'Nhiệt độ màu của %s là %dM', // accessory name, number
     colorTemperatureFuture: 'Đang đặt nhiệt độ màu của %s thành %dM…', // accessory name, number
     hue: 'Sắc độ của %s là %d°', // accessory name, number

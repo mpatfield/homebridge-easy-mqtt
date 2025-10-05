@@ -29,10 +29,16 @@ export abstract class ActiveClimateAccessory<C extends ActiveClimateConfig = Act
       'topicSetLockPhysicalControls', this.onSetLockControls.bind(this),
     );
 
+    let rotationLogString = strings.active.rotationValueUpdate;
+    if (!config.maximumRotationSpeed || !this.assertType('number', 'maximumRotationSpeed')) {
+      config.maximumRotationSpeed = 100;
+      rotationLogString = strings.active.rotationPercentUpdate;
+    }
+
     this.setup(CharacteristicKey.RotationSpeed, 0,
-      'topicGetRotationSpeed', this.bindOnUpdateNumeric(CharacteristicKey.RotationSpeed, strings.active.rotationUpdate), false,
+      'topicGetRotationSpeed', this.bindOnUpdateNumeric(CharacteristicKey.RotationSpeed, rotationLogString), false,
       'topicSetRotationSpeed', this.onSetRotationSpeed.bind(this),
-    );
+    )?.setProps({ maxValue: config.maximumRotationSpeed });
 
     this.setup(CharacteristicKey.SwingMode, Characteristic.SwingMode.SWING_DISABLED,
       'topicGetSwingMode',
@@ -68,7 +74,8 @@ export abstract class ActiveClimateAccessory<C extends ActiveClimateConfig = Act
   }
 
   private async onSetRotationSpeed(value: CharacteristicValue) {
-    const logString = strings.active.rotationSet.replace('%d', value.toString());
+    const isPercent = this.config.maximumRotationSpeed === undefined || this.config.maximumRotationSpeed === 100;
+    const logString = (isPercent ? strings.active.rotationPercentSet : strings.active.rotationValueSet).replace('%d', value.toString());
     this.onSet(CharacteristicKey.RotationSpeed, value, value as number, 'topicSetRotationSpeed', logString);
   }
 
@@ -83,4 +90,11 @@ export abstract class ActiveClimateAccessory<C extends ActiveClimateConfig = Act
     const publish = swing ? this.config.valueSwingEnabled! : this.config.valueSwingDisabled!;
     this.onSet(CharacteristicKey.SwingMode, value, publish, 'topicSetSwingMode', logString);
   }
+
+  // private rotationLogString(set: boolean = false): string {
+  //   if (this.config.maximumRotationSpeed && this.config.maximumRotationSpeed < 100) {
+  //     return set ? strings.active.rotationValueSet : strings.active.rotationValueUpdate;
+  //   }
+  //   return set ? strings.active.rotationPercentSet : strings.active.rotationPercentUpdate;
+  // }
 }

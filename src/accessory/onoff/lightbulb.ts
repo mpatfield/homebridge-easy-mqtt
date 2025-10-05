@@ -14,10 +14,17 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: LightbulbConfig, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
 
+    if (!config.maximumBrightness || !this.assertType('number', 'maximumBrightness')) {
+      config.maximumBrightness = 100;
+    }
+
+    const getLogString = config.maximumBrightness < 100 ? strings.lightbulb.brightnessValue : strings.lightbulb.brightnessPercent;
+    const setLogString = config.maximumBrightness < 100 ? strings.lightbulb.brightnessValueFuture : strings.lightbulb.brightnessPercentFuture;
+
     this.setup(CharacteristicKey.Brightness, 100,
-      'topicGetBrightness', this.bindOnUpdateNumeric(CharacteristicKey.Brightness, strings.lightbulb.brightness), false,
-      'topicSetBrightness', this.onSetValue(CharacteristicKey.Brightness, 'topicSetBrightness', strings.lightbulb.brightnessFuture),
-    );
+      'topicGetBrightness', this.bindOnUpdateNumeric(CharacteristicKey.Brightness, getLogString), false,
+      'topicSetBrightness', this.onSetValue(CharacteristicKey.Brightness, 'topicSetBrightness', setLogString),
+    )?.setProps({ maxValue: config.maximumBrightness });
 
     this.setup(CharacteristicKey.ColorTemperature, 500,
       'topicGetColorTemperature', this.bindOnUpdateNumeric(CharacteristicKey.ColorTemperature, strings.lightbulb.colorTemperature), false,

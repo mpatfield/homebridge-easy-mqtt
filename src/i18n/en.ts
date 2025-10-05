@@ -19,8 +19,10 @@ const en = {
     controlsUnlockFuture: 'Setting %s controls to unlocked…', // accessory name
     inactiveSet: 'Setting %s to inactive…', // accessory name
     notActive: '%s is not active', // accessory name
-    rotationUpdate: '%s rotation is %d%', // accessory name, number
-    rotationSet: 'Setting %s rotation speed to %d%…', // accessory name, number
+    rotationPercentUpdate: '%s rotation is %d%', // accessory name, number
+    rotationPercentSet: 'Setting %s rotation speed to %d%…', // accessory name, number
+    rotationValueUpdate: '%s rotation speed set to %d', // accessory name, number
+    rotationValueSet: 'Setting %s rotation speed to %d…', // accessory name, number
     swingEnabled: '%s swing is enabled', // accessory name
     swingEnabledFuture: 'Setting %s swing to enabled…', // accessory name
     swingDisabled: '%s swing is disabled', // accessory name
@@ -103,6 +105,7 @@ const en = {
       broker: 'Broker',
       disableLogging: 'Disable Logging',
       group: 'Group',
+      maximum: 'Maximum',
       name: 'Name',
       options: 'Options',
       password: 'Password',
@@ -355,8 +358,10 @@ const en = {
   },
 
   lightbulb: {
-    brightness: '%s brightness is %d%', // accessory name, number
-    brightnessFuture: 'Setting %s brightness to %d%…', // accessory name, number
+    brightnessPercent: '%s brightness is %d%', // accessory name, number
+    brightnessPercentFuture: 'Setting %s brightness to %d%…', // accessory name, number
+    brightnessValue: '%s brightness is %d', // accessory name, number
+    brightnessValueFuture: 'Setting %s brightness to %d…', // accessory name, number
     colorTemperature: '%s color temperature is %dM', // accessory name, number
     colorTemperatureFuture: 'Setting %s color temperature to %dM…', // accessory name, number
     hue: '%s hue is %d°', // accessory name, number
@@ -417,7 +422,8 @@ const en = {
       targetVerticalSet: 'Setting %s target vertical angle to %d°…', // accessory name, number
     },
 
-    current: '%s current position is %d%', // accessory name, number
+    currentPercent: '%s current position is %d%', // accessory name, number
+    currentValue: '%s current position is %d', // accessory name, number
     hold: 'Setting %s position to hold…', // accessory name
     noPositionValues: '%s must have at least one position value defined (Decreasing, Increasing, Stopped)', // accessory name
     obstructed: '%s is obstructed', // accessory name
@@ -426,8 +432,10 @@ const en = {
     stateIncreasing: '%s position is increasing', // accessory name
     stateStopped: '%s position is stopped', // accessory name
     stateUnknown: '%s position state is unknown', // accessory name
-    target: '%s target position is %d%', // accessory name, number
-    targetSet: 'Setting %s target position to %d%…', // accessory name, number
+    targetPercent: '%s target position is %d%', // accessory name, number
+    targetPercentSet: 'Setting %s target position to %d%…', // accessory name, number
+    targetValue: '%s target position is %d', // accessory name, number
+    targetValueSet: 'Setting %s target position to %d…', // accessory name, number
     unknownValue: '%s unable to determine position state from value %s. Ignoring…', // accessory name, value
     unobstructed: '%s is unobstructed', // accessory name
   },

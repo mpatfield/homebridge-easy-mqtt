@@ -149,6 +149,7 @@ These values are used for both determining current state and, where appropriate,
 ### On/Off Accessories
 
 #### Lightbulb
+- `maximumBrightness` - Set a maximum to use values (i.e. 1, 2, 3) rather than a percentage for brightness
 - `topicGetOn*` - The current state of the outlet, i.e. on/off
 - `topicSetOn*` - For setting the state of the outlet
 - `valueOn*` - Turned on, e.g. "true", or "1", or "On"
@@ -179,6 +180,7 @@ These values are used for both determining current state and, where appropriate,
 ### Position Accessories
 
 #### WindowCovering
+- `maximumPosition` - Set a maximum to use values (i.e. 1, 2, 3) rather than a percentage for position
 - `topicGetPositionState*` - Get position state (Decreasing, Increasing, Stopped)
 - `topicGetCurrentPosition*` - Get current position percent
 - `topicGetTargetPosition*` - Get target position percent
@@ -328,6 +330,7 @@ These values are used for both determining current state and, where appropriate,
 - `valueFilterChange` - Indicates that the filter needs to be changed. *Required if `topicGetFilterChangeIndication` is defined.
 
 #### AirPurifier
+- `maximumRotationSpeed` - Set a maximum to use values (i.e. 1, 2, 3) rather than a percentage for rotation speed
 - `topicGetActive*` - Get whether or not the accessory is currently active
 - `topicSetActive*` - Set whether or not the accessory is currently active
 - `topicGetCurrentPurifierState*` - Get the current mode (i.e. inactive, idle, purifying)
@@ -356,6 +359,7 @@ These values are used for both determining current state and, where appropriate,
 - `valueFilterChange` - Indicates that the filter needs to be changed. *Required if `topicGetFilterChangeIndication` is defined.
 
 #### Fanv2
+- `maximumRotationSpeed` - Set a maximum to use values (i.e. 1, 2, 3) rather than a percentage for rotation speed
 - `topicGetActive*` - Get whether or not the accessory is currently active
 - `topicSetActive*` - Set whether or not the accessory is currently active
 - `topicGetCurrentFanState` - Get current fan mode (blowing, idle, inactive)
@@ -384,6 +388,7 @@ These values are used for both determining current state and, where appropriate,
 - `valueSwingDisabled` - Accessory is not oscillating
 
 #### HeaterCooler
+- `maximumRotationSpeed` - Set a maximum to use values (i.e. 1, 2, 3) rather than a percentage for rotation speed
 - `temperatureUnits` - The temperature units of the incoming value supplied by the thermostat, `C` for Celsius  (default) `F` for Fahrenheit
 - `topicGetActive*` - Get whether or not the accessory is currently active
 - `topicSetActive*` - Set whether or not the accessory is currently active
