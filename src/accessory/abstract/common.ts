@@ -8,7 +8,7 @@ import { CharacteristicType, TemperatureConfig } from '../../model/types.js';
 import { Log, LogType } from '../../tools/log.js';
 import { toNumber, toPrimitive } from '../../tools/primitive.js';
 import { Properties } from '../../tools/properties.js';
-import { assert, Assertable } from '../../tools/validation.js';
+import { assert, Assertable, assertType, Type } from '../../tools/validation.js';
 import { temperatureUnits, toCelsius } from '../../tools/temperature.js';
 
 type OnUpdateHandler = (topic: string, value: PrimitiveTypes) => (Promise<void>);
@@ -50,6 +50,10 @@ export abstract class Common<C extends Assertable> {
 
   protected assert(...keys: (keyof C)[]): boolean {
     return assert(this.log, this.name, this.config, ...keys);
+  }
+
+  protected assertType(expectedType: Type, ...keys: (keyof C)[]): boolean {
+    return assertType(this.log, this.name, expectedType, this.config, ...keys);
   }
 
   protected getRawValue(property: keyof C, assert: boolean = true): string | undefined {

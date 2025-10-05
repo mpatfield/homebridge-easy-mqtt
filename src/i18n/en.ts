@@ -1,6 +1,7 @@
 const en = {
 
   accessory: {
+    badType: '%s config variable %s should have type %s but was %s', // accessory name, variable name, type, type
     batteryLevel: '%s battery is at %d%', // accessory name, number
     batteryLow: '%s battery is low', // accessory name
     batteryNotLow: '%s battery is okay', // accessory name
