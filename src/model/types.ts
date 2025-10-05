@@ -325,9 +325,10 @@ export type SecurityConfig = BaseAccessoryConfig & ErrorStatusConfig & {
 }
 
 export type ButtonConfig = BaseAccessoryConfig & {
-  topicEventSinglePress?: string,
-  topicEventDoublePress?: string,
-  topicEventLongPress?: string,
+  topicEventButtonPress: string,
+  valueSinglePress?: string,
+  valueDoublePress?: string,
+  valueLongPress?: string,
 }
 
 export type ValveConfig = BaseAccessoryConfig & {

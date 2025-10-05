@@ -530,17 +530,9 @@
               "type": "string",
               "title": "${config.title.topicSetTargetVerticalTiltAngle}"
             },
-            "topicEventSinglePress": {
+            "topicEventButtonPress": {
               "type": "string",
-              "title": "${config.title.topicEventSinglePress}"
-            },
-            "topicEventDoublePress": {
-              "type": "string",
-              "title": "${config.title.topicEventDoublePress}"
-            },
-            "topicEventLongPress": {
-              "type": "string",
-              "title": "${config.title.topicEventLongPress}"
+              "title": "${config.title.topicEventButtonPress}"
             },
             "valueBatteryLow": {
               "type": "string",
@@ -797,6 +789,18 @@
             "valuePositionStopped": {
               "type": "string",
               "title": "${config.title.valuePositionStopped}"
+            },
+            "valueSinglePress": {
+              "type": "string",
+              "title": "${config.title.valueSinglePress}"
+            },
+            "valueDoublePress": {
+              "type": "string",
+              "title": "${config.title.valueDoublePress}"
+            },
+            "valueLongPress": {
+              "type": "string",
+              "title": "${config.title.valueLongPress}"
             },
             "resetOnRestart": {
               "type": "boolean",
@@ -1218,10 +1222,11 @@
                 }
               },
               "then": {
+                "required": ["topicEventButtonPress"],
                 "anyOf": [
-                  { "required": ["topicEventSinglePress"] },
-                  { "required": ["topicEventDoublePress"] },
-                  { "required": ["topicEventLongPress"] }
+                  { "required": ["valueSinglePress"] },
+                  { "required": ["valueDoublePress"] },
+                  { "required": ["valueLongPress"] }
                 ]
               }
             },
@@ -1829,22 +1834,7 @@
                       "flex-direction": "row",
                       "items": [
                         {
-                          "key": "accessories[].topicEventSinglePress",
-                          "flex": "0 0 50%"
-                        },
-                        {
-                          "key": "accessories[].topicEventDoublePress",
-                          "flex": "0 0 50%"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "div",
-                      "displayFlex": true,
-                      "flex-direction": "row",
-                      "items": [
-                        {
-                          "key": "accessories[].topicEventLongPress",
+                          "key": "accessories[].topicEventButtonPress",
                           "flex": "0 0 50%"
                         }
                       ]
@@ -3219,6 +3209,34 @@
                     {
                       "key": "accessories[].valueLockStateJammed",
                       "flex": "0 0 25%"
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'StatelessProgrammableSwitch';"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].valueSinglePress",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valueDoublePress",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].valueLongPress",
+                          "flex": "0 0 25%"
+                        }
+                      ]
                     }
                   ]
                 },

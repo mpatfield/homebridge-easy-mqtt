@@ -12,7 +12,9 @@ const en = {
   button: {
     doublePress: '%s was double pressed', // accessory name
     longPress: '%s was long pressed', // accessory name
+    noValues: '%s must have at least one event value defined (Single Press, Double Press, Long Press)', // accessory name
     singlePress: '%s was single pressed', // accessory name
+    unknownValue: '%s unable to determine button press event from value %s. Ignoring…', // accessory name, value
   },
 
   characteristic: {
@@ -88,9 +90,7 @@ const en = {
       password: 'Password',
       resetOnRestart: 'Reset on Restart',
       sourceUnits: 'Source Units',
-      topicEventSinglePress: 'Single Press',
-      topicEventDoublePress: 'Double Press',
-      topicEventLongPress: 'Long Press',
+      topicEventButtonPress: 'Button Press',
       topicGetActive: 'Get Active*',
       topicGetAirQuality: 'Get Air Quality*',
       topicGetBatteryLevel: 'Get Battery Level',
@@ -226,6 +226,7 @@ const en = {
       valueDoorStateOpen: 'Open',
       valueDoorStateOpening: 'Opening',
       valueDoorStateStopped: 'Stopped',
+      valueDoublePress: 'Double Press',
       valueFault: 'Fault',
       valueFilterChange: 'Filter Dirty',
       valueFilterReset: 'Reset Filter',
@@ -237,6 +238,7 @@ const en = {
       valueLockStateSecuredOptional: 'Secured/Locked',
       valueLockStateUnsecured: 'Unsecured/Unlocked*',
       valueLockStateUnsecuredOptional: 'Unsecured/Unlocked',
+      valueLongPress: 'Long Press',
       valueModeAuto: 'Auto',
       valueModeBlowing: 'Blowing',
       valueModeCool: 'Cool',
@@ -259,6 +261,7 @@ const en = {
       valuePositionObstructed: 'Obstructed',
       valuePositionResume: 'Resume',
       valuePositionStopped: 'Stopped',
+      valueSinglePress: 'Single Press',
       valueSmokeDetected: 'Smoke Detected*',
       valueStateActive: 'State Active*',
       valueStateInactive: 'State Inactive*',

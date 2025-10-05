@@ -1,44 +1,59 @@
-import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
+import { PlatformAccessory, PrimitiveTypes } from 'homebridge';
 
 import { BaseAccessory } from './abstract/base.js';
+
+import { strings } from '../i18n/i18n.js';
 
 import { AccessoryType } from '../model/enums.js';
 import { ButtonConfig, CharacteristicType, ServiceType } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
-import { strings } from '../i18n/i18n.js';
 
 export class ButtonAccessory extends BaseAccessory<ButtonConfig> {
 
   constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: ButtonConfig, log: Log, isGrouped: boolean) {
     super(Service, Characteristic, accessory, config, log, isGrouped);
 
-    const Event = Characteristic.ProgrammableSwitchEvent;
-    const items: {topic: string | undefined, value: CharacteristicValue, logString: string }[] = [
-      { topic: config.topicEventSinglePress, value: Event.SINGLE_PRESS, logString: strings.button.singlePress },
-      { topic: config.topicEventDoublePress, value: Event.DOUBLE_PRESS, logString: strings.button.doublePress },
-      { topic: config.topicEventLongPress, value: Event.LONG_PRESS, logString: strings.button.longPress },
-    ];
-
-    for (const item of items) {
-
-      if (item.topic === undefined) {
-        continue;
-      }
-
-      const handler = this.bindOnPress(item.value, item.logString);
-      this.topicHandlers.push({ topic: item.topic, handler: handler });
+    if (!this.assert('topicEventButtonPress')) {
+      return;
     }
+
+    if (!config.valueSinglePress && !config.valueDoublePress && !config.valueLongPress) {
+      this.log.error(strings.button.noValues, this.name);
+      return;
+    }
+
+    this.topicHandlers.push({ topic: config.topicEventButtonPress, handler: this.onPress.bind(this) });
   }
 
   protected getAccessoryType(): AccessoryType {
     return AccessoryType.StatelessProgrammableSwitch;
   }
 
-  private bindOnPress(value: CharacteristicValue, logString: string): (topic: string, value: PrimitiveTypes) => (Promise<void>) {
-    return (async () => {
-      this.service.updateCharacteristic(this.Characteristic.ProgrammableSwitchEvent, value);
-      this.logIfDesired(logString);
-    }).bind(this);
+  private async onPress(_topic: string, value: PrimitiveTypes): Promise<void> {
+
+    let charValue: number;
+    let logString: string;
+
+    switch (value) {
+    case this.getPrimitiveValue('valueSinglePress', false):
+      charValue = this.Characteristic.ProgrammableSwitchEvent.SINGLE_PRESS;
+      logString = strings.button.singlePress;
+      break;
+    case this.getPrimitiveValue('valueDoublePress', false):
+      charValue = this.Characteristic.ProgrammableSwitchEvent.DOUBLE_PRESS;
+      logString = strings.button.doublePress;
+      break;
+    case this.getPrimitiveValue('valueLongPress', false):
+      charValue = this.Characteristic.ProgrammableSwitchEvent.LONG_PRESS;
+      logString = strings.button.longPress;
+      break;
+    default:
+      this.logIfDesired(strings.button.unknownValue, `'${value}'`);
+      return;
+    }
+
+    this.service.updateCharacteristic(this.Characteristic.ProgrammableSwitchEvent, charValue);
+    this.logIfDesired(logString);
   }
 }

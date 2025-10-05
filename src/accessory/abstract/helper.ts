@@ -94,7 +94,7 @@ export function createAccessory(
   case AccessoryType.SmokeSensor:
     return new SmokeSensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.SmokeSensorConfig, log, isGrouped);
   case AccessoryType.StatelessProgrammableSwitch:
-    return new ButtonAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.GarageDoorConfig, log, isGrouped);
+    return new ButtonAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.ButtonConfig, log, isGrouped);
   case AccessoryType.Switch:
     return new SwitchAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.SwitchConfig, log, isGrouped);
   case AccessoryType.TemperatureSensor:

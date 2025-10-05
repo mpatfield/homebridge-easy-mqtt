@@ -460,9 +460,10 @@ These values are used for both determining current state and, where appropriate,
 - `valueTampered` - Accessory has been tampered with
 
 ### StatelessProgrammableSwitch
-- `topicEventSinglePress` - Event for single press
-- `topicEventDoublePress` - Event for double press
-- `topicEventLongPress` - Event for long press
+- `topicEventButtonPress` - Event for button press event
+- `valueSinglePress` - Single press event
+- `valueDoublePress` - Double press event
+- `valueLongPress` - Long press event
 
 #### Valve
 - `valveType` -  One of `GENERIC_VALVE` (default), `IRRIGATION`, `SHOWER_HEAD`, or `WATER_FAUCET`
