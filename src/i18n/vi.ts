@@ -13,6 +13,23 @@ const overrides = {
     statusInactive: '%s không khả dụng', // accessory name
   },
 
+  active: {
+    active: '%s đang hoạt động', // accessory name
+    activeSet: 'Đang đặt %s thành hoạt động…', // accessory name
+    controlsLocked: 'Điều khiển của %s đã bị khóa', // accessory name
+    controlsLockFuture: 'Đang đặt điều khiển của %s thành khóa…', // accessory name
+    controlsUnLocked: 'Điều khiển của %s đã được mở khóa', // accessory name
+    controlsUnlockFuture: 'Đang đặt điều khiển của %s thành mở khóa…', // accessory name
+    inactiveSet: 'Đang đặt %s thành không hoạt động…', // accessory name
+    notActive: '%s không hoạt động', // accessory name
+    rotationUpdate: 'Tốc độ quay của %s là %d%', // accessory name, number
+    rotationSet: 'Đang đặt tốc độ quay của %s thành %d%…', // accessory name, number
+    swingDisabled: 'Chế độ lắc của %s đã tắt', // accessory name
+    swingDisabledFuture: 'Đang tắt chế độ lắc của %s…', // accessory name
+    swingEnabled: 'Chế độ lắc của %s đã bật', // accessory name
+    swingEnabledFuture: 'Đang bật chế độ lắc của %s…', // accessory name
+  },
+
   characteristic: {
     badValue: '%s yêu cầu giá trị số cho %s nhưng nhận được %s', // accessory name, characteristic name, value
     outOfRange: '%s đang cố đặt %s thành %s, vượt ngoài phạm vi cho phép. Đang đặt về %s.', // accessory name, characteristic name, number, number
@@ -314,22 +331,8 @@ const overrides = {
   },
 
   heaterCooler: {
-    active: '%s đang hoạt động', // accessory name
-    activeSet: 'Đang đặt %s thành hoạt động…', // accessory name
     badValue: '%s thiếu giá trị cho trạng thái sưởi/làm mát %s', // accessory name, value
-    controlsLocked: 'Điều khiển của %s đã bị khóa', // accessory name
-    controlsLockFuture: 'Đang đặt điều khiển của %s thành khóa…', // accessory name
-    controlsUnLocked: 'Điều khiển của %s đã được mở khóa', // accessory name
-    controlsUnlockFuture: 'Đang đặt điều khiển của %s thành mở khóa…', // accessory name
-    inactiveSet: 'Đang đặt %s thành không hoạt động…', // accessory name
     noStateValues: '%s phải có ít nhất một trạng thái (Không hoạt động, Chờ, Sưởi, Làm mát)', // accessory name
-    notActive: '%s không hoạt động', // accessory name
-    rotationUpdate: 'Tốc độ quay của %s là %d%', // accessory name, number
-    rotationSet: 'Đang đặt tốc độ quay của %s thành %d%…', // accessory name, number
-    swingDisabled: 'Chế độ lắc của %s đã tắt', // accessory name
-    swingDisabledFuture: 'Đang tắt chế độ lắc của %s…', // accessory name
-    swingEnabled: 'Chế độ lắc của %s đã bật', // accessory name
-    swingEnabledFuture: 'Đang bật chế độ lắc của %s…', // accessory name
     stateAuto: 'Đang đặt %s thành tự động…', // accessory name
     stateCool: 'Đang đặt %s sang chế độ làm mát…', // accessory name
     stateCooling: '%s đang làm mát', // accessory name

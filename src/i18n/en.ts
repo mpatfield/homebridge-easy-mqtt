@@ -10,6 +10,23 @@ const en = {
     statusInactive: '%s is unavailable', // accessory name
   },
 
+  active: {
+    active: '%s is active', // accessory name
+    activeSet: 'Setting %s to active…', // accessory name
+    controlsLocked: '%s controls are locked', // accessory name
+    controlsLockFuture: 'Setting %s controls to locked…', // accessory name
+    controlsUnLocked: '%s controls are unlocked', // accessory name
+    controlsUnlockFuture: 'Setting %s controls to unlocked…', // accessory name
+    inactiveSet: 'Setting %s to inactive…', // accessory name
+    notActive: '%s is not active', // accessory name
+    rotationUpdate: '%s rotation is %d%', // accessory name, number
+    rotationSet: 'Setting %s rotation speed to %d%…', // accessory name, number
+    swingEnabled: '%s swing is enabled', // accessory name
+    swingEnabledFuture: 'Setting %s swing to enabled…', // accessory name
+    swingDisabled: '%s swing is disabled', // accessory name
+    swingDisabledFuture: 'Setting %s swing to disabled…', // accessory name
+  },
+
   button: {
     doublePress: '%s was double pressed', // accessory name
     longPress: '%s was long pressed', // accessory name
@@ -324,22 +341,8 @@ const en = {
   },
 
   heaterCooler: {
-    active: '%s is active', // accessory name
-    activeSet: 'Setting %s to active…', // accessory name
     badValue: '%s missing value for heater/cooler state %s', // accessory name, value
-    controlsLocked: '%s controls are locked', // accessory name
-    controlsLockFuture: 'Setting %s controls to locked…', // accessory name
-    controlsUnLocked: '%s controls are unlocked', // accessory name
-    controlsUnlockFuture: 'Setting %s controls to unlocked…', // accessory name
-    inactiveSet: 'Setting %s to inactive…', // accessory name
     noStateValues: '%s must have at least one state value defined (Inactive, Idle, Heating, Cooling)', // accessory name
-    notActive: '%s is not active', // accessory name
-    rotationUpdate: '%s rotation is %d%', // accessory name, number
-    rotationSet: 'Setting %s rotation speed to %d%…', // accessory name, number
-    swingDisabled: '%s swing is disabled', // accessory name
-    swingDisabledFuture: 'Setting %s swing to disabled…', // accessory name
-    swingEnabled: '%s swing is enabled', // accessory name
-    swingEnabledFuture: 'Setting %s swing to enabled…', // accessory name
     stateAuto: 'Setting %s to auto…', // accessory name
     stateCool: 'Setting %s to cool…', // accessory name
     stateCooling: '%s is cooling', // accessory name

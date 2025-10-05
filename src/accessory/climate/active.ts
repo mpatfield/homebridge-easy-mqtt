@@ -16,7 +16,7 @@ export abstract class ActiveClimateAccessory<C extends ActiveClimateConfig = Act
 
     this.setup(CharacteristicKey.Active, Characteristic.Active.INACTIVE,
       'topicGetActive',
-      this.bindOnUpdateNumericBoolean(CharacteristicKey.Active, 'valueStateActive', strings.heaterCooler.active, strings.heaterCooler.notActive), true,
+      this.bindOnUpdateNumericBoolean(CharacteristicKey.Active, 'valueStateActive', strings.active.active, strings.active.notActive), true,
       'topicSetActive', this.onSetActive.bind(this),
     );
 
@@ -24,20 +24,20 @@ export abstract class ActiveClimateAccessory<C extends ActiveClimateConfig = Act
       'topicGetLockPhysicalControls',
       this.bindOnUpdateNumericBoolean(
         CharacteristicKey.LockPhysicalControls, 'valueControlLock',
-        strings.heaterCooler.controlsLocked, strings.heaterCooler.controlsUnLocked),
+        strings.active.controlsLocked, strings.active.controlsUnLocked),
       false,
       'topicSetLockPhysicalControls', this.onSetLockControls.bind(this),
     );
 
     this.setup(CharacteristicKey.RotationSpeed, 0,
-      'topicGetRotationSpeed', this.bindOnUpdateNumeric(CharacteristicKey.RotationSpeed, strings.heaterCooler.rotationUpdate), false,
+      'topicGetRotationSpeed', this.bindOnUpdateNumeric(CharacteristicKey.RotationSpeed, strings.active.rotationUpdate), false,
       'topicSetRotationSpeed', this.onSetRotationSpeed.bind(this),
     );
 
     this.setup(CharacteristicKey.SwingMode, Characteristic.SwingMode.SWING_DISABLED,
       'topicGetSwingMode',
       this.bindOnUpdateNumericBoolean(CharacteristicKey.SwingMode, 'valueSwingEnabled',
-        strings.heaterCooler.swingEnabled, strings.heaterCooler.swingDisabled),
+        strings.active.swingEnabled, strings.active.swingDisabled),
       false,
       'topicSetSwingMode', this.onSetSwingMode.bind(this),
     );
@@ -50,7 +50,7 @@ export abstract class ActiveClimateAccessory<C extends ActiveClimateConfig = Act
     }
 
     const active = value === this.Characteristic.Active.ACTIVE;
-    const logString = active ? strings.heaterCooler.activeSet : strings.heaterCooler.inactiveSet;
+    const logString = active ? strings.active.activeSet : strings.active.inactiveSet;
     const publish = active ? this.config.valueStateActive : this.config.valueStateInactive;
     this.onSet(CharacteristicKey.Active, value, publish, 'topicSetActive', logString);
   }
@@ -62,13 +62,13 @@ export abstract class ActiveClimateAccessory<C extends ActiveClimateConfig = Act
     }
 
     const lock = value === this.Characteristic.LockPhysicalControls.CONTROL_LOCK_ENABLED;
-    const logString = lock ? strings.heaterCooler.controlsLockFuture : strings.heaterCooler.controlsUnlockFuture;
+    const logString = lock ? strings.active.controlsLockFuture : strings.active.controlsUnlockFuture;
     const publish = lock ? this.config.valueControlLock! : this.config.valueControlUnlock!;
     this.onSet(CharacteristicKey.LockPhysicalControls, value, publish, 'topicSetLockPhysicalControls', logString);
   }
 
   private async onSetRotationSpeed(value: CharacteristicValue) {
-    const logString = strings.heaterCooler.rotationSet.replace('%d', value.toString());
+    const logString = strings.active.rotationSet.replace('%d', value.toString());
     this.onSet(CharacteristicKey.RotationSpeed, value, value as number, 'topicSetRotationSpeed', logString);
   }
 
@@ -79,7 +79,7 @@ export abstract class ActiveClimateAccessory<C extends ActiveClimateConfig = Act
     }
 
     const swing = value === this.Characteristic.SwingMode.SWING_ENABLED;
-    const logString = swing ? strings.heaterCooler.swingEnabledFuture : strings.heaterCooler.swingDisabledFuture;
+    const logString = swing ? strings.active.swingEnabledFuture : strings.active.swingDisabledFuture;
     const publish = swing ? this.config.valueSwingEnabled! : this.config.valueSwingDisabled!;
     this.onSet(CharacteristicKey.SwingMode, value, publish, 'topicSetSwingMode', logString);
   }
