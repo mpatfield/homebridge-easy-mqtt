@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Logger } from 'homebridge';
 
 type Param = string | boolean | number;
@@ -13,7 +12,7 @@ export class Log {
 
   constructor(
     private readonly logger: Logger,
-    public readonly verbose: boolean,    
+    public readonly verbose: boolean,
   ) {}
 
   public always(message: string, ...parameters: Param[]) {
