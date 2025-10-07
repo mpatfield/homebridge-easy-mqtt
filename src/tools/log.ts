@@ -1,5 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Logger } from 'homebridge';
+
+type Param = string | boolean | number;
 
 export enum LogType {
   ALWAYS,
@@ -11,24 +12,24 @@ export class Log {
 
   constructor(
     private readonly logger: Logger,
-    public readonly verbose: boolean,    
+    public readonly verbose: boolean,
   ) {}
 
-  public always(message: string, ...parameters: any[]) {
+  public always(message: string, ...parameters: Param[]) {
     this.logger.info(message, ...parameters);
   }
 
-  public warning(message: string, ...parameters: any[]) {
+  public warning(message: string, ...parameters: Param[]) {
     this.logger.warn(message, ...parameters);
   }
 
-  public error(message: string, ...parameters: any[]) {
+  public error(message: string, ...parameters: Param[]) {
     this.logger.error(message, ...parameters);
   }
 
-  public ifVerbose(message: string, ...parameters: any[]): void;
-  public ifVerbose(level: LogType, message: string, ...parameters: any[]): void;
-  public ifVerbose(levelOrMessage: LogType | string, ...rest: any[]) {
+  public ifVerbose(message: string, ...parameters: Param[]): void;
+  public ifVerbose(level: LogType, message: string, ...parameters: Param[]): void;
+  public ifVerbose(levelOrMessage: LogType | string, ...rest: Param[]) {
     if (!this.verbose) {
       return;
     }
@@ -41,13 +42,13 @@ export class Log {
     const [message, ...parameters] = rest;
     switch(levelOrMessage) {
     case LogType.ALWAYS:
-      this.always(message, ...parameters);
+      this.always(message as string, ...parameters);
       break;
     case LogType.WARNING:
-      this.warning(message, ...parameters);
+      this.warning(message as string, ...parameters);
       break;
     case LogType.ERROR:
-      this.error(message, ...parameters);
+      this.error(message as string, ...parameters);
       break;
     }
   }

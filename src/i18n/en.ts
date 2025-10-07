@@ -381,7 +381,7 @@ const en = {
   },
 
   mqttClient: {
-    badOptions: 'Additional options for %s must be valid json', // accessory name
+    badOptions: 'Additional MQTT options for %s must be valid json', // accessory name
     badMessages: 'onConnect messages must be an array of topic/message objects',
     connected: 'Connected to %s and listening for updates…', // host
     connectionClosed: 'Closed connection to %s', // host

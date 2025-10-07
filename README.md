@@ -43,6 +43,7 @@ This plugin is designed to be a simple replacement for the fantastic [homebridge
   - `Outlet`
   - `SecuritySystem`
   - `SmokeSensor`
+  - `StatelessProgrammableSwitch`
   - `Switch`
   - `TemperatureSensor`
   - `Thermostat`
@@ -464,7 +465,7 @@ These values are used for both determining current state and, where appropriate,
 - `valueFault` - Accessory has a fault
 - `valueTampered` - Accessory has been tampered with
 
-### StatelessProgrammableSwitch
+#### StatelessProgrammableSwitch
 - `topicEventButtonPress` - Event for button press event
 - `valueSinglePress` - Single press event
 - `valueDoublePress` - Double press event
