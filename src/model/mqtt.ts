@@ -76,7 +76,7 @@ export class MQTT {
     try {
       additionalOptions = JSON.parse(configOptions);
     } catch (err) {
-      log.error(`${strings.mqttClient.badOptions}:\n"${configOptions}"`, this.caller);
+      log.error(`${strings.mqttClient.badOptions}:\n"${configOptions}"`, caller);
       return;
     }
 
