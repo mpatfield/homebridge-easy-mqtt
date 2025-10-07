@@ -2,7 +2,7 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.4.0-beta.22 (2025-10-03)
+## 1.4.0-beta.25 (2025-10-07)
 
 ### Added
 - A bunch of new accessory types:
