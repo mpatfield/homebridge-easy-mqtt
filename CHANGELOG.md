@@ -2,10 +2,10 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.4.0-beta.25 (2025-10-07)
+## 1.4.0 (2025-10-08)
 
 ### Added
-- A bunch of new accessory types:
+- New accessory types:
     - `Air Purifier`
     - `Air Quality Sensor`
     - `Fanv2`
@@ -17,16 +17,16 @@ All notable changes to homebridge-dummy will be documented in this file.
     - `Window Covering`
 - Broker, username, and password can be set via environment variables ([documentation](https://github.com/mpatfield/homebridge-easy-mqtt#environment-variables))
 - Publish arbitrary MQTT messages on connect ([documentation] (https://github.com/mpatfield/homebridge-easy-mqtt#mqtt-onconnect))
-- `maximumBrightness` to use values (i.e. 1, 2, 3) rather than a percentage for lightbulb brightness
+- Lightbulb `maximumBrightness` to use values (i.e. 1, 2, 3) rather than a percentage for lightbulb brightness
 - Traduceri în limba română. Mulțumesc, [@rursache](https://github.com/sponsors/rursache)!
 - Bản dịch tiếng Việt. Cảm ơn [@khanhnd88](https://github.com/sponsors/khanhnd88)!
 
 ### Changed
-- ⚠️ All accessory states are now saved across plugin/Homebridge restarts
+- ⚠️ Accessory states are now saved across plugin/Homebridge restarts
     - If you want to keep the old behavior, select the `Reset on Restart` option for each accessory you want to reset
-- MQTT `options` JSON can now also include publish options, such as `retain`, in addition to client options
+- MQTT `options` JSON can now also include both client and publish options, such as `retain`
 - Optimized MQTT connections by sharing across multiple accessories when possible
-    - Previously, every accessory always had its own connection
+    - Previously, every accessory always had its own dedicated connection
 - Better field validation in config UI (Thank you, [@justjam2013](https://github.com/sponsors/justjam2013) for teaching me this!)
 - Significant under-the-hood cleanup to speed future development
 - Traductions françaises mises à jour. Merci, [@7ute](https://github.com/sponsors/7ute)!
