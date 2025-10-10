@@ -2,6 +2,14 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
+## 1.4.1-beta.0 (2025-10-10)
+
+### Added
+- Traduzioni in italiano. Grazie, [@Shikaban](https://github.com/sponsors/Shikaban)!
+
+### Notes
+Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
+
 ## 1.4.0 (2025-10-08)
 
 ### Added
@@ -30,9 +38,6 @@ All notable changes to homebridge-dummy will be documented in this file.
 - Better field validation in config UI (Thank you, [@justjam2013](https://github.com/sponsors/justjam2013) for teaching me this!)
 - Significant under-the-hood cleanup to speed future development
 - Traductions françaises mises à jour. Merci, [@7ute](https://github.com/sponsors/7ute)!
-
-### Notes
-Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
 
 ## 1.3.0 (2025-09-14)
 
