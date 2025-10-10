@@ -1,11 +1,9 @@
 import { OnOffAccessory } from './onoff.js';
 
-import { MQTTAccessoryDependency } from '../abstract/mqtt.js';
-
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
-import { OutletConfig } from '../../model/types.js';
+import { MQTTAccessoryDependency, OutletConfig } from '../../model/types.js';
 
 export class OutletAccessory extends OnOffAccessory<OutletConfig> {
 

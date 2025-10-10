@@ -2,14 +2,12 @@ import { CharacteristicValue, PrimitiveTypes } from 'homebridge';
 
 import { ActiveClimateAccessory } from './active.js';
 
-import { MQTTAccessoryDependency } from '../abstract/mqtt.js';
-
 import { FilterMaintenance } from '../addons/filter.js';
 
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
-import { PurifierConfig } from '../../model/types.js';
+import { MQTTAccessoryDependency, PurifierConfig } from '../../model/types.js';
 
 export class PurifierAccessory extends ActiveClimateAccessory<PurifierConfig> {
 

@@ -2,10 +2,8 @@ import { SensorAccessory } from './sensor.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { MQTTAccessoryDependency } from '../abstract/mqtt.js';
-
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
-import { COSensorConfig } from '../../model/types.js';
+import { COSensorConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 export class COSensorAccessory extends SensorAccessory<COSensorConfig> {
 

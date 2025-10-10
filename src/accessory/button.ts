@@ -1,12 +1,11 @@
 import { PrimitiveTypes } from 'homebridge';
 
 import { BaseAccessory } from './abstract/base.js';
-import { MQTTAccessoryDependency } from './abstract/mqtt.js';
 
 import { strings } from '../i18n/i18n.js';
 
 import { AccessoryType } from '../model/enums.js';
-import { ButtonConfig } from '../model/types.js';
+import { ButtonConfig, MQTTAccessoryDependency } from '../model/types.js';
 
 export class ButtonAccessory extends BaseAccessory<ButtonConfig> {
 

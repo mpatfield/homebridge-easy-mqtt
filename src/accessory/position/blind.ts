@@ -2,12 +2,10 @@ import { CharacteristicValue } from 'homebridge';
 
 import { PositionAccessory } from './position.js';
 
-import { MQTTAccessoryDependency } from '../abstract/mqtt.js';
-
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
-import { BlindConfig } from '../../model/types.js';
+import { BlindConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 export class BlindAccessory extends PositionAccessory<BlindConfig> {
 

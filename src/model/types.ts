@@ -1,12 +1,25 @@
-import { PlatformConfig as HBPlatformConfig } from 'homebridge';
+import { PlatformConfig as HBPlatformConfig, PlatformAccessory } from 'homebridge';
 
 export type ServiceType = typeof import('homebridge').Service;
 export type CharacteristicType = typeof import('homebridge').Characteristic;
 
 import { AccessoryType, ValveType } from './enums.js';
 
+import { Log } from '../tools/log.js';
 import { TemperatureUnits } from '../tools/temperature.js';
 import { Assertable } from '../tools/validation.js';
+
+export type AccessoryDependency = {
+    Service: ServiceType,
+    Characteristic: CharacteristicType,
+    platformAccessory: PlatformAccessory,
+    log: Log,
+}
+
+export type MQTTAccessoryDependency<C extends MQTTAccessoryConfig> = AccessoryDependency & {
+    config: C,
+    isGrouped: boolean,
+}
 
 export type PlatformConfig = HBPlatformConfig & {
   accessories?: BaseAccessoryConfig[];

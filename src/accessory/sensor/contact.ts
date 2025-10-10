@@ -2,12 +2,10 @@ import { PrimitiveTypes } from 'homebridge';
 
 import { SensorAccessory } from './sensor.js';
 
-import { MQTTAccessoryDependency } from '../abstract/mqtt.js';
-
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
-import { ContactSensorConfig } from '../../model/types.js';
+import { ContactSensorConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 export class ContactSensorAccessory extends SensorAccessory<ContactSensorConfig> {
 

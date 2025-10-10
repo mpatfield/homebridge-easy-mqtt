@@ -97,7 +97,9 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
       const uuid = this.api.hap.uuid.generate(id);
 
       const platformAccessory = this.createPlatformAccessory(accessoryConfig.info.name, uuid);
-      const accessory = createAccessory(Service, Characteristic, platformAccessory, accessoryConfig, this.log);
+      const dependency = { Service, Characteristic, platformAccessory, log: this.log };
+
+      const accessory = createAccessory(dependency, accessoryConfig);
 
       if (accessory === undefined) {
         continue;
@@ -111,10 +113,11 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
       const uuid = this.api.hap.uuid.generate(groupName);
       const platformAccessory = this.createPlatformAccessory(groupName, uuid);
+      const dependency = { Service, Characteristic, platformAccessory, log: this.log };
 
       const configs = groups.get(groupName)!;
 
-      const groupAccessory = new GroupAccessory(Service, Characteristic, platformAccessory, this.log, groupName, configs);
+      const groupAccessory = new GroupAccessory(dependency, groupName, configs);
 
       keepIdentifiers.add(uuid);
       this.accessories.push(groupAccessory);

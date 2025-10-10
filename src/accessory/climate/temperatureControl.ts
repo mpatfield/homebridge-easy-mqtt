@@ -1,12 +1,10 @@
 import { CharacteristicValue } from 'homebridge';
 
 import { BaseAccessory } from '../abstract/base.js';
-import { MQTTAccessoryDependency } from '../abstract/mqtt.js';
-
 import { strings } from '../../i18n/i18n.js';
 
 import { CharacteristicKey } from '../../model/enums.js';
-import { TemperatureControlConfig } from '../../model/types.js';
+import { MQTTAccessoryDependency, TemperatureControlConfig } from '../../model/types.js';
 
 import { fromCelsius, temperatureUnits, TemperatureUnits } from '../../tools/temperature.js';
 

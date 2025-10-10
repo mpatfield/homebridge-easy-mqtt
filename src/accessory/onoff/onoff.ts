@@ -1,12 +1,10 @@
 import { CharacteristicValue, PrimitiveTypes } from 'homebridge';
 
 import { BaseAccessory } from '../abstract/base.js';
-import { MQTTAccessoryDependency } from '../abstract/mqtt.js';
-
 import { strings } from '../../i18n/i18n.js';
 
 import { CharacteristicKey } from '../../model/enums.js';
-import { OnOffConfig } from '../../model/types.js';
+import { MQTTAccessoryDependency, OnOffConfig } from '../../model/types.js';
 
 export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extends BaseAccessory<C> {
 

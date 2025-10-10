@@ -2,12 +2,10 @@ import { CharacteristicValue } from 'homebridge';
 
 import { OnOffAccessory } from './onoff.js';
 
-import { MQTTAccessoryDependency } from '../abstract/mqtt.js';
-
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
-import { LightbulbConfig } from '../../model/types.js';
+import { LightbulbConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
 

@@ -2,12 +2,10 @@ import { CharacteristicValue } from 'homebridge';
 
 import { TemperatureControlAccessory } from './temperatureControl.js';
 
-import { MQTTAccessoryDependency } from '../abstract/mqtt.js';
-
 import { strings } from '../../i18n/i18n.js';
 
 import { CharacteristicKey } from '../../model/enums.js';
-import { ActiveClimateConfig } from '../../model/types.js';
+import { ActiveClimateConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 export abstract class ActiveClimateAccessory<C extends ActiveClimateConfig = ActiveClimateConfig> extends TemperatureControlAccessory<C> {
 

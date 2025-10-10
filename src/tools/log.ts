@@ -12,7 +12,7 @@ export class Log {
 
   constructor(
     private readonly logger: Logger,
-    public readonly verbose: boolean,
+    private readonly verbose: boolean,
   ) {}
 
   public always(message: string, ...parameters: Param[]) {

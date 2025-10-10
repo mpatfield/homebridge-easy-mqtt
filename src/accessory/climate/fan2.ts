@@ -2,12 +2,10 @@ import { CharacteristicValue, PrimitiveTypes } from 'homebridge';
 
 import { ActiveClimateAccessory } from './active.js';
 
-import { MQTTAccessoryDependency } from '../abstract/mqtt.js';
-
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
-import { FanV2Config } from '../../model/types.js';
+import { FanV2Config, MQTTAccessoryDependency } from '../../model/types.js';
 
 export class FanV2Accessory extends ActiveClimateAccessory<FanV2Config> {
 
@@ -100,8 +98,6 @@ export class FanV2Accessory extends ActiveClimateAccessory<FanV2Config> {
     const logString = clockwise ? strings.fanv2.setDirectionClockwise : strings.fanv2.setDirectionCounterClockwise;
     const publish = clockwise ? this.config.valueDirectionClockwise! : this.config.valueDirectionCounterClockwise!;
     this.onSet(CharacteristicKey.RotationDirection, value, publish, 'topicSetRotationDirection', logString);
-
-
   }
 
   private fromCVState(value: CharacteristicValue): PrimitiveTypes | undefined {

@@ -1,12 +1,11 @@
 import { CharacteristicValue, PrimitiveTypes } from 'homebridge';
 
 import { BaseAccessory } from './abstract/base.js';
-import { MQTTAccessoryDependency } from './abstract/mqtt.js';
 
 import { strings } from '../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../model/enums.js';
-import { LockConfig } from '../model/types.js';
+import { LockConfig, MQTTAccessoryDependency } from '../model/types.js';
 
 import { LogType } from '../tools/log.js';
 

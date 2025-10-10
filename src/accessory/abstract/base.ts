@@ -1,13 +1,13 @@
 import { PrimitiveTypes } from 'homebridge';
 
-import { MQTTAccessory, MQTTAccessoryDependency } from './mqtt.js';
+import { MQTTAccessory } from './mqtt.js';
 
 import { PLATFORM_NAME } from '../../homebridge/settings.js';
 
 import { strings } from '../../i18n/i18n.js';
 
 import { CharacteristicKey } from '../../model/enums.js';
-import { BaseAccessoryConfig } from '../../model/types.js';
+import { BaseAccessoryConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 import { LogType } from '../../tools/log.js';
 import getVersion from '../../tools/version.js';

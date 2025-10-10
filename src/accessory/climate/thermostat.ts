@@ -2,12 +2,10 @@ import { CharacteristicValue, PrimitiveTypes } from 'homebridge';
 
 import { TemperatureControlAccessory, DEFAULT_TEMPERATURE } from './temperatureControl.js';
 
-import { MQTTAccessoryDependency } from '../abstract/mqtt.js';
-
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
-import { ThermostatConfig } from '../../model/types.js';
+import { MQTTAccessoryDependency, ThermostatConfig } from '../../model/types.js';
 
 export class ThermostatAccessory extends TemperatureControlAccessory<ThermostatConfig> {
 

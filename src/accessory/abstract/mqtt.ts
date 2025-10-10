@@ -5,19 +5,10 @@ import { CustomCharacteristic } from './customCharacteristic.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
 import { MQTT } from '../../model/mqtt.js';
-import { CharacteristicType, MQTTAccessoryConfig, ServiceType } from '../../model/types.js';
+import { CharacteristicType, MQTTAccessoryConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
 import { createIdentifier } from './helper.js';
-
-export type MQTTAccessoryDependency<C extends MQTTAccessoryConfig> = {
-    Service: ServiceType,
-    Characteristic: CharacteristicType,
-    platformAccessory: PlatformAccessory,
-    config: C,
-    log: Log,
-    isGrouped: boolean,
-}
 
 export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Common<C> {
 
