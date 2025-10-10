@@ -1,20 +1,19 @@
-import { PlatformAccessory } from 'homebridge';
 
 import { SensorAccessory } from './sensor.js';
+
+import { MQTTAccessoryDependency } from '../abstract/mqtt.js';
 
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
-import { CharacteristicType, CO2SensorConfig, ServiceType } from '../../model/types.js';
-
-import { Log } from '../../tools/log.js';
+import { CO2SensorConfig } from '../../model/types.js';
 
 export class CO2SensorAccessory extends SensorAccessory<CO2SensorConfig> {
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: CO2SensorConfig, log: Log, isGrouped: boolean) {
-    super(Service, Characteristic, accessory, config, log, isGrouped);
+  constructor(dependency: MQTTAccessoryDependency<CO2SensorConfig>) {
+    super(dependency);
 
-    this.setup(CharacteristicKey.CarbonDioxideDetected, Characteristic.CarbonDioxideDetected.CO2_LEVELS_NORMAL,
+    this.setup(CharacteristicKey.CarbonDioxideDetected, dependency.Characteristic.CarbonDioxideDetected.CO2_LEVELS_NORMAL,
       'topicGetCarbonDioxideDetected',
       this.bindOnUpdateNumericBoolean(
         CharacteristicKey.CarbonDioxideDetected,

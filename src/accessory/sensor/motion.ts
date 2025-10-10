@@ -1,19 +1,17 @@
-import { PlatformAccessory } from 'homebridge';
-
 import { SensorAccessory } from './sensor.js';
+
+import { MQTTAccessoryDependency } from '../abstract/mqtt.js';
 
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
-import { CharacteristicType, MotionSensorConfig, ServiceType } from '../../model/types.js';
-
-import { Log } from '../../tools/log.js';
+import { MotionSensorConfig } from '../../model/types.js';
 
 export class MotionSensorAccessory extends SensorAccessory<MotionSensorConfig> {
 
   constructor(
-    Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: MotionSensorConfig, log: Log, isGrouped: boolean) {
-    super(Service, Characteristic, accessory, config, log, isGrouped);
+    dependency: MQTTAccessoryDependency<MotionSensorConfig>) {
+    super(dependency);
 
     this.setup(CharacteristicKey.MotionDetected, false,
       'topicGetMotionDetected',

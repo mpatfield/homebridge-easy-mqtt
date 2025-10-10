@@ -1,19 +1,17 @@
-import { PlatformAccessory } from 'homebridge';
-
 import { SensorAccessory } from './sensor.js';
+
+import { MQTTAccessoryDependency } from '../abstract/mqtt.js';
 
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
-import { CharacteristicType, HumiditySensorConfig, ServiceType } from '../../model/types.js';
-
-import { Log } from '../../tools/log.js';
+import { HumiditySensorConfig } from '../../model/types.js';
 
 export class HumiditySensorAccessory extends SensorAccessory<HumiditySensorConfig> {
 
   constructor(
-    Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: HumiditySensorConfig, log: Log, isGrouped: boolean) {
-    super(Service, Characteristic, accessory, config, log, isGrouped);
+    dependency: MQTTAccessoryDependency<HumiditySensorConfig>) {
+    super(dependency);
 
     this.setup(CharacteristicKey.CurrentRelativeHumidity, 0,
       'topicGetCurrentRelativeHumidity', this.bindOnUpdateNumeric(CharacteristicKey.CurrentRelativeHumidity, strings.climate.humidityUpdate), true);

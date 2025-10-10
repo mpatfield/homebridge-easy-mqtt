@@ -1,33 +1,33 @@
-import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
+import { CharacteristicValue, PrimitiveTypes } from 'homebridge';
 
 import { ActiveClimateAccessory } from './active.js';
+
+import { MQTTAccessoryDependency } from '../abstract/mqtt.js';
 
 import { FilterMaintenance } from '../addons/filter.js';
 
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
-import { CharacteristicType, ServiceType, PurifierConfig } from '../../model/types.js';
-
-import { Log } from '../../tools/log.js';
+import { PurifierConfig } from '../../model/types.js';
 
 export class PurifierAccessory extends ActiveClimateAccessory<PurifierConfig> {
 
   private readonly CURRENT_STATE_MAP: Map<keyof PurifierConfig, number>;
   private readonly TARGET_STATE_MAP: Map<keyof PurifierConfig, number>;
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: PurifierConfig, log: Log, isGrouped: boolean) {
-    super(Service, Characteristic, accessory, config, log, isGrouped);
+  constructor(dependency: MQTTAccessoryDependency<PurifierConfig>) {
+    super(dependency);
 
     this.CURRENT_STATE_MAP = new Map([
-      ['valueModeInactive', Characteristic.CurrentAirPurifierState.INACTIVE],
-      ['valueModeIdle', Characteristic.CurrentAirPurifierState.IDLE],
-      ['valueModePurifying', Characteristic.CurrentAirPurifierState.PURIFYING_AIR],
+      ['valueModeInactive', dependency.Characteristic.CurrentAirPurifierState.INACTIVE],
+      ['valueModeIdle', dependency.Characteristic.CurrentAirPurifierState.IDLE],
+      ['valueModePurifying', dependency.Characteristic.CurrentAirPurifierState.PURIFYING_AIR],
     ]);
 
     this.TARGET_STATE_MAP = new Map([
-      ['valueModeManual', Characteristic.TargetAirPurifierState.MANUAL],
-      ['valueModeAuto', Characteristic.TargetAirPurifierState.AUTO],
+      ['valueModeManual', dependency.Characteristic.TargetAirPurifierState.MANUAL],
+      ['valueModeAuto', dependency.Characteristic.TargetAirPurifierState.AUTO],
     ]);
 
     const validCurrentStates = Array.from(this.CURRENT_STATE_MAP.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
@@ -51,7 +51,7 @@ export class PurifierAccessory extends ActiveClimateAccessory<PurifierConfig> {
       'topicSetTargetPurifierState', this.onSetTargetState.bind(this))
       ?.setProps({ validValues: validTargetStates.map((key) => this.TARGET_STATE_MAP.get(key)!) });
 
-    this.addTopicHandlers(FilterMaintenance.topicHandlers(Service, this, config));
+    this.addTopicHandlers(FilterMaintenance.topicHandlers(dependency.Service, this, dependency.config));
   }
 
   protected getAccessoryType(): AccessoryType {

@@ -1,42 +1,43 @@
-import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
+import { CharacteristicValue, PrimitiveTypes } from 'homebridge';
 
 import { BaseAccessory } from '../abstract/base.js';
+import { MQTTAccessoryDependency } from '../abstract/mqtt.js';
 
 import { strings } from '../../i18n/i18n.js';
 
 import { CharacteristicKey } from '../../model/enums.js';
-import { CharacteristicType, PositionConfig, ServiceType } from '../../model/types.js';
+import { PositionConfig } from '../../model/types.js';
 
-import { Log, LogType } from '../../tools/log.js';
+import { LogType } from '../../tools/log.js';
 
 export abstract class PositionAccessory<C extends PositionConfig = PositionConfig> extends BaseAccessory<C> {
 
   private readonly STATE_MAP: Map<keyof PositionConfig, number>;
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: C, log: Log, isGrouped: boolean) {
-    super(Service, Characteristic, accessory, config, log, isGrouped);
+  constructor(dependency: MQTTAccessoryDependency<C>) {
+    super(dependency);
 
     let currentLogString = strings.position.currentValue;
     let targetLogString = strings.position.targetValue;
-    if (!config.maximumPosition || !this.assertType('number', 'maximumPosition')) {
-      config.maximumPosition = 100;
+    if (!dependency.config.maximumPosition || !this.assertType('number', 'maximumPosition')) {
+      dependency.config.maximumPosition = 100;
       currentLogString = strings.position.currentPercent;
       targetLogString = strings.position.targetPercent;
     }
 
     this.setup(CharacteristicKey.CurrentPosition, 0,
       'topicGetCurrentPosition', this.bindOnUpdateNumeric(CharacteristicKey.CurrentPosition, currentLogString), true,
-    )?.setProps({ maxValue: config.maximumPosition });
+    )?.setProps({ maxValue: dependency.config.maximumPosition });
 
     this.setup(CharacteristicKey.TargetPosition, 0,
       'topicGetTargetPosition', this.bindOnUpdateNumeric(CharacteristicKey.TargetPosition, targetLogString), true,
       'topicSetTargetPosition', this.onSetTargetPosition.bind(this),
-    )?.setProps({ maxValue: config.maximumPosition });
+    )?.setProps({ maxValue: dependency.config.maximumPosition });
 
     this.STATE_MAP = new Map([
-      ['valuePositionDecreasing', Characteristic.PositionState.DECREASING],
-      ['valuePositionIncreasing', Characteristic.PositionState.INCREASING],
-      ['valuePositionStopped', Characteristic.PositionState.STOPPED],
+      ['valuePositionDecreasing', dependency.Characteristic.PositionState.DECREASING],
+      ['valuePositionIncreasing', dependency.Characteristic.PositionState.INCREASING],
+      ['valuePositionStopped', dependency.Characteristic.PositionState.STOPPED],
     ]);
 
     const validStates = Array.from(this.STATE_MAP.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
@@ -45,7 +46,7 @@ export abstract class PositionAccessory<C extends PositionConfig = PositionConfi
       return;
     }
 
-    this.setup(CharacteristicKey.PositionState, Characteristic.PositionState.STOPPED,
+    this.setup(CharacteristicKey.PositionState, dependency.Characteristic.PositionState.STOPPED,
       'topicGetPositionState', this.onPositionStateUpdate.bind(this), true,
     )?.setProps({ validValues: validStates.map((key) => this.STATE_MAP.get(key)!) });
 

@@ -1,32 +1,33 @@
-import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
+import { CharacteristicValue, PrimitiveTypes } from 'homebridge';
 
 import { BaseAccessory } from './abstract/base.js';
+import { MQTTAccessoryDependency } from './abstract/mqtt.js';
 
 import { strings } from '../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey, ValveType } from '../model/enums.js';
-import { CharacteristicType, ValveConfig, ServiceType } from '../model/types.js';
+import { ValveConfig } from '../model/types.js';
 
-import { Log, LogType } from '../tools/log.js';
+import { LogType } from '../tools/log.js';
 
 export class ValveAccessory extends BaseAccessory<ValveConfig> {
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: ValveConfig, log: Log, isGrouped: boolean) {
-    super(Service, Characteristic, accessory, config, log, isGrouped);
+  constructor(dependency: MQTTAccessoryDependency<ValveConfig>) {
+    super(dependency);
 
     this.setCharacteristicValue(CharacteristicKey.ValveType, this.toValveTypeCV(this.config.valveType));
 
-    this.setup(CharacteristicKey.Active, Characteristic.Active.INACTIVE,
+    this.setup(CharacteristicKey.Active, dependency.Characteristic.Active.INACTIVE,
       'topicGetValveActive',
       this.bindOnUpdateNumericBoolean(CharacteristicKey.Active, 'valueActive', strings.valve.active, strings.valve.inactive), true,
       'topicSetValveActive', this.onSetActive.bind(this),
     );
 
-    this.setup(CharacteristicKey.InUse, Characteristic.InUse.NOT_IN_USE,
+    this.setup(CharacteristicKey.InUse, dependency.Characteristic.InUse.NOT_IN_USE,
       'topicGetValveInUse', this.bindOnUpdateNumericBoolean(CharacteristicKey.InUse, 'valueInUse', strings.valve.inUse, strings.valve.notInUse), true,
     );
 
-    this.setup(CharacteristicKey.StatusFault, Characteristic.StatusFault.NO_FAULT,
+    this.setup(CharacteristicKey.StatusFault, dependency.Characteristic.StatusFault.NO_FAULT,
       'topicGetStatusFault', this.onFaultUpdate.bind(this), false);
 
     this.setup(CharacteristicKey.SetDuration, 0,
@@ -37,7 +38,7 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
     this.setup(CharacteristicKey.RemainingDuration, 0,
       'topicGetValveRemainingDuration', this.bindOnUpdateNumeric(CharacteristicKey.RemainingDuration, strings.valve.durationRemaining), false);
 
-    this.setup(CharacteristicKey.IsConfigured, Characteristic.IsConfigured.NOT_CONFIGURED,
+    this.setup(CharacteristicKey.IsConfigured, dependency.Characteristic.IsConfigured.NOT_CONFIGURED,
       'topicGetValveIsConfigured',
       this.bindOnUpdateNumericBoolean(CharacteristicKey.IsConfigured, 'valueConfigured', strings.valve.configured, strings.valve.notConfigured),
       false,

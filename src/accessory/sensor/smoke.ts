@@ -1,20 +1,18 @@
-import { PlatformAccessory } from 'homebridge';
-
 import { SensorAccessory } from './sensor.js';
+
+import { MQTTAccessoryDependency } from '../abstract/mqtt.js';
 
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
-import { CharacteristicType, SmokeSensorConfig, ServiceType } from '../../model/types.js';
-
-import { Log } from '../../tools/log.js';
+import { SmokeSensorConfig } from '../../model/types.js';
 
 export class SmokeSensorAccessory extends SensorAccessory<SmokeSensorConfig> {
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: SmokeSensorConfig, log: Log, isGrouped: boolean) {
-    super(Service, Characteristic, accessory, config, log, isGrouped);
+  constructor(dependency: MQTTAccessoryDependency<SmokeSensorConfig>) {
+    super(dependency);
 
-    this.setup(CharacteristicKey.SmokeDetected, Characteristic.SmokeDetected.SMOKE_NOT_DETECTED,
+    this.setup(CharacteristicKey.SmokeDetected, dependency.Characteristic.SmokeDetected.SMOKE_NOT_DETECTED,
       'topicGetSmokeDetected',
       this.bindOnUpdateNumericBoolean(CharacteristicKey.SmokeDetected, 'valueSmokeDetected', strings.sensor.smoke.active, strings.sensor.smoke.inactive),
       true);

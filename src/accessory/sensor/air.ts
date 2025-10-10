@@ -1,13 +1,13 @@
-import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
+import { CharacteristicValue, PrimitiveTypes } from 'homebridge';
 
 import { SensorAccessory } from './sensor.js';
+
+import { MQTTAccessoryDependency } from '../abstract/mqtt.js';
 
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
-import { CharacteristicType, AirSensorConfig, ServiceType } from '../../model/types.js';
-
-import { Log } from '../../tools/log.js';
+import { AirSensorConfig } from '../../model/types.js';
 
 const MAX_DENSITY = 5000;
 
@@ -15,16 +15,16 @@ export class AirSensorAccessory extends SensorAccessory<AirSensorConfig> {
 
   private readonly STATE_MAP: Map<keyof AirSensorConfig, number>;
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: AirSensorConfig, log: Log, isGrouped: boolean) {
-    super(Service, Characteristic, accessory, config, log, isGrouped);
+  constructor(dependency: MQTTAccessoryDependency<AirSensorConfig>) {
+    super(dependency);
 
     this.STATE_MAP = new Map([
-      ['valueAQUnknown', Characteristic.AirQuality.UNKNOWN],
-      ['valueAQExcellent', Characteristic.AirQuality.EXCELLENT],
-      ['valueAQGood', Characteristic.AirQuality.GOOD],
-      ['valueAQFair', Characteristic.AirQuality.FAIR],
-      ['valueAQInferior', Characteristic.AirQuality.INFERIOR],
-      ['valueAQPoor', Characteristic.AirQuality.POOR],
+      ['valueAQUnknown', dependency.Characteristic.AirQuality.UNKNOWN],
+      ['valueAQExcellent', dependency.Characteristic.AirQuality.EXCELLENT],
+      ['valueAQGood', dependency.Characteristic.AirQuality.GOOD],
+      ['valueAQFair', dependency.Characteristic.AirQuality.FAIR],
+      ['valueAQInferior', dependency.Characteristic.AirQuality.INFERIOR],
+      ['valueAQPoor', dependency.Characteristic.AirQuality.POOR],
     ]);
 
     const validStates = Array.from(this.STATE_MAP.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
@@ -33,7 +33,7 @@ export class AirSensorAccessory extends SensorAccessory<AirSensorConfig> {
       return;
     }
 
-    this.setup(CharacteristicKey.AirQuality, Characteristic.AirQuality.UNKNOWN,
+    this.setup(CharacteristicKey.AirQuality, dependency.Characteristic.AirQuality.UNKNOWN,
       'topicGetAirQuality', this.onAirQualityUpdate.bind(this), true,
     )?.setProps({ validValues: validStates.map((key) => this.STATE_MAP.get(key)!) });
 

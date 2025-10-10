@@ -1,13 +1,13 @@
-import { CharacteristicValue, PlatformAccessory } from 'homebridge';
+import { CharacteristicValue } from 'homebridge';
 
 import { BaseAccessory } from '../abstract/base.js';
+import { MQTTAccessoryDependency } from '../abstract/mqtt.js';
 
 import { strings } from '../../i18n/i18n.js';
 
 import { CharacteristicKey } from '../../model/enums.js';
-import { CharacteristicType, TemperatureControlConfig, ServiceType } from '../../model/types.js';
+import { TemperatureControlConfig } from '../../model/types.js';
 
-import { Log } from '../../tools/log.js';
 import { fromCelsius, temperatureUnits, TemperatureUnits } from '../../tools/temperature.js';
 
 export const DEFAULT_TEMPERATURE = 10;
@@ -16,8 +16,8 @@ const DEFAULT_HEATING_THRESHOLD = 20;
 
 export abstract class TemperatureControlAccessory<C extends TemperatureControlConfig = TemperatureControlConfig> extends BaseAccessory<C> {
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: C, log: Log, isGrouped: boolean) {
-    super(Service, Characteristic, accessory, config, log, isGrouped);
+  constructor(dependency: MQTTAccessoryDependency<C>) {
+    super(dependency);
   }
 
   protected setupTemperatureControlCharacteristics() {

@@ -1,24 +1,23 @@
-import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
+import { CharacteristicValue, PrimitiveTypes } from 'homebridge';
 
 import { BaseAccessory } from './abstract/base.js';
+import { MQTTAccessoryDependency } from './abstract/mqtt.js';
 
 import { strings } from '../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../model/enums.js';
-import { CharacteristicType, LockConfig, ServiceType } from '../model/types.js';
+import { LockConfig } from '../model/types.js';
 
-import { Log, LogType } from '../tools/log.js';
+import { LogType } from '../tools/log.js';
 
 export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends BaseAccessory<C> {
 
-  constructor(
-    Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory,
-    config: C, log: Log, isGrouped: boolean, requireTopics: boolean = true) {
-    super(Service, Characteristic, accessory, config, log, isGrouped);
+  constructor(dependency: MQTTAccessoryDependency<C>, requireTopics: boolean = true) {
+    super(dependency);
 
     const getTopicCurrent = this.config.topicGetLockCurrentState !== undefined && this.config.topicGetCurrentLockState === undefined
       ? 'topicGetLockCurrentState' : 'topicGetCurrentLockState';
-    this.setup(CharacteristicKey.LockCurrentState, Characteristic.LockCurrentState.UNKNOWN,
+    this.setup(CharacteristicKey.LockCurrentState, dependency.Characteristic.LockCurrentState.UNKNOWN,
       getTopicCurrent, this.onCurrentStateUpdate.bind(this), requireTopics);
 
     let getTargetTopic: keyof LockConfig, setTargetTopic : keyof LockConfig;
@@ -30,7 +29,7 @@ export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends B
       setTargetTopic = 'topicSetTargetLockState';
     }
 
-    this.setup(CharacteristicKey.LockTargetState, Characteristic.LockTargetState.SECURED,
+    this.setup(CharacteristicKey.LockTargetState, dependency.Characteristic.LockTargetState.SECURED,
       getTargetTopic, this.onTargetStateUpdate.bind(this), requireTopics,
       setTargetTopic, this.onSetTargetState.bind(this),
     );

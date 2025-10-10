@@ -1,27 +1,28 @@
-import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
+import { CharacteristicValue, PrimitiveTypes } from 'homebridge';
 
 import { BaseAccessory } from './abstract/base.js';
+import { MQTTAccessoryDependency } from './abstract/mqtt.js';
 
 import { strings } from '../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../model/enums.js';
-import { CharacteristicType, SecurityConfig, ServiceType } from '../model/types.js';
+import { SecurityConfig } from '../model/types.js';
 
-import { Log, LogType } from '../tools/log.js';
+import { LogType } from '../tools/log.js';
 
 export class SecuritySystemAccessory extends BaseAccessory<SecurityConfig> {
 
   private readonly STATE_MAP: Map<keyof SecurityConfig, number>;
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: SecurityConfig, log: Log, isGrouped: boolean) {
-    super(Service, Characteristic, accessory, config, log, isGrouped);
+  constructor(dependency: MQTTAccessoryDependency<SecurityConfig>) {
+    super(dependency);
 
     this.STATE_MAP = new Map([
-      ['valueArmStay', Characteristic.SecuritySystemCurrentState.STAY_ARM],
-      ['valueArmAway', Characteristic.SecuritySystemCurrentState.AWAY_ARM],
-      ['valueArmNight', Characteristic.SecuritySystemCurrentState.NIGHT_ARM],
-      ['valueDisarm', Characteristic.SecuritySystemCurrentState.DISARMED],
-      ['valueAlarmTriggered', Characteristic.SecuritySystemCurrentState.ALARM_TRIGGERED],
+      ['valueArmStay', dependency.Characteristic.SecuritySystemCurrentState.STAY_ARM],
+      ['valueArmAway', dependency.Characteristic.SecuritySystemCurrentState.AWAY_ARM],
+      ['valueArmNight', dependency.Characteristic.SecuritySystemCurrentState.NIGHT_ARM],
+      ['valueDisarm', dependency.Characteristic.SecuritySystemCurrentState.DISARMED],
+      ['valueAlarmTriggered', dependency.Characteristic.SecuritySystemCurrentState.ALARM_TRIGGERED],
     ]);
 
     const validCurrentStates = Array.from(this.STATE_MAP.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
@@ -30,23 +31,23 @@ export class SecuritySystemAccessory extends BaseAccessory<SecurityConfig> {
       return;
     }
 
-    this.setup(CharacteristicKey.SecuritySystemCurrentState, Characteristic.SecuritySystemCurrentState.DISARMED,
+    this.setup(CharacteristicKey.SecuritySystemCurrentState, dependency.Characteristic.SecuritySystemCurrentState.DISARMED,
       'topicGetCurrentSecurityState', this.onCurrentStateUpdate.bind(this), true,
     )?.setProps({ validValues: validCurrentStates.map((key) => this.STATE_MAP.get(key)!) });
 
     const validTargetStates = validCurrentStates.filter((key) => key !== 'valueAlarmTriggered');
 
-    this.setup(CharacteristicKey.SecuritySystemTargetState, Characteristic.SecuritySystemTargetState.DISARM,
+    this.setup(CharacteristicKey.SecuritySystemTargetState, dependency.Characteristic.SecuritySystemTargetState.DISARM,
       'topicGetTargetSecurityState', this.onTargetStateUpdate.bind(this), true,
       'topicSetTargetSecurityState', this.onSetTargetState.bind(this),
     )?.setProps({ validValues: validTargetStates.map((key) => this.STATE_MAP.get(key)!) });
 
-    this.setup(CharacteristicKey.StatusTampered, Characteristic.StatusTampered.NOT_TAMPERED, 'topicGetStatusTampered',
+    this.setup(CharacteristicKey.StatusTampered, dependency.Characteristic.StatusTampered.NOT_TAMPERED, 'topicGetStatusTampered',
       this.bindOnUpdateNumericBoolean(CharacteristicKey.StatusTampered, 'valueTampered', strings.error.isTampered, strings.error.notTampered),
       false,
     );
 
-    this.setup(CharacteristicKey.StatusFault, Characteristic.StatusFault.NO_FAULT, 'topicGetStatusFault',
+    this.setup(CharacteristicKey.StatusFault, dependency.Characteristic.StatusFault.NO_FAULT, 'topicGetStatusFault',
       this.bindOnUpdateNumericBoolean(CharacteristicKey.StatusFault, 'valueFault', strings.error.hasFault, strings.error.noFault),
       false,
     );
