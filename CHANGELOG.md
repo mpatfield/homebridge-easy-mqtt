@@ -2,37 +2,42 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.4.0-beta.22 (2025-10-03)
+## 1.4.1-beta.0 (2025-10-10)
 
 ### Added
-- A bunch of new accessory types:
-    - `Air Purifier`
-    - `Air Quality Sensor`
+- Traduzioni in italiano. Grazie, [@Shikaban](https://github.com/sponsors/Shikaban)!
+
+### Notes
+Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
+
+## 1.4.0 (2025-10-08)
+
+### Added
+- New accessory types:
+    - `AirPurifier`
+    - `AirQualitySensor`
     - `Fanv2`
     - `GarageDoorOpener`
     - `HeaterCooler`
     - `LightSensor`
     - `StatelessProgrammableSwitch`
     - `Valve`
-    - `Window Covering`
+    - `WindowCovering`
 - Broker, username, and password can be set via environment variables ([documentation](https://github.com/mpatfield/homebridge-easy-mqtt#environment-variables))
-- Publish arbitrary MQTT messages on connect ([documentation] (https://github.com/mpatfield/homebridge-easy-mqtt#mqtt-onconnect))
-- `maximumBrightness` to use values (i.e. 1, 2, 3) rather than a percentage for lightbulb brightness
+- Publish arbitrary MQTT messages on connect ([documentation](https://github.com/mpatfield/homebridge-easy-mqtt#mqtt-onconnect))
+- Lightbulb `maximumBrightness` to use values (i.e. 1, 2, 3) rather than a percentage for brightness
 - Traduceri în limba română. Mulțumesc, [@rursache](https://github.com/sponsors/rursache)!
 - Bản dịch tiếng Việt. Cảm ơn [@khanhnd88](https://github.com/sponsors/khanhnd88)!
 
 ### Changed
-- ⚠️ All accessory states are now saved across plugin/Homebridge restarts
+- ⚠️ Accessory states are now saved across plugin/Homebridge restarts
     - If you want to keep the old behavior, select the `Reset on Restart` option for each accessory you want to reset
-- MQTT `options` JSON can now also include publish options, such as `retain`, in addition to client options
+- MQTT `options` JSON can now also include both client and publish options, such as `retain`
 - Optimized MQTT connections by sharing across multiple accessories when possible
-    - Previously, every accessory always had its own connection
+    - Previously, every accessory always had its own dedicated connection
 - Better field validation in config UI (Thank you, [@justjam2013](https://github.com/sponsors/justjam2013) for teaching me this!)
 - Significant under-the-hood cleanup to speed future development
 - Traductions françaises mises à jour. Merci, [@7ute](https://github.com/sponsors/7ute)!
-
-### Notes
-Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
 
 ## 1.3.0 (2025-09-14)
 

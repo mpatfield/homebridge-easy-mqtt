@@ -1,21 +1,19 @@
-import { PlatformAccessory, PrimitiveTypes } from 'homebridge';
+import { PrimitiveTypes } from 'homebridge';
 
 import { SensorAccessory } from './sensor.js';
 
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
-import { CharacteristicType, ContactSensorConfig, ServiceType } from '../../model/types.js';
-
-import { Log } from '../../tools/log.js';
+import { ContactSensorConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 export class ContactSensorAccessory extends SensorAccessory<ContactSensorConfig> {
 
   constructor(
-    Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: ContactSensorConfig, log: Log, isGrouped: boolean) {
-    super(Service, Characteristic, accessory, config, log, isGrouped);
+    dependency: MQTTAccessoryDependency<ContactSensorConfig>) {
+    super(dependency);
 
-    this.setup(CharacteristicKey.ContactSensorState, Characteristic.ContactSensorState.CONTACT_NOT_DETECTED,
+    this.setup(CharacteristicKey.ContactSensorState, dependency.Characteristic.ContactSensorState.CONTACT_NOT_DETECTED,
       'topicGetContactSensorState', this.onContactStateUpdate.bind(this), true);
   }
 

@@ -1,30 +1,28 @@
-import { CharacteristicValue, PlatformAccessory } from 'homebridge';
+import { CharacteristicValue } from 'homebridge';
 
 import { OnOffAccessory } from './onoff.js';
 
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
-import { CharacteristicType, LightbulbConfig, ServiceType } from '../../model/types.js';
-
-import { Log } from '../../tools/log.js';
+import { LightbulbConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: LightbulbConfig, log: Log, isGrouped: boolean) {
-    super(Service, Characteristic, accessory, config, log, isGrouped);
+  constructor(dependency: MQTTAccessoryDependency<LightbulbConfig>) {
+    super(dependency);
 
-    if (!config.maximumBrightness || !this.assertType('number', 'maximumBrightness')) {
-      config.maximumBrightness = 100;
+    if (!dependency.config.maximumBrightness || !this.assertType('number', 'maximumBrightness')) {
+      dependency.config.maximumBrightness = 100;
     }
 
-    const getLogString = config.maximumBrightness < 100 ? strings.lightbulb.brightnessValue : strings.lightbulb.brightnessPercent;
-    const setLogString = config.maximumBrightness < 100 ? strings.lightbulb.brightnessValueFuture : strings.lightbulb.brightnessPercentFuture;
+    const getLogString = dependency.config.maximumBrightness < 100 ? strings.lightbulb.brightnessValue : strings.lightbulb.brightnessPercent;
+    const setLogString = dependency.config.maximumBrightness < 100 ? strings.lightbulb.brightnessValueFuture : strings.lightbulb.brightnessPercentFuture;
 
     this.setup(CharacteristicKey.Brightness, 100,
       'topicGetBrightness', this.bindOnUpdateNumeric(CharacteristicKey.Brightness, getLogString), false,
       'topicSetBrightness', this.onSetValue(CharacteristicKey.Brightness, 'topicSetBrightness', setLogString),
-    )?.setProps({ maxValue: config.maximumBrightness });
+    )?.setProps({ maxValue: dependency.config.maximumBrightness });
 
     this.setup(CharacteristicKey.ColorTemperature, 500,
       'topicGetColorTemperature', this.bindOnUpdateNumeric(CharacteristicKey.ColorTemperature, strings.lightbulb.colorTemperature), false,

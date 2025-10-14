@@ -1,26 +1,24 @@
-import { CharacteristicValue, PlatformAccessory } from 'homebridge';
+import { CharacteristicValue } from 'homebridge';
 
 import { TemperatureControlAccessory } from './temperatureControl.js';
 
 import { strings } from '../../i18n/i18n.js';
 
 import { CharacteristicKey } from '../../model/enums.js';
-import { CharacteristicType, ActiveClimateConfig, ServiceType } from '../../model/types.js';
-
-import { Log } from '../../tools/log.js';
+import { ActiveClimateConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 export abstract class ActiveClimateAccessory<C extends ActiveClimateConfig = ActiveClimateConfig> extends TemperatureControlAccessory<C> {
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: C, log: Log, isGrouped: boolean) {
-    super(Service, Characteristic, accessory, config, log, isGrouped);
+  constructor(dependency: MQTTAccessoryDependency<C>) {
+    super(dependency);
 
-    this.setup(CharacteristicKey.Active, Characteristic.Active.INACTIVE,
+    this.setup(CharacteristicKey.Active, dependency.Characteristic.Active.INACTIVE,
       'topicGetActive',
       this.bindOnUpdateNumericBoolean(CharacteristicKey.Active, 'valueStateActive', strings.active.active, strings.active.notActive), true,
       'topicSetActive', this.onSetActive.bind(this),
     );
 
-    this.setup(CharacteristicKey.LockPhysicalControls, Characteristic.LockPhysicalControls.CONTROL_LOCK_DISABLED,
+    this.setup(CharacteristicKey.LockPhysicalControls, dependency.Characteristic.LockPhysicalControls.CONTROL_LOCK_DISABLED,
       'topicGetLockPhysicalControls',
       this.bindOnUpdateNumericBoolean(
         CharacteristicKey.LockPhysicalControls, 'valueControlLock',
@@ -30,17 +28,17 @@ export abstract class ActiveClimateAccessory<C extends ActiveClimateConfig = Act
     );
 
     let rotationLogString = strings.active.rotationValueUpdate;
-    if (!config.maximumRotationSpeed || !this.assertType('number', 'maximumRotationSpeed')) {
-      config.maximumRotationSpeed = 100;
+    if (!dependency.config.maximumRotationSpeed || !this.assertType('number', 'maximumRotationSpeed')) {
+      dependency.config.maximumRotationSpeed = 100;
       rotationLogString = strings.active.rotationPercentUpdate;
     }
 
     this.setup(CharacteristicKey.RotationSpeed, 0,
       'topicGetRotationSpeed', this.bindOnUpdateNumeric(CharacteristicKey.RotationSpeed, rotationLogString), false,
       'topicSetRotationSpeed', this.onSetRotationSpeed.bind(this),
-    )?.setProps({ maxValue: config.maximumRotationSpeed });
+    )?.setProps({ maxValue: dependency.config.maximumRotationSpeed });
 
-    this.setup(CharacteristicKey.SwingMode, Characteristic.SwingMode.SWING_DISABLED,
+    this.setup(CharacteristicKey.SwingMode, dependency.Characteristic.SwingMode.SWING_DISABLED,
       'topicGetSwingMode',
       this.bindOnUpdateNumericBoolean(CharacteristicKey.SwingMode, 'valueSwingEnabled',
         strings.active.swingEnabled, strings.active.swingDisabled),

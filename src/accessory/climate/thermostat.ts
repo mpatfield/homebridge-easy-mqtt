@@ -1,28 +1,26 @@
-import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
+import { CharacteristicValue, PrimitiveTypes } from 'homebridge';
 
 import { TemperatureControlAccessory, DEFAULT_TEMPERATURE } from './temperatureControl.js';
 
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
-import { CharacteristicType, ServiceType, ThermostatConfig } from '../../model/types.js';
-
-import { Log } from '../../tools/log.js';
+import { MQTTAccessoryDependency, ThermostatConfig } from '../../model/types.js';
 
 export class ThermostatAccessory extends TemperatureControlAccessory<ThermostatConfig> {
 
   private readonly STATE_MAP: Map<keyof ThermostatConfig, number>;
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: ThermostatConfig, log: Log, isGrouped: boolean) {
-    super(Service, Characteristic, accessory, config, log, isGrouped);
+  constructor(dependency: MQTTAccessoryDependency<ThermostatConfig>) {
+    super(dependency);
 
     this.setupTemperatureControlCharacteristics();
 
     this.STATE_MAP = new Map([
-      ['valueModeOff', Characteristic.TargetHeatingCoolingState.OFF],
-      ['valueModeHeat', Characteristic.TargetHeatingCoolingState.HEAT],
-      ['valueModeCool', Characteristic.TargetHeatingCoolingState.COOL],
-      ['valueModeAuto', Characteristic.TargetHeatingCoolingState.AUTO],
+      ['valueModeOff', dependency.Characteristic.TargetHeatingCoolingState.OFF],
+      ['valueModeHeat', dependency.Characteristic.TargetHeatingCoolingState.HEAT],
+      ['valueModeCool', dependency.Characteristic.TargetHeatingCoolingState.COOL],
+      ['valueModeAuto', dependency.Characteristic.TargetHeatingCoolingState.AUTO],
     ]);
 
     const validTargetStates = Array.from(this.STATE_MAP.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
@@ -42,8 +40,12 @@ export class ThermostatAccessory extends TemperatureControlAccessory<ThermostatC
       ?.setProps({ validValues: validCurrentStates.map((key) => this.STATE_MAP.get(key)!) });
 
     this.setup(CharacteristicKey.TargetTemperature, DEFAULT_TEMPERATURE,
-      'topicGetTargetTemperature', this.bindTemperatureUpdate(config, CharacteristicKey.TargetTemperature, strings.thermostat.temperatureTarget), true,
-      'topicSetTargetTemperature', this.onSetTemperature.bind(this));
+      'topicGetTargetTemperature',
+      this.bindTemperatureUpdate(dependency.config, CharacteristicKey.TargetTemperature, strings.thermostat.temperatureTarget),
+      true,
+      'topicSetTargetTemperature',
+      this.onSetTemperature.bind(this),
+    );
 
     this.setup(CharacteristicKey.CurrentRelativeHumidity, 0,
       'topicGetCurrentRelativeHumidity', this.bindOnUpdateNumeric(CharacteristicKey.CurrentRelativeHumidity, strings.climate.humidityUpdate), false);

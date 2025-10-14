@@ -1,19 +1,17 @@
-import { CharacteristicValue, PlatformAccessory } from 'homebridge';
+import { CharacteristicValue } from 'homebridge';
 
 import { PositionAccessory } from './position.js';
 
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
-import { CharacteristicType, BlindConfig, ServiceType } from '../../model/types.js';
-
-import { Log } from '../../tools/log.js';
+import { BlindConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 export class BlindAccessory extends PositionAccessory<BlindConfig> {
 
   constructor(
-    Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: BlindConfig, log: Log, isGrouped: boolean) {
-    super(Service, Characteristic, accessory, config, log, isGrouped);
+    dependency: MQTTAccessoryDependency<BlindConfig>) {
+    super(dependency);
 
     this.setup(CharacteristicKey.CurrentHorizontalTiltAngle, 0, 'topicGetCurrentHorizontalTiltAngle',
       this.bindOnUpdateNumeric(CharacteristicKey.CurrentHorizontalTiltAngle, strings.position.blind.currentHorizontal), false);

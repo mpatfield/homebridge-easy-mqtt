@@ -1,4 +1,4 @@
-import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
+import { CharacteristicValue, PrimitiveTypes } from 'homebridge';
 
 import { ActiveClimateAccessory } from './active.js';
 
@@ -7,33 +7,29 @@ import { FilterMaintenance } from '../addons/filter.js';
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
-import { CharacteristicType, ServiceType, HeaterCoolerConfig } from '../../model/types.js';
-
-import { Log } from '../../tools/log.js';
+import { HeaterCoolerConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 export class HeaterCoolerAccessory extends ActiveClimateAccessory<HeaterCoolerConfig> {
 
   private readonly CURRENT_STATE_MAP: Map<keyof HeaterCoolerConfig, number>;
   private readonly TARGET_STATE_MAP: Map<keyof HeaterCoolerConfig, number>;
 
-  constructor(
-    Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory,
-    config: HeaterCoolerConfig, log: Log, isGrouped: boolean) {
-    super(Service, Characteristic, accessory, config, log, isGrouped);
+  constructor(dependency: MQTTAccessoryDependency<HeaterCoolerConfig>) {
+    super(dependency);
 
     this.setupTemperatureControlCharacteristics();
 
     this.CURRENT_STATE_MAP = new Map([
-      ['valueModeInactive', Characteristic.CurrentHeaterCoolerState.INACTIVE],
-      ['valueModeIdle', Characteristic.CurrentHeaterCoolerState.IDLE],
-      ['valueModeHeat', Characteristic.CurrentHeaterCoolerState.HEATING],
-      ['valueModeCool', Characteristic.CurrentHeaterCoolerState.COOLING],
+      ['valueModeInactive', dependency.Characteristic.CurrentHeaterCoolerState.INACTIVE],
+      ['valueModeIdle', dependency.Characteristic.CurrentHeaterCoolerState.IDLE],
+      ['valueModeHeat', dependency.Characteristic.CurrentHeaterCoolerState.HEATING],
+      ['valueModeCool', dependency.Characteristic.CurrentHeaterCoolerState.COOLING],
     ]);
 
     this.TARGET_STATE_MAP = new Map([
-      ['valueModeAuto', Characteristic.TargetHeaterCoolerState.AUTO],
-      ['valueModeHeat', Characteristic.TargetHeaterCoolerState.HEAT],
-      ['valueModeCool', Characteristic.TargetHeaterCoolerState.COOL],
+      ['valueModeAuto', dependency.Characteristic.TargetHeaterCoolerState.AUTO],
+      ['valueModeHeat', dependency.Characteristic.TargetHeaterCoolerState.HEAT],
+      ['valueModeCool', dependency.Characteristic.TargetHeaterCoolerState.COOL],
     ]);
 
     const validCurrentStates = Array.from(this.CURRENT_STATE_MAP.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
@@ -57,7 +53,7 @@ export class HeaterCoolerAccessory extends ActiveClimateAccessory<HeaterCoolerCo
       'topicSetTargetHeaterCoolerState', this.onSetTargetState.bind(this))
       ?.setProps({ validValues: validTargetStates.map((key) => this.TARGET_STATE_MAP.get(key)!) });
 
-    this.addTopicHandlers(FilterMaintenance.topicHandlers(Service, this, config));
+    this.addTopicHandlers(FilterMaintenance.topicHandlers(dependency.Service, this, dependency.config));
   }
 
   protected getAccessoryType(): AccessoryType {

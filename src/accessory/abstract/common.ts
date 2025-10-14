@@ -160,7 +160,6 @@ export abstract class Common<C extends Assertable> {
         return;
       }
 
-
       const characteristic = this.service.getCharacteristic(this.Characteristic[key]);
       const minValue = characteristic.props.minValue;
       const maxValue = characteristic.props.maxValue;

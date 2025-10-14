@@ -1,14 +1,15 @@
 import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
 
 import { Common } from './common.js';
-import { CustomCharacteristic } from './customCharacteristic.js';
+import { createIdentifier } from './helper.js';
+
+import { CustomCharacteristic } from '../characteristic/custom.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
 import { MQTT } from '../../model/mqtt.js';
-import { CharacteristicType, MQTTAccessoryConfig, ServiceType } from '../../model/types.js';
+import { CharacteristicType, MQTTAccessoryConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
-import { createIdentifier } from './helper.js';
 
 export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Common<C> {
 
@@ -17,29 +18,24 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
   private readonly accessoryService: Service;
 
   constructor(
-    Service: ServiceType,
-    public readonly Characteristic: CharacteristicType,
-    public readonly platformAccessory: PlatformAccessory,
-    public readonly config: C,
-    public readonly log: Log,
-    isGrouped: boolean,
+    private readonly dependency: MQTTAccessoryDependency<C>,
   ) {
-    super(config.info.name);
+    super(dependency.config.info.name);
 
-    this.mqttClient = MQTT.connect(log, config.mqtt, this.name, (client: MQTT) => {
+    this.mqttClient = MQTT.connect(dependency.log, dependency.config.mqtt, this.name, (client: MQTT) => {
       this.topicHandlers.forEach( topicHandler => {
         client.subscribe(topicHandler.topic, topicHandler.handler);
       });
     });
 
-    const serviceInstance = Service[this.getAccessoryType()];
+    const serviceInstance = dependency.Service[this.getAccessoryType()];
 
-    if (isGrouped) {
+    if (dependency.isGrouped) {
 
-      let accessoryService = platformAccessory.getServiceById(serviceInstance, this.identifier);
+      let accessoryService = dependency.platformAccessory.getServiceById(serviceInstance, this.identifier);
       if (!accessoryService) {
-        accessoryService = platformAccessory.addService(serviceInstance, config.info.name, this.identifier);
-        accessoryService.setCharacteristic(Characteristic.ConfiguredName, config.info.name);
+        accessoryService = dependency.platformAccessory.addService(serviceInstance, dependency.config.info.name, this.identifier);
+        accessoryService.setCharacteristic(dependency.Characteristic.ConfiguredName, dependency.config.info.name);
       }
 
       this.accessoryService = accessoryService;
@@ -47,16 +43,32 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
       return;
     }
 
-    this.accessoryService = platformAccessory.getService(serviceInstance) || platformAccessory.addService(serviceInstance);
+    this.accessoryService = dependency.platformAccessory.getService(serviceInstance) || dependency.platformAccessory.addService(serviceInstance);
 
     for (const type of Object.values(AccessoryType)) {
-      const existingService = platformAccessory.getService(Service[type]);
-      if (existingService && type !== config.info.type) {
-        platformAccessory.removeService(existingService);
+      const existingService = dependency.platformAccessory.getService(dependency.Service[type]);
+      if (existingService && type !== dependency.config.info.type) {
+        dependency.platformAccessory.removeService(existingService);
       }
     }
 
     this.setupCustomCharacteristics();
+  }
+
+  public get Characteristic(): CharacteristicType {
+    return this.dependency.Characteristic;
+  }
+
+  public get platformAccessory(): PlatformAccessory {
+    return this.dependency.platformAccessory;
+  }
+
+  protected get config(): C {
+    return this.dependency.config;
+  }
+
+  public get log(): Log {
+    return this.dependency.log;
   }
 
   protected abstract getAccessoryType(): AccessoryType;

@@ -1,10 +1,7 @@
-import { PlatformAccessory } from 'homebridge';
-
 import { BaseAccessory } from './base.js';
 
-import { BaseAccessoryConfig, CharacteristicType, ServiceType } from '../../model/types.js';
+import { AccessoryDependency, BaseAccessoryConfig } from '../../model/types.js';
 
-import { Log } from '../../tools/log.js';
 import { createAccessory } from './helper.js';
 import { PLATFORM_NAME } from '../../homebridge/settings.js';
 import getVersion from '../../tools/version.js';
@@ -14,10 +11,7 @@ export class GroupAccessory {
   private readonly accessories: (BaseAccessory<BaseAccessoryConfig>)[] = [];
 
   constructor(
-    Service: ServiceType,
-    Characteristic: CharacteristicType,
-    platformAccessory: PlatformAccessory,
-    log: Log,
+    dependency: AccessoryDependency,
     name: string,
     configs: BaseAccessoryConfig[],
   ) {
@@ -26,19 +20,19 @@ export class GroupAccessory {
       throw new Error('Trying to create a group with no accessories');
     }
 
-    platformAccessory.getService(Service.AccessoryInformation)!
-      .setCharacteristic(Characteristic.Name, name)
-      .setCharacteristic(Characteristic.ConfiguredName, name)
-      .setCharacteristic(Characteristic.Manufacturer, configs[0].info.manufacturer ?? PLATFORM_NAME)
-      .setCharacteristic(Characteristic.Model, configs[0].info.model ?? GroupAccessory.name)
-      .setCharacteristic(Characteristic.SerialNumber, configs[0].info.serialNumber ?? name)
-      .setCharacteristic(Characteristic.FirmwareRevision, configs[0].info.version ?? getVersion());
+    dependency.platformAccessory.getService(dependency.Service.AccessoryInformation)!
+      .setCharacteristic(dependency.Characteristic.Name, name)
+      .setCharacteristic(dependency.Characteristic.ConfiguredName, name)
+      .setCharacteristic(dependency.Characteristic.Manufacturer, configs[0].info.manufacturer ?? PLATFORM_NAME)
+      .setCharacteristic(dependency.Characteristic.Model, configs[0].info.model ?? GroupAccessory.name)
+      .setCharacteristic(dependency.Characteristic.SerialNumber, configs[0].info.serialNumber ?? name)
+      .setCharacteristic(dependency.Characteristic.FirmwareRevision, configs[0].info.version ?? getVersion());
 
     const keepSubtypes = new Set<string>();
 
     for (const config of configs) {
 
-      const accessory = createAccessory(Service, Characteristic, platformAccessory, config, log, true);
+      const accessory = createAccessory(dependency, config, true);
       if (!accessory) {
         continue;
       }
@@ -47,9 +41,9 @@ export class GroupAccessory {
       this.accessories.push(accessory);
     };
 
-    for (const service of [...platformAccessory.services]) {
+    for (const service of [...dependency.platformAccessory.services]) {
       if (service.subtype && !keepSubtypes.has(service.subtype)) {
-        platformAccessory.removeService(service);
+        dependency.platformAccessory.removeService(service);
       }
     }
   }

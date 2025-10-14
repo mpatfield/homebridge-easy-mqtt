@@ -1,37 +1,33 @@
-import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
+import { CharacteristicValue, PrimitiveTypes } from 'homebridge';
 
 import { ActiveClimateAccessory } from './active.js';
 
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
-import { CharacteristicType, ServiceType, FanV2Config } from '../../model/types.js';
-
-import { Log } from '../../tools/log.js';
+import { FanV2Config, MQTTAccessoryDependency } from '../../model/types.js';
 
 export class FanV2Accessory extends ActiveClimateAccessory<FanV2Config> {
 
   private readonly CURRENT_STATE_MAP: Map<keyof FanV2Config, number>;
   private readonly TARGET_STATE_MAP: Map<keyof FanV2Config, number>;
 
-  constructor(
-    Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory,
-    config: FanV2Config, log: Log, isGrouped: boolean) {
-    super(Service, Characteristic, accessory, config, log, isGrouped);
+  constructor(dependency: MQTTAccessoryDependency<FanV2Config>) {
+    super(dependency);
 
     this.CURRENT_STATE_MAP = new Map([
-      ['valueModeInactive', Characteristic.CurrentFanState.INACTIVE],
-      ['valueModeIdle', Characteristic.CurrentFanState.IDLE],
-      ['valueModeBlowing', Characteristic.CurrentFanState.BLOWING_AIR],
+      ['valueModeInactive', dependency.Characteristic.CurrentFanState.INACTIVE],
+      ['valueModeIdle', dependency.Characteristic.CurrentFanState.IDLE],
+      ['valueModeBlowing', dependency.Characteristic.CurrentFanState.BLOWING_AIR],
     ]);
 
     this.TARGET_STATE_MAP = new Map([
-      ['valueModeManual', Characteristic.TargetFanState.MANUAL],
-      ['valueModeAuto', Characteristic.TargetFanState.AUTO],
+      ['valueModeManual', dependency.Characteristic.TargetFanState.MANUAL],
+      ['valueModeAuto', dependency.Characteristic.TargetFanState.AUTO],
     ]);
 
     const validCurrentStates = Array.from(this.CURRENT_STATE_MAP.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
-    if (config.topicGetCurrentFanState !== undefined && validCurrentStates.length === 0) {
+    if (dependency.config.topicGetCurrentFanState !== undefined && validCurrentStates.length === 0) {
       this.log.error(strings.fanv2.noCurrentStateValues, this.name);
       return;
     }
@@ -41,7 +37,7 @@ export class FanV2Accessory extends ActiveClimateAccessory<FanV2Config> {
       ?.setProps({ validValues: validCurrentStates.map((key) => this.CURRENT_STATE_MAP.get(key)!) });
 
     const validTargetStates = Array.from(this.TARGET_STATE_MAP.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
-    if (config.topicGetTargetFanState !== undefined && validTargetStates.length === 0) {
+    if (dependency.config.topicGetTargetFanState !== undefined && validTargetStates.length === 0) {
       this.log.error(strings.fanv2.noTargetStateValues, this.name);
       return;
     }
@@ -51,7 +47,7 @@ export class FanV2Accessory extends ActiveClimateAccessory<FanV2Config> {
       'topicSetTargetFanState', this.onSetTargetState.bind(this))
       ?.setProps({ validValues: validTargetStates.map((key) => this.TARGET_STATE_MAP.get(key)!) });
 
-    this.setup(CharacteristicKey.RotationDirection, Characteristic.RotationDirection.CLOCKWISE,
+    this.setup(CharacteristicKey.RotationDirection, dependency.Characteristic.RotationDirection.CLOCKWISE,
       'topicGetRotationDirection',
       this.bindOnUpdateNumericBoolean(CharacteristicKey.RotationDirection, 'valueDirectionCounterClockwise',
         strings.fanv2.clockwise, strings.fanv2.counterClockwise),
@@ -102,8 +98,6 @@ export class FanV2Accessory extends ActiveClimateAccessory<FanV2Config> {
     const logString = clockwise ? strings.fanv2.setDirectionClockwise : strings.fanv2.setDirectionCounterClockwise;
     const publish = clockwise ? this.config.valueDirectionClockwise! : this.config.valueDirectionCounterClockwise!;
     this.onSet(CharacteristicKey.RotationDirection, value, publish, 'topicSetRotationDirection', logString);
-
-
   }
 
   private fromCVState(value: CharacteristicValue): PrimitiveTypes | undefined {

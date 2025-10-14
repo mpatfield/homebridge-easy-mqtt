@@ -1,23 +1,22 @@
-import { PlatformAccessory, PrimitiveTypes } from 'homebridge';
+import { PrimitiveTypes } from 'homebridge';
 
 import { BaseAccessory } from '../abstract/base.js';
-
 import { strings } from '../../i18n/i18n.js';
 
 import { CharacteristicKey } from '../../model/enums.js';
-import { CharacteristicType, SensorConfig, ServiceType } from '../../model/types.js';
+import { MQTTAccessoryDependency, SensorConfig } from '../../model/types.js';
 
-import { Log, LogType } from '../../tools/log.js';
+import { LogType } from '../../tools/log.js';
 
 export abstract class SensorAccessory<C extends SensorConfig = SensorConfig> extends BaseAccessory<C> {
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: C, log: Log, isGrouped: boolean) {
-    super(Service, Characteristic, accessory, config, log, isGrouped);
+  constructor(dependency: MQTTAccessoryDependency<C>) {
+    super(dependency);
 
-    this.setup(CharacteristicKey.StatusTampered, Characteristic.StatusTampered.NOT_TAMPERED,
+    this.setup(CharacteristicKey.StatusTampered, dependency.Characteristic.StatusTampered.NOT_TAMPERED,
       'topicGetStatusTampered', this.onTamperedUpdate.bind(this), false);
 
-    this.setup(CharacteristicKey.StatusFault, Characteristic.StatusFault.NO_FAULT,
+    this.setup(CharacteristicKey.StatusFault, dependency.Characteristic.StatusFault.NO_FAULT,
       'topicGetStatusFault', this.onFaultUpdate.bind(this), false);
   }
 

@@ -9,7 +9,7 @@ function propertyStorageKey(id: string): string {
 
 const PRELOAD_KEYS_UUID = 'a6ac8cc1-5112-41c9-98b8-198601281ebb';
 const PRELOAD_KEYS = new Set<string>;
-const PRELOADED = new Map<string,Map<CharacteristicKey, CharacteristicValue>>;
+const PRELOADED = new Map<string,Map<CharacteristicKey, CharacteristicValue>>();
 
 function cacheKey(key: string) {
 

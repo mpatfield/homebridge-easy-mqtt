@@ -1,29 +1,27 @@
-import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
+import { CharacteristicValue, PrimitiveTypes } from 'homebridge';
 
 import { LockMechanismAccessory } from './lock.js';
 
 import { strings } from '../i18n/i18n.js';
 
 import { AccessoryType, CharacteristicKey } from '../model/enums.js';
-import { CharacteristicType, GarageDoorConfig, ServiceType } from '../model/types.js';
+import { GarageDoorConfig, MQTTAccessoryDependency } from '../model/types.js';
 
-import { Log, LogType } from '../tools/log.js';
+import { LogType } from '../tools/log.js';
 
 export class GarageDoorAccessory extends LockMechanismAccessory<GarageDoorConfig> {
 
   private readonly STATE_MAP: Map<keyof GarageDoorConfig, number>;
 
-  constructor(
-    Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory,
-    config: GarageDoorConfig, log: Log, isGrouped: boolean) {
-    super(Service, Characteristic, accessory, config, log, isGrouped, false);
+  constructor(dependency: MQTTAccessoryDependency<GarageDoorConfig>) {
+    super(dependency, false);
 
     this.STATE_MAP = new Map([
-      ['valueDoorStateOpen', Characteristic.CurrentDoorState.OPEN],
-      ['valueDoorStateClosed', Characteristic.CurrentDoorState.CLOSED],
-      ['valueDoorStateOpening', Characteristic.CurrentDoorState.OPENING],
-      ['valueDoorStateClosing', Characteristic.CurrentDoorState.CLOSING],
-      ['valueDoorStateStopped', Characteristic.CurrentDoorState.STOPPED],
+      ['valueDoorStateOpen', dependency.Characteristic.CurrentDoorState.OPEN],
+      ['valueDoorStateClosed', dependency.Characteristic.CurrentDoorState.CLOSED],
+      ['valueDoorStateOpening', dependency.Characteristic.CurrentDoorState.OPENING],
+      ['valueDoorStateClosing', dependency.Characteristic.CurrentDoorState.CLOSING],
+      ['valueDoorStateStopped', dependency.Characteristic.CurrentDoorState.STOPPED],
     ]);
 
     const validCurrentStates = Array.from(this.STATE_MAP.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
@@ -32,7 +30,7 @@ export class GarageDoorAccessory extends LockMechanismAccessory<GarageDoorConfig
       return;
     }
 
-    this.setup(CharacteristicKey.CurrentDoorState, Characteristic.CurrentDoorState.CLOSED,
+    this.setup(CharacteristicKey.CurrentDoorState, dependency.Characteristic.CurrentDoorState.CLOSED,
       'topicGetCurrentDoorState', this.onCurrentDoorStateUpdate.bind(this), true,
     )?.setProps({ validValues: validCurrentStates.map((key) => this.STATE_MAP.get(key)!) });
 
@@ -42,7 +40,7 @@ export class GarageDoorAccessory extends LockMechanismAccessory<GarageDoorConfig
       return;
     }
 
-    this.setup(CharacteristicKey.TargetDoorState, Characteristic.TargetDoorState.CLOSED,
+    this.setup(CharacteristicKey.TargetDoorState, dependency.Characteristic.TargetDoorState.CLOSED,
       'topicGetTargetDoorState', this.onTargetDoorStateUpdate.bind(this), true,
       'topicSetTargetDoorState', this.onSetTargetDoorState.bind(this),
     )?.setProps({ validValues: validTargetStates.map((key) => this.STATE_MAP.get(key)!) });

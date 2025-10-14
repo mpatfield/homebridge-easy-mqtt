@@ -1,18 +1,15 @@
-import { CharacteristicValue, PlatformAccessory, PrimitiveTypes } from 'homebridge';
+import { CharacteristicValue, PrimitiveTypes } from 'homebridge';
 
 import { BaseAccessory } from '../abstract/base.js';
-
 import { strings } from '../../i18n/i18n.js';
 
 import { CharacteristicKey } from '../../model/enums.js';
-import { CharacteristicType, OnOffConfig, ServiceType } from '../../model/types.js';
-
-import { Log } from '../../tools/log.js';
+import { MQTTAccessoryDependency, OnOffConfig } from '../../model/types.js';
 
 export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extends BaseAccessory<C> {
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: C, log: Log, isGrouped: boolean) {
-    super(Service, Characteristic, accessory, config, log, isGrouped);
+  constructor(dependency: MQTTAccessoryDependency<C>) {
+    super(dependency);
 
     this.setup(CharacteristicKey.On, false,
       'topicGetOn', this.onOnUpdate.bind(this), true,

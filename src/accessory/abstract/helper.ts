@@ -1,11 +1,9 @@
-import { PlatformAccessory } from 'homebridge';
-
 import { BaseAccessory } from './base.js';
 
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType } from '../../model/enums.js';
-import * as Configs from '../../model/types.js';
+import * as Types from '../../model/types.js';
 
 import { GarageDoorAccessory } from '../garage.js';
 import { LockMechanismAccessory } from '../lock.js';
@@ -39,71 +37,69 @@ import { ValveAccessory } from '../valve.js';
 
 import { PLUGIN_NAME } from '../../homebridge/settings.js';
 
-import { Log } from '../../tools/log.js';
-
-export function createIdentifier(info: Configs.InfoConfig): string {
+export function createIdentifier(info: Types.InfoConfig): string {
   return info.id ?? `${PLUGIN_NAME}:${info.type}:${info.name}`;
 }
 
 export function createAccessory(
-  Service: Configs.ServiceType,
-  Characteristic: Configs.CharacteristicType,
-  platformAccessory: PlatformAccessory,
-  accessoryConfig: Configs.BaseAccessoryConfig,
-  log: Log,
+  dependency: Types.AccessoryDependency,
+  config: Types.BaseAccessoryConfig,
   isGrouped: boolean = false,
 ): BaseAccessory | undefined {
 
-  switch(accessoryConfig.info.type) {
+  const mqttDependency: Types.MQTTAccessoryDependency<Types.BaseAccessoryConfig> =
+  { ...dependency, config, isGrouped };
+
+  switch(config.info.type) {
   case AccessoryType.AirPurifier:
-    return new PurifierAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.PurifierConfig, log, isGrouped);
+    return new PurifierAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.PurifierConfig>);
   case AccessoryType.AirQualitySensor:
-    return new AirSensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.AirSensorConfig, log, isGrouped);
+    return new AirSensorAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.AirSensorConfig>);
   case AccessoryType.WindowCovering:
-    return new BlindAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.BlindConfig, log, isGrouped);
+    return new BlindAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.BlindConfig>);
   case AccessoryType.CarbonDioxideSensor:
-    return new CO2SensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.CO2SensorConfig, log, isGrouped);
+    return new CO2SensorAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.CO2SensorConfig>);
   case AccessoryType.CarbonMonoxideSensor:
-    return new COSensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.COSensorConfig, log, isGrouped);
+    return new COSensorAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.COSensorConfig>);
   case AccessoryType.ContactSensor:
-    return new ContactSensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.ContactSensorConfig, log, isGrouped);
+    return new ContactSensorAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.ContactSensorConfig>);
   case AccessoryType.Fanv2:
-    return new FanV2Accessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.FanV2Config, log, isGrouped);
+    return new FanV2Accessory(mqttDependency as Types.MQTTAccessoryDependency<Types.FanV2Config>);
   case AccessoryType.GarageDoorOpener:
-    return new GarageDoorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.GarageDoorConfig, log, isGrouped);
+    return new GarageDoorAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.GarageDoorConfig>);
   case AccessoryType.HeaterCooler:
-    return new HeaterCoolerAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.HeaterCoolerConfig, log, isGrouped);
+    return new HeaterCoolerAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.HeaterCoolerConfig>);
   case AccessoryType.HumiditySensor:
-    return new HumiditySensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.HumiditySensorConfig, log, isGrouped);
+    return new HumiditySensorAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.HumiditySensorConfig>);
   case AccessoryType.LeakSensor:
-    return new LeakSensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.LeakSensorConfig, log, isGrouped);
+    return new LeakSensorAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.LeakSensorConfig>);
   case AccessoryType.Lightbulb:
-    return new LightbulbAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.LightbulbConfig, log, isGrouped);
+    return new LightbulbAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.LightbulbConfig>);
   case AccessoryType.LightSensor:
-    return new LightSensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.LightSensorConfig, log, isGrouped);
+    return new LightSensorAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.LightSensorConfig>);
   case AccessoryType.LockMechanism:
-    return new LockMechanismAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.LockConfig, log, isGrouped);
+    return new LockMechanismAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.LockConfig>);
   case AccessoryType.MotionSensor:
-    return new MotionSensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.MotionSensorConfig, log, isGrouped);
+    return new MotionSensorAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.MotionSensorConfig>);
   case AccessoryType.OccupancySensor:
-    return new OccupancySensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.OccupancySensorConfig, log, isGrouped);
+    return new OccupancySensorAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.OccupancySensorConfig>);
   case AccessoryType.Outlet:
-    return new OutletAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.OutletConfig, log, isGrouped);
+    return new OutletAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.OutletConfig>);
   case AccessoryType.SecuritySystem:
-    return new SecuritySystemAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.SecurityConfig, log, isGrouped);
+    return new SecuritySystemAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.SecurityConfig>);
   case AccessoryType.SmokeSensor:
-    return new SmokeSensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.SmokeSensorConfig, log, isGrouped);
+    return new SmokeSensorAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.SmokeSensorConfig>);
   case AccessoryType.StatelessProgrammableSwitch:
-    return new ButtonAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.ButtonConfig, log, isGrouped);
+    return new ButtonAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.ButtonConfig>);
   case AccessoryType.Switch:
-    return new SwitchAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.SwitchConfig, log, isGrouped);
+    return new SwitchAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.SwitchConfig>);
   case AccessoryType.TemperatureSensor:
-    return new TemperatureSensorAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.TemperatureSensorConfig, log, isGrouped);
+    return new TemperatureSensorAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.TemperatureSensorConfig>);
   case AccessoryType.Thermostat:
-    return new ThermostatAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.ThermostatConfig, log, isGrouped);
+    return new ThermostatAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.ThermostatConfig>);
   case AccessoryType.Valve:
-    return new ValveAccessory(Service, Characteristic, platformAccessory, accessoryConfig as Configs.ValveConfig, log, isGrouped);
+    return new ValveAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.ValveConfig>);
   }
 
-  log.error(strings.startup.unsupportedType, accessoryConfig.info.type);
+  dependency.log.error(strings.startup.unsupportedType, config.info.type);
 }

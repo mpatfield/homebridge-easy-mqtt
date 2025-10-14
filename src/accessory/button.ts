@@ -1,29 +1,27 @@
-import { PlatformAccessory, PrimitiveTypes } from 'homebridge';
+import { PrimitiveTypes } from 'homebridge';
 
 import { BaseAccessory } from './abstract/base.js';
 
 import { strings } from '../i18n/i18n.js';
 
 import { AccessoryType } from '../model/enums.js';
-import { ButtonConfig, CharacteristicType, ServiceType } from '../model/types.js';
-
-import { Log } from '../tools/log.js';
+import { ButtonConfig, MQTTAccessoryDependency } from '../model/types.js';
 
 export class ButtonAccessory extends BaseAccessory<ButtonConfig> {
 
-  constructor(Service: ServiceType, Characteristic: CharacteristicType, accessory: PlatformAccessory, config: ButtonConfig, log: Log, isGrouped: boolean) {
-    super(Service, Characteristic, accessory, config, log, isGrouped);
+  constructor(dependency: MQTTAccessoryDependency<ButtonConfig>) {
+    super(dependency);
 
     if (!this.assert('topicEventButtonPress')) {
       return;
     }
 
-    if (!config.valueSinglePress && !config.valueDoublePress && !config.valueLongPress) {
+    if (!dependency.config.valueSinglePress && !dependency.config.valueDoublePress && !dependency.config.valueLongPress) {
       this.log.error(strings.button.noValues, this.name);
       return;
     }
 
-    this.topicHandlers.push({ topic: config.topicEventButtonPress, handler: this.onPress.bind(this) });
+    this.topicHandlers.push({ topic: dependency.config.topicEventButtonPress, handler: this.onPress.bind(this) });
   }
 
   protected getAccessoryType(): AccessoryType {
