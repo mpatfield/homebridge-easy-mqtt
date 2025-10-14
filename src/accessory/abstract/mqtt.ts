@@ -1,7 +1,9 @@
 import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 'homebridge';
 
 import { Common } from './common.js';
-import { CustomCharacteristic } from './customCharacteristic.js';
+import { createIdentifier } from './helper.js';
+
+import { CustomCharacteristic } from '../characteristic/custom.js';
 
 import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
 import { MQTT } from '../../model/mqtt.js';
