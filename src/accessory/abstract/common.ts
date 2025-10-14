@@ -1,10 +1,10 @@
 import { Characteristic, CharacteristicSetHandler, CharacteristicValue, Nullable, PrimitiveTypes, Service } from 'homebridge';
 
-import { EveCharacteristic } from '../characteristic/eve.js';
+import { EveCharacteristic, isEveCharacteristicKey } from '../characteristic/eve.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { CharacteristicKey, HKCharacteristicKey, EveCharacteristicKey } from '../../model/enums.js';
+import { CharacteristicKey } from '../../model/enums.js';
 import { CharacteristicType, TemperatureConfig } from '../../model/types.js';
 
 import { Log, LogType } from '../../tools/log.js';
@@ -120,6 +120,10 @@ export abstract class Common<C extends Assertable> {
 
     const startingValue = (this.useStoredProperties && this.properties.get(characteristicKey)) ?? defaultValue;
 
+    if (isEveCharacteristicKey(characteristicKey)) {
+      this.service.addOptionalCharacteristic(EveCharacteristic(characteristicKey));
+    }
+
     const characteristic = this.service.getCharacteristic(this.characteristicFromKey(characteristicKey));
     characteristic.setValue(startingValue);
 
@@ -148,6 +152,10 @@ export abstract class Common<C extends Assertable> {
 
     if (!onSetHandler) {
       throw new Error(`Missing onSetHandler for topic '${setTopicKey.toString()}'`);
+    }
+
+    if (isEveCharacteristicKey(characteristicKey)) {
+      this.service.addOptionalCharacteristic(EveCharacteristic(characteristicKey));
     }
 
     const characteristic = this.service.getCharacteristic(this.characteristicFromKey(characteristicKey));
@@ -237,20 +245,14 @@ export abstract class Common<C extends Assertable> {
     this.publish(this.config[topic] as string, publish);
   }
 
-  private static EveCharacteristicKeys?: Set<EveCharacteristicKey>;
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private characteristicFromKey(key: CharacteristicKey): any {
+  protected characteristicFromKey(key: CharacteristicKey): any {
 
-    if (Common.EveCharacteristicKeys === undefined) {
-      Common.EveCharacteristicKeys = new Set(Object.values(EveCharacteristicKey));
+    if (isEveCharacteristicKey(key)) {
+      return EveCharacteristic(key);
     }
 
-    if (Common.EveCharacteristicKeys.has(key as EveCharacteristicKey)) {
-      return EveCharacteristic(key as EveCharacteristicKey);
-    }
-
-    return this.Characteristic[key as HKCharacteristicKey];
+    return this.Characteristic[key];
   }
 
   protected logIfDesired(message: string, ...parameters: string[]): void;
