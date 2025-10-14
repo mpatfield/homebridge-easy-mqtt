@@ -4,7 +4,7 @@ import { BaseAccessory } from './abstract/base.js';
 
 import { strings } from '../i18n/i18n.js';
 
-import { AccessoryType, CharacteristicKey } from '../model/enums.js';
+import { AccessoryType, HKCharacteristicKey } from '../model/enums.js';
 import { MQTTAccessoryDependency, SecurityConfig } from '../model/types.js';
 
 import { LogType } from '../tools/log.js';
@@ -30,24 +30,24 @@ export class SecuritySystemAccessory extends BaseAccessory<SecurityConfig> {
       return;
     }
 
-    this.setup(CharacteristicKey.SecuritySystemCurrentState, dependency.Characteristic.SecuritySystemCurrentState.DISARMED,
+    this.setup(HKCharacteristicKey.SecuritySystemCurrentState, dependency.Characteristic.SecuritySystemCurrentState.DISARMED,
       'topicGetCurrentSecurityState', this.onCurrentStateUpdate.bind(this), true,
     )?.setProps({ validValues: validCurrentStates.map((key) => this.STATE_MAP.get(key)!) });
 
     const validTargetStates = validCurrentStates.filter((key) => key !== 'valueAlarmTriggered');
 
-    this.setup(CharacteristicKey.SecuritySystemTargetState, dependency.Characteristic.SecuritySystemTargetState.DISARM,
+    this.setup(HKCharacteristicKey.SecuritySystemTargetState, dependency.Characteristic.SecuritySystemTargetState.DISARM,
       'topicGetTargetSecurityState', this.onTargetStateUpdate.bind(this), true,
       'topicSetTargetSecurityState', this.onSetTargetState.bind(this),
     )?.setProps({ validValues: validTargetStates.map((key) => this.STATE_MAP.get(key)!) });
 
-    this.setup(CharacteristicKey.StatusTampered, dependency.Characteristic.StatusTampered.NOT_TAMPERED, 'topicGetStatusTampered',
-      this.bindOnUpdateNumericBoolean(CharacteristicKey.StatusTampered, 'valueTampered', strings.error.isTampered, strings.error.notTampered),
+    this.setup(HKCharacteristicKey.StatusTampered, dependency.Characteristic.StatusTampered.NOT_TAMPERED, 'topicGetStatusTampered',
+      this.bindOnUpdateNumericBoolean(HKCharacteristicKey.StatusTampered, 'valueTampered', strings.error.isTampered, strings.error.notTampered),
       false,
     );
 
-    this.setup(CharacteristicKey.StatusFault, dependency.Characteristic.StatusFault.NO_FAULT, 'topicGetStatusFault',
-      this.bindOnUpdateNumericBoolean(CharacteristicKey.StatusFault, 'valueFault', strings.error.hasFault, strings.error.noFault),
+    this.setup(HKCharacteristicKey.StatusFault, dependency.Characteristic.StatusFault.NO_FAULT, 'topicGetStatusFault',
+      this.bindOnUpdateNumericBoolean(HKCharacteristicKey.StatusFault, 'valueFault', strings.error.hasFault, strings.error.noFault),
       false,
     );
   }
@@ -64,10 +64,10 @@ export class SecuritySystemAccessory extends BaseAccessory<SecurityConfig> {
     }
 
     if (current as number <= this.Characteristic.SecuritySystemTargetState.DISARM) {
-      this.onUpdate(CharacteristicKey.SecuritySystemTargetState, current);
+      this.onUpdate(HKCharacteristicKey.SecuritySystemTargetState, current);
     }
 
-    if (!this.onUpdate(CharacteristicKey.SecuritySystemCurrentState, current)) {
+    if (!this.onUpdate(HKCharacteristicKey.SecuritySystemCurrentState, current)) {
       return;
     }
 
@@ -85,7 +85,7 @@ export class SecuritySystemAccessory extends BaseAccessory<SecurityConfig> {
       return;
     }
 
-    this.onUpdate(CharacteristicKey.SecuritySystemTargetState, target, this.stateStringForCV(target, true));
+    this.onUpdate(HKCharacteristicKey.SecuritySystemTargetState, target, this.stateStringForCV(target, true));
   }
 
   private async onSetTargetState(value: CharacteristicValue) {
@@ -95,7 +95,7 @@ export class SecuritySystemAccessory extends BaseAccessory<SecurityConfig> {
       return;
     }
 
-    this.onSet(CharacteristicKey.SecuritySystemTargetState, value, target, 'topicSetTargetSecurityState', this.stateStringForCV(value, true));
+    this.onSet(HKCharacteristicKey.SecuritySystemTargetState, value, target, 'topicSetTargetSecurityState', this.stateStringForCV(value, true));
   }
 
   private fromCVState(value: CharacteristicValue): PrimitiveTypes | undefined {

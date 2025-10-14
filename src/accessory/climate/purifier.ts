@@ -6,7 +6,7 @@ import { FilterMaintenance } from '../addons/filter.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
+import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
 import { MQTTAccessoryDependency, PurifierConfig } from '../../model/types.js';
 
 export class PurifierAccessory extends ActiveClimateAccessory<PurifierConfig> {
@@ -34,7 +34,7 @@ export class PurifierAccessory extends ActiveClimateAccessory<PurifierConfig> {
       return;
     }
 
-    this.setup(CharacteristicKey.CurrentAirPurifierState, this.CURRENT_STATE_MAP.get(validCurrentStates[0])!,
+    this.setup(HKCharacteristicKey.CurrentAirPurifierState, this.CURRENT_STATE_MAP.get(validCurrentStates[0])!,
       'topicGetCurrentPurifierState', this.onCurrentStateUpdate.bind(this), true)
       ?.setProps({ validValues: validCurrentStates.map((key) => this.CURRENT_STATE_MAP.get(key)!) });
 
@@ -44,7 +44,7 @@ export class PurifierAccessory extends ActiveClimateAccessory<PurifierConfig> {
       return;
     }
 
-    this.setup(CharacteristicKey.TargetAirPurifierState, this.TARGET_STATE_MAP.get(validTargetStates[0])!,
+    this.setup(HKCharacteristicKey.TargetAirPurifierState, this.TARGET_STATE_MAP.get(validTargetStates[0])!,
       'topicGetTargetPurifierState', this.onTargetStateUpdate.bind(this), true,
       'topicSetTargetPurifierState', this.onSetTargetState.bind(this))
       ?.setProps({ validValues: validTargetStates.map((key) => this.TARGET_STATE_MAP.get(key)!) });
@@ -62,7 +62,7 @@ export class PurifierAccessory extends ActiveClimateAccessory<PurifierConfig> {
       return;
     }
 
-    this.onUpdate(CharacteristicKey.CurrentAirPurifierState, state, this.stateStringForCurrentCV(state));
+    this.onUpdate(HKCharacteristicKey.CurrentAirPurifierState, state, this.stateStringForCurrentCV(state));
   }
 
   private async onTargetStateUpdate(_topic: string, value: PrimitiveTypes) {
@@ -71,7 +71,7 @@ export class PurifierAccessory extends ActiveClimateAccessory<PurifierConfig> {
       return;
     }
 
-    this.onUpdate(CharacteristicKey.TargetAirPurifierState, state, this.stateStringForTargetCV(state));
+    this.onUpdate(HKCharacteristicKey.TargetAirPurifierState, state, this.stateStringForTargetCV(state));
   }
 
   private async onSetTargetState(value: CharacteristicValue) {
@@ -81,7 +81,7 @@ export class PurifierAccessory extends ActiveClimateAccessory<PurifierConfig> {
       return;
     }
 
-    this.onSet(CharacteristicKey.TargetAirPurifierState, value, target, 'topicSetTargetPurifierState', this.stateStringForTargetCV(value));
+    this.onSet(HKCharacteristicKey.TargetAirPurifierState, value, target, 'topicSetTargetPurifierState', this.stateStringForTargetCV(value));
   }
 
   private fromCVState(value: CharacteristicValue): PrimitiveTypes | undefined {

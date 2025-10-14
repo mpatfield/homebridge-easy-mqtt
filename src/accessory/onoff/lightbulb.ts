@@ -4,7 +4,7 @@ import { OnOffAccessory } from './onoff.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
+import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
 import { LightbulbConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
@@ -19,24 +19,24 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
     const getLogString = dependency.config.maximumBrightness < 100 ? strings.lightbulb.brightnessValue : strings.lightbulb.brightnessPercent;
     const setLogString = dependency.config.maximumBrightness < 100 ? strings.lightbulb.brightnessValueFuture : strings.lightbulb.brightnessPercentFuture;
 
-    this.setup(CharacteristicKey.Brightness, 100,
-      'topicGetBrightness', this.bindOnUpdateNumeric(CharacteristicKey.Brightness, getLogString), false,
-      'topicSetBrightness', this.onSetValue(CharacteristicKey.Brightness, 'topicSetBrightness', setLogString),
+    this.setup(HKCharacteristicKey.Brightness, 100,
+      'topicGetBrightness', this.bindOnUpdateNumeric(HKCharacteristicKey.Brightness, getLogString), false,
+      'topicSetBrightness', this.onSetValue(HKCharacteristicKey.Brightness, 'topicSetBrightness', setLogString),
     )?.setProps({ maxValue: dependency.config.maximumBrightness });
 
-    this.setup(CharacteristicKey.ColorTemperature, 500,
-      'topicGetColorTemperature', this.bindOnUpdateNumeric(CharacteristicKey.ColorTemperature, strings.lightbulb.colorTemperature), false,
-      'topicSetColorTemperature', this.onSetValue(CharacteristicKey.ColorTemperature, 'topicSetColorTemperature', strings.lightbulb.colorTemperatureFuture),
+    this.setup(HKCharacteristicKey.ColorTemperature, 500,
+      'topicGetColorTemperature', this.bindOnUpdateNumeric(HKCharacteristicKey.ColorTemperature, strings.lightbulb.colorTemperature), false,
+      'topicSetColorTemperature', this.onSetValue(HKCharacteristicKey.ColorTemperature, 'topicSetColorTemperature', strings.lightbulb.colorTemperatureFuture),
     );
 
-    this.setup(CharacteristicKey.Hue, 0,
-      'topicGetHue', this.bindOnUpdateNumeric(CharacteristicKey.Hue, strings.lightbulb.hue), false,
-      'topicSetHue', this.onSetValue(CharacteristicKey.Hue, 'topicSetHue', strings.lightbulb.hueFuture),
+    this.setup(HKCharacteristicKey.Hue, 0,
+      'topicGetHue', this.bindOnUpdateNumeric(HKCharacteristicKey.Hue, strings.lightbulb.hue), false,
+      'topicSetHue', this.onSetValue(HKCharacteristicKey.Hue, 'topicSetHue', strings.lightbulb.hueFuture),
     );
 
-    this.setup(CharacteristicKey.Saturation, 100,
-      'topicGetSaturation', this.bindOnUpdateNumeric(CharacteristicKey.Saturation, strings.lightbulb.saturation), false,
-      'topicSetSaturation', this.onSetValue(CharacteristicKey.Saturation, 'topicSetSaturation', strings.lightbulb.saturationFuture),
+    this.setup(HKCharacteristicKey.Saturation, 100,
+      'topicGetSaturation', this.bindOnUpdateNumeric(HKCharacteristicKey.Saturation, strings.lightbulb.saturation), false,
+      'topicSetSaturation', this.onSetValue(HKCharacteristicKey.Saturation, 'topicSetSaturation', strings.lightbulb.saturationFuture),
     );
   }
 
@@ -44,7 +44,7 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
     return AccessoryType.Lightbulb;
   }
 
-  private onSetValue(key: CharacteristicKey, topic: keyof LightbulbConfig, logTemplate: string) {
+  private onSetValue(key: HKCharacteristicKey, topic: keyof LightbulbConfig, logTemplate: string) {
     return (async (value: CharacteristicValue) => {
       const logString = logTemplate.replace('%d', value.toString());
       this.onSet(key, value, value as number, topic, logString);

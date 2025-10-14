@@ -29,7 +29,9 @@ export enum AddonType {
   FilterMaintenance = 'FilterMaintenance',
 }
 
-export enum CharacteristicKey {
+export type CharacteristicKey = HKCharacteristicKey;
+
+export enum HKCharacteristicKey {
   Active = 'Active',
   AirQuality = 'AirQuality',
   BatteryLevel = 'BatteryLevel',

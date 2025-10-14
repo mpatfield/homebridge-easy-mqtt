@@ -6,7 +6,7 @@ import { PLATFORM_NAME } from '../../homebridge/settings.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { CharacteristicKey } from '../../model/enums.js';
+import { HKCharacteristicKey } from '../../model/enums.js';
 import { BaseAccessoryConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 import { LogType } from '../../tools/log.js';
@@ -27,20 +27,20 @@ export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessor
       .setCharacteristic(dependency.Characteristic.FirmwareRevision, dependency.config.info.version ?? getVersion());
     }
 
-    this.setup(CharacteristicKey.BatteryLevel, 100,
-      'topicGetBatteryLevel', this.bindOnUpdateNumeric(CharacteristicKey.BatteryLevel, strings.accessory.batteryLevel), false);
+    this.setup(HKCharacteristicKey.BatteryLevel, 100,
+      'topicGetBatteryLevel', this.bindOnUpdateNumeric(HKCharacteristicKey.BatteryLevel, strings.accessory.batteryLevel), false);
 
-    this.setup(CharacteristicKey.StatusLowBattery, dependency.Characteristic.StatusLowBattery.BATTERY_LEVEL_NORMAL,
+    this.setup(HKCharacteristicKey.StatusLowBattery, dependency.Characteristic.StatusLowBattery.BATTERY_LEVEL_NORMAL,
       'topicGetBatteryLow', this.onBatteryLowUpdate.bind(this), false);
 
-    this.setup(CharacteristicKey.StatusActive, true,
+    this.setup(HKCharacteristicKey.StatusActive, true,
       'topicGetStatusActive', this.onStatusActiveUpdate.bind(this), false);
   }
 
   private async onBatteryLowUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
     const batteryLow = value === this.getPrimitiveValue('valueBatteryLow') ? 1 : 0;
-    if (!this.onUpdate(CharacteristicKey.StatusLowBattery, batteryLow)) {
+    if (!this.onUpdate(HKCharacteristicKey.StatusLowBattery, batteryLow)) {
       return;
     }
 
@@ -54,7 +54,7 @@ export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessor
   private async onStatusActiveUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
     const statusActive = value === this.getPrimitiveValue('valueStatusActive');
-    if (!this.onUpdate(CharacteristicKey.StatusActive, statusActive)) {
+    if (!this.onUpdate(HKCharacteristicKey.StatusActive, statusActive)) {
       return;
     }
 

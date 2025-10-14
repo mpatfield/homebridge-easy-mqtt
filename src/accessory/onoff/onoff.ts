@@ -3,7 +3,7 @@ import { CharacteristicValue, PrimitiveTypes } from 'homebridge';
 import { BaseAccessory } from '../abstract/base.js';
 import { strings } from '../../i18n/i18n.js';
 
-import { CharacteristicKey } from '../../model/enums.js';
+import { HKCharacteristicKey } from '../../model/enums.js';
 import { MQTTAccessoryDependency, OnOffConfig } from '../../model/types.js';
 
 export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extends BaseAccessory<C> {
@@ -11,7 +11,7 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
   constructor(dependency: MQTTAccessoryDependency<C>) {
     super(dependency);
 
-    this.setup(CharacteristicKey.On, false,
+    this.setup(HKCharacteristicKey.On, false,
       'topicGetOn', this.onOnUpdate.bind(this), true,
       'topicSetOn', this.onSetOn.bind(this),
     );
@@ -20,14 +20,14 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
   private async onOnUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
     const on = this.booleanForValue(value, 'valueOn', 'valueOff');
     if (on !== undefined) {
-      this.onUpdate(CharacteristicKey.On, on, this.stringForState(on));
+      this.onUpdate(HKCharacteristicKey.On, on, this.stringForState(on));
     }
   }
 
   private async onSetOn(value: CharacteristicValue) {
     const on = value ? this.getPrimitiveValue('valueOn') : this.getPrimitiveValue('valueOff');
     if (on !== undefined) {
-      this.onSet(CharacteristicKey.On, value, on, 'topicSetOn', this.stringForState(value, true));
+      this.onSet(HKCharacteristicKey.On, value, on, 'topicSetOn', this.stringForState(value, true));
     }
   }
 

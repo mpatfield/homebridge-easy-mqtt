@@ -6,7 +6,7 @@ import { TopicHandler } from '../abstract/common.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AddonType, CharacteristicKey } from '../../model/enums.js';
+import { AddonType, HKCharacteristicKey } from '../../model/enums.js';
 import { FilterMaintenanceConfig, MQTTAccessoryConfig, ServiceType } from '../../model/types.js';
 
 import { LogType } from '../../tools/log.js';
@@ -32,19 +32,19 @@ export class FilterMaintenance extends Addon<FilterMaintenanceConfig> {
   ) {
     super(parentAccessory, service, config);
 
-    this.setup(CharacteristicKey.FilterChangeIndication, this.Characteristic.FilterChangeIndication.FILTER_OK,
+    this.setup(HKCharacteristicKey.FilterChangeIndication, this.Characteristic.FilterChangeIndication.FILTER_OK,
       'topicGetFilterChangeIndication', this.onChangeIndicationUpdate.bind(this), false);
 
-    this.setup(CharacteristicKey.FilterLifeLevel, 100,
-      'topicGetFilterLifeLevel', this.bindOnUpdateNumeric(CharacteristicKey.FilterLifeLevel, strings.filter.level), false);
+    this.setup(HKCharacteristicKey.FilterLifeLevel, 100,
+      'topicGetFilterLifeLevel', this.bindOnUpdateNumeric(HKCharacteristicKey.FilterLifeLevel, strings.filter.level), false);
 
-    this.setupSet(CharacteristicKey.ResetFilterIndication, 'topicResetFilterIndication', this.onResetIndication.bind(this));
+    this.setupSet(HKCharacteristicKey.ResetFilterIndication, 'topicResetFilterIndication', this.onResetIndication.bind(this));
   }
 
   private async onChangeIndicationUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
 
     const indication = value === this.getPrimitiveValue('valueFilterChange') ? 1 : 0;
-    if (!this.onUpdate(CharacteristicKey.FilterChangeIndication, indication)) {
+    if (!this.onUpdate(HKCharacteristicKey.FilterChangeIndication, indication)) {
       return;
     }
 
@@ -61,7 +61,7 @@ export class FilterMaintenance extends Addon<FilterMaintenanceConfig> {
       return;
     }
 
-    this.onSet(CharacteristicKey.ResetFilterIndication, value, this.config.valueFilterReset, 'topicResetFilterIndication', strings.filter.reset);
-    this.properties.set(CharacteristicKey.ResetFilterIndication, 0);
+    this.onSet(HKCharacteristicKey.ResetFilterIndication, value, this.config.valueFilterReset, 'topicResetFilterIndication', strings.filter.reset);
+    this.properties.set(HKCharacteristicKey.ResetFilterIndication, 0);
   }
 }

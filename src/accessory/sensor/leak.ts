@@ -2,7 +2,7 @@ import { SensorAccessory } from './sensor.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
+import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
 import { LeakSensorConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 export class LeakSensorAccessory extends SensorAccessory<LeakSensorConfig> {
@@ -10,9 +10,9 @@ export class LeakSensorAccessory extends SensorAccessory<LeakSensorConfig> {
   constructor(dependency: MQTTAccessoryDependency<LeakSensorConfig>) {
     super(dependency);
 
-    this.setup(CharacteristicKey.LeakDetected, dependency.Characteristic.LeakDetected.LEAK_NOT_DETECTED,
+    this.setup(HKCharacteristicKey.LeakDetected, dependency.Characteristic.LeakDetected.LEAK_NOT_DETECTED,
       'topicGetLeakDetected',
-      this.bindOnUpdateNumericBoolean(CharacteristicKey.LeakDetected, 'valueLeakDetected', strings.sensor.leak.active, strings.sensor.leak.inactive), true);
+      this.bindOnUpdateNumericBoolean(HKCharacteristicKey.LeakDetected, 'valueLeakDetected', strings.sensor.leak.active, strings.sensor.leak.inactive), true);
   }
 
   protected getAccessoryType(): AccessoryType {

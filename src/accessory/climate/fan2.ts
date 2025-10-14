@@ -4,7 +4,7 @@ import { ActiveClimateAccessory } from './active.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
+import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
 import { FanV2Config, MQTTAccessoryDependency } from '../../model/types.js';
 
 export class FanV2Accessory extends ActiveClimateAccessory<FanV2Config> {
@@ -32,7 +32,7 @@ export class FanV2Accessory extends ActiveClimateAccessory<FanV2Config> {
       return;
     }
 
-    this.setup(CharacteristicKey.CurrentFanState, this.CURRENT_STATE_MAP.get(validCurrentStates[0])!,
+    this.setup(HKCharacteristicKey.CurrentFanState, this.CURRENT_STATE_MAP.get(validCurrentStates[0])!,
       'topicGetCurrentFanState', this.onCurrentStateUpdate.bind(this), false)
       ?.setProps({ validValues: validCurrentStates.map((key) => this.CURRENT_STATE_MAP.get(key)!) });
 
@@ -42,14 +42,14 @@ export class FanV2Accessory extends ActiveClimateAccessory<FanV2Config> {
       return;
     }
 
-    this.setup(CharacteristicKey.TargetFanState, this.TARGET_STATE_MAP.get(validTargetStates[0])!,
+    this.setup(HKCharacteristicKey.TargetFanState, this.TARGET_STATE_MAP.get(validTargetStates[0])!,
       'topicGetTargetFanState', this.onTargetStateUpdate.bind(this), false,
       'topicSetTargetFanState', this.onSetTargetState.bind(this))
       ?.setProps({ validValues: validTargetStates.map((key) => this.TARGET_STATE_MAP.get(key)!) });
 
-    this.setup(CharacteristicKey.RotationDirection, dependency.Characteristic.RotationDirection.CLOCKWISE,
+    this.setup(HKCharacteristicKey.RotationDirection, dependency.Characteristic.RotationDirection.CLOCKWISE,
       'topicGetRotationDirection',
-      this.bindOnUpdateNumericBoolean(CharacteristicKey.RotationDirection, 'valueDirectionCounterClockwise',
+      this.bindOnUpdateNumericBoolean(HKCharacteristicKey.RotationDirection, 'valueDirectionCounterClockwise',
         strings.fanv2.clockwise, strings.fanv2.counterClockwise),
       false,
       'topicSetRotationDirection', this.onSetDirection.bind(this),
@@ -66,7 +66,7 @@ export class FanV2Accessory extends ActiveClimateAccessory<FanV2Config> {
       return;
     }
 
-    this.onUpdate(CharacteristicKey.CurrentFanState, state, this.stateStringForCurrentCV(state));
+    this.onUpdate(HKCharacteristicKey.CurrentFanState, state, this.stateStringForCurrentCV(state));
   }
 
   private async onTargetStateUpdate(_topic: string, value: PrimitiveTypes) {
@@ -75,7 +75,7 @@ export class FanV2Accessory extends ActiveClimateAccessory<FanV2Config> {
       return;
     }
 
-    this.onUpdate(CharacteristicKey.TargetFanState, state, this.stateStringForTargetCV(state));
+    this.onUpdate(HKCharacteristicKey.TargetFanState, state, this.stateStringForTargetCV(state));
   }
 
   private async onSetTargetState(value: CharacteristicValue) {
@@ -85,7 +85,7 @@ export class FanV2Accessory extends ActiveClimateAccessory<FanV2Config> {
       return;
     }
 
-    this.onSet(CharacteristicKey.TargetFanState, value, target, 'topicSetTargetFanState', this.stateStringForTargetCV(value));
+    this.onSet(HKCharacteristicKey.TargetFanState, value, target, 'topicSetTargetFanState', this.stateStringForTargetCV(value));
   }
 
   private async onSetDirection(value: CharacteristicValue) {
@@ -97,7 +97,7 @@ export class FanV2Accessory extends ActiveClimateAccessory<FanV2Config> {
     const clockwise = value === this.Characteristic.RotationDirection.CLOCKWISE;
     const logString = clockwise ? strings.fanv2.setDirectionClockwise : strings.fanv2.setDirectionCounterClockwise;
     const publish = clockwise ? this.config.valueDirectionClockwise! : this.config.valueDirectionCounterClockwise!;
-    this.onSet(CharacteristicKey.RotationDirection, value, publish, 'topicSetRotationDirection', logString);
+    this.onSet(HKCharacteristicKey.RotationDirection, value, publish, 'topicSetRotationDirection', logString);
   }
 
   private fromCVState(value: CharacteristicValue): PrimitiveTypes | undefined {
