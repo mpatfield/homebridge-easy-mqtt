@@ -10,7 +10,6 @@ import { MQTT } from '../../model/mqtt.js';
 import { CharacteristicType, MQTTAccessoryConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
-import { createIdentifier } from './helper.js';
 
 export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Common<C> {
 
