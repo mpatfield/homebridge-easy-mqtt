@@ -6,14 +6,17 @@ import { BaseAccessory } from '../accessory/abstract/base.js';
 import { GroupAccessory } from '../accessory/abstract/group.js';
 import { createAccessory, createIdentifier } from '../accessory/abstract/helper.js';
 
+import { initEveCharacteristics } from '../accessory/characteristic/eve.js';
+
 import { setLanguage, strings } from '../i18n/i18n.js';
 
-import { BaseAccessoryConfig, PlatformConfig } from '../model/types.js';
+import { AccessoryDependency, BaseAccessoryConfig, PlatformConfig } from '../model/types.js';
 
+import { History } from '../model/history.js';
 import { Log } from '../tools/log.js';
-import getVersion from '../tools/version.js';
-import { assert } from '../tools/validation.js';
 import { Properties } from '../tools/properties.js';
+import { assert } from '../tools/validation.js';
+import getVersion from '../tools/version.js';
 
 export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
@@ -41,6 +44,8 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
       api.serverVersion,
       api.hap.HAPLibraryVersion(),
     );
+
+    initEveCharacteristics(api);
 
     this.api.on('didFinishLaunching', () => {
       this.setup();
@@ -76,6 +81,8 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
     const Service = this.api.hap.Service;
     const Characteristic = this.api.hap.Characteristic;
 
+    const history = new History(this.api, this.log);
+
     for (const accessoryConfig of this.config.accessories) {
 
       if (!assert(this.log, PLATFORM_NAME, accessoryConfig, 'info') ||
@@ -97,7 +104,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
       const uuid = this.api.hap.uuid.generate(id);
 
       const platformAccessory = this.createPlatformAccessory(accessoryConfig.info.name, uuid);
-      const dependency = { Service, Characteristic, platformAccessory, log: this.log };
+      const dependency: AccessoryDependency = { Service, Characteristic, platformAccessory, log: this.log, history: history };
 
       const accessory = createAccessory(dependency, accessoryConfig);
 
@@ -113,7 +120,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
       const uuid = this.api.hap.uuid.generate(groupName);
       const platformAccessory = this.createPlatformAccessory(groupName, uuid);
-      const dependency = { Service, Characteristic, platformAccessory, log: this.log };
+      const dependency: AccessoryDependency = { Service, Characteristic, platformAccessory, log: this.log, history: history };
 
       const configs = groups.get(groupName)!;
 

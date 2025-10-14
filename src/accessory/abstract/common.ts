@@ -1,8 +1,10 @@
 import { Characteristic, CharacteristicSetHandler, CharacteristicValue, Nullable, PrimitiveTypes, Service } from 'homebridge';
 
+import { EveCharacteristic } from '../characteristic/eve.js';
+
 import { strings } from '../../i18n/i18n.js';
 
-import { CharacteristicKey } from '../../model/enums.js';
+import { CharacteristicKey, HKCharacteristicKey, EveCharacteristicKey } from '../../model/enums.js';
 import { CharacteristicType, TemperatureConfig } from '../../model/types.js';
 
 import { Log, LogType } from '../../tools/log.js';
@@ -39,7 +41,7 @@ export abstract class Common<C extends Assertable> {
 
   protected abstract publish(rawTopic: string, value: PrimitiveTypes): void;
 
-  protected get properties(): Properties {
+  public get properties(): Properties {
 
     if (this._properties === undefined) {
       this._properties = new Properties(this.identifier, this.useStoredProperties);
@@ -108,7 +110,7 @@ export abstract class Common<C extends Assertable> {
 
     if (this.config[getTopicKey] === undefined) {
       for (const characteristic of this.service.characteristics) {
-        if (characteristic.UUID === this.Characteristic[characteristicKey].UUID) {
+        if (characteristic.UUID === this.characteristicFromKey(characteristicKey).UUID) {
           this.service.removeCharacteristic(characteristic);
           break;
         }
@@ -118,7 +120,7 @@ export abstract class Common<C extends Assertable> {
 
     const startingValue = (this.useStoredProperties && this.properties.get(characteristicKey)) ?? defaultValue;
 
-    const characteristic = this.service.getCharacteristic(this.Characteristic[characteristicKey]);
+    const characteristic = this.service.getCharacteristic(this.characteristicFromKey(characteristicKey));
     characteristic.setValue(startingValue);
 
     this.properties.set(characteristicKey, startingValue);
@@ -148,7 +150,7 @@ export abstract class Common<C extends Assertable> {
       throw new Error(`Missing onSetHandler for topic '${setTopicKey.toString()}'`);
     }
 
-    const characteristic = this.service.getCharacteristic(this.Characteristic[characteristicKey]);
+    const characteristic = this.service.getCharacteristic(this.characteristicFromKey(characteristicKey));
     characteristic.onSet(onSetHandler);
   }
 
@@ -160,7 +162,7 @@ export abstract class Common<C extends Assertable> {
         return;
       }
 
-      const characteristic = this.service.getCharacteristic(this.Characteristic[key]);
+      const characteristic = this.service.getCharacteristic(this.characteristicFromKey(key));
       const minValue = characteristic.props.minValue;
       const maxValue = characteristic.props.maxValue;
       if (minValue !== undefined && value < minValue) {
@@ -209,7 +211,7 @@ export abstract class Common<C extends Assertable> {
 
     this.properties.set(key, value);
 
-    this.service.updateCharacteristic(this.Characteristic[key], value);
+    this.service.updateCharacteristic(this.characteristicFromKey(key), value);
 
     if (logString) {
       this.logIfDesired(logString);
@@ -230,9 +232,25 @@ export abstract class Common<C extends Assertable> {
 
     this.properties.set(key, value);
 
-    this.service.updateCharacteristic(this.Characteristic[key], value);
+    this.service.updateCharacteristic(this.characteristicFromKey(key), value);
 
     this.publish(this.config[topic] as string, publish);
+  }
+
+  private static EveCharacteristicKeys?: Set<EveCharacteristicKey>;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private characteristicFromKey(key: CharacteristicKey): any {
+
+    if (Common.EveCharacteristicKeys === undefined) {
+      Common.EveCharacteristicKeys = new Set(Object.values(EveCharacteristicKey));
+    }
+
+    if (Common.EveCharacteristicKeys.has(key as EveCharacteristicKey)) {
+      return EveCharacteristic(key as EveCharacteristicKey);
+    }
+
+    return this.Characteristic[key as HKCharacteristicKey];
   }
 
   protected logIfDesired(message: string, ...parameters: string[]): void;

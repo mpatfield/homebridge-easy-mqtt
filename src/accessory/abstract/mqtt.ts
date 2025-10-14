@@ -9,6 +9,7 @@ import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
 import { MQTT } from '../../model/mqtt.js';
 import { CharacteristicType, MQTTAccessoryConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
+import { History, HistoryEntry, HistoryType } from '../../model/history.js';
 import { Log } from '../../tools/log.js';
 
 export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Common<C> {
@@ -71,6 +72,10 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
     return this.dependency.log;
   }
 
+  protected get history(): History {
+    return this.dependency.history;
+  }
+
   protected abstract getAccessoryType(): AccessoryType;
 
   public get service(): Service {
@@ -128,5 +133,9 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
     this.accessoryService.getCharacteristic(this.Characteristic[key]).onGet( () => {
       return value;
     });
+  }
+
+  protected recordHistory(type: HistoryType, entry: HistoryEntry, updateLastActivation: boolean = false) {
+    this.dependency.history.record(this, this.config.history, type, entry, updateLastActivation);
   }
 }
