@@ -31,18 +31,6 @@ export enum AddonType {
 
 export type CharacteristicKey = HKCharacteristicKey | EveCharacteristicKey;
 
-let _CharacteristicKeys: CharacteristicKey[] | undefined;
-export function CharacteristicKeys(): CharacteristicKey[] {
-
-  if (!_CharacteristicKeys) {
-    const HKKeys: CharacteristicKey[] = Object.values(HKCharacteristicKey);
-    const EveKeys = Object.values(EveCharacteristicKey);
-    _CharacteristicKeys = HKKeys.concat(EveKeys);
-  }
-
-  return _CharacteristicKeys;
-}
-
 export enum HKCharacteristicKey {
   Active = 'Active',
   AirQuality = 'AirQuality',

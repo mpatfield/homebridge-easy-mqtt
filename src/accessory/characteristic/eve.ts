@@ -24,7 +24,7 @@ export function EveCharacteristic(key: EveCharacteristicKey) {
 }
 
 let EveCharacteristicKeys: Set<EveCharacteristicKey> | undefined;
-export function isEveCharacteristicKey(key: CharacteristicKey): key is EveCharacteristicKey {
+export function isEveCharacteristic(key: CharacteristicKey): key is EveCharacteristicKey {
 
   if (EveCharacteristicKeys === undefined) {
     EveCharacteristicKeys = new Set(Object.values(EveCharacteristicKey));

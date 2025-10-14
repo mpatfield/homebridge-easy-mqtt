@@ -1,6 +1,6 @@
 import { Characteristic, CharacteristicSetHandler, CharacteristicValue, Nullable, PrimitiveTypes, Service } from 'homebridge';
 
-import { EveCharacteristic, isEveCharacteristicKey } from '../characteristic/eve.js';
+import { EveCharacteristic, isEveCharacteristic } from '../characteristic/eve.js';
 
 import { strings } from '../../i18n/i18n.js';
 
@@ -80,6 +80,10 @@ export abstract class Common<C extends Assertable> {
     this.topicHandlers.push(...topicHandlers);
   }
 
+  protected isOptionalCharacteristic(key: CharacteristicKey): boolean {
+    return isEveCharacteristic(key);
+  }
+
   protected setup(
     characteristicKey: CharacteristicKey, defaultValue: CharacteristicValue,
     getTopicKey: keyof C, onUpdateHandler: OnUpdateHandler, assertGetTopic: boolean,
@@ -120,8 +124,8 @@ export abstract class Common<C extends Assertable> {
 
     const startingValue = (this.useStoredProperties && this.properties.get(characteristicKey)) ?? defaultValue;
 
-    if (isEveCharacteristicKey(characteristicKey)) {
-      this.service.addOptionalCharacteristic(EveCharacteristic(characteristicKey));
+    if (this.isOptionalCharacteristic(characteristicKey)) {
+      this.service.addOptionalCharacteristic(this.characteristicFromKey(characteristicKey));
     }
 
     const characteristic = this.service.getCharacteristic(this.characteristicFromKey(characteristicKey));
@@ -154,8 +158,8 @@ export abstract class Common<C extends Assertable> {
       throw new Error(`Missing onSetHandler for topic '${setTopicKey.toString()}'`);
     }
 
-    if (isEveCharacteristicKey(characteristicKey)) {
-      this.service.addOptionalCharacteristic(EveCharacteristic(characteristicKey));
+    if (this.isOptionalCharacteristic(characteristicKey)) {
+      this.service.addOptionalCharacteristic(this.characteristicFromKey(characteristicKey));
     }
 
     const characteristic = this.service.getCharacteristic(this.characteristicFromKey(characteristicKey));
@@ -248,7 +252,7 @@ export abstract class Common<C extends Assertable> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected characteristicFromKey(key: CharacteristicKey): any {
 
-    if (isEveCharacteristicKey(key)) {
+    if (isEveCharacteristic(key)) {
       return EveCharacteristic(key);
     }
 

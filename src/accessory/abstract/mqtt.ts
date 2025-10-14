@@ -3,9 +3,10 @@ import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 
 import { Common } from './common.js';
 import { createIdentifier } from './helper.js';
 
+import { CharacteristicKeys } from '../characteristic/characteristic.js';
 import { CustomCharacteristic } from '../characteristic/custom.js';
 
-import { AccessoryType, CharacteristicKeys, HKCharacteristicKey } from '../../model/enums.js';
+import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
 import { MQTT } from '../../model/mqtt.js';
 import { CharacteristicType, MQTTAccessoryConfig, MQTTAccessoryDependency } from '../../model/types.js';
 

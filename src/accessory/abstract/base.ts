@@ -4,9 +4,11 @@ import { MQTTAccessory } from './mqtt.js';
 
 import { PLATFORM_NAME } from '../../homebridge/settings.js';
 
+import { isOptionalHKCharacteristic } from '../characteristic/characteristic.js';
+
 import { strings } from '../../i18n/i18n.js';
 
-import { HKCharacteristicKey } from '../../model/enums.js';
+import { CharacteristicKey, HKCharacteristicKey } from '../../model/enums.js';
 import { BaseAccessoryConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 import { LogType } from '../../tools/log.js';
@@ -35,6 +37,10 @@ export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessor
 
     this.setup(HKCharacteristicKey.StatusActive, true,
       'topicGetStatusActive', this.onStatusActiveUpdate.bind(this), false);
+  }
+
+  override isOptionalCharacteristic(key: CharacteristicKey): boolean {
+    return super.isOptionalCharacteristic(key) || isOptionalHKCharacteristic(key, this.config.info.type);
   }
 
   private async onBatteryLowUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
