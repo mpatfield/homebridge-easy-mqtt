@@ -6,7 +6,7 @@ import { FilterMaintenance } from '../addons/filter.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
+import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
 import { HeaterCoolerConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 export class HeaterCoolerAccessory extends ActiveClimateAccessory<HeaterCoolerConfig> {
@@ -38,7 +38,7 @@ export class HeaterCoolerAccessory extends ActiveClimateAccessory<HeaterCoolerCo
       return;
     }
 
-    this.setup(CharacteristicKey.CurrentHeaterCoolerState, this.CURRENT_STATE_MAP.get(validCurrentStates[0])!,
+    this.setup(HKCharacteristicKey.CurrentHeaterCoolerState, this.CURRENT_STATE_MAP.get(validCurrentStates[0])!,
       'topicGetCurrentHeaterCoolerState', this.onCurrentStateUpdate.bind(this), true)
       ?.setProps({ validValues: validCurrentStates.map((key) => this.CURRENT_STATE_MAP.get(key)!) });
 
@@ -48,7 +48,7 @@ export class HeaterCoolerAccessory extends ActiveClimateAccessory<HeaterCoolerCo
       return;
     }
 
-    this.setup(CharacteristicKey.TargetHeaterCoolerState, this.TARGET_STATE_MAP.get(validTargetStates[0])!,
+    this.setup(HKCharacteristicKey.TargetHeaterCoolerState, this.TARGET_STATE_MAP.get(validTargetStates[0])!,
       'topicGetTargetHeaterCoolerState', this.onTargetStateUpdate.bind(this), true,
       'topicSetTargetHeaterCoolerState', this.onSetTargetState.bind(this))
       ?.setProps({ validValues: validTargetStates.map((key) => this.TARGET_STATE_MAP.get(key)!) });
@@ -66,7 +66,7 @@ export class HeaterCoolerAccessory extends ActiveClimateAccessory<HeaterCoolerCo
       return;
     }
 
-    this.onUpdate(CharacteristicKey.CurrentHeaterCoolerState, state, this.stateStringForCurrentCV(state));
+    this.onUpdate(HKCharacteristicKey.CurrentHeaterCoolerState, state, this.stateStringForCurrentCV(state));
   }
 
   private async onTargetStateUpdate(_topic: string, value: PrimitiveTypes) {
@@ -75,7 +75,7 @@ export class HeaterCoolerAccessory extends ActiveClimateAccessory<HeaterCoolerCo
       return;
     }
 
-    this.onUpdate(CharacteristicKey.TargetHeaterCoolerState, state, this.stateStringForTargetCV(state));
+    this.onUpdate(HKCharacteristicKey.TargetHeaterCoolerState, state, this.stateStringForTargetCV(state));
   }
 
   private async onSetTargetState(value: CharacteristicValue) {
@@ -85,7 +85,7 @@ export class HeaterCoolerAccessory extends ActiveClimateAccessory<HeaterCoolerCo
       return;
     }
 
-    this.onSet(CharacteristicKey.TargetHeaterCoolerState, value, target, 'topicSetTargetHeaterCoolerState', this.stateStringForTargetCV(value));
+    this.onSet(HKCharacteristicKey.TargetHeaterCoolerState, value, target, 'topicSetTargetHeaterCoolerState', this.stateStringForTargetCV(value));
   }
 
   private fromCVState(value: CharacteristicValue): PrimitiveTypes | undefined {

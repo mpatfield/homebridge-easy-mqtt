@@ -2,7 +2,7 @@ import { SensorAccessory } from './sensor.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
+import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
 import { COSensorConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 export class COSensorAccessory extends SensorAccessory<COSensorConfig> {
@@ -10,19 +10,19 @@ export class COSensorAccessory extends SensorAccessory<COSensorConfig> {
   constructor(dependency: MQTTAccessoryDependency<COSensorConfig>) {
     super(dependency);
 
-    this.setup(CharacteristicKey.CarbonMonoxideDetected, dependency.Characteristic.CarbonMonoxideDetected.CO_LEVELS_NORMAL,
+    this.setup(HKCharacteristicKey.CarbonMonoxideDetected, dependency.Characteristic.CarbonMonoxideDetected.CO_LEVELS_NORMAL,
       'topicGetCarbonMonoxideDetected',
       this.bindOnUpdateNumericBoolean(
-        CharacteristicKey.CarbonMonoxideDetected,
+        HKCharacteristicKey.CarbonMonoxideDetected,
         'valueCarbonMonoxideDetected',
         strings.sensor.carbonMonoxide.active, strings.sensor.carbonMonoxide.inactive),
       true);
 
-    this.setup(CharacteristicKey.CarbonMonoxideLevel, 0,
-      'topicGetCarbonMonoxideLevel', this.bindOnUpdateNumeric(CharacteristicKey.CarbonMonoxideLevel, strings.sensor.carbonMonoxide.level), false);
+    this.setup(HKCharacteristicKey.CarbonMonoxideLevel, 0,
+      'topicGetCarbonMonoxideLevel', this.bindOnUpdateNumeric(HKCharacteristicKey.CarbonMonoxideLevel, strings.sensor.carbonMonoxide.level), false);
 
-    this.setup(CharacteristicKey.CarbonMonoxidePeakLevel, 0,
-      'topicGetCarbonMonoxidePeakLevel', this.bindOnUpdateNumeric(CharacteristicKey.CarbonMonoxidePeakLevel, strings.sensor.carbonMonoxide.peakLevel), false);
+    this.setup(HKCharacteristicKey.CarbonMonoxidePeakLevel, 0,
+      'topicGetCarbonMonoxidePeakLevel', this.bindOnUpdateNumeric(HKCharacteristicKey.CarbonMonoxidePeakLevel, strings.sensor.carbonMonoxide.peakLevel), false);
   }
 
   protected getAccessoryType(): AccessoryType {

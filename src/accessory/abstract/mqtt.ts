@@ -5,7 +5,7 @@ import { createIdentifier } from './helper.js';
 
 import { CustomCharacteristic } from '../characteristic/custom.js';
 
-import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
+import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
 import { MQTT } from '../../model/mqtt.js';
 import { CharacteristicType, MQTTAccessoryConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
@@ -95,7 +95,8 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
 
   private setupCustomCharacteristics() {
 
-    const keepUUIDs = new Set(Object.values(CharacteristicKey).map( (key) => this.Characteristic[key].UUID));
+    // TODO both hk and optional
+    const keepUUIDs = new Set(Object.values(HKCharacteristicKey).map( (key) => this.Characteristic[key].UUID));
     const toRemove = this.accessoryService.characteristics.filter( (characteristic) => !keepUUIDs.has(characteristic.UUID));
 
     for (const characteristic of toRemove) {
@@ -123,7 +124,7 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
     this.mqttClient?.teardown();
   }
 
-  protected setCharacteristicValue(key: CharacteristicKey, value: CharacteristicValue) {
+  protected setCharacteristicValue(key: HKCharacteristicKey, value: CharacteristicValue) {
     this.accessoryService.getCharacteristic(this.Characteristic[key]).onGet( () => {
       return value;
     });

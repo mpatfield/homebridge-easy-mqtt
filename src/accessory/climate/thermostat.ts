@@ -4,7 +4,7 @@ import { TemperatureControlAccessory, DEFAULT_TEMPERATURE } from './temperatureC
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
+import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
 import { MQTTAccessoryDependency, ThermostatConfig } from '../../model/types.js';
 
 export class ThermostatAccessory extends TemperatureControlAccessory<ThermostatConfig> {
@@ -29,29 +29,29 @@ export class ThermostatAccessory extends TemperatureControlAccessory<ThermostatC
       return;
     }
 
-    this.setup(CharacteristicKey.TargetHeatingCoolingState, this.STATE_MAP.get(validTargetStates[0])!,
-      'topicGetTargetHeatingCoolingState', this.bindOnStateUpdate(CharacteristicKey.TargetHeatingCoolingState, true), true,
+    this.setup(HKCharacteristicKey.TargetHeatingCoolingState, this.STATE_MAP.get(validTargetStates[0])!,
+      'topicGetTargetHeatingCoolingState', this.bindOnStateUpdate(HKCharacteristicKey.TargetHeatingCoolingState, true), true,
       'topicSetTargetHeatingCoolingState', this.onSetTargetState.bind(this))
       ?.setProps({ validValues: validTargetStates.map((key) => this.STATE_MAP.get(key)!) });
 
     const validCurrentStates = validTargetStates.filter((key) => key !== 'valueModeAuto');
-    this.setup(CharacteristicKey.CurrentHeatingCoolingState, this.STATE_MAP.get(validCurrentStates[0])!,
-      'topicGetCurrentHeatingCoolingState', this.bindOnStateUpdate(CharacteristicKey.CurrentHeatingCoolingState), true)
+    this.setup(HKCharacteristicKey.CurrentHeatingCoolingState, this.STATE_MAP.get(validCurrentStates[0])!,
+      'topicGetCurrentHeatingCoolingState', this.bindOnStateUpdate(HKCharacteristicKey.CurrentHeatingCoolingState), true)
       ?.setProps({ validValues: validCurrentStates.map((key) => this.STATE_MAP.get(key)!) });
 
-    this.setup(CharacteristicKey.TargetTemperature, DEFAULT_TEMPERATURE,
+    this.setup(HKCharacteristicKey.TargetTemperature, DEFAULT_TEMPERATURE,
       'topicGetTargetTemperature',
-      this.bindTemperatureUpdate(dependency.config, CharacteristicKey.TargetTemperature, strings.thermostat.temperatureTarget),
+      this.bindTemperatureUpdate(dependency.config, HKCharacteristicKey.TargetTemperature, strings.thermostat.temperatureTarget),
       true,
       'topicSetTargetTemperature',
       this.onSetTemperature.bind(this),
     );
 
-    this.setup(CharacteristicKey.CurrentRelativeHumidity, 0,
-      'topicGetCurrentRelativeHumidity', this.bindOnUpdateNumeric(CharacteristicKey.CurrentRelativeHumidity, strings.climate.humidityUpdate), false);
+    this.setup(HKCharacteristicKey.CurrentRelativeHumidity, 0,
+      'topicGetCurrentRelativeHumidity', this.bindOnUpdateNumeric(HKCharacteristicKey.CurrentRelativeHumidity, strings.climate.humidityUpdate), false);
 
-    this.setup(CharacteristicKey.TargetRelativeHumidity, 0,
-      'topicGetTargetRelativeHumidity', this.bindOnUpdateNumeric(CharacteristicKey.TargetRelativeHumidity, strings.thermostat.humidityFuture), false,
+    this.setup(HKCharacteristicKey.TargetRelativeHumidity, 0,
+      'topicGetTargetRelativeHumidity', this.bindOnUpdateNumeric(HKCharacteristicKey.TargetRelativeHumidity, strings.thermostat.humidityFuture), false,
       'topicSetTargetRelativeHumidity', this.onSetHumidity.bind(this),
     );
   }
@@ -60,7 +60,7 @@ export class ThermostatAccessory extends TemperatureControlAccessory<ThermostatC
     return AccessoryType.Thermostat;
   }
 
-  private bindOnStateUpdate(charKey: CharacteristicKey, future: boolean = false) {
+  private bindOnStateUpdate(charKey: HKCharacteristicKey, future: boolean = false) {
     return (async (_topic: string, value: PrimitiveTypes) => {
 
       const state = this.toCVState(value);
@@ -79,18 +79,18 @@ export class ThermostatAccessory extends TemperatureControlAccessory<ThermostatC
       return;
     }
 
-    this.onSet(CharacteristicKey.TargetHeatingCoolingState, value, target, 'topicSetTargetHeatingCoolingState', this.stateStringForCV(value, true));
+    this.onSet(HKCharacteristicKey.TargetHeatingCoolingState, value, target, 'topicSetTargetHeatingCoolingState', this.stateStringForCV(value, true));
   }
 
   private async onSetTemperature(value: CharacteristicValue) {
     const temperature = this.temperatureFromCV(value);
     const logString = strings.thermostat.temperatureTargetFuture.replace('%d°%s', `${temperature}°${this.temperatureUnits}`);
-    this.onSet(CharacteristicKey.TargetTemperature, value, temperature, 'topicSetTargetTemperature', logString);
+    this.onSet(HKCharacteristicKey.TargetTemperature, value, temperature, 'topicSetTargetTemperature', logString);
   }
 
   private async onSetHumidity(value: CharacteristicValue) {
     const logString = strings.thermostat.humidityFuture.replace('%d', value.toString());
-    this.onSet(CharacteristicKey.TargetRelativeHumidity, value, value as number, 'topicSetTargetRelativeHumidity', logString);
+    this.onSet(HKCharacteristicKey.TargetRelativeHumidity, value, value as number, 'topicSetTargetRelativeHumidity', logString);
   }
 
   private fromCVState(value: CharacteristicValue): PrimitiveTypes | undefined {

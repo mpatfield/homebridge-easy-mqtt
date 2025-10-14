@@ -2,7 +2,7 @@ import { SensorAccessory } from './sensor.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
+import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
 import { MotionSensorConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 export class MotionSensorAccessory extends SensorAccessory<MotionSensorConfig> {
@@ -11,9 +11,9 @@ export class MotionSensorAccessory extends SensorAccessory<MotionSensorConfig> {
     dependency: MQTTAccessoryDependency<MotionSensorConfig>) {
     super(dependency);
 
-    this.setup(CharacteristicKey.MotionDetected, false,
+    this.setup(HKCharacteristicKey.MotionDetected, false,
       'topicGetMotionDetected',
-      this.bindOnUpdateNumericBoolean(CharacteristicKey.MotionDetected, 'valueMotionDetected', strings.sensor.motion.active, strings.sensor.motion.inactive),
+      this.bindOnUpdateNumericBoolean(HKCharacteristicKey.MotionDetected, 'valueMotionDetected', strings.sensor.motion.active, strings.sensor.motion.inactive),
       true);
   }
 

@@ -4,7 +4,7 @@ import { LockMechanismAccessory } from './lock.js';
 
 import { strings } from '../i18n/i18n.js';
 
-import { AccessoryType, CharacteristicKey } from '../model/enums.js';
+import { AccessoryType, HKCharacteristicKey } from '../model/enums.js';
 import { GarageDoorConfig, MQTTAccessoryDependency } from '../model/types.js';
 
 import { LogType } from '../tools/log.js';
@@ -30,7 +30,7 @@ export class GarageDoorAccessory extends LockMechanismAccessory<GarageDoorConfig
       return;
     }
 
-    this.setup(CharacteristicKey.CurrentDoorState, dependency.Characteristic.CurrentDoorState.CLOSED,
+    this.setup(HKCharacteristicKey.CurrentDoorState, dependency.Characteristic.CurrentDoorState.CLOSED,
       'topicGetCurrentDoorState', this.onCurrentDoorStateUpdate.bind(this), true,
     )?.setProps({ validValues: validCurrentStates.map((key) => this.STATE_MAP.get(key)!) });
 
@@ -40,12 +40,12 @@ export class GarageDoorAccessory extends LockMechanismAccessory<GarageDoorConfig
       return;
     }
 
-    this.setup(CharacteristicKey.TargetDoorState, dependency.Characteristic.TargetDoorState.CLOSED,
+    this.setup(HKCharacteristicKey.TargetDoorState, dependency.Characteristic.TargetDoorState.CLOSED,
       'topicGetTargetDoorState', this.onTargetDoorStateUpdate.bind(this), true,
       'topicSetTargetDoorState', this.onSetTargetDoorState.bind(this),
     )?.setProps({ validValues: validTargetStates.map((key) => this.STATE_MAP.get(key)!) });
 
-    this.setup(CharacteristicKey.ObstructionDetected, false, 'topicGetObstructionDetected', this.onObstructionUpdate.bind(this), true);
+    this.setup(HKCharacteristicKey.ObstructionDetected, false, 'topicGetObstructionDetected', this.onObstructionUpdate.bind(this), true);
   }
 
   protected getAccessoryType(): AccessoryType {
@@ -59,7 +59,7 @@ export class GarageDoorAccessory extends LockMechanismAccessory<GarageDoorConfig
       return;
     }
 
-    this.onUpdate(CharacteristicKey.CurrentDoorState, current, this.stateStringForCV(current));
+    this.onUpdate(HKCharacteristicKey.CurrentDoorState, current, this.stateStringForCV(current));
   }
 
   private async onTargetDoorStateUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
@@ -69,7 +69,7 @@ export class GarageDoorAccessory extends LockMechanismAccessory<GarageDoorConfig
       return;
     }
 
-    this.onUpdate(CharacteristicKey.TargetDoorState, target, this.stateStringForCV(target, true));
+    this.onUpdate(HKCharacteristicKey.TargetDoorState, target, this.stateStringForCV(target, true));
   }
 
   private async onSetTargetDoorState(value: CharacteristicValue) {
@@ -79,13 +79,13 @@ export class GarageDoorAccessory extends LockMechanismAccessory<GarageDoorConfig
       return;
     }
 
-    this.onSet(CharacteristicKey.TargetDoorState, value, target, 'topicSetTargetDoorState', this.stateStringForCV(value, true));
+    this.onSet(HKCharacteristicKey.TargetDoorState, value, target, 'topicSetTargetDoorState', this.stateStringForCV(value, true));
   }
 
   private async onObstructionUpdate(topic: string, value: PrimitiveTypes) {
 
     const obstructed = value === this.getPrimitiveValue('valueDoorObstructed');
-    if (!this.onUpdate(CharacteristicKey.ObstructionDetected, obstructed)) {
+    if (!this.onUpdate(HKCharacteristicKey.ObstructionDetected, obstructed)) {
       return;
     }
 

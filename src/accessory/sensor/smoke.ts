@@ -2,7 +2,7 @@ import { SensorAccessory } from './sensor.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
+import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
 import { MQTTAccessoryDependency, SmokeSensorConfig } from '../../model/types.js';
 
 export class SmokeSensorAccessory extends SensorAccessory<SmokeSensorConfig> {
@@ -10,9 +10,9 @@ export class SmokeSensorAccessory extends SensorAccessory<SmokeSensorConfig> {
   constructor(dependency: MQTTAccessoryDependency<SmokeSensorConfig>) {
     super(dependency);
 
-    this.setup(CharacteristicKey.SmokeDetected, dependency.Characteristic.SmokeDetected.SMOKE_NOT_DETECTED,
+    this.setup(HKCharacteristicKey.SmokeDetected, dependency.Characteristic.SmokeDetected.SMOKE_NOT_DETECTED,
       'topicGetSmokeDetected',
-      this.bindOnUpdateNumericBoolean(CharacteristicKey.SmokeDetected, 'valueSmokeDetected', strings.sensor.smoke.active, strings.sensor.smoke.inactive),
+      this.bindOnUpdateNumericBoolean(HKCharacteristicKey.SmokeDetected, 'valueSmokeDetected', strings.sensor.smoke.active, strings.sensor.smoke.inactive),
       true);
   }
 

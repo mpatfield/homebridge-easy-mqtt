@@ -4,7 +4,7 @@ import { SensorAccessory } from './sensor.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
+import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
 import { AirSensorConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 const MAX_DENSITY = 5000;
@@ -31,17 +31,17 @@ export class AirSensorAccessory extends SensorAccessory<AirSensorConfig> {
       return;
     }
 
-    this.setup(CharacteristicKey.AirQuality, dependency.Characteristic.AirQuality.UNKNOWN,
+    this.setup(HKCharacteristicKey.AirQuality, dependency.Characteristic.AirQuality.UNKNOWN,
       'topicGetAirQuality', this.onAirQualityUpdate.bind(this), true,
     )?.setProps({ validValues: validStates.map((key) => this.STATE_MAP.get(key)!) });
 
-    const densityMap = new Map<keyof AirSensorConfig, CharacteristicKey>([
-      ['topicGetNitrogenDioxideDensity', CharacteristicKey.NitrogenDioxideDensity],
-      ['topicGetOzoneDensity', CharacteristicKey.OzoneDensity],
-      ['topicGetPM10Density', CharacteristicKey.PM10Density],
-      ['topicGetPM2_5Density', CharacteristicKey.PM2_5Density],
-      ['topicGetSulphurDioxideDensity', CharacteristicKey.SulphurDioxideDensity],
-      ['topicGetVOCDensity', CharacteristicKey.VOCDensity],
+    const densityMap = new Map<keyof AirSensorConfig, HKCharacteristicKey>([
+      ['topicGetNitrogenDioxideDensity', HKCharacteristicKey.NitrogenDioxideDensity],
+      ['topicGetOzoneDensity', HKCharacteristicKey.OzoneDensity],
+      ['topicGetPM10Density', HKCharacteristicKey.PM10Density],
+      ['topicGetPM2_5Density', HKCharacteristicKey.PM2_5Density],
+      ['topicGetSulphurDioxideDensity', HKCharacteristicKey.SulphurDioxideDensity],
+      ['topicGetVOCDensity', HKCharacteristicKey.VOCDensity],
     ]);
 
     densityMap.forEach( (key, topic) => {
@@ -56,7 +56,7 @@ export class AirSensorAccessory extends SensorAccessory<AirSensorConfig> {
 
   private async onAirQualityUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
     const current = this.toCVState(value);
-    this.onUpdate(CharacteristicKey.AirQuality, current, this.qualityStringForCV(current));
+    this.onUpdate(HKCharacteristicKey.AirQuality, current, this.qualityStringForCV(current));
   }
 
   private toCVState(value: PrimitiveTypes): CharacteristicValue {
@@ -97,19 +97,19 @@ export class AirSensorAccessory extends SensorAccessory<AirSensorConfig> {
     }
   }
 
-  private logTemplateForDensityKey(key: CharacteristicKey): string {
+  private logTemplateForDensityKey(key: HKCharacteristicKey): string {
     switch(key) {
-    case CharacteristicKey.NitrogenDioxideDensity:
+    case HKCharacteristicKey.NitrogenDioxideDensity:
       return strings.sensor.air.densityNitrogen;
-    case CharacteristicKey.OzoneDensity:
+    case HKCharacteristicKey.OzoneDensity:
       return strings.sensor.air.densityOzone;
-    case CharacteristicKey.PM10Density:
+    case HKCharacteristicKey.PM10Density:
       return strings.sensor.air.densityPM10;
-    case CharacteristicKey.PM2_5Density:
+    case HKCharacteristicKey.PM2_5Density:
       return strings.sensor.air.densityPM2_5;
-    case CharacteristicKey.SulphurDioxideDensity:
+    case HKCharacteristicKey.SulphurDioxideDensity:
       return strings.sensor.air.densitySulphur;
-    case CharacteristicKey.VOCDensity:
+    case HKCharacteristicKey.VOCDensity:
       return strings.sensor.air.densityVOC;
     }
 

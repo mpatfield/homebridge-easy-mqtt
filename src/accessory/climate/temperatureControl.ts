@@ -3,7 +3,7 @@ import { CharacteristicValue } from 'homebridge';
 import { BaseAccessory } from '../abstract/base.js';
 import { strings } from '../../i18n/i18n.js';
 
-import { CharacteristicKey } from '../../model/enums.js';
+import { HKCharacteristicKey } from '../../model/enums.js';
 import { MQTTAccessoryDependency, TemperatureControlConfig } from '../../model/types.js';
 
 import { fromCelsius, temperatureUnits, TemperatureUnits } from '../../tools/temperature.js';
@@ -22,23 +22,23 @@ export abstract class TemperatureControlAccessory<C extends TemperatureControlCo
 
     const temperatureDisplayUnits = this.temperatureUnits === TemperatureUnits.FAHRENHEIT
       ? this.Characteristic.TemperatureDisplayUnits.FAHRENHEIT : this.Characteristic.TemperatureDisplayUnits.CELSIUS;
-    this.setCharacteristicValue(CharacteristicKey.TemperatureDisplayUnits, temperatureDisplayUnits);
+    this.setCharacteristicValue(HKCharacteristicKey.TemperatureDisplayUnits, temperatureDisplayUnits);
 
-    this.setup(CharacteristicKey.CurrentTemperature, DEFAULT_TEMPERATURE, 'topicGetCurrentTemperature',
-      this.bindTemperatureUpdate(this.config, CharacteristicKey.CurrentTemperature, strings.climate.temperatureUpdate), true);
+    this.setup(HKCharacteristicKey.CurrentTemperature, DEFAULT_TEMPERATURE, 'topicGetCurrentTemperature',
+      this.bindTemperatureUpdate(this.config, HKCharacteristicKey.CurrentTemperature, strings.climate.temperatureUpdate), true);
 
-    this.setup(CharacteristicKey.CoolingThresholdTemperature, DEFAULT_COOLING_THRESHOLD,
+    this.setup(HKCharacteristicKey.CoolingThresholdTemperature, DEFAULT_COOLING_THRESHOLD,
       'topicGetCoolingThresholdTemperature',
-      this.bindTemperatureUpdate(this.config, CharacteristicKey.CoolingThresholdTemperature, strings.climate.coolingThreshold), false,
+      this.bindTemperatureUpdate(this.config, HKCharacteristicKey.CoolingThresholdTemperature, strings.climate.coolingThreshold), false,
       'topicSetCoolingThresholdTemperature',
-      this.bindOnSetThreshold(CharacteristicKey.CoolingThresholdTemperature, 'topicSetCoolingThresholdTemperature', strings.climate.coolingThresholdFuture),
+      this.bindOnSetThreshold(HKCharacteristicKey.CoolingThresholdTemperature, 'topicSetCoolingThresholdTemperature', strings.climate.coolingThresholdFuture),
     );
 
-    this.setup(CharacteristicKey.HeatingThresholdTemperature, DEFAULT_HEATING_THRESHOLD,
+    this.setup(HKCharacteristicKey.HeatingThresholdTemperature, DEFAULT_HEATING_THRESHOLD,
       'topicGetHeatingThresholdTemperature',
-      this.bindTemperatureUpdate(this.config, CharacteristicKey.HeatingThresholdTemperature, strings.climate.heatingThreshold), false,
+      this.bindTemperatureUpdate(this.config, HKCharacteristicKey.HeatingThresholdTemperature, strings.climate.heatingThreshold), false,
       'topicSetHeatingThresholdTemperature',
-      this.bindOnSetThreshold(CharacteristicKey.HeatingThresholdTemperature, 'topicSetHeatingThresholdTemperature', strings.climate.heatingThresholdFuture),
+      this.bindOnSetThreshold(HKCharacteristicKey.HeatingThresholdTemperature, 'topicSetHeatingThresholdTemperature', strings.climate.heatingThresholdFuture),
     );
   }
 
@@ -46,7 +46,7 @@ export abstract class TemperatureControlAccessory<C extends TemperatureControlCo
     return temperatureUnits(this.config.temperatureUnits);
   }
 
-  private bindOnSetThreshold(charKey: CharacteristicKey, topic: keyof TemperatureControlConfig, logTemplate: string) {
+  private bindOnSetThreshold(charKey: HKCharacteristicKey, topic: keyof TemperatureControlConfig, logTemplate: string) {
     return (async (value: CharacteristicValue) => {
       const temperature = this.temperatureFromCV(value);
       const logString = logTemplate.replace('%d°%s', `${temperature}°${this.temperatureUnits}`);

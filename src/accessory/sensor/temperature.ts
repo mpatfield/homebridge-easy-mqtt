@@ -2,7 +2,7 @@ import { SensorAccessory } from './sensor.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, CharacteristicKey } from '../../model/enums.js';
+import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
 import { MQTTAccessoryDependency, TemperatureSensorConfig } from '../../model/types.js';
 
 export class TemperatureSensorAccessory extends SensorAccessory<TemperatureSensorConfig> {
@@ -11,8 +11,8 @@ export class TemperatureSensorAccessory extends SensorAccessory<TemperatureSenso
     dependency: MQTTAccessoryDependency<TemperatureSensorConfig>) {
     super(dependency);
 
-    this.setup(CharacteristicKey.CurrentTemperature, 0, 'topicGetCurrentTemperature',
-      this.bindTemperatureUpdate(dependency.config, CharacteristicKey.CurrentTemperature, strings.climate.temperatureUpdate), true);
+    this.setup(HKCharacteristicKey.CurrentTemperature, 0, 'topicGetCurrentTemperature',
+      this.bindTemperatureUpdate(dependency.config, HKCharacteristicKey.CurrentTemperature, strings.climate.temperatureUpdate), true);
   }
 
   protected getAccessoryType(): AccessoryType {

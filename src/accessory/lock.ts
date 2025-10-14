@@ -4,7 +4,7 @@ import { BaseAccessory } from './abstract/base.js';
 
 import { strings } from '../i18n/i18n.js';
 
-import { AccessoryType, CharacteristicKey } from '../model/enums.js';
+import { AccessoryType, HKCharacteristicKey } from '../model/enums.js';
 import { LockConfig, MQTTAccessoryDependency } from '../model/types.js';
 
 import { LogType } from '../tools/log.js';
@@ -16,7 +16,7 @@ export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends B
 
     const getTopicCurrent = this.config.topicGetLockCurrentState !== undefined && this.config.topicGetCurrentLockState === undefined
       ? 'topicGetLockCurrentState' : 'topicGetCurrentLockState';
-    this.setup(CharacteristicKey.LockCurrentState, dependency.Characteristic.LockCurrentState.UNKNOWN,
+    this.setup(HKCharacteristicKey.LockCurrentState, dependency.Characteristic.LockCurrentState.UNKNOWN,
       getTopicCurrent, this.onCurrentStateUpdate.bind(this), requireTopics);
 
     let getTargetTopic: keyof LockConfig, setTargetTopic : keyof LockConfig;
@@ -28,7 +28,7 @@ export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends B
       setTargetTopic = 'topicSetTargetLockState';
     }
 
-    this.setup(CharacteristicKey.LockTargetState, dependency.Characteristic.LockTargetState.SECURED,
+    this.setup(HKCharacteristicKey.LockTargetState, dependency.Characteristic.LockTargetState.SECURED,
       getTargetTopic, this.onTargetStateUpdate.bind(this), requireTopics,
       setTargetTopic, this.onSetTargetState.bind(this),
     );
@@ -43,10 +43,10 @@ export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends B
     const current = this.currentStateFromValue(value);
 
     if (current as number <= this.Characteristic.LockTargetState.SECURED) {
-      this.onUpdate(CharacteristicKey.LockTargetState, current);
+      this.onUpdate(HKCharacteristicKey.LockTargetState, current);
     }
 
-    if (!this.onUpdate(CharacteristicKey.LockCurrentState, current)) {
+    if (!this.onUpdate(HKCharacteristicKey.LockCurrentState, current)) {
       return;
     }
 
@@ -59,7 +59,7 @@ export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends B
 
   private async onTargetStateUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
     const target = this.targetStateFromValue(value);
-    this.onUpdate(CharacteristicKey.LockTargetState, target, this.stringForState(target, true));
+    this.onUpdate(HKCharacteristicKey.LockTargetState, target, this.stringForState(target, true));
   }
 
   private async onSetTargetState(value: CharacteristicValue) {
@@ -75,9 +75,9 @@ export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends B
     }
 
     if (this.config.topicSetTargetState !== undefined && this.config.topicSetTargetLockState === undefined) {
-      this.onSet(CharacteristicKey.LockTargetState, value, target, 'topicSetTargetState', this.stringForState(value, true));
+      this.onSet(HKCharacteristicKey.LockTargetState, value, target, 'topicSetTargetState', this.stringForState(value, true));
     } else {
-      this.onSet(CharacteristicKey.LockTargetState, value, target, 'topicSetTargetLockState', this.stringForState(value, true));
+      this.onSet(HKCharacteristicKey.LockTargetState, value, target, 'topicSetTargetLockState', this.stringForState(value, true));
     }
   }
 
