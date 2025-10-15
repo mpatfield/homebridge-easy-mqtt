@@ -30,6 +30,7 @@ This plugin is designed to be a simple replacement for the fantastic [homebridge
   - `CarbonDioxideSensor`
   - `CarbonMonoxideSensor`
   - `ContactSensor`
+  - `Doorbell`
   - `Fanv2`
   - `GarageDoorOpener`
   - `HeaterCooler`
@@ -466,10 +467,26 @@ These values are used for both determining current state and, where appropriate,
 - `valueTampered` - Accessory has been tampered with
 
 #### StatelessProgrammableSwitch
-- `topicEventButtonPress` - Event for button press event
+- `topicEventButtonPress*` - Event for button press event
 - `valueSinglePress` - Single press event
 - `valueDoublePress` - Double press event
 - `valueLongPress` - Long press event
+
+### Doorbell
+- `maximumBrightness` - Set a maximum to use values (i.e. 1, 2, 3) rather than a percentage for brightness
+- `maximumVolume` - Set a maximum to use values (i.e. 1, 2, 3) rather than a percentage for volume
+- `topicEventButtonPress*` - Event for button press event
+- `topicGetBrightness` - Get the brightness
+- `topicSetBrightness` - Set the brightness
+- `topicGetMuted` - Get whether or not the doorbell is muted
+- `topicSetMuted` - Set whether or not the doorbell is muted
+- `topicGetVolume` - Get the volume
+- `topicSetVolume` - Set the volume
+- `valueSinglePress` - Single press event
+- `valueDoublePress` - Double press event
+- `valueLongPress` - Long press event
+- `valueMuted` - Doorbell muted
+- `valueUnmuted` - Doorbell unmuted
 
 #### Valve
 - `valveType` -  One of `GENERIC_VALVE` (default), `IRRIGATION`, `SHOWER_HEAD`, or `WATER_FAUCET`

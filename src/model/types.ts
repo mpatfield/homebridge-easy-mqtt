@@ -347,6 +347,19 @@ export type ButtonConfig = BaseAccessoryConfig & {
   valueLongPress?: string,
 }
 
+export type DoorbellConfig = ButtonConfig & {
+  maximumBrightness?: number,
+  maximumVolume?: number,
+  topicGetBrightness?: string,
+  topicGetMuted?: string,
+  topicGetVolume?: string,
+  topicSetBrightness?: string,
+  topicSetMuted?: string,
+  topicSetVolume?: string,
+  valueMuted?: string,
+  valueUnmuted?: string,
+}
+
 export type ValveConfig = BaseAccessoryConfig & {
   valveType?: ValveType,
   topicGetStatusFault?: string,

@@ -41,6 +41,7 @@ const en = {
     badValue: '%s expected a number for %s but received %s', // accessory name, characteristic name, value
     outOfRange: '%s is trying to set %s to %s which is out of the allowed range. Setting to %s.', // accessory name, characteristic name, number, number
     updated: '%s updated %s with value %s', // accessory name, characteristic name, value
+    unknownValue: '%s unable to determine boolean state from %s. Ignoring…', // accessory name, value
   },
 
   climate: {
@@ -74,6 +75,7 @@ const en = {
       carbonMonoxideSensor: 'CO Sensor',
       celsius: '°C',
       contactSensor: 'Contact Sensor',
+      doorbell: 'Doorbell',
       fahrenheit: '°F',
       fanv2: 'Fan (v2)',
       garageDoorOpener: 'Garage Door',
@@ -111,7 +113,7 @@ const en = {
       password: 'Password',
       resetOnRestart: 'Reset on Restart',
       sourceUnits: 'Source Units',
-      topicEventButtonPress: 'Button Press',
+      topicEventButtonPress: 'Button Press*',
       topicGetActive: 'Get Active*',
       topicGetAirQuality: 'Get Air Quality*',
       topicGetBatteryLevel: 'Get Battery Level',
@@ -148,6 +150,7 @@ const en = {
       topicGetLeakDetected: 'Get Leak Detected*',
       topicGetLockPhysicalControls: 'Get Controls Locked',
       topicGetMotionDetected: 'Get Motion Detected*',
+      topicGetMuted: 'Get Muted',
       topicGetNitrogenDioxideDensity: 'Get Nitrogen Dioxide',
       topicGetObstructionDetected: 'Get Obstruction Detected*',
       topicGetObstructionDetectedOptional: 'Get Obstruction Detected',
@@ -186,6 +189,7 @@ const en = {
       topicGetValveRemainingDuration: 'Get Duration Remaining',
       topicGetValveSetDuration: 'Get Duration',
       topicGetVOCDensity: 'Get VOC',
+      topicGetVolume: 'Get Volume',
       topicResetFilterIndication: 'Reset Filter',
       topicSetActive: 'Set Active*',
       topicSetBrightness: 'Set Brightness',
@@ -195,6 +199,7 @@ const en = {
       topicSetHoldPosition: 'Set Hold Position',
       topicSetHue: 'Set Hue',
       topicSetLockPhysicalControls: 'Set Lock Controls',
+      topicSetMuted: 'Set Muted',
       topicSetOn: 'Set On/Off State*',
       topicSetRotationDirection: 'Set Direction',
       topicSetRotationSpeed: 'Set Rotation Speed',
@@ -216,6 +221,7 @@ const en = {
       topicSetValveActive: 'Set Active*',
       topicSetValveIsConfigured: 'Set Is Configured',
       topicSetValveSetDuration: 'Set Duration',
+      topicSetVolume: 'Set Volume',
       topics: 'Topics',
       type: 'Type',
       username: 'Username',
@@ -270,6 +276,7 @@ const en = {
       valueModeOff: 'Off',
       valueModePurifying: 'Purifying',
       valueMotionDetected: 'Motion Detected*',
+      valueMuted: 'Muted',
       valueNotConfigured: 'Not Configured',
       valueOccupancyDetected: 'Occupancy Detected*',
       valueOff: 'Off*',
@@ -290,9 +297,25 @@ const en = {
       valueSwingEnabled: 'Swing Enabled',
       valueSwingDisabled: 'Swing Disabled',
       valueTampered: 'Tampered',
+      valueUnmuted: 'Unmuted',
       values: 'Values',
       verbose: 'Additional Logging',
     },
+  },
+
+  doorbell: {
+    brightnessPercent: '%s brightness is %d%', // accessory name, number
+    brightnessPercentFuture: 'Setting %s brightness to %d%…', // accessory name, number
+    brightnessValue: '%s brightness is %d', // accessory name, number
+    brightnessValueFuture: 'Setting %s brightness to %d…', // accessory name, number
+    muted: '%s is muted', // accessory name, number
+    mutedFuture: 'Setting %s to muted', // accessory name
+    volumePercent: '%s volume is %d%', // accessory name, number
+    volumePercentFuture: 'Setting %s volume to %d%…', // accessory name, number
+    volumeValue: '%s volume is %d', // accessory name, number
+    volumeValueFuture: 'Setting %s volume to %d…', // accessory name, number
+    unmuted: '%s is unmuted', // accessory name, number
+    unmutedFuture: 'Setting %s to unmuted', // accessory name
   },
 
   error: {

@@ -2,9 +2,10 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.4.1-beta.0 (2025-10-10)
+## 1.4.1-beta.1 (2025-10-10)
 
 ### Added
+- `Doorbell` accessory type
 - Traduzioni in italiano. Grazie, [@Shikaban](https://github.com/sponsors/Shikaban)!
 
 ### Notes
