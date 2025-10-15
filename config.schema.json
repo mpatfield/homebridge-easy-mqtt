@@ -88,6 +88,15 @@
           }
         }
       },
+      "history": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "title": "${config.title.historyEnabled}"
+          }
+        }
+      },
       "customCharacteristic": {
         "type": "object",
         "properties": {
@@ -118,6 +127,7 @@
           "properties": {
             "info": { "$ref": "#/definitions/info" },
             "mqtt": { "$ref": "#/definitions/mqtt" },
+            "history": { "$ref": "#/definitions/history" },
             "customCharacteristics": {
               "type": "array",
               "items": { "$ref": "#/definitions/customCharacteristic" }
@@ -1766,6 +1776,10 @@
               "displayFlex": true,
               "flex-direction": "row",
               "items": [
+                {
+                  "key": "accessories[].history.enabled",
+                  "flex": "0 0 25%"
+                },
                 {
                   "key": "accessories[].resetOnRestart",
                   "flex": "0 0 25%"

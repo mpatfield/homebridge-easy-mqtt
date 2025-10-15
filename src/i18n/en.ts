@@ -107,6 +107,7 @@ const en = {
       broker: 'Broker',
       disableLogging: 'Disable Logging',
       group: 'Group',
+      historyEnabled: 'Enable History',
       maximum: 'Maximum',
       name: 'Name',
       options: 'Options',
@@ -378,6 +379,11 @@ const en = {
     stateInactive: '%s is inactive', // accessory name
     stateUnknown: '%s state is unknown', // accessory name
     unknownValue: '%s unable to determine heater/cooler state from value %s. Ignoring…', // accessory name, value
+  },
+
+  history: {
+    entry: '%s logging history entry:', // accessory name
+    updatedCharacteristic: '%s updated %s with value %s', // accessory name, characteristic name, value
   },
 
   lightbulb: {

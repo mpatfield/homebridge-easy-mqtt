@@ -3,12 +3,14 @@ import { CharacteristicValue, PlatformAccessory, PrimitiveTypes, Service } from 
 import { Common } from './common.js';
 import { createIdentifier } from './helper.js';
 
+import { CharacteristicKeys } from '../characteristic/characteristic.js';
 import { CustomCharacteristic } from '../characteristic/custom.js';
 
 import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
 import { MQTT } from '../../model/mqtt.js';
 import { CharacteristicType, MQTTAccessoryConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
+import { HistoryEntry, HistoryType } from '../../model/history.js';
 import { Log } from '../../tools/log.js';
 
 export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Common<C> {
@@ -95,8 +97,7 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
 
   private setupCustomCharacteristics() {
 
-    // TODO both hk and optional
-    const keepUUIDs = new Set(Object.values(HKCharacteristicKey).map( (key) => this.Characteristic[key].UUID));
+    const keepUUIDs = new Set(CharacteristicKeys().map( (key) => this.characteristicFromKey(key).UUID));
     const toRemove = this.accessoryService.characteristics.filter( (characteristic) => !keepUUIDs.has(characteristic.UUID));
 
     for (const characteristic of toRemove) {
@@ -128,5 +129,9 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
     this.accessoryService.getCharacteristic(this.Characteristic[key]).onGet( () => {
       return value;
     });
+  }
+
+  protected recordHistory(type: HistoryType, entry: HistoryEntry, updateLastActivation: boolean = false) {
+    this.dependency.history.record(this, this.config.history, type, entry, updateLastActivation);
   }
 }

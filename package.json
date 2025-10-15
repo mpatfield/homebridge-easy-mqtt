@@ -4,7 +4,7 @@
   "displayName": "Homebridge Easy MQTT",
   "description": "Homebridge plugin for easy control of MQTT devices",
   "type": "module",
-  "version": "1.4.1-beta.1",
+  "version": "1.5.0-beta.0",
   "homepage": "https://github.com/mpatfield/homebridge-easy-mqtt#readme",
   "repository": {
     "type": "git",
@@ -40,6 +40,7 @@
   },
   "dependencies": {
     "@homebridge/plugin-ui-utils": "^2.0.2",
+    "fakegato-history": "^0.6.7",
     "homebridge-lib": "^7.1.6",
     "lodash.merge": "^4.6.2",
     "mqtt": "^5.7.0",

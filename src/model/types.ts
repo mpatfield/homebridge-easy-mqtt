@@ -5,6 +5,7 @@ export type CharacteristicType = typeof import('homebridge').Characteristic;
 
 import { AccessoryType, ValveType } from './enums.js';
 
+import { History } from './history.js';
 import { Log } from '../tools/log.js';
 import { TemperatureUnits } from '../tools/temperature.js';
 import { Assertable } from '../tools/validation.js';
@@ -14,6 +15,7 @@ export type AccessoryDependency = {
     Characteristic: CharacteristicType,
     platformAccessory: PlatformAccessory,
     log: Log,
+  history: History,
 }
 
 export type MQTTAccessoryDependency<C extends MQTTAccessoryConfig> = AccessoryDependency & {
@@ -74,9 +76,17 @@ export type MQTTConfig = Assertable & {
   onConnect?: MQTTMessage[]
 }
 
+export type HistoryConfig = Assertable & {
+  enabled: boolean,
+  disableRepeatLastData?: boolean,
+  disableTimer?: boolean,
+  size?: number,
+}
+
 export type MQTTAccessoryConfig = Assertable & {
   info: InfoConfig,
   mqtt?: MQTTConfig,
+  history?: HistoryConfig,
   customCharacteristics?: CustomCharacteristicConfig[];
   resetOnRestart?: boolean,
   disableLogging: boolean,

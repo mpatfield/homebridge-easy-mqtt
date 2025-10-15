@@ -30,7 +30,7 @@ export enum AddonType {
   FilterMaintenance = 'FilterMaintenance',
 }
 
-export type CharacteristicKey = HKCharacteristicKey;
+export type CharacteristicKey = HKCharacteristicKey | EveCharacteristicKey;
 
 export enum HKCharacteristicKey {
   Active = 'Active',
@@ -109,6 +109,18 @@ export enum HKCharacteristicKey {
   ValveType = 'ValveType',
   VOCDensity = 'VOCDensity',
   Volume = 'Volume',
+}
+
+export enum EveCharacteristicKey {
+  ClosedDuration = 'ClosedDuration',
+  CurrentConsumption = 'CurrentConsumption',
+  ElectricCurrent = 'ElectricCurrent',
+  LastActivation = 'LastActivation',
+  OpenDuration = 'OpenDuration',
+  ResetTotal = 'ResetTotal',
+  TimesOpened = 'TimesOpened',
+  TotalConsumption = 'TotalConsumption',
+  Voltage = 'Voltage',
 }
 
 export enum ValveType {
