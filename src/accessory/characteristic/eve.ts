@@ -3,6 +3,8 @@ import { EveHomeKitTypes } from 'homebridge-lib/EveHomeKitTypes';
 
 import { CharacteristicKey, EveCharacteristicKey } from '../../model/enums.js';
 
+export const EVE_EPOCH = 978307200; // Seconds since Jan 1, 2001
+
 let _EveHomeKitTypes: EveHomeKitTypes | undefined;
 
 export function initEveCharacteristics(api: API) {

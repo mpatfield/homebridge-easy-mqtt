@@ -109,10 +109,13 @@ export enum HKCharacteristicKey {
 }
 
 export enum EveCharacteristicKey {
+  ClosedDuration = 'ClosedDuration',
   CurrentConsumption = 'CurrentConsumption',
   ElectricCurrent = 'ElectricCurrent',
   LastActivation = 'LastActivation',
+  OpenDuration = 'OpenDuration',
   ResetTotal = 'ResetTotal',
+  TimesOpened = 'TimesOpened',
   TotalConsumption = 'TotalConsumption',
   Voltage = 'Voltage',
 }

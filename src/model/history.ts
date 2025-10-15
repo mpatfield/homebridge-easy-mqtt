@@ -14,21 +14,18 @@ import { SECOND } from '../tools/time.js';
 
 export enum HistoryType {
   ENERGY = 'energy',
-  ROOM = 'room',
-  ROOM2 = 'room2',
   WEATHER = 'weather',
   DOOR = 'door',
   MOTION = 'motion',
   SWITCH = 'switch',
-  THERMO = 'thermo',
-  AQUA = 'aqua',
-  CUSTOM = 'custom',
 }
 
 export type HistoryEntry = {
-  time?: number,
+  humidity?: number,
   power?: number,
   status?: number,
+  temp?: number,
+  time?: number,
 }
 
 type HistoryOptions = {
@@ -44,6 +41,8 @@ type Accessory = MQTTAccessory<MQTTAccessoryConfig>;
 
 let ServiceProvider: HistoryServiceProvider | undefined;
 
+const HISTORY_UUID = 'bfc89fa1-78d8-4596-a2cc-cc8585ef0feb';
+
 function HistoryService(type: HistoryType, accessory: PlatformAccessory, options?: HistoryOptions): HistoryService {
 
   if (!ServiceProvider) {
@@ -58,7 +57,7 @@ export class History {
   private readonly historyServices = new Map<string, HistoryService>();
   private readonly persistPath: string;
 
-  constructor(api: API, private readonly log: Log) {
+  constructor(private readonly api: API, private readonly log: Log) {
 
     if (ServiceProvider) {
       throw new Error('HistoryServiceProvider already initialized');
@@ -102,7 +101,7 @@ export class History {
       size: config.size ?? 4032,
       storage: 'fs',
       path: this.persistPath,
-      filename: accessory.identifier,
+      filename: this.api.hap.uuid.generate(accessory.identifier + HISTORY_UUID),
     };
 
     const historyService = HistoryService(type, accessory.platformAccessory, options);
