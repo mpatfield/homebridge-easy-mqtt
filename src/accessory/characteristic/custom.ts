@@ -57,6 +57,10 @@ export class CustomCharacteristic {
     this.characteristic.onGet(this.getValue.bind(this));
   }
 
+  public get UUID(): string {
+    return this.config.uuid;
+  }
+
   public get topic(): string {
     return this.config.getTopic;
   }
