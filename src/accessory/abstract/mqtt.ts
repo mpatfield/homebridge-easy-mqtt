@@ -98,22 +98,20 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
   private setupCustomCharacteristics() {
 
     const keepUUIDs = new Set(CharacteristicKeys().map( (key) => this.characteristicFromKey(key).UUID));
+
+    for (const config of this.config.customCharacteristics ?? []) {
+      const customChar = CustomCharacteristic.create(this.accessoryService, this.Characteristic, config, this.name, this.log, this.config.disableLogging);
+      if (customChar !== undefined) {
+        keepUUIDs.add(customChar.UUID);
+        this.topicHandlers.push({ topic: customChar.topic, handler: customChar.onUpdateHandler });
+      }
+    }
+
     const toRemove = this.accessoryService.characteristics.filter( (characteristic) => !keepUUIDs.has(characteristic.UUID));
 
     for (const characteristic of toRemove) {
       characteristic.updateValue(null);
       this.accessoryService.removeCharacteristic(characteristic);
-    }
-
-    if (!this.config.customCharacteristics) {
-      return;
-    }
-
-    for (const config of this.config.customCharacteristics) {
-      const customChar = CustomCharacteristic.create(this.accessoryService, this.Characteristic, config, this.name, this.log, this.config.disableLogging);
-      if (customChar !== undefined) {
-        this.topicHandlers.push({ topic: customChar.topic, handler: customChar.onUpdateHandler });
-      }
     }
   }
 
