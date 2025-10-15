@@ -184,7 +184,7 @@ export abstract class Common<C extends Assertable> {
     }).bind(this);
   }
 
-  protected bindTemperatureUpdate<C extends TemperatureConfig>(config: C, charKey: CharacteristicKey, logTemplate: string): OnUpdateHandler {
+  protected bindOnUpdateTemperature<C extends TemperatureConfig>(config: C, charKey: CharacteristicKey, logTemplate: string): OnUpdateHandler {
     return (async (_topic: string, value: PrimitiveTypes) => {
 
       if (typeof value !== 'number') {
