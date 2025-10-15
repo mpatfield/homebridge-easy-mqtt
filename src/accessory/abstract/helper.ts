@@ -8,6 +8,10 @@ import * as Types from '../../model/types.js';
 import { GarageDoorAccessory } from '../garage.js';
 import { LockMechanismAccessory } from '../lock.js';
 import { SecuritySystemAccessory } from '../security.js';
+import { ValveAccessory } from '../valve.js';
+
+import { DoorbellAccessory } from '../button/doorbell.js';
+import { StatelessButtonAccessory } from '../button/stateless.js';
 
 import { FanV2Accessory } from '../climate/fan2.js';
 import { HeaterCoolerAccessory } from '../climate/heaterCooler.js';
@@ -32,9 +36,6 @@ import { OccupancySensorAccessory } from '../sensor/occupancy.js';
 import { SmokeSensorAccessory } from '../sensor/smoke.js';
 import { TemperatureSensorAccessory } from '../sensor/temperature.js';
 
-import { ButtonAccessory } from '../button.js';
-import { ValveAccessory } from '../valve.js';
-
 import { PLUGIN_NAME } from '../../homebridge/settings.js';
 
 export function createIdentifier(info: Types.InfoConfig): string {
@@ -55,14 +56,14 @@ export function createAccessory(
     return new PurifierAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.PurifierConfig>);
   case AccessoryType.AirQualitySensor:
     return new AirSensorAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.AirSensorConfig>);
-  case AccessoryType.WindowCovering:
-    return new BlindAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.BlindConfig>);
   case AccessoryType.CarbonDioxideSensor:
     return new CO2SensorAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.CO2SensorConfig>);
   case AccessoryType.CarbonMonoxideSensor:
     return new COSensorAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.COSensorConfig>);
   case AccessoryType.ContactSensor:
     return new ContactSensorAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.ContactSensorConfig>);
+  case AccessoryType.Doorbell:
+    return new DoorbellAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.DoorbellConfig>);
   case AccessoryType.Fanv2:
     return new FanV2Accessory(mqttDependency as Types.MQTTAccessoryDependency<Types.FanV2Config>);
   case AccessoryType.GarageDoorOpener:
@@ -90,7 +91,7 @@ export function createAccessory(
   case AccessoryType.SmokeSensor:
     return new SmokeSensorAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.SmokeSensorConfig>);
   case AccessoryType.StatelessProgrammableSwitch:
-    return new ButtonAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.ButtonConfig>);
+    return new StatelessButtonAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.ButtonConfig>);
   case AccessoryType.Switch:
     return new SwitchAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.SwitchConfig>);
   case AccessoryType.TemperatureSensor:
@@ -99,6 +100,8 @@ export function createAccessory(
     return new ThermostatAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.ThermostatConfig>);
   case AccessoryType.Valve:
     return new ValveAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.ValveConfig>);
+  case AccessoryType.WindowCovering:
+    return new BlindAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.BlindConfig>);
   }
 
   dependency.log.error(strings.startup.unsupportedType, config.info.type);

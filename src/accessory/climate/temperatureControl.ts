@@ -25,18 +25,18 @@ export abstract class TemperatureControlAccessory<C extends TemperatureControlCo
     this.setCharacteristicValue(HKCharacteristicKey.TemperatureDisplayUnits, temperatureDisplayUnits);
 
     this.setup(HKCharacteristicKey.CurrentTemperature, DEFAULT_TEMPERATURE, 'topicGetCurrentTemperature',
-      this.bindTemperatureUpdate(this.config, HKCharacteristicKey.CurrentTemperature, strings.climate.temperatureUpdate), true);
+      this.bindOnUpdateTemperature(this.config, HKCharacteristicKey.CurrentTemperature, strings.climate.temperatureUpdate), true);
 
     this.setup(HKCharacteristicKey.CoolingThresholdTemperature, DEFAULT_COOLING_THRESHOLD,
       'topicGetCoolingThresholdTemperature',
-      this.bindTemperatureUpdate(this.config, HKCharacteristicKey.CoolingThresholdTemperature, strings.climate.coolingThreshold), false,
+      this.bindOnUpdateTemperature(this.config, HKCharacteristicKey.CoolingThresholdTemperature, strings.climate.coolingThreshold), false,
       'topicSetCoolingThresholdTemperature',
       this.bindOnSetThreshold(HKCharacteristicKey.CoolingThresholdTemperature, 'topicSetCoolingThresholdTemperature', strings.climate.coolingThresholdFuture),
     );
 
     this.setup(HKCharacteristicKey.HeatingThresholdTemperature, DEFAULT_HEATING_THRESHOLD,
       'topicGetHeatingThresholdTemperature',
-      this.bindTemperatureUpdate(this.config, HKCharacteristicKey.HeatingThresholdTemperature, strings.climate.heatingThreshold), false,
+      this.bindOnUpdateTemperature(this.config, HKCharacteristicKey.HeatingThresholdTemperature, strings.climate.heatingThreshold), false,
       'topicSetHeatingThresholdTemperature',
       this.bindOnSetThreshold(HKCharacteristicKey.HeatingThresholdTemperature, 'topicSetHeatingThresholdTemperature', strings.climate.heatingThresholdFuture),
     );

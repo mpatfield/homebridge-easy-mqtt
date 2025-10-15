@@ -12,7 +12,7 @@ export class TemperatureSensorAccessory extends SensorAccessory<TemperatureSenso
     super(dependency);
 
     this.setup(HKCharacteristicKey.CurrentTemperature, 0, 'topicGetCurrentTemperature',
-      this.bindTemperatureUpdate(dependency.config, HKCharacteristicKey.CurrentTemperature, strings.climate.temperatureUpdate), true);
+      this.bindOnUpdateTemperature(dependency.config, HKCharacteristicKey.CurrentTemperature, strings.climate.temperatureUpdate), true);
   }
 
   protected getAccessoryType(): AccessoryType {

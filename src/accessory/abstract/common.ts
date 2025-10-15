@@ -221,8 +221,30 @@ export abstract class Common<C extends Assertable> {
     }).bind(this);
   }
 
+  protected bindOnUpdateBoolean(key: CharacteristicKey, positiveKey: keyof C, negativeKey: keyof C, logTrue: string, logFalse: string): OnUpdateHandler {
+    return (async (_topic: string, value: PrimitiveTypes) => {
+
+      let bool: boolean | undefined = undefined;
+      switch (value) {
+      case this.getPrimitiveValue(positiveKey):
+        bool = true;
+        break;
+      case this.getPrimitiveValue(negativeKey):
+        bool = false;
+        break;
+      default:
+        this.log.error(strings.characteristic.unknownValue);
+        return;
+      }
+
+      const logString = bool ? logTrue : logFalse;
+      this.onUpdate(key, bool, logString);
+
+    }).bind(this);
+  }
+
   protected bindOnUpdateNumericBoolean(charKey: CharacteristicKey, valueKey: keyof C,
-    logTrue: string, logFalse: string, callback?: (value: number)=> void): OnUpdateHandler {
+    logTrue: string, logFalse: string, callback?: (value: number) => void): OnUpdateHandler {
     return (async (_topic: string, value: PrimitiveTypes) => {
       const numeric = value === this.getPrimitiveValue(valueKey) ? 1 : 0;
       this.onUpdate(charKey, numeric, numeric ? logTrue : logFalse);
@@ -230,8 +252,8 @@ export abstract class Common<C extends Assertable> {
     }).bind(this);
   }
 
-  protected bindTemperatureUpdate<C extends TemperatureConfig>(config: C, charKey: CharacteristicKey,
-    logTemplate: string, callback?: (value: number)=> void): OnUpdateHandler {
+  protected bindOnUpdateTemperature<C extends TemperatureConfig>(config: C, charKey: CharacteristicKey,
+    logTemplate: string, callback?: (value: number) => void ): OnUpdateHandler {
     return (async (_topic: string, value: PrimitiveTypes) => {
 
       if (typeof value !== 'number') {
@@ -245,6 +267,52 @@ export abstract class Common<C extends Assertable> {
       const logString = logTemplate.replace('%d°%s', `${value}°${units}`);
       this.onUpdate(charKey, temperature, logString);
       callback?.(temperature);
+
+    }).bind(this);
+  }
+
+  protected bindOnSetNumeric(key: CharacteristicKey, topic: keyof C, logTemplate: string) {
+    return (async (value: CharacteristicValue) => {
+
+      if (typeof value !== 'number') {
+        this.log.error(strings.characteristic.badValue, this.name, key, `'${value}'`);
+        return;
+      }
+
+      const logString = logTemplate.replace('%d', value.toString());
+
+      this.onSet(key, value, value, topic, logString);
+
+    }).bind(this);
+  }
+
+  protected bindOnSetBoolean(
+    key: CharacteristicKey, setTopicKey: keyof C,
+    positiveKey: keyof C, negativeKey: keyof C, positiveValue: CharacteristicValue,
+    positiveLogString: string, negativeLogString: string,
+  ) {
+    return (async (value: CharacteristicValue) => {
+
+      if (!this.assert(setTopicKey, positiveKey, negativeKey)) {
+        return;
+      }
+
+      if (!setTopicKey.toString().startsWith('topic')) {
+        throw new Error(`Trying to fetch topic with unexpected property name '${setTopicKey.toString()}'`);
+      }
+
+      if (!positiveKey.toString().startsWith('value')) {
+        throw new Error(`Trying to fetch value with unexpected property name '${positiveKey.toString()}'`);
+      }
+
+      if (!negativeKey.toString().startsWith('value')) {
+        throw new Error(`Trying to fetch value with unexpected property name '${negativeKey.toString()}'`);
+      }
+
+      const booleanValue = value === positiveValue;
+      const logString = booleanValue ? positiveLogString : negativeLogString;
+      const publish = booleanValue ? this.config[positiveKey] as string : this.config[negativeKey] as string;
+      this.onSet(key, value, publish, setTopicKey, logString);
 
     }).bind(this);
   }

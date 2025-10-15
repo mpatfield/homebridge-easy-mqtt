@@ -21,8 +21,8 @@
           "type": {
             "type": "string",
             "title": "${config.title.type}",
-            "enum": [ "AirPurifier", "AirQualitySensor", "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "Fanv2", "GarageDoorOpener", "HeaterCooler", "HumiditySensor", "LeakSensor", "Lightbulb", "LightSensor", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "StatelessProgrammableSwitch", "Switch", "TemperatureSensor", "Thermostat", "Valve", "WindowCovering"],
-            "enumNames": ["${config.enumNames.airPurifier}", "${config.enumNames.airQualitySensor}", "${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.fanv2}", "${config.enumNames.garageDoorOpener}", "${config.enumNames.heaterCooler}", "${config.enumNames.humiditySensor}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lightSensor}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.statelessSwitch}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}", "${config.enumNames.valve}", "${config.enumNames.windowCovering}"],
+            "enum": [ "AirPurifier", "AirQualitySensor", "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "Doorbell", "Fanv2", "GarageDoorOpener", "HeaterCooler", "HumiditySensor", "LeakSensor", "Lightbulb", "LightSensor", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "StatelessProgrammableSwitch", "Switch", "TemperatureSensor", "Thermostat", "Valve", "WindowCovering"],
+            "enumNames": ["${config.enumNames.airPurifier}", "${config.enumNames.airQualitySensor}", "${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.doorbell}", "${config.enumNames.fanv2}", "${config.enumNames.garageDoorOpener}", "${config.enumNames.heaterCooler}", "${config.enumNames.humiditySensor}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lightSensor}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.statelessSwitch}", "${config.enumNames.switch}",  "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}", "${config.enumNames.valve}", "${config.enumNames.windowCovering}"],
             "required": true
           },
           "group": {
@@ -141,6 +141,10 @@
               "title": "${config.title.maximum}"
             },
             "maximumRotationSpeed": {
+              "type": "integer",
+              "title": "${config.title.maximum}"
+            },
+            "maximumVolume": {
               "type": "integer",
               "title": "${config.title.maximum}"
             },
@@ -556,6 +560,22 @@
               "type": "string",
               "title": "${config.title.topicEventButtonPress}"
             },
+            "topicGetMuted": {
+              "type": "string",
+              "title": "${config.title.topicGetMuted}"
+            },
+            "topicGetVolume": {
+              "type": "string",
+              "title": "${config.title.topicGetVolume}"
+            },
+            "topicSetMuted": {
+              "type": "string",
+              "title": "${config.title.topicSetMuted}"
+            },
+            "topicSetVolume": {
+              "type": "string",
+              "title": "${config.title.topicSetVolume}"
+            },
             "valueBatteryLow": {
               "type": "string",
               "title": "${config.title.valueBatteryLow}"
@@ -823,6 +843,14 @@
             "valueLongPress": {
               "type": "string",
               "title": "${config.title.valueLongPress}"
+            },
+            "valueMuted": {
+              "type": "string",
+              "title": "${config.title.valueMuted}"
+            },
+            "valueUnmuted": {
+              "type": "string",
+              "title": "${config.title.valueUnmuted}"
             },
             "resetOnRestart": {
               "type": "boolean",
@@ -1237,8 +1265,8 @@
                   "info": {
                     "properties": {
                       "type" : {
-                        "const": "StatelessProgrammableSwitch"
-                      }
+                        "enum": ["Doorbell, StatelessProgrammableSwitch"]
+                     }
                     }
                   }
                 }
@@ -1639,6 +1667,32 @@
               "then": {
                 "required": ["topicGetCurrentVerticalTiltAngle"]
               }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicGetMuted": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicGetMuted"]
+              },
+              "then": {
+                "required": ["topicSetMuted", "valueMuted", "valueUnmuted"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicSetMuted": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicSetMuted"]
+              },
+              "then": {
+                "required": ["topicGetMuted"]
+              }
             }
           ]
         },
@@ -1851,7 +1905,7 @@
                   "type": "fieldset",
                   "notitle": true,
                   "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'StatelessProgrammableSwitch';"
+                    "functionBody": "return ['Doorbell', 'StatelessProgrammableSwitch'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {
@@ -1861,6 +1915,68 @@
                       "items": [
                         {
                           "key": "accessories[].topicEventButtonPress",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Doorbell';"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetBrightness",
+                          "flex": "0 0 40%"
+                        },
+                        {
+                          "key": "accessories[].topicSetBrightness",
+                          "flex": "0 0 40%"
+                        },
+                        {
+                          "key": "accessories[].maximumBrightness",
+                          "flex": "0 0 20%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetVolume",
+                          "flex": "0 0 40%"
+                        },
+                        {
+                          "key": "accessories[].topicSetVolume",
+                          "flex": "0 0 40%"
+                        },
+                        {
+                          "key": "accessories[].maximumVolume",
+                          "flex": "0 0 20%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetMuted",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetMuted",
                           "flex": "0 0 50%"
                         }
                       ]
@@ -3261,7 +3377,7 @@
                   "type": "fieldset",
                   "notitle": true,
                   "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'StatelessProgrammableSwitch';"
+                    "functionBody": "return ['Doorbell', 'StatelessProgrammableSwitch'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {
@@ -3282,6 +3398,24 @@
                           "flex": "0 0 25%"
                         }
                       ]
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Doorbell';"
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].valueMuted",
+                      "flex": "0 0 25%"
+                    },
+                    {
+                      "key": "accessories[].valueUnmuted",
+                      "flex": "0 0 25%"
                     }
                   ]
                 },

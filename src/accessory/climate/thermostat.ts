@@ -41,7 +41,7 @@ export class ThermostatAccessory extends TemperatureControlAccessory<ThermostatC
 
     this.setup(HKCharacteristicKey.TargetTemperature, DEFAULT_TEMPERATURE,
       'topicGetTargetTemperature',
-      this.bindTemperatureUpdate(dependency.config, HKCharacteristicKey.TargetTemperature, strings.thermostat.temperatureTarget),
+      this.bindOnUpdateTemperature(dependency.config, HKCharacteristicKey.TargetTemperature, strings.thermostat.temperatureTarget),
       true,
       'topicSetTargetTemperature',
       this.onSetTemperature.bind(this),

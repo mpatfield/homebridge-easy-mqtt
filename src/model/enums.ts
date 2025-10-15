@@ -4,6 +4,7 @@ export enum AccessoryType {
   CarbonDioxideSensor = 'CarbonDioxideSensor',
   CarbonMonoxideSensor = 'CarbonMonoxideSensor',
   ContactSensor = 'ContactSensor',
+  Doorbell = 'Doorbell',
   Fanv2 = 'Fanv2',
   GarageDoorOpener = 'GarageDoorOpener',
   HeaterCooler = 'HeaterCooler',
@@ -68,6 +69,7 @@ export enum HKCharacteristicKey {
   LockPhysicalControls = 'LockPhysicalControls',
   LockTargetState = 'LockTargetState',
   MotionDetected = 'MotionDetected',
+  Mute = 'Mute',
   NitrogenDioxideDensity = 'NitrogenDioxideDensity',
   ObstructionDetected = 'ObstructionDetected',
   OccupancyDetected = 'OccupancyDetected',
@@ -106,6 +108,7 @@ export enum HKCharacteristicKey {
   TemperatureDisplayUnits = 'TemperatureDisplayUnits',
   ValveType = 'ValveType',
   VOCDensity = 'VOCDensity',
+  Volume = 'Volume',
 }
 
 export enum EveCharacteristicKey {
