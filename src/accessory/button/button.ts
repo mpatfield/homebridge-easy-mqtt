@@ -1,15 +1,14 @@
 import { PrimitiveTypes } from 'homebridge';
 
-import { BaseAccessory } from './abstract/base.js';
+import { BaseAccessory } from '../abstract/base.js';
 
-import { strings } from '../i18n/i18n.js';
+import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType } from '../model/enums.js';
-import { ButtonConfig, MQTTAccessoryDependency } from '../model/types.js';
+import { ButtonConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
-export class ButtonAccessory extends BaseAccessory<ButtonConfig> {
+export abstract class ButtonAccessory<C extends ButtonConfig = ButtonConfig> extends BaseAccessory<C> {
 
-  constructor(dependency: MQTTAccessoryDependency<ButtonConfig>) {
+  constructor(dependency: MQTTAccessoryDependency<C>) {
     super(dependency);
 
     if (!this.assert('topicEventButtonPress')) {
@@ -22,10 +21,6 @@ export class ButtonAccessory extends BaseAccessory<ButtonConfig> {
     }
 
     this.topicHandlers.push({ topic: dependency.config.topicEventButtonPress, handler: this.onPress.bind(this) });
-  }
-
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.StatelessProgrammableSwitch;
   }
 
   private async onPress(_topic: string, value: PrimitiveTypes): Promise<void> {

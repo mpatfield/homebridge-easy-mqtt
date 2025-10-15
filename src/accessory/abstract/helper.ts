@@ -8,6 +8,9 @@ import * as Types from '../../model/types.js';
 import { GarageDoorAccessory } from '../garage.js';
 import { LockMechanismAccessory } from '../lock.js';
 import { SecuritySystemAccessory } from '../security.js';
+import { ValveAccessory } from '../valve.js';
+
+import { StatelessButtonAccessory } from '../button/stateless.js';
 
 import { FanV2Accessory } from '../climate/fan2.js';
 import { HeaterCoolerAccessory } from '../climate/heaterCooler.js';
@@ -31,9 +34,6 @@ import { MotionSensorAccessory } from '../sensor/motion.js';
 import { OccupancySensorAccessory } from '../sensor/occupancy.js';
 import { SmokeSensorAccessory } from '../sensor/smoke.js';
 import { TemperatureSensorAccessory } from '../sensor/temperature.js';
-
-import { ButtonAccessory } from '../button.js';
-import { ValveAccessory } from '../valve.js';
 
 import { PLUGIN_NAME } from '../../homebridge/settings.js';
 
@@ -90,7 +90,7 @@ export function createAccessory(
   case AccessoryType.SmokeSensor:
     return new SmokeSensorAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.SmokeSensorConfig>);
   case AccessoryType.StatelessProgrammableSwitch:
-    return new ButtonAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.ButtonConfig>);
+    return new StatelessButtonAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.ButtonConfig>);
   case AccessoryType.Switch:
     return new SwitchAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.SwitchConfig>);
   case AccessoryType.TemperatureSensor:
