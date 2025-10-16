@@ -7,15 +7,15 @@ import { MQTTAccessoryDependency, TemperatureSensorConfig } from '../../model/ty
 
 export class TemperatureSensorAccessory extends SensorAccessory<TemperatureSensorConfig> {
 
+  protected getAccessoryType(): AccessoryType {
+    return AccessoryType.TemperatureSensor;
+  }
+
   constructor(
     dependency: MQTTAccessoryDependency<TemperatureSensorConfig>) {
     super(dependency);
 
     this.setup(HKCharacteristicKey.CurrentTemperature, 0, 'topicGetCurrentTemperature',
       this.bindOnUpdateTemperature(dependency.config, HKCharacteristicKey.CurrentTemperature, strings.climate.temperatureUpdate), true);
-  }
-
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.TemperatureSensor;
   }
 }

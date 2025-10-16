@@ -1,4 +1,4 @@
-import { CharacteristicValue, PrimitiveTypes, Service } from 'homebridge';
+import { CharacteristicValue, Service } from 'homebridge';
 
 import { Addon } from './addon.js';
 
@@ -33,26 +33,16 @@ export class FilterMaintenance extends Addon<FilterMaintenanceConfig> {
     super(parentAccessory, service, config);
 
     this.setup(HKCharacteristicKey.FilterChangeIndication, this.Characteristic.FilterChangeIndication.FILTER_OK,
-      'topicGetFilterChangeIndication', this.onChangeIndicationUpdate.bind(this), false);
+      'topicGetFilterChangeIndication',
+      this.bindOnUpdateBooleanSingle(HKCharacteristicKey.FilterChangeIndication,'valueFilterChange',
+        strings.filter.change, strings.filter.ok, LogType.WARNING),
+      false,
+    );
 
     this.setup(HKCharacteristicKey.FilterLifeLevel, 100,
       'topicGetFilterLifeLevel', this.bindOnUpdateNumeric(HKCharacteristicKey.FilterLifeLevel, strings.filter.level), false);
 
     this.setupSet(HKCharacteristicKey.ResetFilterIndication, 'topicResetFilterIndication', this.onResetIndication.bind(this));
-  }
-
-  private async onChangeIndicationUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-
-    const indication = value === this.getPrimitiveValue('valueFilterChange') ? 1 : 0;
-    if (!this.onUpdate(HKCharacteristicKey.FilterChangeIndication, indication)) {
-      return;
-    }
-
-    if (indication === this.Characteristic.FilterChangeIndication.FILTER_OK) {
-      this.logIfDesired(strings.filter.ok);
-    } else {
-      this.logIfDesired(LogType.WARNING, strings.filter.change);
-    }
   }
 
   private async onResetIndication(value: CharacteristicValue) {
@@ -61,7 +51,7 @@ export class FilterMaintenance extends Addon<FilterMaintenanceConfig> {
       return;
     }
 
-    this.onSet(HKCharacteristicKey.ResetFilterIndication, value, this.config.valueFilterReset, 'topicResetFilterIndication', strings.filter.reset);
+    this.onSet(HKCharacteristicKey.ResetFilterIndication, value, this.config.valueFilterReset!, 'topicResetFilterIndication', strings.filter.reset);
     this.properties.set(HKCharacteristicKey.ResetFilterIndication, 0);
   }
 }

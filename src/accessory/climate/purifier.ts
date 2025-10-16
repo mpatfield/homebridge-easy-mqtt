@@ -1,5 +1,3 @@
-import { CharacteristicValue, PrimitiveTypes } from 'homebridge';
-
 import { ActiveClimateAccessory } from './active.js';
 
 import { FilterMaintenance } from '../addons/filter.js';
@@ -11,140 +9,61 @@ import { MQTTAccessoryDependency, PurifierConfig } from '../../model/types.js';
 
 export class PurifierAccessory extends ActiveClimateAccessory<PurifierConfig> {
 
-  private readonly CURRENT_STATE_MAP: Map<keyof PurifierConfig, number>;
-  private readonly TARGET_STATE_MAP: Map<keyof PurifierConfig, number>;
+  protected getAccessoryType(): AccessoryType {
+    return AccessoryType.AirPurifier;
+  }
 
   constructor(dependency: MQTTAccessoryDependency<PurifierConfig>) {
     super(dependency);
 
-    this.CURRENT_STATE_MAP = new Map([
+    const currentStates = new Map<keyof PurifierConfig, number>([
       ['valueModeInactive', dependency.Characteristic.CurrentAirPurifierState.INACTIVE],
       ['valueModeIdle', dependency.Characteristic.CurrentAirPurifierState.IDLE],
       ['valueModePurifying', dependency.Characteristic.CurrentAirPurifierState.PURIFYING_AIR],
     ]);
 
-    this.TARGET_STATE_MAP = new Map([
-      ['valueModeManual', dependency.Characteristic.TargetAirPurifierState.MANUAL],
-      ['valueModeAuto', dependency.Characteristic.TargetAirPurifierState.AUTO],
+    const currentStrings = new Map([
+      [dependency.Characteristic.CurrentAirPurifierState.INACTIVE, strings.purifier.stateInactive],
+      [dependency.Characteristic.CurrentAirPurifierState.IDLE, strings.purifier.stateIdle],
+      [dependency.Characteristic.CurrentAirPurifierState.PURIFYING_AIR, strings.purifier.statePurifying],
     ]);
 
-    const validCurrentStates = Array.from(this.CURRENT_STATE_MAP.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
+    const validCurrentStates = Array.from(currentStates.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
     if (validCurrentStates.length === 0) {
       this.log.error(strings.purifier.noCurrentStateValues, this.name);
       return;
     }
 
-    this.setup(HKCharacteristicKey.CurrentAirPurifierState, this.CURRENT_STATE_MAP.get(validCurrentStates[0])!,
-      'topicGetCurrentPurifierState', this.onCurrentStateUpdate.bind(this), true)
-      ?.setProps({ validValues: validCurrentStates.map((key) => this.CURRENT_STATE_MAP.get(key)!) });
+    this.setup(HKCharacteristicKey.CurrentAirPurifierState, currentStates.get(validCurrentStates[0])!,
+      'topicGetCurrentPurifierState',
+      this.bindOnUpdateState(HKCharacteristicKey.CurrentAirPurifierState, currentStates, currentStrings, strings.purifier.stateUnknown),
+      true,
+    )?.setProps({ validValues: validCurrentStates.map((key) => currentStates.get(key)!) });
 
-    const validTargetStates = Array.from(this.TARGET_STATE_MAP.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
+    const targetStates = new Map<keyof PurifierConfig, number>([
+      ['valueModeManual', dependency.Characteristic.TargetAirPurifierState.MANUAL],
+      ['valueModeAuto', dependency.Characteristic.TargetAirPurifierState.AUTO],
+    ]);
+
+    const validTargetStates = Array.from(targetStates.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
     if (validTargetStates.length === 0) {
       this.log.error(strings.purifier.noTargetStateValues, this.name);
       return;
     }
 
-    this.setup(HKCharacteristicKey.TargetAirPurifierState, this.TARGET_STATE_MAP.get(validTargetStates[0])!,
-      'topicGetTargetPurifierState', this.onTargetStateUpdate.bind(this), true,
-      'topicSetTargetPurifierState', this.onSetTargetState.bind(this))
-      ?.setProps({ validValues: validTargetStates.map((key) => this.TARGET_STATE_MAP.get(key)!) });
+    const targetStrings = new Map([
+      [dependency.Characteristic.TargetAirPurifierState.AUTO, strings.purifier.stateAuto],
+      [dependency.Characteristic.TargetAirPurifierState.MANUAL, strings.purifier.stateManual],
+    ]);
+
+    this.setup(HKCharacteristicKey.TargetAirPurifierState, targetStates.get(validTargetStates[0])!,
+      'topicGetTargetPurifierState',
+      this.bindOnUpdateState(HKCharacteristicKey.TargetAirPurifierState, targetStates, targetStrings, strings.purifier.stateUnknown),
+      true,
+      'topicSetTargetPurifierState',
+      this.bindOnSetState(HKCharacteristicKey.TargetAirPurifierState, 'topicSetTargetPurifierState', targetStates, targetStrings, strings.purifier.badValue),
+    )?.setProps({ validValues: validTargetStates.map((key) => targetStates.get(key)!) });
 
     this.addTopicHandlers(FilterMaintenance.topicHandlers(dependency.Service, this, dependency.config));
-  }
-
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.AirPurifier;
-  }
-
-  private async onCurrentStateUpdate(_topic: string, value: PrimitiveTypes) {
-    const state = this.toCurrentCVState(value);
-    if (state === undefined) {
-      return;
-    }
-
-    this.onUpdate(HKCharacteristicKey.CurrentAirPurifierState, state, this.stateStringForCurrentCV(state));
-  }
-
-  private async onTargetStateUpdate(_topic: string, value: PrimitiveTypes) {
-    const state = this.toTargetCVState(value);
-    if (state === undefined) {
-      return;
-    }
-
-    this.onUpdate(HKCharacteristicKey.TargetAirPurifierState, state, this.stateStringForTargetCV(state));
-  }
-
-  private async onSetTargetState(value: CharacteristicValue) {
-
-    const target = this.fromCVState(value);
-    if (target === undefined) {
-      return;
-    }
-
-    this.onSet(HKCharacteristicKey.TargetAirPurifierState, value, target, 'topicSetTargetPurifierState', this.stateStringForTargetCV(value));
-  }
-
-  private fromCVState(value: CharacteristicValue): PrimitiveTypes | undefined {
-
-    let primative = undefined;
-    this.TARGET_STATE_MAP.forEach( (test, key) => {
-      if (value === test) {
-        primative = this.getPrimitiveValue(key);
-      }
-    });
-
-    if (primative === undefined) {
-      this.log.error(strings.purifier.badValue, this.name, `'${value}'`);
-    }
-
-    return primative;
-  }
-
-  private toCurrentCVState(value: PrimitiveTypes): CharacteristicValue | undefined {
-    switch (value) {
-    case this.getPrimitiveValue('valueModeInactive', false):
-      return this.CURRENT_STATE_MAP.get('valueModeInactive');
-    case this.getPrimitiveValue('valueModeIdle', false):
-      return this.CURRENT_STATE_MAP.get('valueModeIdle');
-    case this.getPrimitiveValue('valueModePurifying', false):
-      return this.CURRENT_STATE_MAP.get('valueModePurifying');
-    }
-
-    this.logIfDesired(strings.purifier.unknownValue, `'${value}'`);
-  }
-
-  private toTargetCVState(value: PrimitiveTypes): CharacteristicValue | undefined {
-    switch (value) {
-    case this.getPrimitiveValue('valueModeAuto', false):
-      return this.TARGET_STATE_MAP.get('valueModeAuto');
-    case this.getPrimitiveValue('valueModeManual', false):
-      return this.TARGET_STATE_MAP.get('valueModeManual');
-    }
-
-    this.logIfDesired(strings.purifier.unknownValue, `'${value}'`);
-  }
-
-  private stateStringForCurrentCV(state: CharacteristicValue): string {
-    switch(state) {
-    case this.Characteristic.CurrentAirPurifierState.INACTIVE:
-      return strings.purifier.stateInactive;
-    case this.Characteristic.CurrentAirPurifierState.IDLE:
-      return strings.purifier.stateIdle;
-    case this.Characteristic.CurrentAirPurifierState.PURIFYING_AIR:
-      return strings.purifier.statePurifying;
-    default:
-      return strings.purifier.stateUnknown;
-    }
-  }
-
-  private stateStringForTargetCV(state: CharacteristicValue): string {
-    switch(state) {
-    case this.Characteristic.TargetAirPurifierState.AUTO:
-      return strings.purifier.stateAuto;
-    case this.Characteristic.TargetAirPurifierState.MANUAL:
-      return strings.purifier.stateManual;
-    default:
-      return strings.purifier.stateUnknown;
-    }
   }
 }

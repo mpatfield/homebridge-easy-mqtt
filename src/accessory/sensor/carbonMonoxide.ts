@@ -7,6 +7,10 @@ import { COSensorConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 export class COSensorAccessory extends SensorAccessory<COSensorConfig> {
 
+  protected getAccessoryType(): AccessoryType {
+    return AccessoryType.CarbonMonoxideSensor;
+  }
+
   constructor(dependency: MQTTAccessoryDependency<COSensorConfig>) {
     super(dependency);
 
@@ -23,9 +27,5 @@ export class COSensorAccessory extends SensorAccessory<COSensorConfig> {
 
     this.setup(HKCharacteristicKey.CarbonMonoxidePeakLevel, 0,
       'topicGetCarbonMonoxidePeakLevel', this.bindOnUpdateNumeric(HKCharacteristicKey.CarbonMonoxidePeakLevel, strings.sensor.carbonMonoxide.peakLevel), false);
-  }
-
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.CarbonMonoxideSensor;
   }
 }

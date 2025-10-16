@@ -31,14 +31,14 @@ export abstract class TemperatureControlAccessory<C extends TemperatureControlCo
       'topicGetCoolingThresholdTemperature',
       this.bindOnUpdateTemperature(this.config, HKCharacteristicKey.CoolingThresholdTemperature, strings.climate.coolingThreshold), false,
       'topicSetCoolingThresholdTemperature',
-      this.bindOnSetThreshold(HKCharacteristicKey.CoolingThresholdTemperature, 'topicSetCoolingThresholdTemperature', strings.climate.coolingThresholdFuture),
+      this.bindOnSetTemperature(HKCharacteristicKey.CoolingThresholdTemperature, 'topicSetCoolingThresholdTemperature', strings.climate.coolingThresholdFuture),
     );
 
     this.setup(HKCharacteristicKey.HeatingThresholdTemperature, DEFAULT_HEATING_THRESHOLD,
       'topicGetHeatingThresholdTemperature',
       this.bindOnUpdateTemperature(this.config, HKCharacteristicKey.HeatingThresholdTemperature, strings.climate.heatingThreshold), false,
       'topicSetHeatingThresholdTemperature',
-      this.bindOnSetThreshold(HKCharacteristicKey.HeatingThresholdTemperature, 'topicSetHeatingThresholdTemperature', strings.climate.heatingThresholdFuture),
+      this.bindOnSetTemperature(HKCharacteristicKey.HeatingThresholdTemperature, 'topicSetHeatingThresholdTemperature', strings.climate.heatingThresholdFuture),
     );
   }
 
@@ -46,7 +46,7 @@ export abstract class TemperatureControlAccessory<C extends TemperatureControlCo
     return temperatureUnits(this.config.temperatureUnits);
   }
 
-  private bindOnSetThreshold(charKey: HKCharacteristicKey, topic: keyof TemperatureControlConfig, logTemplate: string) {
+  protected bindOnSetTemperature(charKey: HKCharacteristicKey, topic: keyof C, logTemplate: string) {
     return (async (value: CharacteristicValue) => {
       const temperature = this.temperatureFromCV(value);
       const logString = logTemplate.replace('%d°%s', `${temperature}°${this.temperatureUnits}`);

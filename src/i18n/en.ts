@@ -340,7 +340,6 @@ const en = {
     stateInactive: '%s is inactive', // accessory name
     stateManual: 'Setting %s to manual…', // accessory name
     stateUnknown: '%s state is unknown', // accessory name
-    unknownValue: '%s unable to determine fan state from value %s. Ignoring…', // accessory name, value
   },
 
   filter: {
@@ -362,7 +361,6 @@ const en = {
     stateOpenFuture: 'Opening %s…', // accessory name
     stateOpening: '%s is opening', // accessory name
     stateStopped: '%s is stopped', // accessory name
-    stateUnknown: '%s state is unknown', // accessory name
     unknownValue: '%s unable to determine door state from value %s. Ignoring…', // accessory name, value
     unobstructed: '%s is unobstructed', // accessory name
   },
@@ -431,7 +429,6 @@ const en = {
     stateOffFuture: 'Turning off %s…', // accessory name
     stateOn: '%s is on', // accessory name
     stateOnFuture: 'Turning on %s…', // accessory name
-    unknownValue: '%s unable to determine on/off state from %s. Ignoring…', // accessory name, value
   },
 
   outlet: {
@@ -460,7 +457,6 @@ const en = {
     stateDecreasing: '%s position is decreasing', // accessory name
     stateIncreasing: '%s position is increasing', // accessory name
     stateStopped: '%s position is stopped', // accessory name
-    stateUnknown: '%s position state is unknown', // accessory name
     targetPercent: '%s target position is %d%', // accessory name, number
     targetPercentSet: 'Setting %s target position to %d%…', // accessory name, number
     targetValue: '%s target position is %d', // accessory name, number
@@ -479,7 +475,6 @@ const en = {
     stateManual: 'Setting %s to manual…', // accessory name
     statePurifying: '%s is purifying', // accessory name
     stateUnknown: '%s state is unknown', // accessory name
-    unknownValue: '%s unable to determine air purifier state from value %s. Ignoring…', // accessory name, value
   },
 
   security: {

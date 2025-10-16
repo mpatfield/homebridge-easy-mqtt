@@ -1,5 +1,3 @@
-import { CharacteristicValue, PrimitiveTypes } from 'homebridge';
-
 import { SensorAccessory } from './sensor.js';
 
 import { strings } from '../../i18n/i18n.js';
@@ -11,12 +9,14 @@ const MAX_DENSITY = 5000;
 
 export class AirSensorAccessory extends SensorAccessory<AirSensorConfig> {
 
-  private readonly STATE_MAP: Map<keyof AirSensorConfig, number>;
+  protected getAccessoryType(): AccessoryType {
+    return AccessoryType.AirQualitySensor;
+  }
 
   constructor(dependency: MQTTAccessoryDependency<AirSensorConfig>) {
     super(dependency);
 
-    this.STATE_MAP = new Map([
+    const stateMap = new Map<keyof AirSensorConfig, number>([
       ['valueAQUnknown', dependency.Characteristic.AirQuality.UNKNOWN],
       ['valueAQExcellent', dependency.Characteristic.AirQuality.EXCELLENT],
       ['valueAQGood', dependency.Characteristic.AirQuality.GOOD],
@@ -25,15 +25,26 @@ export class AirSensorAccessory extends SensorAccessory<AirSensorConfig> {
       ['valueAQPoor', dependency.Characteristic.AirQuality.POOR],
     ]);
 
-    const validStates = Array.from(this.STATE_MAP.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
+    const stateStrings = new Map([
+      [dependency.Characteristic.AirQuality.EXCELLENT, strings.sensor.air.qualityExcellent],
+      [dependency.Characteristic.AirQuality.GOOD, strings.sensor.air.qualityGood],
+      [dependency.Characteristic.AirQuality.FAIR, strings.sensor.air.qualityFair],
+      [dependency.Characteristic.AirQuality.INFERIOR, strings.sensor.air.qualityInferior],
+      [dependency.Characteristic.AirQuality.POOR, strings.sensor.air.qualityPoor],
+      [dependency.Characteristic.AirQuality.UNKNOWN, strings.sensor.air.qualityUnknown],
+    ]);
+
+    const validStates = Array.from(stateMap.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
     if (validStates.length === 0 || (validStates.length === 1 && validStates[0] === 'valueAQUnknown')) {
       this.log.error(strings.sensor.air.noStateValues, this.name);
       return;
     }
 
     this.setup(HKCharacteristicKey.AirQuality, dependency.Characteristic.AirQuality.UNKNOWN,
-      'topicGetAirQuality', this.onAirQualityUpdate.bind(this), true,
-    )?.setProps({ validValues: validStates.map((key) => this.STATE_MAP.get(key)!) });
+      'topicGetAirQuality',
+      this.bindOnUpdateState(HKCharacteristicKey.AirQuality, stateMap, stateStrings, strings.sensor.air.unknownValue),
+      true,
+    )?.setProps({ validValues: validStates.map((key) => stateMap.get(key)!) });
 
     const densityMap = new Map<keyof AirSensorConfig, HKCharacteristicKey>([
       ['topicGetNitrogenDioxideDensity', HKCharacteristicKey.NitrogenDioxideDensity],
@@ -48,53 +59,6 @@ export class AirSensorAccessory extends SensorAccessory<AirSensorConfig> {
       this.setup(key, 0, topic, this.bindOnUpdateNumeric(key, this.logTemplateForDensityKey(key)), false)
         ?.setProps({ maxValue: MAX_DENSITY });
     });
-  }
-
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.AirQualitySensor;
-  }
-
-  private async onAirQualityUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-    const current = this.toCVState(value);
-    this.onUpdate(HKCharacteristicKey.AirQuality, current, this.qualityStringForCV(current));
-  }
-
-  private toCVState(value: PrimitiveTypes): CharacteristicValue {
-    switch (value) {
-    case this.getPrimitiveValue('valueAQUnknown', false):
-      return this.STATE_MAP.get('valueAQUnknown')!;
-    case this.getPrimitiveValue('valueAQExcellent', false):
-      return this.STATE_MAP.get('valueAQExcellent')!;
-    case this.getPrimitiveValue('valueAQGood', false):
-      return this.STATE_MAP.get('valueAQGood')!;
-    case this.getPrimitiveValue('valueAQFair', false):
-      return this.STATE_MAP.get('valueAQFair')!;
-    case this.getPrimitiveValue('valueAQInferior', false):
-      return this.STATE_MAP.get('valueAQInferior')!;
-    case this.getPrimitiveValue('valueAQPoor', false):
-      return this.STATE_MAP.get('valueAQPoor')!;
-    }
-
-    this.logIfDesired(strings.sensor.air.unknownValue, `'${value}'`);
-    return this.STATE_MAP.get('valueAQUnknown')!;
-  }
-
-  private qualityStringForCV(state: CharacteristicValue): string {
-    switch(state) {
-    case this.Characteristic.AirQuality.EXCELLENT:
-      return strings.sensor.air.qualityExcellent;
-    case this.Characteristic.AirQuality.GOOD:
-      return strings.sensor.air.qualityGood;
-    case this.Characteristic.AirQuality.FAIR:
-      return strings.sensor.air.qualityFair;
-    case this.Characteristic.AirQuality.INFERIOR:
-      return strings.sensor.air.qualityInferior;
-    case this.Characteristic.AirQuality.POOR:
-      return strings.sensor.air.qualityPoor;
-    case this.Characteristic.AirQuality.UNKNOWN:
-    default:
-      return strings.sensor.air.qualityUnknown;
-    }
   }
 
   private logTemplateForDensityKey(key: HKCharacteristicKey): string {

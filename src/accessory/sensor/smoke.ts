@@ -7,6 +7,10 @@ import { MQTTAccessoryDependency, SmokeSensorConfig } from '../../model/types.js
 
 export class SmokeSensorAccessory extends SensorAccessory<SmokeSensorConfig> {
 
+  protected getAccessoryType(): AccessoryType {
+    return AccessoryType.SmokeSensor;
+  }
+
   constructor(dependency: MQTTAccessoryDependency<SmokeSensorConfig>) {
     super(dependency);
 
@@ -14,9 +18,5 @@ export class SmokeSensorAccessory extends SensorAccessory<SmokeSensorConfig> {
       'topicGetSmokeDetected',
       this.bindOnUpdateNumericBoolean(HKCharacteristicKey.SmokeDetected, 'valueSmokeDetected', strings.sensor.smoke.active, strings.sensor.smoke.inactive),
       true);
-  }
-
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.SmokeSensor;
   }
 }

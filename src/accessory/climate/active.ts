@@ -1,5 +1,3 @@
-import { CharacteristicValue } from 'homebridge';
-
 import { TemperatureControlAccessory } from './temperatureControl.js';
 
 import { strings } from '../../i18n/i18n.js';
@@ -15,7 +13,9 @@ export abstract class ActiveClimateAccessory<C extends ActiveClimateConfig = Act
     this.setup(HKCharacteristicKey.Active, dependency.Characteristic.Active.INACTIVE,
       'topicGetActive',
       this.bindOnUpdateNumericBoolean(HKCharacteristicKey.Active, 'valueStateActive', strings.active.active, strings.active.notActive), true,
-      'topicSetActive', this.onSetActive.bind(this),
+      'topicSetActive',
+      this.bindOnSetBoolean(HKCharacteristicKey.Active, 'topicSetActive', 'valueStateActive', 'valueStateInactive', dependency.Characteristic.Active.ACTIVE,
+        strings.active.activeSet, strings.active.inactiveSet),
     );
 
     this.setup(HKCharacteristicKey.LockPhysicalControls, dependency.Characteristic.LockPhysicalControls.CONTROL_LOCK_DISABLED,
@@ -24,7 +24,9 @@ export abstract class ActiveClimateAccessory<C extends ActiveClimateConfig = Act
         HKCharacteristicKey.LockPhysicalControls, 'valueControlLock',
         strings.active.controlsLocked, strings.active.controlsUnLocked),
       false,
-      'topicSetLockPhysicalControls', this.onSetLockControls.bind(this),
+      'topicSetLockPhysicalControls',
+      this.bindOnSetBoolean(HKCharacteristicKey.LockPhysicalControls, 'topicSetLockPhysicalControls', 'valueControlLock', 'valueControlUnlock',
+        dependency.Characteristic.LockPhysicalControls.CONTROL_LOCK_ENABLED, strings.active.controlsLockFuture, strings.active.controlsUnlockFuture),
     );
 
     let rotationLogString = strings.active.rotationValueUpdate;
@@ -35,7 +37,9 @@ export abstract class ActiveClimateAccessory<C extends ActiveClimateConfig = Act
 
     this.setup(HKCharacteristicKey.RotationSpeed, 0,
       'topicGetRotationSpeed', this.bindOnUpdateNumeric(HKCharacteristicKey.RotationSpeed, rotationLogString), false,
-      'topicSetRotationSpeed', this.onSetRotationSpeed.bind(this),
+      'topicSetRotationSpeed',
+      this.bindOnSetPercentOrValue(HKCharacteristicKey.RotationSpeed, 'topicSetRotationSpeed', dependency.config.maximumRotationSpeed,
+        strings.active.rotationPercentSet, strings.active.rotationValueSet),
     )?.setProps({ maxValue: dependency.config.maximumRotationSpeed });
 
     this.setup(HKCharacteristicKey.SwingMode, dependency.Characteristic.SwingMode.SWING_DISABLED,
@@ -43,56 +47,9 @@ export abstract class ActiveClimateAccessory<C extends ActiveClimateConfig = Act
       this.bindOnUpdateNumericBoolean(HKCharacteristicKey.SwingMode, 'valueSwingEnabled',
         strings.active.swingEnabled, strings.active.swingDisabled),
       false,
-      'topicSetSwingMode', this.onSetSwingMode.bind(this),
+      'topicSetSwingMode',
+      this.bindOnSetBoolean(HKCharacteristicKey.SwingMode, 'topicSetSwingMode', 'valueSwingEnabled', 'valueSwingDisabled',
+        dependency.Characteristic.SwingMode.SWING_ENABLED, strings.active.swingEnabledFuture, strings.active.swingDisabledFuture),
     );
   }
-
-  private async onSetActive(value: CharacteristicValue) {
-
-    if (!this.assert('valueStateActive', 'valueStateInactive')) {
-      return;
-    }
-
-    const active = value === this.Characteristic.Active.ACTIVE;
-    const logString = active ? strings.active.activeSet : strings.active.inactiveSet;
-    const publish = active ? this.config.valueStateActive : this.config.valueStateInactive;
-    this.onSet(HKCharacteristicKey.Active, value, publish, 'topicSetActive', logString);
-  }
-
-  private async onSetLockControls(value: CharacteristicValue) {
-
-    if (!this.assert('valueControlLock', 'valueControlUnlock')) {
-      return;
-    }
-
-    const lock = value === this.Characteristic.LockPhysicalControls.CONTROL_LOCK_ENABLED;
-    const logString = lock ? strings.active.controlsLockFuture : strings.active.controlsUnlockFuture;
-    const publish = lock ? this.config.valueControlLock! : this.config.valueControlUnlock!;
-    this.onSet(HKCharacteristicKey.LockPhysicalControls, value, publish, 'topicSetLockPhysicalControls', logString);
-  }
-
-  private async onSetRotationSpeed(value: CharacteristicValue) {
-    const isPercent = this.config.maximumRotationSpeed === undefined || this.config.maximumRotationSpeed === 100;
-    const logString = (isPercent ? strings.active.rotationPercentSet : strings.active.rotationValueSet).replace('%d', value.toString());
-    this.onSet(HKCharacteristicKey.RotationSpeed, value, value as number, 'topicSetRotationSpeed', logString);
-  }
-
-  private async onSetSwingMode(value: CharacteristicValue) {
-
-    if (!this.assert('valueSwingEnabled', 'valueSwingDisabled')) {
-      return;
-    }
-
-    const swing = value === this.Characteristic.SwingMode.SWING_ENABLED;
-    const logString = swing ? strings.active.swingEnabledFuture : strings.active.swingDisabledFuture;
-    const publish = swing ? this.config.valueSwingEnabled! : this.config.valueSwingDisabled!;
-    this.onSet(HKCharacteristicKey.SwingMode, value, publish, 'topicSetSwingMode', logString);
-  }
-
-  // private rotationLogString(set: boolean = false): string {
-  //   if (this.config.maximumRotationSpeed && this.config.maximumRotationSpeed < 100) {
-  //     return set ? strings.active.rotationValueSet : strings.active.rotationValueUpdate;
-  //   }
-  //   return set ? strings.active.rotationPercentSet : strings.active.rotationPercentUpdate;
-  // }
 }

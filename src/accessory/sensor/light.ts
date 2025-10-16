@@ -7,6 +7,10 @@ import { LightSensorConfig, MQTTAccessoryDependency } from '../../model/types.js
 
 export class LightSensorAccessory extends SensorAccessory<LightSensorConfig> {
 
+  protected getAccessoryType(): AccessoryType {
+    return AccessoryType.LightSensor;
+  }
+
   constructor(dependency: MQTTAccessoryDependency<LightSensorConfig>) {
     super(dependency);
 
@@ -14,9 +18,5 @@ export class LightSensorAccessory extends SensorAccessory<LightSensorConfig> {
       HKCharacteristicKey.CurrentAmbientLightLevel, 0.0001,
       'topicGetCurrentAmbientLightLevel', this.bindOnUpdateNumeric(HKCharacteristicKey.CurrentAmbientLightLevel, strings.sensor.light.level),
       true);
-  }
-
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.LightSensor;
   }
 }

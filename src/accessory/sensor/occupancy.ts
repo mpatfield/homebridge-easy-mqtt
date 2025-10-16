@@ -7,6 +7,10 @@ import { MQTTAccessoryDependency, OccupancySensorConfig } from '../../model/type
 
 export class OccupancySensorAccessory extends SensorAccessory<OccupancySensorConfig> {
 
+  protected getAccessoryType(): AccessoryType {
+    return AccessoryType.OccupancySensor;
+  }
+
   constructor(
     dependency: MQTTAccessoryDependency<OccupancySensorConfig>) {
     super(dependency);
@@ -18,9 +22,5 @@ export class OccupancySensorAccessory extends SensorAccessory<OccupancySensorCon
         'valueOccupancyDetected',
         strings.sensor.occupancy.active, strings.sensor.occupancy.inactive),
       true);
-  }
-
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.OccupancySensor;
   }
 }

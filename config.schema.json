@@ -1613,7 +1613,10 @@
                 "required": ["topicGetObstructionDetected"]
               },
               "then": {
-                "required": ["valuePositionObstructed"]
+                "anyOf": [
+                  { "required": ["valuePositionObstructed"] },
+                  { "required": ["valueDoorObstructed"] }
+                ]
               }
             },
             {

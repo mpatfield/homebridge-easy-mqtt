@@ -1,4 +1,4 @@
-import { CharacteristicValue, PrimitiveTypes } from 'homebridge';
+import { CharacteristicValue } from 'homebridge';
 
 import { BaseAccessory } from './abstract/base.js';
 
@@ -11,6 +11,10 @@ import { LogType } from '../tools/log.js';
 
 export class ValveAccessory extends BaseAccessory<ValveConfig> {
 
+  protected getAccessoryType(): AccessoryType {
+    return AccessoryType.Valve;
+  }
+
   constructor(dependency: MQTTAccessoryDependency<ValveConfig>) {
     super(dependency);
 
@@ -19,7 +23,9 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
     this.setup(HKCharacteristicKey.Active, dependency.Characteristic.Active.INACTIVE,
       'topicGetValveActive',
       this.bindOnUpdateNumericBoolean(HKCharacteristicKey.Active, 'valueActive', strings.valve.active, strings.valve.inactive), true,
-      'topicSetValveActive', this.onSetActive.bind(this),
+      'topicSetValveActive',
+      this.bindOnSetBoolean(HKCharacteristicKey.Active, 'topicSetValveActive', 'valueActive', 'valueInactive',
+        this.Characteristic.Active.ACTIVE, strings.valve.activeSet, strings.valve.inactiveSet),
     );
 
     this.setup(HKCharacteristicKey.InUse, dependency.Characteristic.InUse.NOT_IN_USE,
@@ -27,11 +33,15 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
     );
 
     this.setup(HKCharacteristicKey.StatusFault, dependency.Characteristic.StatusFault.NO_FAULT,
-      'topicGetStatusFault', this.onFaultUpdate.bind(this), false);
+      'topicGetStatusFault',
+      this.bindOnUpdateBooleanSingle(HKCharacteristicKey.StatusFault, 'valueFault',
+        strings.error.hasFault, strings.error.noFault, LogType.WARNING),
+      false);
 
     this.setup(HKCharacteristicKey.SetDuration, 0,
       'topicGetValveSetDuration', this.bindOnUpdateNumeric(HKCharacteristicKey.SetDuration, strings.valve.setDuration), false,
-      'topicSetValveSetDuration', this.onSetSetDuration.bind(this),
+      'topicSetValveSetDuration',
+      this.bindOnSetNumeric(HKCharacteristicKey.SetDuration, 'topicSetValveSetDuration', strings.valve.setDurationFuture),
     );
 
     this.setup(HKCharacteristicKey.RemainingDuration, 0,
@@ -41,55 +51,11 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
       'topicGetValveIsConfigured',
       this.bindOnUpdateNumericBoolean(HKCharacteristicKey.IsConfigured, 'valueConfigured', strings.valve.configured, strings.valve.notConfigured),
       false,
-      'topicSetValveIsConfigured', this.onSetIsConfigured.bind(this),
+      'topicSetValveIsConfigured',
+      this.bindOnSetBoolean(HKCharacteristicKey.IsConfigured, 'topicSetValveIsConfigured', 'valueConfigured', 'valueNotConfigured',
+        this.Characteristic.IsConfigured.CONFIGURED, strings.valve.configuredFuture, strings.valve.notConfiguredFuture,
+      ),
     );
-  }
-
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.Valve;
-  }
-
-  private async onFaultUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-
-    const fault = value === this.getPrimitiveValue('valueFault') ? 1 : 0;
-    if (!this.onUpdate(HKCharacteristicKey.StatusFault, fault)) {
-      return;
-    }
-
-    if (fault) {
-      this.logIfDesired(LogType.WARNING, strings.error.hasFault);
-    } else {
-      this.logIfDesired(strings.error.noFault);
-    }
-  }
-
-  private async onSetActive(value: CharacteristicValue) {
-
-    if (!this.assert('valueActive', 'valueInactive')) {
-      return;
-    }
-
-    const active = value === this.Characteristic.Active.ACTIVE;
-    const logString = active ? strings.valve.activeSet : strings.valve.inactiveSet;
-    const publish = active ? this.config.valueActive : this.config.valueInactive;
-    this.onSet(HKCharacteristicKey.Active, value, publish, 'topicSetValveActive', logString);
-  }
-
-  private async onSetSetDuration(value: CharacteristicValue) {
-    const logString = strings.valve.setDurationFuture.replace('%d', value.toString());
-    this.onSet(HKCharacteristicKey.SetDuration, value, value as number, 'topicSetValveSetDuration', logString);
-  }
-
-  private async onSetIsConfigured(value: CharacteristicValue) {
-
-    if (!this.assert('valueConfigured', 'valueNotConfigured')) {
-      return;
-    }
-
-    const isConfigured = value === this.Characteristic.IsConfigured.CONFIGURED;
-    const logString = isConfigured ? strings.valve.configuredFuture : strings.valve.notConfiguredFuture;
-    const publish = isConfigured ? this.config.valueConfigured! : this.config.valueNotConfigured!;
-    this.onSet(HKCharacteristicKey.IsConfigured, value, publish, 'topicSetValveIsConfigured', logString);
   }
 
   private toValveTypeCV(value: ValveType | undefined): CharacteristicValue {

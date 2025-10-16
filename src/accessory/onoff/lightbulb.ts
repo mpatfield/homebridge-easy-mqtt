@@ -1,5 +1,3 @@
-import { CharacteristicValue } from 'homebridge';
-
 import { OnOffAccessory } from './onoff.js';
 
 import { strings } from '../../i18n/i18n.js';
@@ -8,6 +6,10 @@ import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
 import { LightbulbConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
+
+  protected getAccessoryType(): AccessoryType {
+    return AccessoryType.Lightbulb;
+  }
 
   constructor(dependency: MQTTAccessoryDependency<LightbulbConfig>) {
     super(dependency);
@@ -21,33 +23,25 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
 
     this.setup(HKCharacteristicKey.Brightness, 100,
       'topicGetBrightness', this.bindOnUpdateNumeric(HKCharacteristicKey.Brightness, getLogString), false,
-      'topicSetBrightness', this.onSetValue(HKCharacteristicKey.Brightness, 'topicSetBrightness', setLogString),
+      'topicSetBrightness', this.bindOnSetNumeric(HKCharacteristicKey.Brightness, 'topicSetBrightness', setLogString),
     )?.setProps({ maxValue: dependency.config.maximumBrightness });
 
     this.setup(HKCharacteristicKey.ColorTemperature, 500,
-      'topicGetColorTemperature', this.bindOnUpdateNumeric(HKCharacteristicKey.ColorTemperature, strings.lightbulb.colorTemperature), false,
-      'topicSetColorTemperature', this.onSetValue(HKCharacteristicKey.ColorTemperature, 'topicSetColorTemperature', strings.lightbulb.colorTemperatureFuture),
+      'topicGetColorTemperature',
+      this.bindOnUpdateNumeric(HKCharacteristicKey.ColorTemperature, strings.lightbulb.colorTemperature),
+      false,
+      'topicSetColorTemperature',
+      this.bindOnSetNumeric(HKCharacteristicKey.ColorTemperature, 'topicSetColorTemperature', strings.lightbulb.colorTemperatureFuture),
     );
 
     this.setup(HKCharacteristicKey.Hue, 0,
       'topicGetHue', this.bindOnUpdateNumeric(HKCharacteristicKey.Hue, strings.lightbulb.hue), false,
-      'topicSetHue', this.onSetValue(HKCharacteristicKey.Hue, 'topicSetHue', strings.lightbulb.hueFuture),
+      'topicSetHue', this.bindOnSetNumeric(HKCharacteristicKey.Hue, 'topicSetHue', strings.lightbulb.hueFuture),
     );
 
     this.setup(HKCharacteristicKey.Saturation, 100,
       'topicGetSaturation', this.bindOnUpdateNumeric(HKCharacteristicKey.Saturation, strings.lightbulb.saturation), false,
-      'topicSetSaturation', this.onSetValue(HKCharacteristicKey.Saturation, 'topicSetSaturation', strings.lightbulb.saturationFuture),
+      'topicSetSaturation', this.bindOnSetNumeric(HKCharacteristicKey.Saturation, 'topicSetSaturation', strings.lightbulb.saturationFuture),
     );
-  }
-
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.Lightbulb;
-  }
-
-  private onSetValue(key: HKCharacteristicKey, topic: keyof LightbulbConfig, logTemplate: string) {
-    return (async (value: CharacteristicValue) => {
-      const logString = logTemplate.replace('%d', value.toString());
-      this.onSet(key, value, value as number, topic, logString);
-    }).bind(this);
   }
 }

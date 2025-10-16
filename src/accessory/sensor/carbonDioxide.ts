@@ -8,6 +8,10 @@ import { CO2SensorConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 export class CO2SensorAccessory extends SensorAccessory<CO2SensorConfig> {
 
+  protected getAccessoryType(): AccessoryType {
+    return AccessoryType.CarbonDioxideSensor;
+  }
+
   constructor(dependency: MQTTAccessoryDependency<CO2SensorConfig>) {
     super(dependency);
 
@@ -24,9 +28,5 @@ export class CO2SensorAccessory extends SensorAccessory<CO2SensorConfig> {
 
     this.setup(HKCharacteristicKey.CarbonDioxidePeakLevel, 0,
       'topicGetCarbonDioxidePeakLevel', this.bindOnUpdateNumeric(HKCharacteristicKey.CarbonDioxidePeakLevel, strings.sensor.carbonDioxide.peakLevel), false);
-  }
-
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.CarbonDioxideSensor;
   }
 }

@@ -1,5 +1,3 @@
-import { PrimitiveTypes } from 'homebridge';
-
 import { MQTTAccessory } from './mqtt.js';
 
 import { PLATFORM_NAME } from '../../homebridge/settings.js';
@@ -33,41 +31,20 @@ export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessor
       'topicGetBatteryLevel', this.bindOnUpdateNumeric(HKCharacteristicKey.BatteryLevel, strings.accessory.batteryLevel), false);
 
     this.setup(HKCharacteristicKey.StatusLowBattery, dependency.Characteristic.StatusLowBattery.BATTERY_LEVEL_NORMAL,
-      'topicGetBatteryLow', this.onBatteryLowUpdate.bind(this), false);
+      'topicGetBatteryLow',
+      this.bindOnUpdateBooleanSingle(HKCharacteristicKey.StatusLowBattery, 'valueBatteryLow',
+        strings.accessory.batteryLow, strings.accessory.batteryNotLow, LogType.WARNING),
+      false,
+    );
 
     this.setup(HKCharacteristicKey.StatusActive, true,
-      'topicGetStatusActive', this.onStatusActiveUpdate.bind(this), false);
+      'topicGetStatusActive',
+      this.bindOnUpdateBooleanSingle(HKCharacteristicKey.StatusActive, 'valueStatusActive',
+        strings.accessory.statusActive, strings.accessory.statusInactive, LogType.ALWAYS, LogType.WARNING),
+      false);
   }
 
   override isOptionalCharacteristic(key: CharacteristicKey): boolean {
     return super.isOptionalCharacteristic(key) || isOptionalHKCharacteristic(key, this.config.info.type);
-  }
-
-  private async onBatteryLowUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-
-    const batteryLow = value === this.getPrimitiveValue('valueBatteryLow') ? 1 : 0;
-    if (!this.onUpdate(HKCharacteristicKey.StatusLowBattery, batteryLow)) {
-      return;
-    }
-
-    if (batteryLow) {
-      this.logIfDesired(LogType.WARNING, strings.accessory.batteryLow);
-    } else {
-      this.logIfDesired(strings.accessory.batteryNotLow);
-    }
-  }
-
-  private async onStatusActiveUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-
-    const statusActive = value === this.getPrimitiveValue('valueStatusActive');
-    if (!this.onUpdate(HKCharacteristicKey.StatusActive, statusActive)) {
-      return;
-    }
-
-    if (statusActive) {
-      this.logIfDesired(strings.accessory.statusActive);
-    } else {
-      this.logIfDesired(LogType.WARNING, strings.accessory.statusInactive);
-    }
   }
 }

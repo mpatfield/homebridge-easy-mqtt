@@ -221,15 +221,15 @@ export abstract class Common<C extends Assertable> {
     }).bind(this);
   }
 
-  protected bindOnUpdateBoolean(key: CharacteristicKey, positiveKey: keyof C, negativeKey: keyof C, logTrue: string, logFalse: string): OnUpdateHandler {
+  protected bindOnUpdateBoolean(key: CharacteristicKey, trueKey: keyof C, falseKey: keyof C, logTrue: string, logFalse: string): OnUpdateHandler {
     return (async (_topic: string, value: PrimitiveTypes) => {
 
       let bool: boolean | undefined = undefined;
       switch (value) {
-      case this.getPrimitiveValue(positiveKey):
+      case this.getPrimitiveValue(trueKey):
         bool = true;
         break;
-      case this.getPrimitiveValue(negativeKey):
+      case this.getPrimitiveValue(falseKey):
         bool = false;
         break;
       default:
@@ -240,6 +240,23 @@ export abstract class Common<C extends Assertable> {
       const logString = bool ? logTrue : logFalse;
       this.onUpdate(key, bool, logString);
 
+    }).bind(this);
+  }
+
+  protected bindOnUpdateBooleanSingle(key: CharacteristicKey, valueKey: keyof C,
+    trueLog: string, falseLog: string, trueLogType: LogType = LogType.ALWAYS, falseLogType: LogType = LogType.ALWAYS) {
+    return (async (_topic: string, value: PrimitiveTypes) => {
+
+      const bool = value === this.getPrimitiveValue(valueKey);
+      if (!this.onUpdate(key, bool)) {
+        return;
+      }
+
+      if (bool) {
+        this.logIfDesired(trueLogType, trueLog);
+      } else {
+        this.logIfDesired(falseLogType, falseLog);
+      }
     }).bind(this);
   }
 
@@ -271,29 +288,61 @@ export abstract class Common<C extends Assertable> {
     }).bind(this);
   }
 
-  protected bindOnSetNumeric(key: CharacteristicKey, topic: keyof C, logTemplate: string) {
-    return (async (value: CharacteristicValue) => {
+  protected bindOnUpdateState(key: CharacteristicKey, states: Map<keyof C, CharacteristicValue>,
+    strings: Map<CharacteristicValue, string>, unknownLog: string) {
+    return (async (_topic: string, value: PrimitiveTypes) => {
 
-      if (typeof value !== 'number') {
-        this.log.error(strings.characteristic.badValue, this.name, key, `'${value}'`);
+      let characteristicValue: CharacteristicValue | undefined;
+      for (const valueKey of states.keys()) {
+        if (value === this.getPrimitiveValue(valueKey, false)) {
+          characteristicValue = states.get(valueKey);
+          break;
+        }
+      }
+
+      if (characteristicValue === undefined) {
+        this.logIfDesired(unknownLog, `'${value}'`);
         return;
       }
 
-      const logString = logTemplate.replace('%d', value.toString());
+      this.onUpdate(key, characteristicValue, strings.get(characteristicValue));
+    }).bind(this);
+  }
 
-      this.onSet(key, value, value, topic, logString);
+  private onSetNumeric(key: CharacteristicKey, topic: keyof C, value: CharacteristicValue, logTemplate: string) {
 
+    if (typeof value !== 'number') {
+      this.log.error(strings.characteristic.badValue, this.name, key, `'${value}'`);
+      return;
+    }
+
+    const logString = logTemplate.replace('%d', value.toString());
+
+    this.onSet(key, value, value, topic, logString);
+  }
+
+  protected bindOnSetNumeric(key: CharacteristicKey, topic: keyof C, logTemplate: string) {
+    return (async (value: CharacteristicValue) => {
+      this.onSetNumeric(key, topic, value, logTemplate);
+    }).bind(this);
+  }
+
+  protected bindOnSetPercentOrValue(key: CharacteristicKey, topic: keyof C, maximum: number | undefined, logPercent: string, logValue: string) {
+    return (async (value: CharacteristicValue) => {
+      const isPercent = maximum === undefined || maximum === 100;
+      const logTemplate = isPercent ? logPercent : logValue;
+      this.onSetNumeric(key, topic, value, logTemplate);
     }).bind(this);
   }
 
   protected bindOnSetBoolean(
     key: CharacteristicKey, setTopicKey: keyof C,
-    positiveKey: keyof C, negativeKey: keyof C, positiveValue: CharacteristicValue,
-    positiveLogString: string, negativeLogString: string,
+    trueValueKey: keyof C, falseValueKey: keyof C, trueValue: CharacteristicValue,
+    trueLog: string, falseLog: string,
   ) {
     return (async (value: CharacteristicValue) => {
 
-      if (!this.assert(setTopicKey, positiveKey, negativeKey)) {
+      if (!this.assert(setTopicKey, trueValueKey, falseValueKey)) {
         return;
       }
 
@@ -301,18 +350,43 @@ export abstract class Common<C extends Assertable> {
         throw new Error(`Trying to fetch topic with unexpected property name '${setTopicKey.toString()}'`);
       }
 
-      if (!positiveKey.toString().startsWith('value')) {
-        throw new Error(`Trying to fetch value with unexpected property name '${positiveKey.toString()}'`);
+      if (!trueValueKey.toString().startsWith('value')) {
+        throw new Error(`Trying to fetch value with unexpected property name '${trueValueKey.toString()}'`);
       }
 
-      if (!negativeKey.toString().startsWith('value')) {
-        throw new Error(`Trying to fetch value with unexpected property name '${negativeKey.toString()}'`);
+      if (!falseValueKey.toString().startsWith('value')) {
+        throw new Error(`Trying to fetch value with unexpected property name '${falseValueKey.toString()}'`);
       }
 
-      const booleanValue = value === positiveValue;
-      const logString = booleanValue ? positiveLogString : negativeLogString;
-      const publish = booleanValue ? this.config[positiveKey] as string : this.config[negativeKey] as string;
+      const booleanValue = value === trueValue;
+      const logString = booleanValue ? trueLog : falseLog;
+      const publish = booleanValue ? this.config[trueValueKey] as string : this.config[falseValueKey] as string;
       this.onSet(key, value, publish, setTopicKey, logString);
+
+    }).bind(this);
+  }
+
+  protected bindOnSetState(key: CharacteristicKey, setTopicKey: keyof C, states: Map<keyof C, CharacteristicValue>,
+    strings: Map<CharacteristicValue, string>, badValueLog: string) {
+    return (async (value: CharacteristicValue) => {
+
+      if (!this.assert(setTopicKey)) {
+        return;
+      }
+
+      let publish: PrimitiveTypes | undefined;
+      states.forEach( (test, key) => {
+        if (value === test) {
+          publish = this.getPrimitiveValue(key);
+        }
+      });
+
+      if (publish === undefined) {
+        this.log.error(badValueLog, this.name, `'${value}'`);
+        return;
+      }
+
+      this.onSet(key, value, publish, setTopicKey, strings.get(value));
 
     }).bind(this);
   }

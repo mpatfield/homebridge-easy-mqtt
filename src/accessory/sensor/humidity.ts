@@ -7,15 +7,15 @@ import { HumiditySensorConfig, MQTTAccessoryDependency } from '../../model/types
 
 export class HumiditySensorAccessory extends SensorAccessory<HumiditySensorConfig> {
 
+  protected getAccessoryType(): AccessoryType {
+    return AccessoryType.HumiditySensor;
+  }
+
   constructor(
     dependency: MQTTAccessoryDependency<HumiditySensorConfig>) {
     super(dependency);
 
     this.setup(HKCharacteristicKey.CurrentRelativeHumidity, 0,
       'topicGetCurrentRelativeHumidity', this.bindOnUpdateNumeric(HKCharacteristicKey.CurrentRelativeHumidity, strings.climate.humidityUpdate), true);
-  }
-
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.HumiditySensor;
   }
 }

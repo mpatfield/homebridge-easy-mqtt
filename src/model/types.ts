@@ -35,11 +35,11 @@ export type AddonConfig = Assertable & {
 }
 
 export type FilterMaintenanceConfig = AddonConfig & {
-  topicGetFilterChangeIndication: string,
+  topicGetFilterChangeIndication?: string,
   topicGetFilterLifeLevel?: string,
   topicResetFilterIndication?: string,
-  valueFilterChange: string,
-  valueFilterReset: string,
+  valueFilterChange?: string,
+  valueFilterReset?: string,
 }
 
 type ErrorStatusConfig = {

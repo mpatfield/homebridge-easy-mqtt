@@ -11,12 +11,17 @@ import { LogType } from '../tools/log.js';
 
 export class SecuritySystemAccessory extends BaseAccessory<SecurityConfig> {
 
-  private readonly STATE_MAP: Map<keyof SecurityConfig, number>;
+  private readonly STATES: Map<keyof SecurityConfig, number>;
+  private readonly CURRENT_STRINGS: Map<CharacteristicValue, string>;
+
+  protected getAccessoryType(): AccessoryType {
+    return AccessoryType.SecuritySystem;
+  }
 
   constructor(dependency: MQTTAccessoryDependency<SecurityConfig>) {
     super(dependency);
 
-    this.STATE_MAP = new Map([
+    this.STATES = new Map([
       ['valueArmStay', dependency.Characteristic.SecuritySystemCurrentState.STAY_ARM],
       ['valueArmAway', dependency.Characteristic.SecuritySystemCurrentState.AWAY_ARM],
       ['valueArmNight', dependency.Characteristic.SecuritySystemCurrentState.NIGHT_ARM],
@@ -24,7 +29,15 @@ export class SecuritySystemAccessory extends BaseAccessory<SecurityConfig> {
       ['valueAlarmTriggered', dependency.Characteristic.SecuritySystemCurrentState.ALARM_TRIGGERED],
     ]);
 
-    const validCurrentStates = Array.from(this.STATE_MAP.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
+    this.CURRENT_STRINGS = new Map([
+      [dependency.Characteristic.SecuritySystemCurrentState.STAY_ARM, strings.security.stateStay],
+      [dependency.Characteristic.SecuritySystemCurrentState.AWAY_ARM, strings.security.stateAway],
+      [dependency.Characteristic.SecuritySystemCurrentState.NIGHT_ARM, strings.security.stateNight],
+      [dependency.Characteristic.SecuritySystemCurrentState.DISARMED, strings.security.stateDisarmed],
+      [dependency.Characteristic.SecuritySystemCurrentState.ALARM_TRIGGERED, strings.security.stateTriggered],
+    ]);
+
+    const validCurrentStates = Array.from(this.STATES.keys()).filter((key) => this.getRawValue(key, false) !== undefined);
     if (validCurrentStates.length === 0) {
       this.log.error(strings.security.noStateValues, this.name);
       return;
@@ -32,14 +45,24 @@ export class SecuritySystemAccessory extends BaseAccessory<SecurityConfig> {
 
     this.setup(HKCharacteristicKey.SecuritySystemCurrentState, dependency.Characteristic.SecuritySystemCurrentState.DISARMED,
       'topicGetCurrentSecurityState', this.onCurrentStateUpdate.bind(this), true,
-    )?.setProps({ validValues: validCurrentStates.map((key) => this.STATE_MAP.get(key)!) });
+    )?.setProps({ validValues: validCurrentStates.map((key) => this.STATES.get(key)!) });
 
     const validTargetStates = validCurrentStates.filter((key) => key !== 'valueAlarmTriggered');
 
+    const futureStrings = new Map([
+      [dependency.Characteristic.SecuritySystemCurrentState.STAY_ARM, strings.security.stateStayFuture],
+      [dependency.Characteristic.SecuritySystemCurrentState.AWAY_ARM, strings.security.stateAwayFuture],
+      [dependency.Characteristic.SecuritySystemCurrentState.NIGHT_ARM, strings.security.stateNightFuture],
+      [dependency.Characteristic.SecuritySystemCurrentState.DISARMED, strings.security.stateDisarmFuture],
+    ]);
+
     this.setup(HKCharacteristicKey.SecuritySystemTargetState, dependency.Characteristic.SecuritySystemTargetState.DISARM,
-      'topicGetTargetSecurityState', this.onTargetStateUpdate.bind(this), true,
-      'topicSetTargetSecurityState', this.onSetTargetState.bind(this),
-    )?.setProps({ validValues: validTargetStates.map((key) => this.STATE_MAP.get(key)!) });
+      'topicGetTargetSecurityState',
+      this.bindOnUpdateState(HKCharacteristicKey.SecuritySystemTargetState, this.STATES, futureStrings, strings.security.unknownValue),
+      true,
+      'topicSetTargetSecurityState',
+      this.bindOnSetState(HKCharacteristicKey.SecuritySystemTargetState, 'topicSetTargetSecurityState', this.STATES, futureStrings, strings.security.badValue),
+    )?.setProps({ validValues: validTargetStates.map((key) => this.STATES.get(key)!) });
 
     this.setup(HKCharacteristicKey.StatusTampered, dependency.Characteristic.StatusTampered.NOT_TAMPERED, 'topicGetStatusTampered',
       this.bindOnUpdateNumericBoolean(HKCharacteristicKey.StatusTampered, 'valueTampered', strings.error.isTampered, strings.error.notTampered),
@@ -52,14 +75,18 @@ export class SecuritySystemAccessory extends BaseAccessory<SecurityConfig> {
     );
   }
 
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.SecuritySystem;
-  }
+  private async onCurrentStateUpdate(_topic: string, value: PrimitiveTypes): Promise<void> {
 
-  private async onCurrentStateUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
+    let current: CharacteristicValue | undefined;
+    for (const valueKey of this.STATES.keys()) {
+      if (value === this.getPrimitiveValue(valueKey, false)) {
+        current = this.STATES.get(valueKey);
+        break;
+      }
+    }
 
-    const current = this.toCVState(value);
     if (current === undefined) {
+      this.logIfDesired(strings.security.unknownValue, `'${value}'`);
       return;
     }
 
@@ -71,80 +98,15 @@ export class SecuritySystemAccessory extends BaseAccessory<SecurityConfig> {
       return;
     }
 
+    const logString = this.CURRENT_STRINGS.get(current);
+    if (!logString) {
+      return;
+    }
+
     if (current === this.Characteristic.SecuritySystemCurrentState.ALARM_TRIGGERED) {
-      this.logIfDesired(LogType.ERROR, this.stateStringForCV(current));
+      this.logIfDesired(LogType.ERROR, logString);
     } else {
-      this.logIfDesired(this.stateStringForCV(current));
-    }
-  }
-
-  private async onTargetStateUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-
-    const target = this.toCVState(value);
-    if (target === undefined) {
-      return;
-    }
-
-    this.onUpdate(HKCharacteristicKey.SecuritySystemTargetState, target, this.stateStringForCV(target, true));
-  }
-
-  private async onSetTargetState(value: CharacteristicValue) {
-
-    const target = this.fromCVState(value);
-    if (target === undefined) {
-      return;
-    }
-
-    this.onSet(HKCharacteristicKey.SecuritySystemTargetState, value, target, 'topicSetTargetSecurityState', this.stateStringForCV(value, true));
-  }
-
-  private fromCVState(value: CharacteristicValue): PrimitiveTypes | undefined {
-
-    let primative = undefined;
-    this.STATE_MAP.forEach( (test, key) => {
-      if (value === test) {
-        primative = this.getPrimitiveValue(key);
-      }
-    });
-
-    if (primative === undefined) {
-      this.log.error(strings.security.badValue, this.name, `'${value}'`);
-    }
-
-    return primative;
-  }
-
-  private toCVState(value: PrimitiveTypes): CharacteristicValue | undefined {
-    switch (value) {
-    case this.getPrimitiveValue('valueArmStay', false):
-      return this.STATE_MAP.get('valueArmStay');
-    case this.getPrimitiveValue('valueArmAway', false):
-      return this.STATE_MAP.get('valueArmAway');
-    case this.getPrimitiveValue('valueArmNight', false):
-      return this.STATE_MAP.get('valueArmNight');
-    case this.getPrimitiveValue('valueDisarm', false):
-      return this.STATE_MAP.get('valueDisarm');
-    case this.getPrimitiveValue('valueAlarmTriggered', false):
-      return this.STATE_MAP.get('valueAlarmTriggered');
-    }
-
-    this.logIfDesired(strings.security.unknownValue, `'${value}'`);
-  }
-
-  private stateStringForCV(state: CharacteristicValue, future: boolean = false): string {
-    switch(state) {
-    case this.Characteristic.SecuritySystemCurrentState.STAY_ARM:
-      return future ? strings.security.stateStayFuture : strings.security.stateStay;
-    case this.Characteristic.SecuritySystemCurrentState.AWAY_ARM:
-      return future ? strings.security.stateAwayFuture : strings.security.stateAway;
-    case this.Characteristic.SecuritySystemCurrentState.NIGHT_ARM:
-      return future ? strings.security.stateNightFuture : strings.security.stateNight;
-    case this.Characteristic.SecuritySystemCurrentState.DISARMED:
-      return future ? strings.security.stateDisarmFuture : strings.security.stateDisarmed;
-    case this.Characteristic.SecuritySystemCurrentState.ALARM_TRIGGERED:
-      return strings.security.stateTriggered;
-    default:
-      return strings.security.stateUnknown;
+      this.logIfDesired(logString);
     }
   }
 }

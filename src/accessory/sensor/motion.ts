@@ -7,6 +7,10 @@ import { MotionSensorConfig, MQTTAccessoryDependency } from '../../model/types.j
 
 export class MotionSensorAccessory extends SensorAccessory<MotionSensorConfig> {
 
+  protected getAccessoryType(): AccessoryType {
+    return AccessoryType.MotionSensor;
+  }
+
   constructor(
     dependency: MQTTAccessoryDependency<MotionSensorConfig>) {
     super(dependency);
@@ -15,9 +19,5 @@ export class MotionSensorAccessory extends SensorAccessory<MotionSensorConfig> {
       'topicGetMotionDetected',
       this.bindOnUpdateNumericBoolean(HKCharacteristicKey.MotionDetected, 'valueMotionDetected', strings.sensor.motion.active, strings.sensor.motion.inactive),
       true);
-  }
-
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.MotionSensor;
   }
 }

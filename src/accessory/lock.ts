@@ -11,31 +11,45 @@ import { LogType } from '../tools/log.js';
 
 export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends BaseAccessory<C> {
 
+  protected getAccessoryType(): AccessoryType {
+    return AccessoryType.LockMechanism;
+  }
+
   constructor(dependency: MQTTAccessoryDependency<C>, requireTopics: boolean = true) {
     super(dependency);
 
-    const getTopicCurrent = this.config.topicGetLockCurrentState !== undefined && this.config.topicGetCurrentLockState === undefined
-      ? 'topicGetLockCurrentState' : 'topicGetCurrentLockState';
-    this.setup(HKCharacteristicKey.LockCurrentState, dependency.Characteristic.LockCurrentState.UNKNOWN,
-      getTopicCurrent, this.onCurrentStateUpdate.bind(this), requireTopics);
-
-    let getTargetTopic: keyof LockConfig, setTargetTopic : keyof LockConfig;
-    if (this.config.topicGetLockTargetState !== undefined && this.config.topicGetTargetLockState === undefined) {
-      getTargetTopic = 'topicGetLockTargetState';
-      setTargetTopic = 'topicSetTargetState';
-    } else {
-      getTargetTopic = 'topicGetTargetLockState';
-      setTargetTopic = 'topicSetTargetLockState';
+    if (this.config.topicGetLockCurrentState !== undefined && this.config.topicGetCurrentLockState === undefined) {
+      this.config.topicGetCurrentLockState = this.config.topicGetLockCurrentState;
     }
 
-    this.setup(HKCharacteristicKey.LockTargetState, dependency.Characteristic.LockTargetState.SECURED,
-      getTargetTopic, this.onTargetStateUpdate.bind(this), requireTopics,
-      setTargetTopic, this.onSetTargetState.bind(this),
-    );
-  }
+    if (this.config.topicGetLockTargetState !== undefined && this.config.topicGetTargetLockState === undefined) {
+      this.config.topicGetTargetLockState = this.config.topicGetLockTargetState;
+    }
 
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.LockMechanism;
+    if (this.config.topicSetTargetState !== undefined && this.config.topicSetTargetLockState === undefined) {
+      this.config.topicSetTargetLockState = this.config.topicSetTargetState;
+    }
+
+    this.setup(HKCharacteristicKey.LockCurrentState, dependency.Characteristic.LockCurrentState.UNKNOWN,
+      'topicGetCurrentLockState', this.onCurrentStateUpdate.bind(this), requireTopics);
+
+    const targetStates = new Map<keyof LockConfig, number>([
+      ['valueLockStateSecured', dependency.Characteristic.LockTargetState.SECURED],
+      ['valueLockStateUnsecured', dependency.Characteristic.LockTargetState.UNSECURED],
+    ]);
+
+    const targetStrings = new Map([
+      [dependency.Characteristic.LockCurrentState.SECURED, strings.lock.stateSecuredFuture],
+      [dependency.Characteristic.LockCurrentState.UNSECURED, strings.lock.stateUnsecuredFuture],
+    ]);
+
+    this.setup(HKCharacteristicKey.LockTargetState, dependency.Characteristic.LockTargetState.SECURED,
+      'topicGetTargetLockState',
+      this.bindOnUpdateState(HKCharacteristicKey.LockTargetState, targetStates, targetStrings, strings.lock.stateUnknown),
+      requireTopics,
+      'topicSetTargetLockState',
+      this.bindOnSetState(HKCharacteristicKey.LockTargetState, 'topicSetTargetLockState', targetStates, targetStrings, strings.lock.badValue),
+    );
   }
 
   private async onCurrentStateUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
@@ -57,30 +71,6 @@ export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends B
     }
   }
 
-  private async onTargetStateUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
-    const target = this.targetStateFromValue(value);
-    this.onUpdate(HKCharacteristicKey.LockTargetState, target, this.stringForState(target, true));
-  }
-
-  private async onSetTargetState(value: CharacteristicValue) {
-
-    if (!this.assert('valueLockStateSecured', 'valueLockStateUnsecured')) {
-      return;
-    }
-
-    const target = this.valueFromTargetState(value);
-    if (target === undefined) {
-      this.log.error(strings.lock.badValue, this.name, `'${value}'`);
-      return;
-    }
-
-    if (this.config.topicSetTargetState !== undefined && this.config.topicSetTargetLockState === undefined) {
-      this.onSet(HKCharacteristicKey.LockTargetState, value, target, 'topicSetTargetState', this.stringForState(value, true));
-    } else {
-      this.onSet(HKCharacteristicKey.LockTargetState, value, target, 'topicSetTargetLockState', this.stringForState(value, true));
-    }
-  }
-
   private currentStateFromValue(value: PrimitiveTypes | undefined): CharacteristicValue {
 
     if (value === undefined) {
@@ -99,36 +89,12 @@ export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends B
     }
   }
 
-  private targetStateFromValue(value: PrimitiveTypes | undefined): CharacteristicValue {
-
-    if (value === undefined) {
-      return this.Characteristic.LockTargetState.SECURED;
-    }
-
-    switch (value) {
-    case this.getPrimitiveValue('valueLockStateUnsecured'):
-      return this.Characteristic.LockTargetState.UNSECURED;
-    case this.getPrimitiveValue('valueLockStateSecured'):
-    default:
-      return this.Characteristic.LockTargetState.SECURED;
-    }
-  }
-
-  private valueFromTargetState(value: CharacteristicValue): PrimitiveTypes | undefined {
-    switch (value) {
-    case this.Characteristic.LockTargetState.SECURED:
-      return this.getPrimitiveValue('valueLockStateSecured');
-    case this.Characteristic.LockTargetState.UNSECURED:
-      return this.getPrimitiveValue('valueLockStateUnsecured');
-    }
-  }
-
-  private stringForState(state: CharacteristicValue, future: boolean = false): string {
+  private stringForState(state: CharacteristicValue): string {
     switch(state) {
     case this.Characteristic.LockCurrentState.SECURED:
-      return future ? strings.lock.stateSecuredFuture : strings.lock.stateSecured;
+      return strings.lock.stateSecured;
     case this.Characteristic.LockCurrentState.UNSECURED:
-      return future ? strings.lock.stateUnsecuredFuture : strings.lock.stateUnsecured;
+      return strings.lock.stateUnsecured;
     case this.Characteristic.LockCurrentState.JAMMED:
       return strings.lock.stateJammed;
     default:
