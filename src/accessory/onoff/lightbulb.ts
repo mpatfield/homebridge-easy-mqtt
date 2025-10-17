@@ -21,7 +21,7 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
     const getLogString = dependency.config.maximumBrightness < 100 ? strings.lightbulb.brightnessValue : strings.lightbulb.brightnessPercent;
     const setLogString = dependency.config.maximumBrightness < 100 ? strings.lightbulb.brightnessValueFuture : strings.lightbulb.brightnessPercentFuture;
 
-    this.setup(HKCharacteristicKey.Brightness, 100,
+    this.setup(HKCharacteristicKey.Brightness, dependency.config.maximumBrightness,
       'topicGetBrightness', this.bindOnUpdateNumeric(HKCharacteristicKey.Brightness, getLogString), false,
       'topicSetBrightness', this.bindOnSetNumeric(HKCharacteristicKey.Brightness, 'topicSetBrightness', setLogString),
     )?.setProps({ maxValue: dependency.config.maximumBrightness });

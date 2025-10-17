@@ -6,6 +6,13 @@ All notable changes to homebridge-dummy will be documented in this file.
 
 ### Added
 - `Doorbell` accessory type
+- History (Only visible with the [Eve app](https://apps.apple.com/us/app/eve-for-matter-homekit/id917695792))
+    - `ContactSensorState`
+    - `CurrentRelativeHumidity` (for `HumiditySensor`, `Thermostat`)
+    - `CurrentTemperature` (for `HeaterCooler`, `TemperatureSensor`, `Thermostat`)
+    - `MotionDetected`
+    - `On` (for `Lightbulb`, `Outlet`, `Switch`)
+
 - Traduzioni in italiano. Grazie, [@Shikaban](https://github.com/sponsors/Shikaban)!
 
 ### Notes

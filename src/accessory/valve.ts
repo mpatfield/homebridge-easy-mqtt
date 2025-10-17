@@ -25,7 +25,7 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
       this.bindOnUpdateNumericBoolean(HKCharacteristicKey.Active, 'valueActive', strings.valve.active, strings.valve.inactive), true,
       'topicSetValveActive',
       this.bindOnSetBoolean(HKCharacteristicKey.Active, 'topicSetValveActive', 'valueActive', 'valueInactive',
-        this.Characteristic.Active.ACTIVE, strings.valve.activeSet, strings.valve.inactiveSet),
+        dependency.Characteristic.Active.ACTIVE, strings.valve.activeSet, strings.valve.inactiveSet),
     );
 
     this.setup(HKCharacteristicKey.InUse, dependency.Characteristic.InUse.NOT_IN_USE,
@@ -53,7 +53,7 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
       false,
       'topicSetValveIsConfigured',
       this.bindOnSetBoolean(HKCharacteristicKey.IsConfigured, 'topicSetValveIsConfigured', 'valueConfigured', 'valueNotConfigured',
-        this.Characteristic.IsConfigured.CONFIGURED, strings.valve.configuredFuture, strings.valve.notConfiguredFuture,
+        dependency.Characteristic.IsConfigured.CONFIGURED, strings.valve.configuredFuture, strings.valve.notConfiguredFuture,
       ),
     );
   }

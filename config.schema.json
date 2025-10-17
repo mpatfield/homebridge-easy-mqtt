@@ -1780,16 +1780,19 @@
               "flex-direction": "row",
               "items": [
                 {
-                  "key": "accessories[].history.enabled",
-                  "flex": "0 0 25%"
-                },
-                {
                   "key": "accessories[].resetOnRestart",
                   "flex": "0 0 25%"
                 },
                 {
                   "key": "accessories[].disableLogging",
                   "flex": "0 0 25%"
+                },
+                {
+                  "key": "accessories[].history.enabled",
+                  "flex": "0 0 25%",
+                  "condition": {
+                    "functionBody": "return ['ContactSensor', 'HeaterCooler', 'HumiditySensor', 'Lightbulb', 'MotionSensor', 'Outlet', 'Switch', 'TemperatureSensor', 'Thermostat'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                  }
                 }
               ]
             },

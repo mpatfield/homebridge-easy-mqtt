@@ -16,7 +16,10 @@ import { temperatureUnits, toCelsius } from '../../tools/temperature.js';
 type OnUpdateHandler = (topic: string, value: PrimitiveTypes) => (Promise<void>);
 export type TopicHandler = {topic: string, handler: OnUpdateHandler};
 
-export type PublishHandler = (topic: string, value: PrimitiveTypes) => void
+export type PublishHandler = (topic: string, value: PrimitiveTypes) => void;
+
+type NumberCallback = (value: number) => void;
+type BooleanCallback = (value: boolean) => void
 
 export abstract class Common<C extends Assertable> {
 
@@ -194,7 +197,7 @@ export abstract class Common<C extends Assertable> {
     return characteristic;
   }
 
-  protected bindOnUpdateNumeric(key: CharacteristicKey, logTemplate: string, callback?: (value: number)=> void): OnUpdateHandler {
+  protected bindOnUpdateNumeric(key: CharacteristicKey, logTemplate: string, callback?: NumberCallback): OnUpdateHandler {
     return (async (_topic: string, value: PrimitiveTypes) => {
 
       if (typeof value !== 'number') {
@@ -221,7 +224,8 @@ export abstract class Common<C extends Assertable> {
     }).bind(this);
   }
 
-  protected bindOnUpdateBoolean(key: CharacteristicKey, trueKey: keyof C, falseKey: keyof C, logTrue: string, logFalse: string): OnUpdateHandler {
+  protected bindOnUpdateBoolean(key: CharacteristicKey, trueKey: keyof C, falseKey: keyof C,
+    logTrue: string, logFalse: string, callback?: BooleanCallback): OnUpdateHandler {
     return (async (_topic: string, value: PrimitiveTypes) => {
 
       let bool: boolean | undefined = undefined;
@@ -239,6 +243,8 @@ export abstract class Common<C extends Assertable> {
 
       const logString = bool ? logTrue : logFalse;
       this.onUpdate(key, bool, logString);
+
+      callback?.(bool);
 
     }).bind(this);
   }
@@ -261,7 +267,7 @@ export abstract class Common<C extends Assertable> {
   }
 
   protected bindOnUpdateNumericBoolean(charKey: CharacteristicKey, valueKey: keyof C,
-    logTrue: string, logFalse: string, callback?: (value: number) => void): OnUpdateHandler {
+    logTrue: string, logFalse: string, callback?: NumberCallback): OnUpdateHandler {
     return (async (_topic: string, value: PrimitiveTypes) => {
       const numeric = value === this.getPrimitiveValue(valueKey) ? 1 : 0;
       this.onUpdate(charKey, numeric, numeric ? logTrue : logFalse);
@@ -270,7 +276,7 @@ export abstract class Common<C extends Assertable> {
   }
 
   protected bindOnUpdateTemperature<C extends TemperatureConfig>(config: C, charKey: CharacteristicKey,
-    logTemplate: string, callback?: (value: number) => void ): OnUpdateHandler {
+    logTemplate: string, callback?: NumberCallback ): OnUpdateHandler {
     return (async (_topic: string, value: PrimitiveTypes) => {
 
       if (typeof value !== 'number') {
@@ -338,7 +344,7 @@ export abstract class Common<C extends Assertable> {
   protected bindOnSetBoolean(
     key: CharacteristicKey, setTopicKey: keyof C,
     trueValueKey: keyof C, falseValueKey: keyof C, trueValue: CharacteristicValue,
-    trueLog: string, falseLog: string,
+    trueLog: string, falseLog: string, callback?: BooleanCallback,
   ) {
     return (async (value: CharacteristicValue) => {
 
@@ -362,6 +368,8 @@ export abstract class Common<C extends Assertable> {
       const logString = booleanValue ? trueLog : falseLog;
       const publish = booleanValue ? this.config[trueValueKey] as string : this.config[falseValueKey] as string;
       this.onSet(key, value, publish, setTopicKey, logString);
+
+      callback?.(booleanValue);
 
     }).bind(this);
   }

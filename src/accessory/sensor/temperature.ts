@@ -3,6 +3,7 @@ import { SensorAccessory } from './sensor.js';
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
+import { HistoryType } from '../../model/history.js';
 import { MQTTAccessoryDependency, TemperatureSensorConfig } from '../../model/types.js';
 
 export class TemperatureSensorAccessory extends SensorAccessory<TemperatureSensorConfig> {
@@ -16,6 +17,8 @@ export class TemperatureSensorAccessory extends SensorAccessory<TemperatureSenso
     super(dependency);
 
     this.setup(HKCharacteristicKey.CurrentTemperature, 0, 'topicGetCurrentTemperature',
-      this.bindOnUpdateTemperature(dependency.config, HKCharacteristicKey.CurrentTemperature, strings.climate.temperatureUpdate), true);
+      this.bindOnUpdateTemperature(dependency.config, HKCharacteristicKey.CurrentTemperature, strings.climate.temperatureUpdate, (value) => {
+        this.recordHistory(HistoryType.WEATHER, { temp: value } );
+      }), true);
   }
 }

@@ -3,6 +3,7 @@ import { TemperatureControlAccessory, DEFAULT_TEMPERATURE } from './temperatureC
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
+import { HistoryType } from '../../model/history.js';
 import { MQTTAccessoryDependency, ThermostatConfig } from '../../model/types.js';
 
 export class ThermostatAccessory extends TemperatureControlAccessory<ThermostatConfig> {
@@ -66,7 +67,9 @@ export class ThermostatAccessory extends TemperatureControlAccessory<ThermostatC
     );
 
     this.setup(HKCharacteristicKey.CurrentRelativeHumidity, 0,
-      'topicGetCurrentRelativeHumidity', this.bindOnUpdateNumeric(HKCharacteristicKey.CurrentRelativeHumidity, strings.climate.humidityUpdate), false);
+      'topicGetCurrentRelativeHumidity', this.bindOnUpdateNumeric(HKCharacteristicKey.CurrentRelativeHumidity, strings.climate.humidityUpdate, (value) => {
+        this.recordHistory(HistoryType.WEATHER, { humidity: value } );
+      }), false);
 
     this.setup(HKCharacteristicKey.TargetRelativeHumidity, 0,
       'topicGetTargetRelativeHumidity', this.bindOnUpdateNumeric(HKCharacteristicKey.TargetRelativeHumidity, strings.thermostat.humidityFuture), false,

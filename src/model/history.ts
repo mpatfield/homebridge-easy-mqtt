@@ -13,11 +13,10 @@ import { Log } from '../tools/log.js';
 import { SECOND } from '../tools/time.js';
 
 export enum HistoryType {
-  ENERGY = 'energy',
+  CUSTOM = 'custom',
   WEATHER = 'weather',
   DOOR = 'door',
   MOTION = 'motion',
-  SWITCH = 'switch',
 }
 
 export type HistoryEntry = {
