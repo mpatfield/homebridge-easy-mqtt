@@ -576,6 +576,22 @@
               "type": "string",
               "title": "${config.title.topicSetVolume}"
             },
+            "topicGetCurrentConsumption": {
+              "type": "string",
+              "title": "${config.title.topicGetCurrentConsumption}"
+            },
+            "topicGetElectricCurrent": {
+              "type": "string",
+              "title": "${config.title.topicGetElectricCurrent}"
+            },
+            "topicGetTotalConsumption": {
+              "type": "string",
+              "title": "${config.title.topicGetTotalConsumption}"
+            },
+            "topicGetVoltage": {
+              "type": "string",
+              "title": "${config.title.topicGetVoltage}"
+            },
             "valueBatteryLow": {
               "type": "string",
               "title": "${config.title.valueBatteryLow}"
@@ -2187,6 +2203,45 @@
                       "items": [
                         {
                           "key": "accessories[].topicGetOutletInUse",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "return ['Lightbulb', 'Outlet', 'Switch'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetCurrentConsumption",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicGetTotalConsumption",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetElectricCurrent",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicGetVoltage",
                           "flex": "0 0 50%"
                         }
                       ]

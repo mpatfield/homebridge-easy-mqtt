@@ -168,9 +168,9 @@ These values are used for both determining current state and, where appropriate,
 #### Outlet
 - `topicGetOn*` - The current state of the outlet, i.e. on/off
 - `topicSetOn*` - For setting the state of the outlet
+- `topicGetOutletInUse` - Whether or not the outlet is
 - `valueOn*` - Turned on, e.g. "true", or "1", or "On"
 - `valueOff*` - Turned off, e.g. "false", or "0", or "Off"
-- `topicGetOutletInUse` - Whether or not the outlet is currently being used
 - `valueOutletInUse` - Currently being used, e.g. "true", or "1", or "On"
 
 #### Switch
@@ -612,7 +612,7 @@ then you would use the topic
 
 ## Custom Characteristics
 
-If you use a more advanced HomeKit app like [Eve](https://apps.apple.com/us/app/eve-for-matter-homekit/id917695792) or [Controller for Homekit](https://apps.apple.com/us/app/controller-for-homekit/id1198176727), you can add custom characteristics to display any arbitrary numeric information. Unfortunately, Apple currently doesn't offer a way to display this in the Home app.
+If you use a more advanced HomeKit app like [Eve](https://apps.apple.com/us/app/eve-for-matter-homekit/id917695792), you can add custom characteristics to display any arbitrary numeric information. Unfortunately, Apple currently doesn't offer a way to display this in the Home app.
 
 <img src="https://raw.githubusercontent.com/mpatfield/homebridge-easy-mqtt/refs/heads/latest/img/screenshot_1.png">
 

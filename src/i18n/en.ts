@@ -130,6 +130,7 @@ const en = {
       topicGetContactSensorState: 'Get Contact Detected*',
       topicGetCoolingThresholdTemperature: 'Get Cooling Threshold',
       topicGetCurrentAmbientLightLevel: 'Get Current Light Level*',
+      topicGetCurrentConsumption: 'Get Watts (Eve-only)',
       topicGetCurrentDoorState: 'Get Current Door State*',
       topicGetCurrentFanState: 'Get Current Mode',
       topicGetCurrentHeaterCoolerState: 'Get Current Mode*',
@@ -144,6 +145,7 @@ const en = {
       topicGetCurrentSecurityState: 'Get Current State*',
       topicGetCurrentTemperature: 'Get Current Temperature*',
       topicGetCurrentVerticalTiltAngle: 'Get Vertical Angle',
+      topicGetElectricCurrent: 'Get Amps (Eve-only)',
       topicGetFilterChangeIndication: 'Filter Change Indication',
       topicGetFilterLifeLevel: 'Filter Life Remaining',
       topicGetHeatingThresholdTemperature: 'Get Heating Threshold',
@@ -184,12 +186,14 @@ const en = {
       topicGetTargetSecurityState: 'Get Target State*',
       topicGetTargetTemperature: 'Get Target Temperature*',
       topicGetTargetVerticalTiltAngle: 'Get Target Vertical Angle',
+      topicGetTotalConsumption: 'Get kWh (Eve-only)',
       topicGetValveActive: 'Get Active*',
       topicGetValveInUse: 'Get In Use*',
       topicGetValveIsConfigured: 'Get Is Configured',
       topicGetValveRemainingDuration: 'Get Duration Remaining',
       topicGetValveSetDuration: 'Get Duration',
       topicGetVOCDensity: 'Get VOC',
+      topicGetVoltage: 'Get Voltage (Eve-only)',
       topicGetVolume: 'Get Volume',
       topicResetFilterIndication: 'Reset Filter',
       topicSetActive: 'Set Active*',
@@ -433,8 +437,13 @@ const en = {
 
   outlet: {
     badValue: '%s unable to get in-use state for %s', // accessory name, value
+    currentConsumption: '%s consumption is %dW', // accessory name, value
+    electricCurrent: '%s current is %dA', // accessory name, value
     inUse: '%s is in use', // accessory name
     notInUse: '%s is not in use', // accessory name
+    totalConsumption: '%s consumption is %dkWh', // accessory name, value
+    totalConsumptionReset: '%s consumption has been reset', // accessory name
+    voltage: '%s voltage is %dV', // accessory name, value
   },
 
   position: {
@@ -529,6 +538,7 @@ const en = {
     contact: {
       active: '%s detected contact', // accessory name
       inactive: '%s stopped detecting contact', // accessory name
+      timesOpenedReset: '%s open count has been reset', // accessory name
     },
 
     leak: {

@@ -66,10 +66,11 @@ export class History {
     this.persistPath = api.user.persistPath();
   }
 
-  public record(accessory: Accessory, config: HistoryConfig | undefined, type: HistoryType, entry: HistoryEntry, updateLastActivation: boolean = false) {
+  public record(accessory: Accessory, config: HistoryConfig | undefined, type: HistoryType, entry: HistoryEntry,
+    updateLastActivation: boolean = false): boolean {
 
     if (config === undefined || !config.enabled) {
-      return;
+      return false;
     }
 
     const historyService = this.historyServices.get(accessory.identifier)
@@ -90,6 +91,8 @@ export class History {
       accessory.properties.set(EveCharacteristicKey.LastActivation, lastActivation);
       accessory.service.updateCharacteristic(EveCharacteristic(EveCharacteristicKey.LastActivation), lastActivation);
     }
+
+    return true;
   }
 
   private createHistoryService(config: HistoryConfig, accessory: Accessory, type: HistoryType, addLastActivation: boolean): HistoryService {

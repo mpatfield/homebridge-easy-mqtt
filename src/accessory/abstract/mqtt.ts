@@ -129,7 +129,7 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
     });
   }
 
-  protected recordHistory(type: HistoryType, entry: HistoryEntry, updateLastActivation: boolean = false) {
-    this.dependency.history.record(this, this.config.history, type, entry, updateLastActivation);
+  protected recordHistory(type: HistoryType, entry: HistoryEntry, updateLastActivation: boolean = false): boolean {
+    return this.dependency.history.record(this, this.config.history, type, entry, updateLastActivation);
   }
 }
