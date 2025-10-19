@@ -25,7 +25,7 @@ const DEFAULT_BROKER = 'mqtt://127.0.0.1/';
 function executeTransformer(transformer: string, value: PrimitiveTypes, log: Log): PrimitiveTypes {
   try {
     // Create function with the expression
-    const transformerFunction = new Function("value", `return ${transformer}`);
+    const transformerFunction = new Function('value', `return ${transformer}`);
     return toPrimitive(transformerFunction(value));
   } catch (error) {
     log.error(`Transformer execution failed for expression "${transformer}": ${error}`);
