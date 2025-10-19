@@ -292,7 +292,6 @@ export class MQTT {
       }
 
       for (const listener of listeners) {
-
         let value;
         if (message.startsWith('{')) {
 
@@ -318,6 +317,7 @@ export class MQTT {
           transformedValue = executeTransformer(listener.topic.transformer, transformedValue, this.log);
         }
 
+        this.log.ifVerbose(strings.mqttClient.receivedMessage, this.host, topic, `\n${message}=>${transformedValue}`);
         listener.handler(topic, transformedValue);
       }
 
