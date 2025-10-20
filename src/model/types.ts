@@ -11,16 +11,16 @@ import { TemperatureUnits } from '../tools/temperature.js';
 import { Assertable } from '../tools/validation.js';
 
 export type AccessoryDependency = {
-    Service: ServiceType,
-    Characteristic: CharacteristicType,
-    platformAccessory: PlatformAccessory,
-    log: Log,
+  Service: ServiceType,
+  Characteristic: CharacteristicType,
+  platformAccessory: PlatformAccessory,
+  log: Log,
   history: History,
 }
 
 export type MQTTAccessoryDependency<C extends MQTTAccessoryConfig> = AccessoryDependency & {
-    config: C,
-    isGrouped: boolean,
+  config: C,
+  isGrouped: boolean,
 }
 
 export type PlatformConfig = HBPlatformConfig & {
@@ -79,7 +79,6 @@ export type MQTTConfig = Assertable & {
 export type HistoryConfig = Assertable & {
   enabled: boolean,
   disableRepeatLastData?: boolean,
-  disableTimer?: boolean,
   size?: number,
 }
 
@@ -109,7 +108,11 @@ export type BaseAccessoryConfig = MQTTAccessoryConfig & {
 }
 
 export type OnOffConfig = BaseAccessoryConfig & {
+  topicGetCurrentConsumption?: string,
+  topicGetElectricCurrent?: string,
   topicGetOn: string,
+  topicGetTotalConsumption?: string,
+  topicGetVoltage?: string,
   topicSetOn: string,
   valueOn: string,
   valueOff: string,

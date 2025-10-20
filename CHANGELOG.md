@@ -2,17 +2,16 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.4.1-beta.1 (2025-10-10)
+## 1.5.0-beta.0 (2025-10-??)
 
 ### Added
 - `Doorbell` accessory type
-- History (Only visible with the [Eve app](https://apps.apple.com/us/app/eve-for-matter-homekit/id917695792))
-    - `ContactSensorState`
-    - `CurrentRelativeHumidity` (for `HumiditySensor`, `Thermostat`)
-    - `CurrentTemperature` (for `HeaterCooler`, `TemperatureSensor`, `Thermostat`)
-    - `MotionDetected`
-    - `On` (for `Lightbulb`, `Outlet`, `Switch`)
-
+- History and additional characteristics for for [Eve app](https://apps.apple.com/us/app/eve-for-matter-homekit/id917695792) users ([documentation](https://github.com/mpatfield/homebridge-easy-mqtt#history))
+    - Opened/closed history, and times opened count with option to reset for `ContactSensor`
+    - `MotionSensor` history
+    - Temperature history for `HeaterCooler`, `TemperatureSensor`, and `Thermostat`
+    - Humidity history for `HumiditySensor` and `Thermostat`
+    - On/off history and watts/amps/volts/kWh history for `Lightbulb`, `Outlet`, and `Switch`
 - Traduzioni in italiano. Grazie, [@Shikaban](https://github.com/sponsors/Shikaban)!
 
 ### Notes
