@@ -428,6 +428,8 @@ const en = {
     receivedMessage: 'Received message on %s with topic %s', // host, topic
     reconnectMinutes: 'Will attempt to reconnect to %s in %s minutes…', // host, number
     reconnectSeconds: 'Will attempt to reconnect to %s in %s seconds…', // host, number
+    transformFailed: 'Unable to execute transform:',
+    transformedValue: 'Transforming value from %s to %s', // number, number
   },
 
   onOff: {

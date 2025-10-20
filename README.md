@@ -140,7 +140,7 @@ Note that setting the this information in the JSON config will override the envi
 
 You will need to make sure to populate the appropriate topics based on the accessory type defined below.
 
-You may define topics using a JSONPath dot notation to assist the parser in finding the right value within the message. See [JSONPaths](#jsonpaths) below for more details.
+You may define topics using a JSONPath dot notation to assist the parser in finding the right value within the message. You can also add a value transformer to alter the incoming or outgoing value. See [Advanced Topic Notation](#advanced-topic-notation) below for more details.
 
 As with topics, you will also need to populate the appropriate values based on the type. Note that while they are defined as strings, they will be auto-converted to the appropriate primitives (e.g. boolean or number) where appropriate.
 
@@ -562,7 +562,9 @@ Each entry should have a topic and a message:
 ]
 ```
 
-## JSONPaths
+## Advanced Topic Notation
+
+### JSONPaths
 
 For some devices, the desired values in the MQTT messages are embedded within a JSON object. For example, here is the MQTT message for my door lock that is received when the door is locked:
 
@@ -626,6 +628,30 @@ As with get topics, you can have an arbitrarily complex chain. So if, for exampl
 then you would use the topic
 
 `zwave/4/security/set$.target.mode.value`
+
+### Value Transformers
+
+There are other situations where the value needs to be adjusted or altered entirely.
+
+For example, you may have an Air Quality Sensor that measures Nitrogen Dioxide in ppm (parts per million) instead of µg/m³ (micrograms per cubic meter) which HomeKit expects. In this case, you need to multiply by the arbitrary number 1883 to get the correct result.
+
+Using the pipe (`|`) notation, you may add a transformer:
+
+`airquality/no2|value * 1883`
+
+This will multiply the value by `1883` to get the desired result.
+
+Note that `value` is a reserved keyword here to indicate the incoming value you'd like to transform.
+
+You can also do the same thing on the publish side to transfer it back to ppm. In this case, you would need to divide by 1883.
+
+`airquality/no2|value / 1883`
+
+### JSONPath + Transformer
+
+You may also combine JSONPath and Transformer notation into a single entity
+
+`airquality$.no2|value * 1883`
 
 ## Eve App Support
 
