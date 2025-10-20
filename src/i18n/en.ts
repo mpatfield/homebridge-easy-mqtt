@@ -384,6 +384,8 @@ const en = {
   },
 
   history: {
+    cleanup: 'Removing history for %s', // accessory name
+    cleanupFailed: 'Unable to remove history for %s. Try manually removing the file %s from your Homebridge \'persist\' directory.', // accessory name, filename
     entry: '%s logging history entry:', // accessory name
     updatedCharacteristic: '%s updated %s with value %s', // accessory name, characteristic name, value
   },

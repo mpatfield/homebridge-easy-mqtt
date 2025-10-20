@@ -1,5 +1,8 @@
+import { F_OK } from 'constants';
 import fakegato, { HistoryServiceProvider, HistoryService } from 'fakegato-history';
+import { access, unlink } from 'fs/promises';
 import { API, CharacteristicValue, Nullable, PlatformAccessory } from 'homebridge';
+import path from 'path';
 
 import { EveCharacteristicKey } from './enums.js';
 import { HistoryConfig, MQTTAccessoryConfig } from './types.js';
@@ -56,6 +59,8 @@ export class History {
   private readonly historyServices = new Map<string, HistoryService>();
   private readonly persistPath: string;
 
+  private readonly cleanedUp = new Set<string>();
+
   constructor(private readonly api: API, private readonly log: Log) {
 
     if (ServiceProvider) {
@@ -70,6 +75,7 @@ export class History {
     updateLastActivation: boolean = false): boolean {
 
     if (config === undefined || !config.enabled) {
+      this.cleanup(accessory);
       return false;
     }
 
@@ -103,7 +109,7 @@ export class History {
       size: config.size ?? 4032,
       storage: 'fs',
       path: this.persistPath,
-      filename: this.api.hap.uuid.generate(accessory.identifier + HISTORY_UUID),
+      filename: this.getFilename(accessory),
     };
 
     const historyService = HistoryService(type, accessory.platformAccessory, options);
@@ -139,5 +145,48 @@ export class History {
     }, 1 * SECOND);
 
     return historyService;
+  }
+
+  private getFilename(accessory: Accessory): string {
+    return this.api.hap.uuid.generate(accessory.identifier + HISTORY_UUID);
+  }
+
+  private async cleanup(accessory: Accessory) {
+
+    if (this.cleanedUp.has(accessory.identifier)) {
+      return;
+    }
+
+    this.cleanedUp.add(accessory.identifier);
+
+    const filename = this.getFilename(accessory);
+    const filePath = path.join(this.persistPath, filename);
+
+    const fileExists = await this.fileExists(filePath);
+    if (!fileExists) {
+      return;
+    }
+
+    this.log.ifVerbose(strings.history.cleanup, accessory.name);
+
+    try {
+      await unlink(filePath);
+    } catch (error) {
+
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') {
+        return;
+      }
+
+      this.log.error(strings.history.cleanupFailed, accessory.name, filename);
+    }
+  }
+
+  private async fileExists(filePath: string): Promise<boolean> {
+    try {
+      await access(filePath, F_OK);
+      return true;
+    } catch {
+      return false;
+    }
   }
 }
