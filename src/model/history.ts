@@ -105,7 +105,7 @@ export class History {
 
     const options: HistoryOptions = {
       disableRepeatLastData: config.disableRepeatLastData ?? false,
-      disableTimer: config.disableTimer ?? false,
+      disableTimer: false,
       size: config.size ?? 4032,
       storage: 'fs',
       path: this.persistPath,

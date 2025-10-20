@@ -79,7 +79,6 @@ export type MQTTConfig = Assertable & {
 export type HistoryConfig = Assertable & {
   enabled: boolean,
   disableRepeatLastData?: boolean,
-  disableTimer?: boolean,
   size?: number,
 }
 

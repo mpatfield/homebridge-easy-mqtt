@@ -83,6 +83,11 @@ Using the Homebridge Config UI is the easiest way to set up this plugin. However
           …
         ]
       },
+      "history": {
+        "enabled": true,
+        "disableRepeatLastData": false,
+        "size": 4032,
+      },
       "customCharacteristics": [
         {
           "uuid": "string",
@@ -164,6 +169,10 @@ These values are used for both determining current state and, where appropriate,
 - `topicSetHue` - For setting the lightbulb's current hue
 - `topicGetSaturation` - The current saturation setting of the lightbulb
 - `topicSetSaturation` - For setting the saturation setting of the lightbulb
+- `topicGetCurrentConsumption` - Get the current power rate in watts ([Eve only](#eve-app-support))
+- `topicGetElectricCurrent` - Get the electrical current in amps ([Eve only](#eve-app-support))
+- `topicGetTotalConsumption` - Get the total energy use in kWh ([Eve only](#eve-app-support))
+- `topicGetVoltage` - Get the current voltage ([Eve only](#eve-app-support))
 
 #### Outlet
 - `topicGetOn*` - The current state of the outlet, i.e. on/off
@@ -172,10 +181,18 @@ These values are used for both determining current state and, where appropriate,
 - `valueOn*` - Turned on, e.g. "true", or "1", or "On"
 - `valueOff*` - Turned off, e.g. "false", or "0", or "Off"
 - `valueOutletInUse` - Currently being used, e.g. "true", or "1", or "On"
+- `topicGetCurrentConsumption` - Get the current power rate in watts ([Eve only](#eve-app-support))
+- `topicGetElectricCurrent` - Get the electrical current in amps ([Eve only](#eve-app-support))
+- `topicGetTotalConsumption` - Get the total energy use in kWh ([Eve only](#eve-app-support))
+- `topicGetVoltage` - Get the current voltage ([Eve only](#eve-app-support))
 
 #### Switch
 - `topicGetOn*` - The current state of the outlet, i.e. on/off
 - `topicSetOn*` - For setting the state of the outlet
+- `topicGetCurrentConsumption` - Get the current power rate in watts ([Eve only](#eve-app-support))
+- `topicGetElectricCurrent` - Get the electrical current in amps ([Eve only](#eve-app-support))
+- `topicGetTotalConsumption` - Get the total energy use in kWh ([Eve only](#eve-app-support))
+- `topicGetVoltage` - Get the current voltage ([Eve only](#eve-app-support))
 - `valueOn*` - Turned on, e.g. "true", or "1", or "On"
 - `valueOff*` - Turned off, e.g. "false", or "0", or "Off"
 
@@ -610,9 +627,45 @@ then you would use the topic
 
 `zwave/4/security/set$.target.mode.value`
 
-## Custom Characteristics
+## Eve App Support
 
-If you use a more advanced HomeKit app like [Eve](https://apps.apple.com/us/app/eve-for-matter-homekit/id917695792), you can add custom characteristics to display any arbitrary numeric information. Unfortunately, Apple currently doesn't offer a way to display this in the Home app.
+If you use [Eve](https://apps.apple.com/us/app/eve-for-matter-homekit/id917695792), then there are some additional features available:
+- Opened/closed history, and times opened count with option to reset for `ContactSensor`
+- `MotionSensor` history
+- Temperature history for `HeaterCooler`, `TemperatureSensor`, and `Thermostat`
+- Humidity history for `HumiditySensor` and `Thermostat`
+- On/off history for `Lightbulb`, `Outlet`, and `Switch`
+
+You can also add get topics for watts/amps/volts/kWh for `Lightbulb`, `Outlet`, and `Switch`:
+- `topicGetCurrentConsumption` - Get the current power rate in watts
+- `topicGetElectricCurrent` - Get the electrical current in amps
+- `topicGetTotalConsumption` - Get the total energy use in kWh
+- `topicGetVoltage` - Get the current voltage
+
+To enable history, choose the `History Enabled` option in the config UI.
+
+There are a couple of advanced options if configuring via JSON:
+
+```json
+{
+  "info": …
+  "mqtt": …
+  "history": {
+    "enabled": true,
+    "disableRepeatLastData": false,
+    "size": 4032,
+  },
+  … // Topic & Values
+}
+```
+
+- `enabled` — used to enable/disable history
+- `disableRepeatLastData` — See [fakegato-history](https://github.com/simont77/fakegato-history?tab=readme-ov-file#fakegato-history) for info
+- `size` - The maximum number of history entries. Default is 4032 (1 entry every 10 minutes for 28 days)
+
+### Custom Characteristics
+
+Eve users can also add custom characteristics to display any arbitrary numeric information.
 
 <img src="https://raw.githubusercontent.com/mpatfield/homebridge-easy-mqtt/refs/heads/latest/img/screenshot_1.png">
 
