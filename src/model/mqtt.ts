@@ -15,51 +15,33 @@ const DELAYS = [5 * SECOND, 10 * SECOND, 30 * SECOND, 2 * MINUTE, 5 * MINUTE];
 
 const DEFAULT_BROKER = 'mqtt://127.0.0.1/';
 
-/**
- * Safely executes a JavaScript expression as a transformer
- * @param expression The JavaScript expression to execute
- * @param value The input value to transform
- * @param log Logger instance for error reporting
- * @returns The transformed value or the original value if transformation fails
- */
-function executeTransformer(transformer: string, value: PrimitiveTypes, log: Log): PrimitiveTypes {
-  try {
-    // Create function with the expression
-    const transformerFunction = new Function('value', `return ${transformer}`);
-    return toPrimitive(transformerFunction(value));
-  } catch (error) {
-    log.error(`Transformer execution failed for expression "${transformer}": ${error}`);
-    return value;
-  }
-}
-
 type MQTTMessageHandler = (topic: string, value: PrimitiveTypes) => void;
 
-type Topic = { base: string, jsonPath: string[], transformer: string | undefined };
+type Topic = { base: string, jsonPath: string[], transformer?: string };
 
 function toTopicObject(rawTopic: string): Topic {
 
-  let base: string;
-  let jsonPath: string[];
+  let base = rawTopic;
+  let jsonPath: string[] = [];
   let transformer: string | undefined;
 
-  const index = rawTopic.indexOf('$');
-  if (index === -1) {
-    base = rawTopic;
-    jsonPath = [];
-  } else {
-    base = rawTopic.slice(0, index);
-    const pathAndTransformers = rawTopic.slice(index).replace(/^\$?\.?/, '');
+  const pipeIndex = rawTopic.indexOf('|');
+  const dollarIndex = rawTopic.indexOf('$.');
 
-    // Check if there are transformers (pipe-separated)
-    const pipeIndex = pathAndTransformers.indexOf('|');
-    if (pipeIndex === -1) {
-      jsonPath = pathAndTransformers.split('.');
-      transformer = undefined;
-    } else {
-      jsonPath = pathAndTransformers.slice(0, pipeIndex).split('.');
-      transformer = pathAndTransformers.slice(pipeIndex + 1).trim();
-    }
+  if (pipeIndex !== -1) {
+    transformer = rawTopic.slice(pipeIndex + 1).trim();
+    base = rawTopic.slice(0, pipeIndex);
+  }
+
+  if (dollarIndex !== -1 && (pipeIndex === -1 || dollarIndex < pipeIndex)) {
+    const jsonPathString = base.slice(dollarIndex + 2);
+    jsonPath = jsonPathString.split('.').filter(p => p.length > 0);
+    base = base.slice(0, dollarIndex);
+  }
+
+  const finalPipeIndex = base.indexOf('|');
+  if (finalPipeIndex !== -1) {
+    base = base.slice(0, finalPipeIndex);
   }
 
   return { base, jsonPath, transformer };
@@ -243,10 +225,8 @@ export class MQTT {
 
     const topic = toTopicObject(rawTopic);
 
-    // Apply transformers in sequence (pipe-style) for outgoing messages
-    let transformedValue = value;
     if (topic.transformer) {
-      transformedValue = executeTransformer(topic.transformer, transformedValue, this.log);
+      value = this.executeTransformer(topic.transformer, value);
     }
 
     let message: string;
@@ -258,7 +238,7 @@ export class MQTT {
       do {
         const pathPart = pathParts.pop()!;
         if (pathParts.length === topic.jsonPath.length - 1) {
-          messageObject[pathPart] = transformedValue;
+          messageObject[pathPart] = value;
         } else {
           messageObject = { [pathPart]: messageObject };
         }
@@ -267,7 +247,7 @@ export class MQTT {
       message = JSON.stringify(messageObject);
 
     } else {
-      message = transformedValue.toString();
+      message = value.toString();
     }
 
     this.client.publish(topic.base, message, this.options);
@@ -311,14 +291,12 @@ export class MQTT {
           value = message;
         }
 
-        // Apply transformers in sequence (pipe-style)
-        let transformedValue = toPrimitive(value);
+        value = toPrimitive(value);
         if (listener.topic.transformer) {
-          transformedValue = executeTransformer(listener.topic.transformer, transformedValue, this.log);
+          value = this.executeTransformer(listener.topic.transformer, value);
         }
 
-        this.log.ifVerbose(strings.mqttClient.receivedMessage, this.host, topic, `\n${message}=>${transformedValue}`);
-        listener.handler(topic, transformedValue);
+        listener.handler(topic, value);
       }
 
     } catch (e) {
@@ -357,5 +335,20 @@ export class MQTT {
       this.isReconnecting = false;
       this.connect();
     }, reconnectDelay);
+  }
+
+  private executeTransformer(transformer: string, value: PrimitiveTypes): PrimitiveTypes {
+    try {
+      const transformerFunction = new Function('value', `const v = JSON.parse(value); return ${transformer.replaceAll('value', 'v')}`);
+      const newValue = toPrimitive(transformerFunction(value));
+
+      this.log.ifVerbose(strings.mqttClient.transformedValue, value, newValue);
+
+      return newValue;
+
+    } catch (error) {
+      this.log.error(strings.mqttClient.transformFailed, `'${transformer}'`, `\n${error}`);
+      return value;
+    }
   }
 }

@@ -237,7 +237,7 @@ export abstract class Common<C extends Assertable> {
         bool = false;
         break;
       default:
-        this.log.error(strings.characteristic.unknownValue);
+        this.log.error(strings.characteristic.unknownValue, this.name, `'${value}'`);
         return;
       }
 
