@@ -647,9 +647,9 @@ You can also do the same thing on the publish side to transfer it back to ppm. I
 
 `airquality/no2|value / 1883`
 
-### JSONPath + Transformer
+### Both JSONPath + Transformer
 
-You may also combine JSONPath and Transformer notation into a single entity
+You can also combine JSONPath and Transformer notation into a single entity
 
 `airquality$.no2|value * 1883`
 
