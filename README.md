@@ -732,4 +732,6 @@ By default, all accessory values are saved and reloaded when the plugin restarts
 
 [Keryan Belahcene](https://www.instagram.com/keryan.me) for creating the [Flume](https://github.com/homebridge-plugins/homebridge-flume) header logo which I adapted for this plugin
 
+[fakegato-history](https://github.com/simont77/fakegato-history) by [@simont77](https://github.com/sponsors/simont77) *Copyright © 2017*
+
 And to the amazing creators/contributors of [Homebridge](https://homebridge.io) who made this plugin possible!

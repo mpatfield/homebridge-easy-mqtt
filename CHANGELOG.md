@@ -2,7 +2,7 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.0-beta.0 (2025-10-20)
+## 1.5.0-beta.1 (2025-10-20)
 
 ### Added
 - [Value Transformers](https://github.com/mpatfield/homebridge-easy-mqtt#history) (Thank you [@nehmeroumani](https://github.com/sponsors/nehmeroumani) for the code contribution!)
