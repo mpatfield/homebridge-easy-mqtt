@@ -734,4 +734,6 @@ By default, all accessory values are saved and reloaded when the plugin restarts
 
 [fakegato-history](https://github.com/simont77/fakegato-history) by [@simont77](https://github.com/sponsors/simont77) *Copyright © 2017*
 
+[@nehmeroumani](https://github.com/nehmeroumani) for their code contributions to Easy MQTT
+
 And to the amazing creators/contributors of [Homebridge](https://homebridge.io) who made this plugin possible!
