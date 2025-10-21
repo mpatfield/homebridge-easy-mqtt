@@ -339,7 +339,7 @@ export class MQTT {
 
   private executeTransformer(transformer: string, value: PrimitiveTypes): PrimitiveTypes {
     try {
-      const transformerFunction = new Function('value', `const v = JSON.parse(value); return ${transformer.replaceAll('value', 'v')}`);
+      const transformerFunction = new Function('value', `return ${transformer}`);
       const newValue = toPrimitive(transformerFunction(value));
 
       this.log.ifVerbose(strings.mqttClient.transformedValue, value, newValue);

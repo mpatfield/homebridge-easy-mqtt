@@ -366,7 +366,7 @@ export abstract class Common<C extends Assertable> {
 
       const booleanValue = value === trueValue;
       const logString = booleanValue ? trueLog : falseLog;
-      const publish = booleanValue ? this.config[trueValueKey] as string : this.config[falseValueKey] as string;
+      const publish = booleanValue ? this.getPrimitiveValue(trueValueKey)! : this.getPrimitiveValue(falseValueKey)!;
       this.onSet(key, value, publish, setTopicKey, logString);
 
       callback?.(booleanValue);
