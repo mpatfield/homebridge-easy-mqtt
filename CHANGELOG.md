@@ -5,15 +5,15 @@ All notable changes to homebridge-dummy will be documented in this file.
 ## 1.5.0 (2025-10-27)
 
 ### Added
-- [Value Transformers](https://github.com/mpatfield/homebridge-easy-mqtt#history) (Thank you [@nehmeroumani](https://github.com/sponsors/nehmeroumani) for the code contribution!)
-    - Allows you to alter the incoming/outgoing topic values (similar to the MQTTThing `apply` functionality)
-- `Doorbell` accessory type
-- History and additional characteristics for for [Eve app](https://apps.apple.com/us/app/eve-for-matter-homekit/id917695792) users ([documentation](https://github.com/mpatfield/homebridge-easy-mqtt#history))
-    - Opened/closed history, and times opened count with option to reset for `ContactSensor`
+- [Value Transformers](https://github.com/mpatfield/homebridge-easy-mqtt#value-transformers) to alter the incoming/outgoing topic values (similar to the MQTTThing `apply` functionality)
+    - Thank you [@nehmeroumani](https://github.com/sponsors/nehmeroumani) for the [PR](https://github.com/mpatfield/homebridge-easy-mqtt/pull/96)!
+- [Eve App Support](https://github.com/mpatfield/homebridge-easy-mqtt#eve-app-support) including history and additional characteristics
+    - `ContactSensor` opened/closed history and times opened count with option to reset
     - `MotionSensor` history
     - Temperature history for `HeaterCooler`, `TemperatureSensor`, and `Thermostat`
     - Humidity history for `HumiditySensor` and `Thermostat`
     - On/off history and watts/amps/volts/kWh history for `Lightbulb`, `Outlet`, and `Switch`
+- `Doorbell` accessory type
 - Traduzioni in italiano. Grazie, [@Shikaban](https://github.com/sponsors/Shikaban)!
 
 ### Notes
