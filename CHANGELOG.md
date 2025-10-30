@@ -2,6 +2,14 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
+## 1.5.1-beta.0 (2025-10-29)
+
+### Added
+- Added `storage` to [Value Transformers](https://github.com/mpatfield/homebridge-easy-mqtt#value-transformers)
+
+### Notes
+Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
+
 ## 1.5.0 (2025-10-27)
 
 ### Added
@@ -15,9 +23,6 @@ All notable changes to homebridge-dummy will be documented in this file.
     - On/off history and watts/amps/volts/kWh history for `Lightbulb`, `Outlet`, and `Switch`
 - `Doorbell` accessory type
 - Traduzioni in italiano. Grazie, [@Shikaban](https://github.com/sponsors/Shikaban)!
-
-### Notes
-Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
 
 ## 1.4.0 (2025-10-08)
 

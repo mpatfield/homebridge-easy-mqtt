@@ -422,8 +422,10 @@ const en = {
     new: '%s creating a new client with id %s', // accessory name, uuid
     noListeners: 'No listeners on %s for topic %s', // host, topic
     notConnected: 'Client not connected to %s', // host
+    messageUndefined: 'Message on %s with topic %s was transformed to undefined. Ignoring…', // host, topic
     parseFailed: 'Failed to parse message on %s', // host
     publish: 'Publishing to %s', // host
+    publishUndefined: 'Nothing to publish to %s with topic %s. Transformed value is undefined.', // host, topic
     reuse: '%s reusing existing client with id %s', // accessory name, uuid
     receivedMessage: 'Received message on %s with topic %s', // host, topic
     reconnectMinutes: 'Will attempt to reconnect to %s in %s minutes…', // host, number

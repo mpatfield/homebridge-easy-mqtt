@@ -647,6 +647,16 @@ You can also do the same thing on the publish side to transfer it back to ppm. I
 
 `airquality/no2|value / 1883`
 
+If you need to save values for later use, you may use the special `storage` object which allows you to retain any arbitrary primitive value using "dot" notation, i.e. `storage.foo='bar'`
+
+For example, here is a use case where a garage door needs to (sometimes) save the door position value:
+
+`stat/garagedoor/current|if(value=='C' || value=='O') storage.doorPosition=value; return value;`
+
+Then, the door position can be retrieved later with the following:
+
+`cmnd/garagerelay/POWER|return (storage.doorPosition===value)?undefined : 'ON'`
+
 ### Both JSONPath + Transformer
 
 You can also combine JSONPath and Transformer notation into a single entity

@@ -226,7 +226,14 @@ export class MQTT {
     const topic = toTopicObject(rawTopic);
 
     if (topic.transformer) {
-      value = this.executeTransformer(topic.transformer, value);
+
+      const transformedValue = this.executeTransformer(topic.transformer, value);
+      if (transformedValue === undefined) {
+        this.log.ifVerbose(strings.mqttClient.publishUndefined, this.host, topic.base);
+        return;
+      }
+
+      value = transformedValue;
     }
 
     let message: string;
@@ -296,7 +303,11 @@ export class MQTT {
           value = this.executeTransformer(listener.topic.transformer, value);
         }
 
-        listener.handler(topic, value);
+        if (value === undefined) {
+          this.log.ifVerbose(strings.mqttClient.messageUndefined, this.host, topic);
+        } else {
+          listener.handler(topic, value);
+        }
       }
 
     } catch (e) {
@@ -337,12 +348,19 @@ export class MQTT {
     }, reconnectDelay);
   }
 
-  private executeTransformer(transformer: string, value: PrimitiveTypes): PrimitiveTypes {
+  private readonly transformerStorage: Record<string, PrimitiveTypes> = {};
+  private executeTransformer(transformer: string, value: PrimitiveTypes): PrimitiveTypes | undefined {
     try {
-      const transformerFunction = new Function('value', `return ${transformer}`);
-      const newValue = toPrimitive(transformerFunction(value));
+      if (!transformer.includes('return')) {
+        transformer = `return ${transformer}`;
+      }
 
-      this.log.ifVerbose(strings.mqttClient.transformedValue, value, newValue);
+      const transformerFunction = new Function('value', 'storage', transformer);
+      const newValue = toPrimitive(transformerFunction(value, this.transformerStorage));
+
+      if (value !== newValue) {
+        this.log.ifVerbose(strings.mqttClient.transformedValue, value, newValue);
+      }
 
       return newValue;
 
