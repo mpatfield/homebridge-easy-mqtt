@@ -2,13 +2,14 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.1-beta.0 (2025-10-29)
+## 1.5.1-beta.2 (2025-10-30)
 
 ### Added
 - Added `storage` to [Value Transformers](https://github.com/mpatfield/homebridge-easy-mqtt#value-transformers)
 
 ### Changed
 - ⚠️ Dropped [official support](https://github.com/homebridge/homebridge/wiki/How-To-Update-Node.js) for Node.js v18 and added Node.js v24
+- Updated dependencies
 
 ### Notes
 Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
