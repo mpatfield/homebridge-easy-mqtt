@@ -351,7 +351,8 @@ export class MQTT {
   private readonly transformerStorage: Record<string, PrimitiveTypes> = {};
   private executeTransformer(transformer: string, value: PrimitiveTypes): PrimitiveTypes | undefined {
     try {
-      if (!transformer.includes('return')) {
+
+      if (!/(?<!\.)\breturn\b/.test(transformer)) {
         transformer = `return ${transformer}`;
       }
 
