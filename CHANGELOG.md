@@ -7,6 +7,9 @@ All notable changes to homebridge-dummy will be documented in this file.
 ### Added
 - Added `storage` to [Value Transformers](https://github.com/mpatfield/homebridge-easy-mqtt#value-transformers)
 
+### Changed
+- ⚠️ Dropped [official support](https://github.com/homebridge/homebridge/wiki/How-To-Update-Node.js) for Node.js v18 and added Node.js v24
+
 ### Notes
 Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
 
