@@ -2,7 +2,7 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.1-beta.2 (2025-10-30)
+## 1.5.1 (2025-11-01)
 
 ### Added
 - Added `storage` to [Value Transformers](https://github.com/mpatfield/homebridge-easy-mqtt#value-transformers)
