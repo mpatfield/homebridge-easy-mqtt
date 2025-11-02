@@ -23,7 +23,7 @@ type BooleanCallback = (value: boolean) => void
 
 export abstract class Common<C extends Assertable> {
 
-  private _properties: Properties | undefined = undefined;
+  private _properties: Properties<CharacteristicKey, CharacteristicValue> | undefined = undefined;
 
   public readonly topicHandlers: TopicHandler[] = [];
 
@@ -44,7 +44,7 @@ export abstract class Common<C extends Assertable> {
 
   protected abstract publish(rawTopic: string, value: PrimitiveTypes): void;
 
-  public get properties(): Properties {
+  public get properties(): Properties<CharacteristicKey, CharacteristicValue> {
 
     if (this._properties === undefined) {
       this._properties = new Properties(this.identifier, this.useStoredProperties);

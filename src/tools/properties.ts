@@ -1,7 +1,4 @@
-import { CharacteristicValue } from 'homebridge';
 import storage from 'node-persist';
-
-import { CharacteristicKey } from '../model/enums.js';
 
 function propertyStorageKey(id: string): string {
   return `${id}:Properties`;
@@ -9,7 +6,7 @@ function propertyStorageKey(id: string): string {
 
 const PRELOAD_KEYS_UUID = 'a6ac8cc1-5112-41c9-98b8-198601281ebb';
 const PRELOAD_KEYS = new Set<string>;
-const PRELOADED = new Map<string,Map<CharacteristicKey, CharacteristicValue>>();
+const PRELOADED = new Map<string,Map<unknown, unknown>>();
 
 function cacheKey(key: string) {
 
@@ -24,7 +21,7 @@ function cacheKey(key: string) {
   storage.set(PRELOAD_KEYS_UUID, keysJson);
 }
 
-export class Properties {
+export class Properties<K extends string, V> {
 
   public static async initStorage(persistPath: string) {
     await storage.init({ dir: persistPath, forgiveParseErrors: true });
@@ -51,7 +48,7 @@ export class Properties {
         }
 
         const array = JSON.parse(propertiesJson);
-        const properties = new Map<CharacteristicKey, CharacteristicValue>(array);
+        const properties = new Map(array);
 
         PRELOADED.set(key, properties);
 
@@ -61,7 +58,7 @@ export class Properties {
     }
   }
 
-  private readonly properties = new Map<CharacteristicKey, CharacteristicValue>();
+  private readonly properties = new Map<K, V>();
 
   constructor(private readonly identifier: string, private readonly useStorage: boolean) {
 
@@ -70,14 +67,14 @@ export class Properties {
     }
 
     const key = propertyStorageKey(identifier);
-    this.properties = PRELOADED.get(key) ?? this.properties;
+    this.properties = PRELOADED.get(key) as Map<K, V> ?? this.properties;
   }
 
-  public get(key: CharacteristicKey): CharacteristicValue | undefined {
+  public get(key: K): V | undefined {
     return this.properties.get(key);
   }
 
-  public set(key: CharacteristicKey, value: CharacteristicValue) {
+  public set(key: K, value: V) {
     this.properties.set(key, value);
 
     if (!this.useStorage) {
