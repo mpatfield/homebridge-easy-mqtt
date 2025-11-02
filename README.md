@@ -657,6 +657,8 @@ Then, the door position can be retrieved later with the following:
 
 `cmnd/garagerelay/POWER|return (storage.doorPosition===value)?undefined : 'ON'`
 
+Note that `storage` is shared across all topics for a particular MQTT instance, so take care to use unique keys.
+
 ### Both JSONPath + Transformer
 
 You can also combine JSONPath and Transformer notation into a single entity

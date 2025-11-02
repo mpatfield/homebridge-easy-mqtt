@@ -89,4 +89,16 @@ export class Properties<K extends string, V> {
 
     storage.set(storageKey, propertiesJson);
   }
+
+  public asRecord(): Record<K, V> {
+    return new Proxy(this, {
+      get: (target, key: K) => {
+        return target.get(key);
+      },
+      set: (target, key: K, value: V) => {
+        target.set(key, value);
+        return true;
+      },
+    }) as Record<K, V>;
+  }
 }

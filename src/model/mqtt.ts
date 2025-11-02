@@ -9,6 +9,7 @@ import { strings } from '../i18n/i18n.js';
 
 import { Log, LogType } from '../tools/log.js';
 import { toPrimitive } from '../tools/primitive.js';
+import { Properties } from '../tools/properties.js';
 import { SECOND, MINUTE } from '../tools/time.js';
 
 const DELAYS = [5 * SECOND, 10 * SECOND, 30 * SECOND, 2 * MINUTE, 5 * MINUTE];
@@ -79,6 +80,8 @@ export class MQTT {
 
   private readonly listeners = new Map<string, MQTTListener[]>();
 
+  private readonly transformerStorage: Record<string, unknown>;
+
   static connect(log: Log, config: MQTTConfig | undefined = undefined, caller: string, onConnect: OnConnectCallback): MQTT | undefined {
 
     let additionalOptions = {};
@@ -108,20 +111,21 @@ export class MQTT {
       seed = broker;
     }
 
-    const id = createHash('md5').update(seed).digest('hex').slice(0, 4);
+    const id = createHash('md5').update(seed).digest('hex').replace(/^(.{8})(.{4})(.{4})(.{4})(.{12})$/, '$1-$2-$3-$4-$5');
+    const shortId = id.slice(0, 4);
 
     let instance = MQTT.INSTANCES.get(id);
     if (instance !== undefined) {
-      log.ifVerbose(strings.mqttClient.reuse, caller, id);
+      log.ifVerbose(strings.mqttClient.reuse, caller, shortId);
 
       if (instance.client?.connected) {
         onConnect(instance);
       }
 
     } else {
-      log.ifVerbose(strings.mqttClient.new, caller, id);
+      log.ifVerbose(strings.mqttClient.new, caller, shortId);
 
-      instance = new MQTT(log, broker, options);
+      instance = new MQTT(id, log, broker, options);
       MQTT.INSTANCES.set(id, instance);
 
       instance.connect();
@@ -153,10 +157,13 @@ export class MQTT {
   }
 
   private constructor(
+    private readonly id: string,
     private readonly log: Log,
     private readonly broker: string,
     private readonly options: mqtt.IClientOptions & mqtt.IClientPublishOptions,
-  ) {}
+  ) {
+    this.transformerStorage = new Properties(this.id, true).asRecord();
+  }
 
   private get host(): string {
     try {
@@ -348,7 +355,6 @@ export class MQTT {
     }, reconnectDelay);
   }
 
-  private readonly transformerStorage: Record<string, PrimitiveTypes> = {};
   private executeTransformer(transformer: string, value: PrimitiveTypes): PrimitiveTypes | undefined {
     try {
 
