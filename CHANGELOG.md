@@ -2,7 +2,7 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.2-beta.0 (2025-11-02)
+## 1.5.2 (2025-11-04)
 
 ### Changed
 - Persist [Value Transformer](https://github.com/mpatfield/homebridge-easy-mqtt#value-transformers) `storage` accross across plugin/Homebridge restarts
