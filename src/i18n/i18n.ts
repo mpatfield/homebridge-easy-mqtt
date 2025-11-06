@@ -1,9 +1,11 @@
+import de from './de.js';
 import en from './en.js';
 import fr from './fr.js';
 import ro from './ro.js';
 import vi from './vi.js';
 
 export enum Language {
+  DE = 'de',
   EN = 'en',
   FR = 'fr',
   RO = 'ro',
@@ -11,6 +13,7 @@ export enum Language {
 }
 
 const Translations: Record<Language, Translation> = {
+  [Language.DE]: de,
   [Language.EN]: en,
   [Language.FR]: fr,
   [Language.RO]: ro,
@@ -29,6 +32,9 @@ export function setLanguage(i18nLang: string) {
 
   let language = Language.EN;
   switch(i18nLang) {
+  case Language.DE:
+    language = Language.DE;
+    break;
   case Language.EN:
     language = Language.EN;
     break;

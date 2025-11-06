@@ -2,13 +2,18 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
+## 1.5.3-beta.0 (2025-11-06)
+
+### Added
+- Deutsche Übersetzungen. Danke, [@steffen-micdev](https://github.com/sponsors/steffen-micdev)!
+
+### Notes
+Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
+
 ## 1.5.2 (2025-11-04)
 
 ### Changed
 - Persist [Value Transformer](https://github.com/mpatfield/homebridge-easy-mqtt#value-transformers) `storage` accross across plugin/Homebridge restarts
-
-### Notes
-Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
 
 ## 1.5.1 (2025-11-01)
 

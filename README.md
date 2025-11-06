@@ -744,6 +744,8 @@ By default, all accessory values are saved and reloaded when the plugin restarts
 
 [@nehmeroumani](https://github.com/nehmeroumani) for contributing Value Transformers to Easy MQTT
 
+[@steffen-micdev](https://github.com/sponsors/steffen-micdev) for German translations
+
 [@Shikaban](https://github.com/sponsors/Shikaban) for Italian translations
 
 [@rursache](https://github.com/sponsors/rursache) for Romanian translations
