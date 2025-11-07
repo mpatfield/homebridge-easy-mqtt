@@ -106,12 +106,12 @@ export class MQTT {
     try {
       const url = new URL(broker);
       url.port = url.port.length ? url.port : '1883';
-      seed = `${url.protocol}//${url.host}|${JSON.stringify(options)}`;
+      seed = `${url.protocol}//${url.host}|${JSON.stringify({ username: config?.username, ...additionalOptions })}`;
     } catch (error) {
       seed = broker;
     }
 
-    const id = createHash('md5').update(seed).digest('hex').replace(/^(.{8})(.{4})(.{4})(.{4})(.{12})$/, '$1-$2-$3-$4-$5');
+    const id = createHash('sha256').update(seed).digest('hex').slice(0, 32).replace(/^(.{8})(.{4})(.{4})(.{4})(.{12})$/, '$1-$2-$3-$4-$5');
     const shortId = id.slice(0, 4);
 
     let instance = MQTT.INSTANCES.get(id);
