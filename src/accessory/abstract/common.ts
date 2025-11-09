@@ -10,8 +10,8 @@ import { CharacteristicType, TemperatureConfig } from '../../model/types.js';
 import { Log, LogType } from '../../tools/log.js';
 import { toNumber, toPrimitive } from '../../tools/primitive.js';
 import { Properties } from '../../tools/properties.js';
-import { assert, Assertable, assertType, Type } from '../../tools/validation.js';
 import { temperatureUnits, toCelsius } from '../../tools/temperature.js';
+import { assert, Assertable, assertType, Type } from '../../tools/validation.js';
 
 type OnUpdateHandler = (topic: string, value: PrimitiveTypes) => (Promise<void>);
 export type TopicHandler = {topic: string, handler: OnUpdateHandler};
@@ -22,8 +22,6 @@ type NumberCallback = (value: number) => void;
 type BooleanCallback = (value: boolean) => void
 
 export abstract class Common<C extends Assertable> {
-
-  private _properties: Properties<CharacteristicKey, CharacteristicValue> | undefined = undefined;
 
   public readonly topicHandlers: TopicHandler[] = [];
 
@@ -43,15 +41,6 @@ export abstract class Common<C extends Assertable> {
   protected abstract get useStoredProperties(): boolean;
 
   protected abstract publish(rawTopic: string, value: PrimitiveTypes): void;
-
-  public get properties(): Properties<CharacteristicKey, CharacteristicValue> {
-
-    if (this._properties === undefined) {
-      this._properties = new Properties(this.identifier, this.useStoredProperties);
-    }
-
-    return this._properties;
-  }
 
   protected assert(...keys: (keyof C)[]): boolean {
     return assert(this.log, this.name, this.config, ...keys);
@@ -85,6 +74,19 @@ export abstract class Common<C extends Assertable> {
 
   protected isOptionalCharacteristic(key: CharacteristicKey): boolean {
     return isEveCharacteristic(key);
+  }
+
+  public getProperty(key: CharacteristicKey): CharacteristicValue | undefined {
+    return this.useStoredProperties ? Properties.get(this.identifier, key) : undefined;
+  }
+
+  public setProperty(key: CharacteristicKey, value: CharacteristicValue) {
+
+    if (!this.useStoredProperties) {
+      return;
+    }
+
+    Properties.set(this.identifier, key, value);
   }
 
   protected setup(
@@ -125,7 +127,7 @@ export abstract class Common<C extends Assertable> {
       return;
     }
 
-    const startingValue = (this.useStoredProperties && this.properties.get(characteristicKey)) ?? defaultValue;
+    const startingValue = (this.useStoredProperties && this.getProperty(characteristicKey)) ?? defaultValue;
 
     if (this.isOptionalCharacteristic(characteristicKey)) {
       this.service.addOptionalCharacteristic(this.characteristicFromKey(characteristicKey));
@@ -134,10 +136,10 @@ export abstract class Common<C extends Assertable> {
     const characteristic = this.service.getCharacteristic(this.characteristicFromKey(characteristicKey));
     characteristic.setValue(startingValue);
 
-    this.properties.set(characteristicKey, startingValue);
+    this.setProperty(characteristicKey, startingValue);
 
     characteristic.onGet( async (): Promise<Nullable<CharacteristicValue>> => {
-      return this.properties.get(characteristicKey) ?? null;
+      return this.getProperty(characteristicKey) ?? null;
     });
 
     this.topicHandlers.push({ topic: this.config[getTopicKey] as string, handler: onUpdateHandler });
@@ -172,7 +174,7 @@ export abstract class Common<C extends Assertable> {
   protected setupTopicless(characteristicKey: CharacteristicKey, defaultValue: CharacteristicValue,
     onSetCallback?: (value: CharacteristicValue) => (void)): Characteristic | undefined {
 
-    const startingValue = (this.useStoredProperties && this.properties.get(characteristicKey)) ?? defaultValue;
+    const startingValue = (this.useStoredProperties && this.getProperty(characteristicKey)) ?? defaultValue;
 
     if (this.isOptionalCharacteristic(characteristicKey)) {
       this.service.addOptionalCharacteristic(this.characteristicFromKey(characteristicKey));
@@ -181,10 +183,10 @@ export abstract class Common<C extends Assertable> {
     const characteristic = this.service.getCharacteristic(this.characteristicFromKey(characteristicKey));
     characteristic.setValue(startingValue);
 
-    this.properties.set(characteristicKey, startingValue);
+    this.setProperty(characteristicKey, startingValue);
 
     characteristic.onGet( async (): Promise<Nullable<CharacteristicValue>> => {
-      return this.properties.get(characteristicKey) ?? null;
+      return this.getProperty(characteristicKey) ?? null;
     });
 
     if (onSetCallback) {
@@ -401,11 +403,11 @@ export abstract class Common<C extends Assertable> {
 
   protected onUpdate(key: CharacteristicKey, value: CharacteristicValue, logString: string | undefined = undefined): boolean {
 
-    if (value === this.properties.get(key)) {
+    if (value === this.getProperty(key)) {
       return false;
     }
 
-    this.properties.set(key, value);
+    this.setProperty(key, value);
 
     this.service.updateCharacteristic(this.characteristicFromKey(key), value);
 
@@ -422,11 +424,11 @@ export abstract class Common<C extends Assertable> {
       return;
     }
 
-    if (logString && value !== this.properties.get(key)) {
+    if (logString && value !== this.getProperty(key)) {
       this.logIfDesired(logString);
     }
 
-    this.properties.set(key, value);
+    this.setProperty(key, value);
 
     this.service.updateCharacteristic(this.characteristicFromKey(key), value);
 
@@ -434,14 +436,14 @@ export abstract class Common<C extends Assertable> {
   }
 
   protected updateNumericValue(key: CharacteristicKey, delta: number) {
-    const currentValue = this.properties.get(key) ?? 0;
+    const currentValue = this.getProperty(key) ?? 0;
 
     if (typeof currentValue !== 'number') {
       throw new Error(`Trying to increment '${key}' but it is not a number`);
     }
 
     const newValue = currentValue + delta;
-    this.properties.set(key, newValue);
+    this.setProperty(key, newValue);
 
     this.service.updateCharacteristic(this.characteristicFromKey(key), newValue );
   }

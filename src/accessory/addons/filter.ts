@@ -52,6 +52,6 @@ export class FilterMaintenance extends Addon<FilterMaintenanceConfig> {
     }
 
     this.onSet(HKCharacteristicKey.ResetFilterIndication, value, this.config.valueFilterReset!, 'topicResetFilterIndication', strings.filter.reset);
-    this.properties.set(HKCharacteristicKey.ResetFilterIndication, 0);
+    this.setProperty(HKCharacteristicKey.ResetFilterIndication, 0);
   }
 }

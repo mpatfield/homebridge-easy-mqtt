@@ -2,10 +2,13 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.3-beta.0 (2025-11-06)
+## 1.5.3-beta.1 (2025-11-09)
 
 ### Added
 - Deutsche Übersetzungen. Danke, [@steffen-micdev](https://github.com/sponsors/steffen-micdev)!
+
+### Changed
+- Accessory states are saved in a single file instead of distributed across many files
 
 ### Notes
 Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!

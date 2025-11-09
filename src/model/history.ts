@@ -94,7 +94,7 @@ export class History {
 
     if (updateLastActivation && !isNaN(historyService.getInitialTime())) {
       const lastActivation = time - historyService.getInitialTime();
-      accessory.properties.set(EveCharacteristicKey.LastActivation, lastActivation);
+      accessory.setProperty(EveCharacteristicKey.LastActivation, lastActivation);
       accessory.service.updateCharacteristic(EveCharacteristic(EveCharacteristicKey.LastActivation), lastActivation);
     }
 
@@ -131,7 +131,7 @@ export class History {
       }
 
       const lastActivation = entry.time - historyService.getInitialTime();
-      accessory.properties.set(EveCharacteristicKey.LastActivation, lastActivation);
+      accessory.setProperty(EveCharacteristicKey.LastActivation, lastActivation);
 
       accessory.service.addOptionalCharacteristic(EveCharacteristic(EveCharacteristicKey.LastActivation));
 
@@ -139,7 +139,7 @@ export class History {
       characteristic.updateValue(lastActivation);
 
       characteristic.onGet(async (): Promise<Nullable<CharacteristicValue>> => {
-        return accessory.properties.get(EveCharacteristicKey.LastActivation) ?? lastActivation;
+        return accessory.getProperty(EveCharacteristicKey.LastActivation) ?? lastActivation;
       });
 
     }, 1 * SECOND);

@@ -4,7 +4,7 @@
   "displayName": "Homebridge Easy MQTT",
   "description": "Homebridge plugin for easy control of MQTT devices",
   "type": "module",
-  "version": "1.5.3-beta.0",
+  "version": "1.5.3-beta.1",
   "homepage": "https://github.com/mpatfield/homebridge-easy-mqtt#readme",
   "repository": {
     "type": "git",
@@ -32,7 +32,13 @@
     "hoobs",
     "hoobs-plugin",
     "homekit",
-    "mqtt"
+    "mqtt",
+    "shelly",
+    "sonoff",
+    "tasmota",
+    "tuya",
+    "zigbee",
+    "zigbee2mqtt"
   ],
   "engines": {
     "homebridge": "^1.8.0 || ^2.0.0-beta.0",

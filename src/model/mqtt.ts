@@ -162,7 +162,7 @@ export class MQTT {
     private readonly broker: string,
     private readonly options: mqtt.IClientOptions & mqtt.IClientPublishOptions,
   ) {
-    this.transformerStorage = new Properties(this.id, true).asRecord();
+    this.transformerStorage = Properties.asRecord(id);
   }
 
   private get host(): string {

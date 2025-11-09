@@ -1,44 +1,92 @@
+import { PrimitiveTypes } from 'homebridge';
 import storage from 'node-persist';
 
-function propertyStorageKey(id: string): string {
-  return `${id}:Properties`;
-}
+import { PLATFORM_NAME } from '../homebridge/settings.js';
 
-const PRELOAD_KEYS_UUID = 'a6ac8cc1-5112-41c9-98b8-198601281ebb';
-const PRELOAD_KEYS = new Set<string>;
-const PRELOADED = new Map<string,Map<unknown, unknown>>();
+type Storable = PrimitiveTypes | PrimitiveTypes[] | { [key: string]: PrimitiveTypes };
+const PROPERTIES = new Map<string, Map<string, Storable>>();
 
-function cacheKey(key: string) {
-
-  if (PRELOAD_KEYS.has(key)) {
-    return;
-  }
-
-  PRELOAD_KEYS.add(key);
-
-  const keysArray = Array.from(PRELOAD_KEYS);
-  const keysJson = JSON.stringify(keysArray);
-  storage.set(PRELOAD_KEYS_UUID, keysJson);
-}
-
-export class Properties<K extends string, V> {
+export class Properties {
 
   public static async initStorage(persistPath: string) {
     await storage.init({ dir: persistPath, forgiveParseErrors: true });
 
-    const keysJson = await storage.get(PRELOAD_KEYS_UUID);
-    if (keysJson === undefined) {
+    await Properties.migrateDeprecatedProperties();
+
+    const storageJson = await storage.get(PLATFORM_NAME);
+    if (storageJson === undefined) {
+      Properties.save();
       return;
     }
 
     try {
+      const storageArray = JSON.parse(storageJson) as [string, [string, Storable][]][];
+      for (const [identifier, itemsArray] of storageArray) {
+        const itemsMap = new Map<string, Storable>(itemsArray);
+        PROPERTIES.set(identifier, itemsMap);
+      }
+    } catch {
+    // ignore
+    }
+  }
+
+  public static get(identifier: string, key: string): Storable | undefined {
+    return PROPERTIES.get(identifier)?.get(key);
+  }
+
+  public static async set(identifier: string, key: string, item: Storable | undefined) {
+
+    const items = PROPERTIES.get(identifier) || new Map();
+
+    if (item !== undefined) {
+      items.set(key, item);
+    } else {
+      items.delete(key);
+    }
+
+    PROPERTIES.set(identifier, items);
+
+    Properties.save();
+  }
+
+  public static asRecord<K extends string, V extends Storable>(identifier: string): Record<K, V> {
+    return new Proxy(new Properties(), {
+      get: (_target, key: K) => {
+        return Properties.get(identifier, key);
+      },
+      set: (_target, key: K, value: V) => {
+        Properties.set(identifier, key, value);
+        return true;
+      },
+    }) as Record<K, V>;
+  }
+
+  private static async save() {
+    const storageArray = Array.from(PROPERTIES.entries()).map(([key, value]) => {
+      return [key, Array.from(value.entries())];
+    });
+
+    const storageJson = JSON.stringify(storageArray);
+    await storage.set(PLATFORM_NAME, storageJson);
+  }
+
+  private static async migrateDeprecatedProperties() {
+
+    const keysJson = await storage.get('a6ac8cc1-5112-41c9-98b8-198601281ebb');
+    if (keysJson === undefined) {
+      return;
+    }
+
+    const keys = new Set<string>();
+    try {
       const keysArray: string[] = JSON.parse(keysJson);
-      keysArray.forEach(key => PRELOAD_KEYS.add(key));
+      keysArray.forEach(key => keys.add(key));
+      await storage.removeItem('a6ac8cc1-5112-41c9-98b8-198601281ebb');
     } catch {
       // ignore
     }
 
-    for (const key of PRELOAD_KEYS) {
+    for (const key of keys) {
 
       try {
 
@@ -48,57 +96,15 @@ export class Properties<K extends string, V> {
         }
 
         const array = JSON.parse(propertiesJson);
-        const properties = new Map(array);
+        const properties = new Map<string, Storable>(array);
 
-        PRELOADED.set(key, properties);
+        PROPERTIES.set(key.replace(':Properties', ''), properties);
+
+        await storage.removeItem(key);
 
       } catch {
         // ignore
       }
     }
-  }
-
-  private readonly properties = new Map<K, V>();
-
-  constructor(private readonly identifier: string, private readonly useStorage: boolean) {
-
-    if (!useStorage) {
-      return;
-    }
-
-    const key = propertyStorageKey(identifier);
-    this.properties = PRELOADED.get(key) as Map<K, V> ?? this.properties;
-  }
-
-  public get(key: K): V | undefined {
-    return this.properties.get(key);
-  }
-
-  public set(key: K, value: V) {
-    this.properties.set(key, value);
-
-    if (!this.useStorage) {
-      return;
-    }
-
-    const storageKey = propertyStorageKey(this.identifier);
-    cacheKey(storageKey);
-
-    const propertiesArray = Array.from(this.properties.entries());
-    const propertiesJson = JSON.stringify(propertiesArray);
-
-    storage.set(storageKey, propertiesJson);
-  }
-
-  public asRecord(): Record<K, V> {
-    return new Proxy(this, {
-      get: (target, key: K) => {
-        return target.get(key);
-      },
-      set: (target, key: K, value: V) => {
-        target.set(key, value);
-        return true;
-      },
-    }) as Record<K, V>;
   }
 }
