@@ -2,7 +2,7 @@
   "name": "homebridge-easy-mqtt",
   "platform": "HomebridgeEasyMQTT",
   "displayName": "Homebridge Easy MQTT",
-  "description": "Homebridge plugin for easy control of MQTT devices",
+  "description": "Homebridge plugin for MQTT devices",
   "type": "module",
   "version": "1.5.3-beta.1",
   "homepage": "https://github.com/mpatfield/homebridge-easy-mqtt#readme",
