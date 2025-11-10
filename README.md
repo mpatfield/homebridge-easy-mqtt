@@ -21,11 +21,13 @@ Any issues or damage resulting from use of this plugin are not the fault of the 
 
 ## What does this plugin do?
 
-This plugin is designed to be a simple replacement for the fantastic [homebridge-mqttthing](https://github.com/arachnetech/homebridge-mqttthing) plugin which appears as though it's [no longer](https://github.com/arachnetech/homebridge-mqttthing/commits/master/) being actively developed.
+[MQTT](https://mqtt.org/) is a fairly common communication protocol for smart devices such as [Shelly](https://shelly-api-docs.shelly.cloud/gen2/ComponentsAndServices/Mqtt/), [Tasmota](https://tasmota.github.io/docs/MQTT/), [Tuya](https://developer.tuya.com/en/docs/iot/MQTT-protocol?id=Kb65nphxrj8f1) and many others. While these devices are often not directly HomeKit compatible, Homebridge Easy MQTT lets you integrate them into your Apple Home.
 
-For detailed information, please visit the [wiki](https://github.com/mpatfield/homebridge-easy-mqtt/wiki).
+Homebridge Easy MQTT aims to be a simple replacement for the fantastic [MQTTThing](https://github.com/arachnetech/homebridge-mqttthing) plugin which appears as though it's [no longer](https://github.com/arachnetech/homebridge-mqttthing/commits/master/) being actively developed.
 
 This plugin is being actively improved over time as more use cases are requested. If there is an accessory type you'd like to see supported, please [create an issue in GitHub](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
+
+Lots more details about Homebridge Easy MQTT can be found on the [wiki](https://github.com/mpatfield/homebridge-easy-mqtt/wiki).
 
 ## Credits
 
@@ -45,6 +47,6 @@ This plugin is being actively improved over time as more use cases are requested
 
 [Keryan Belahcene](https://www.instagram.com/keryan.me) for creating the [Flume](https://github.com/homebridge-plugins/homebridge-flume) header logo which I adapted for this plugin
 
-[@arachnetech](https://github.com/arachnetech) for the fantastic [homebridge-mqttthing](https://github.com/arachnetech/homebridge-mqttthing) plugin which served as the main inspiration for this project
+[homebridge-mqttthing](https://github.com/arachnetech/homebridge-mqttthing) by [@arachnetech](https://github.com/arachnetech) which served as the main inspiration for this project
 
 And to the amazing creators/contributors of [Homebridge](https://homebridge.io) who made this plugin possible!
