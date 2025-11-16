@@ -3,7 +3,7 @@ import { PlatformConfig as HBPlatformConfig, PlatformAccessory } from 'homebridg
 export type ServiceType = typeof import('homebridge').Service;
 export type CharacteristicType = typeof import('homebridge').Characteristic;
 
-import { AccessoryType, ValveType } from './enums.js';
+import { AccessoryType, LabelType, ValveType } from './enums.js';
 
 import { History } from './history.js';
 import { Log } from '../tools/log.js';
@@ -354,6 +354,7 @@ export type SecurityConfig = BaseAccessoryConfig & ErrorStatusConfig & {
 }
 
 export type ButtonConfig = BaseAccessoryConfig & {
+  labelType?: LabelType,
   topicEventButtonPress: string,
   valueSinglePress?: string,
   valueDoublePress?: string,

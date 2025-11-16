@@ -7,7 +7,7 @@ import { DoorbellConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 export class DoorbellAccessory extends ButtonAccessory<DoorbellConfig> {
 
-  protected getAccessoryType(): AccessoryType {
+  protected getButtonAccessoryType(): AccessoryType {
     return AccessoryType.Doorbell;
   }
 

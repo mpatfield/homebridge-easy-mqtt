@@ -5,7 +5,7 @@ import { ButtonConfig } from '../../model/types.js';
 
 export class StatelessButtonAccessory extends ButtonAccessory<ButtonConfig> {
 
-  protected getAccessoryType(): AccessoryType {
+  protected getButtonAccessoryType(): AccessoryType {
     return AccessoryType.StatelessProgrammableSwitch;
   }
 }

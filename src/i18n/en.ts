@@ -31,9 +31,13 @@ const en = {
 
   button: {
     doublePress: '%s was double pressed', // accessory name
+    doublePressValue: '%s was double pressed (%s)', // accessory name, value
+    duplicateValues: '%s press values must be unique', // accessory name
     longPress: '%s was long pressed', // accessory name
+    longPressValue: '%s was long pressed (%s)', // accessory name, value
     noValues: '%s must have at least one event value defined (Single Press, Double Press, Long Press)', // accessory name
     singlePress: '%s was single pressed', // accessory name
+    singlePressValue: '%s was single pressed (%s)', // accessory name, value
     unknownValue: '%s unable to determine button press event from value %s. Ignoring…', // accessory name, value
   },
 

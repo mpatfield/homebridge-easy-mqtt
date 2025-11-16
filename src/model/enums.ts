@@ -17,6 +17,7 @@ export enum AccessoryType {
   OccupancySensor = 'OccupancySensor',
   Outlet = 'Outlet',
   SecuritySystem = 'SecuritySystem',
+  ServiceLabel = 'ServiceLabel',
   SmokeSensor = 'SmokeSensor',
   StatelessProgrammableSwitch = 'StatelessProgrammableSwitch',
   Switch = 'Switch',
@@ -87,6 +88,7 @@ export enum HKCharacteristicKey {
   Saturation = 'Saturation',
   SecuritySystemCurrentState = 'SecuritySystemCurrentState',
   SecuritySystemTargetState = 'SecuritySystemTargetState',
+  ServiceLabelIndex = 'ServiceLabelIndex',
   SetDuration = 'SetDuration',
   SmokeDetected = 'SmokeDetected',
   StatusActive = 'StatusActive',
@@ -121,6 +123,11 @@ export enum EveCharacteristicKey {
   TimesOpened = 'TimesOpened',
   TotalConsumption = 'TotalConsumption',
   Voltage = 'Voltage',
+}
+
+export enum LabelType {
+  DOTS = 'DOTS',
+  ARABIC_NUMERALS = 'ARABIC_NUMERALS'
 }
 
 export enum ValveType {
