@@ -2,19 +2,25 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.3 (2025-11-14)
+## 1.5.4-beta.0 (2025-11-16)
 
 ### Help Requested
 I recently created a new [wiki](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/MQTTThing) to provide config examples for users migrating from MQTTThing. If you have an example of old/new config you'd be willing to share, please [post a message on Discord](https://discord.com/channels/432663330281226270/1412178951295467542) or [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
+
+### Added
+- Create a multi-button [`StatelessProgrammableSwitch`](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/StatelessProgrammableSwitch) using comma-separated value lists
+    - ⚠️ *Should* be backwards compatible but please [create a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose) if have problems
+
+### Notes
+Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
+
+## 1.5.3 (2025-11-14)
 
 ### Added
 - Deutsche Übersetzungen. Danke, [@steffen-micdev](https://github.com/sponsors/steffen-micdev)!
 
 ### Changed
 - Accessory states are saved in a single file instead of distributed across many files
-
-### Notes
-Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
 
 ## 1.5.2 (2025-11-04)
 
