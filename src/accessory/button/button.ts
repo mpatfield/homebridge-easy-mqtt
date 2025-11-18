@@ -175,7 +175,7 @@ export abstract class ButtonAccessory<C extends ButtonConfig = ButtonConfig> ext
     }
 
     if (service === undefined || charValue === undefined || logString === undefined) {
-      this.logIfDesired(strings.button.unknownValue, `'${value}'`);
+      this.log.ifVerbose(strings.button.unknownValue, `'${value}'`);
       return;
     }
 

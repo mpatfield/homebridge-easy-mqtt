@@ -86,7 +86,7 @@ export class SecuritySystemAccessory extends BaseAccessory<SecurityConfig> {
     }
 
     if (current === undefined) {
-      this.logIfDesired(strings.security.unknownValue, `'${value}'`);
+      this.log.ifVerbose(strings.security.unknownValue, `'${value}'`);
       return;
     }
 

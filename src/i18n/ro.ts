@@ -303,7 +303,6 @@ const overrides = {
     stateInactive: '%s este inactiv',
     stateManual: 'Se setează %s pe manual…',
     stateUnknown: 'Starea %s este necunoscută',
-    unknownValue: '%s nu poate determina starea ventilatorului din valoarea %s. Se ignoră…',
   },
 
   filter: {
@@ -387,7 +386,6 @@ const overrides = {
     stateOffFuture: 'Se oprește %s…',
     stateOn: '%s este pornit',
     stateOnFuture: 'Se pornește %s…',
-    unknownValue: '%s nu poate determina starea pornit/oprit din %s. Se ignoră…',
   },
 
   outlet: {
@@ -432,7 +430,6 @@ const overrides = {
     stateManual: 'Se setează %s pe manual…',
     statePurifying: '%s purifică',
     stateUnknown: '%s starea este necunoscută',
-    unknownValue: '%s nu poate determina starea purificatorului de aer din valoarea %s. Se ignoră…',
   },
 
   security: {
@@ -540,7 +537,6 @@ const overrides = {
     stateUnknown: 'Starea %s este necunoscută',
     temperatureTarget: 'Temperatura țintă %s este %d°%s',
     temperatureTargetFuture: '%s se setează temperatura la %d°%s…',
-    unknownValue: '%s nu poate determina starea termostatului din valoarea %s. Se ignoră…',
   },
 
   valve: {

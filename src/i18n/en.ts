@@ -603,7 +603,6 @@ const en = {
     stateUnknown: '%s state is unknown', // accessory name
     temperatureTarget: '%s target temperature is %d°%s', // accessory name, number, units
     temperatureTargetFuture: '%s setting temperature to %d°%s…', // accessory name, number, units
-    unknownValue: '%s unable to determine thermostat state from value %s. Ignoring…', // accessory name, value
   },
 
   valve: {

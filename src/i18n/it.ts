@@ -286,7 +286,6 @@ const overrides = {
     stateInactive: '%s è spento',
     stateManual: 'Impostazione %s su manuale…',
     stateUnknown: 'Stato di %s sconosciuto',
-    unknownValue: 'Impossibile determinare lo stato della ventola di %s dal valore %s. Ignorato…',
   },
 
   filter: {
@@ -384,7 +383,6 @@ const overrides = {
     stateOffFuture: 'Spegnimento di %s…',
     stateOn: '%s è acceso',
     stateOnFuture: 'Accensione di %s…',
-    unknownValue: 'Impossibile determinare lo stato On/Off di %s dal valore %s. Ignorato…',
   },
 
   outlet: {
@@ -429,7 +427,6 @@ const overrides = {
     stateManual: 'Impostazione %s su manuale…',
     statePurifying: '%s sta purificando',
     stateUnknown: 'Stato di %s sconosciuto',
-    unknownValue: 'Impossibile determinare lo stato purificatore di %s dal valore %s. Ignorato…',
   },
 
   security: {
@@ -538,7 +535,6 @@ const overrides = {
     stateUnknown: 'Stato di %s sconosciuto',
     temperatureTarget: 'Temperatura target di %s: %d°%s',
     temperatureTargetFuture: '%s impostazione temperatura a %d°%s…',
-    unknownValue: 'Impossibile determinare lo stato del termostato di %s dal valore %s. Ignorato…',
   },
 
   valve: {

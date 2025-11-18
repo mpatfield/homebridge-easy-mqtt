@@ -239,7 +239,7 @@ export abstract class Common<C extends Assertable> {
         bool = false;
         break;
       default:
-        this.log.error(strings.characteristic.unknownValue, this.name, `'${value}'`);
+        this.log.ifVerbose(strings.characteristic.unknownValue, this.name, `'${value}'`);
         return;
       }
 
@@ -309,7 +309,7 @@ export abstract class Common<C extends Assertable> {
       }
 
       if (characteristicValue === undefined) {
-        this.logIfDesired(unknownLog, `'${value}'`);
+        this.log.ifVerbose(unknownLog, `'${value}'`);
         return;
       }
 

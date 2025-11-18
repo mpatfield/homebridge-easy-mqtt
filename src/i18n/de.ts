@@ -605,7 +605,6 @@ const overrides = {
     stateUnknown: '%s Status ist unbekannt',
     temperatureTarget: '%s Zieltemperatur beträgt %d°%s',
     temperatureTargetFuture: '%s setze Temperatur auf %d°%s…',
-    unknownValue: '%s kann den Thermostatstatus aus dem Wert %s nicht bestimmen. Ignoriere…',
   },
 
   valve: {

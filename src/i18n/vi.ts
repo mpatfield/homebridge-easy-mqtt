@@ -303,7 +303,6 @@ const overrides = {
     stateInactive: '%s không hoạt động', // accessory name
     stateManual: 'Đang đặt %s thành thủ công…', // accessory name
     stateUnknown: 'Không xác định được trạng thái của %s', // accessory name
-    unknownValue: '%s không xác định được trạng thái quạt từ giá trị %s. Bỏ qua…', // accessory name, value
   },
 
   filter: {
@@ -387,7 +386,6 @@ const overrides = {
     stateOffFuture: 'Đang tắt %s…', // accessory name
     stateOn: '%s đang bật', // accessory name
     stateOnFuture: 'Đang bật %s…', // accessory name
-    unknownValue: '%s không xác định được trạng thái bật/tắt từ %s. Đang bỏ qua…', // accessory name, value
   },
 
   outlet: {
@@ -432,7 +430,6 @@ const overrides = {
     stateManual: 'Đang đặt %s thành thủ công…', // accessory name
     statePurifying: '%s đang lọc', // accessory name
     stateUnknown: 'Không xác định được trạng thái của %s', // accessory name
-    unknownValue: '%s không xác định được trạng thái máy lọc không khí từ giá trị %s. Đang bỏ qua…', // accessory name, value
   },
 
   security: {
@@ -541,7 +538,6 @@ const overrides = {
     stateUnknown: 'Không xác định được trạng thái của %s', // accessory name
     temperatureTarget: 'Nhiệt độ mục tiêu của %s là %d°%s', // accessory name, number, units
     temperatureTargetFuture: 'Đang đặt nhiệt độ mục tiêu của %s thành %d°%s…', // accessory name, number, units
-    unknownValue: '%s không xác định được trạng thái nhiệt kế từ giá trị %s. Đang bỏ qua…', // accessory name, value
   },
 
   valve: {
