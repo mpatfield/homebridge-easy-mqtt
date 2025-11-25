@@ -2,14 +2,17 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.4-beta.0 (2025-11-16)
+## 1.5.4 (2025-11-24)
 
 ### Help Requested
-I recently created a new [wiki](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/MQTTThing) to provide config examples for users migrating from MQTTThing. If you have an example of old/new config you'd be willing to share, please [post a message on Discord](https://discord.com/channels/432663330281226270/1412178951295467542) or [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
+I recently created a new [Wiki](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/MQTTThing) to provide config examples for users migrating from MQTTThing. If you have an example of old/new config you'd be willing to share, please [post a message on Discord](https://discord.com/channels/432663330281226270/1412178951295467542) or [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
 
 ### Added
 - Create a multi-button [`StatelessProgrammableSwitch`](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/StatelessProgrammableSwitch) using comma-separated value lists
-    - ⚠️ *Should* be backwards compatible but please [create a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose) if have problems
+    - ⚠️ This *should* be backwards compatible with existing single-button switches, but please [create a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose) if you  have problems
+
+### Changed
+- Updated dependencies
 
 ### Notes
 Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
