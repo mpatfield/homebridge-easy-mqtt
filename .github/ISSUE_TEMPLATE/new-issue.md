@@ -20,7 +20,7 @@ PASTE JSON CONFIG HERE, REMOVING ANY PERSONAL INFO
 ### Homebridge Easy MQTT Version
 v1.5.X <!-- UPDATE THIS VERSION NUMBER -->
 
-Is this a new issue or did it happen in a prior version?
+Did this issue happen in a prior version?
 
 YES/NO
 
