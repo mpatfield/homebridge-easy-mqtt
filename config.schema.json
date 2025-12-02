@@ -160,6 +160,47 @@
               "enum": ["GENERIC_VALVE", "IRRIGATION", "SHOWER_HEAD", "WATER_FAUCET"],
               "enumNames": ["${config.enumNames.valveGeneric}", "${config.enumNames.valveIrrigation}", "${config.enumNames.valveShower}", "${config.enumNames.valveFaucet}"]
             },
+            "autoReset": {
+              "type": "object",
+              "properties": {
+                "time": {
+                  "type": "number",
+                  "title": "${config.title.time}"
+                },
+                "units": {
+                  "type": "string",
+                  "title": "${config.title.units}",
+                  "enum": ["MILLISECONDS", "SECONDS", "MINUTES", "HOURS"],
+                  "enumNames": ["${config.enumNames.milliseconds}", "${config.enumNames.seconds}", "${config.enumNames.minutes}", "${config.enumNames.hours}"]
+                }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "time": {
+                      }
+                    },
+                    "required": ["time"]
+                  },
+                  "then": {
+                    "required": ["units"]
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "units" : {
+                      }
+                    },
+                    "required": [ "units" ]
+                  },
+                  "then": {
+                    "required": [ "time"]
+                  }
+                }
+              ]
+            },
             "topicGetBatteryLevel": {
               "type": "string",
               "title": "${config.title.topicGetBatteryLevel}"
@@ -1809,6 +1850,24 @@
                   "condition": {
                     "functionBody": "return ['ContactSensor', 'HeaterCooler', 'HumiditySensor', 'Lightbulb', 'MotionSensor', 'Outlet', 'Switch', 'TemperatureSensor', 'Thermostat'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   }
+                }
+              ]
+            },
+            {
+              "type": "div",
+              "displayFlex": true,
+              "flex-direction": "row",
+              "condition": {
+                "functionBody": "return ['AirPurifier', 'CarbonDioxideSensor', 'CarbonMonoxideSensor', 'ContactSensor', 'Fanv2', 'HeaterCooler', 'LeakSensor', 'Lightbulb', 'MotionSensor', 'OccupancySensor', 'Outlet', 'SmokeSensor', 'Switch'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+              },
+              "items": [
+                {
+                  "key": "accessories[].autoReset.time",
+                  "flex": "0 0 25%"
+                },
+                {
+                  "key": "accessories[].autoReset.units",
+                  "flex": "0 0 25%"
                 }
               ]
             },

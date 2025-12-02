@@ -19,7 +19,8 @@ export class COSensorAccessory extends SensorAccessory<COSensorConfig> {
       this.bindOnUpdateNumericBoolean(
         HKCharacteristicKey.CarbonMonoxideDetected,
         'valueCarbonMonoxideDetected',
-        strings.sensor.carbonMonoxide.active, strings.sensor.carbonMonoxide.inactive),
+        strings.sensor.carbonMonoxide.active, strings.sensor.carbonMonoxide.inactive,
+        true),
       true);
 
     this.setup(HKCharacteristicKey.CarbonMonoxideLevel, 0,

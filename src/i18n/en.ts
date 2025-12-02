@@ -29,6 +29,14 @@ const en = {
     swingDisabledFuture: 'Setting %s swing to disabled…', // accessory name
   },
 
+  autoReset: {
+    reset: 'Resetting timer for %s', // accessory name
+    startMilliseconds: '%s will reset in %s milliseconds', // accessory name, number
+    startSeconds: '%s will reset in %s seconds', // accessory name, number
+    startMinutes: '%s will reset in %s minutes', // accessory name, number
+    startHours: '%s will reset in %s hours', // accessory name, number
+  },
+
   button: {
     doublePress: '%s was double pressed', // accessory name
     doublePressValue: '%s was double pressed (%s)', // accessory name, value
@@ -84,14 +92,18 @@ const en = {
       fanv2: 'Fan (v2)',
       garageDoorOpener: 'Garage Door',
       heaterCooler: 'Heater/Cooler',
+      hours: 'Hours',
       humiditySensor: 'Humidity Sensor',
       leakSensor: 'Leak Sensor',
       lightbulb: 'Lightbulb',
       lightSensor: 'Light Sensor',
       lockMechanism: 'Lock Mechanism',
+      milliseconds: 'Milliseconds',
+      minutes: 'Minutes',
       motionSensor: 'Motion Sensor',
       occupancySensor: 'Occupancy Sensor',
       outlet: 'Outlet',
+      seconds: 'Seconds',
       securitySystem: 'Security System',
       smokeSensor: 'Smoke Sensor',
       statelessSwitch: 'Stateless Switch',
@@ -118,6 +130,7 @@ const en = {
       password: 'Password',
       resetOnRestart: 'Reset on Restart',
       sourceUnits: 'Source Units',
+      time: 'Auto-Reset Delay',
       topicEventButtonPress: 'Button Press*',
       topicGetActive: 'Get Active*',
       topicGetAirQuality: 'Get Air Quality*',
@@ -233,6 +246,7 @@ const en = {
       topicSetVolume: 'Set Volume',
       topics: 'Topics',
       type: 'Type',
+      units: 'Units',
       username: 'Username',
       valveType: 'Valve Type',
       valueActive: 'Active*',

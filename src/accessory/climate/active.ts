@@ -12,10 +12,10 @@ export abstract class ActiveClimateAccessory<C extends ActiveClimateConfig = Act
 
     this.setup(HKCharacteristicKey.Active, dependency.Characteristic.Active.INACTIVE,
       'topicGetActive',
-      this.bindOnUpdateNumericBoolean(HKCharacteristicKey.Active, 'valueStateActive', strings.active.active, strings.active.notActive), true,
+      this.bindOnUpdateNumericBoolean(HKCharacteristicKey.Active, 'valueStateActive', strings.active.active, strings.active.notActive, true), true,
       'topicSetActive',
       this.bindOnSetBoolean(HKCharacteristicKey.Active, 'topicSetActive', 'valueStateActive', 'valueStateInactive', dependency.Characteristic.Active.ACTIVE,
-        strings.active.activeSet, strings.active.inactiveSet),
+        strings.active.activeSet, strings.active.inactiveSet, true),
     );
 
     this.setup(HKCharacteristicKey.LockPhysicalControls, dependency.Characteristic.LockPhysicalControls.CONTROL_LOCK_DISABLED,

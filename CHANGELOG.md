@@ -2,10 +2,18 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.4 (2025-11-24)
+## 1.5.5-beta.0 (2025-12-02)
 
 ### Help Requested
 I recently created a new [Wiki](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/MQTTThing) to provide config examples for users migrating from MQTTThing. If you have an example of old/new config you'd be willing to share, please [post a message on Discord](https://discord.com/channels/432663330281226270/1412178951295467542) or [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
+
+### Added
+- [Auto-Reset](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Auto%E2%80%90Reset) timer for Sensors, Switches, Outlets, Lightbulbs, Fans, Heater/Cooler, and Purifier
+
+### Notes
+Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
+
+## 1.5.4 (2025-11-24)
 
 ### Added
 - Create a multi-button [`StatelessProgrammableSwitch`](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/StatelessProgrammableSwitch) using comma-separated value lists
@@ -13,9 +21,6 @@ I recently created a new [Wiki](https://github.com/mpatfield/homebridge-easy-mqt
 
 ### Changed
 - Updated dependencies
-
-### Notes
-Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
 
 ## 1.5.3 (2025-11-14)
 

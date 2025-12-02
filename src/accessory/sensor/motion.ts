@@ -18,7 +18,8 @@ export class MotionSensorAccessory extends SensorAccessory<MotionSensorConfig> {
 
     this.setup(HKCharacteristicKey.MotionDetected, false,
       'topicGetMotionDetected',
-      this.bindOnUpdateNumericBoolean(HKCharacteristicKey.MotionDetected, 'valueMotionDetected', strings.sensor.motion.active, strings.sensor.motion.inactive,
+      this.bindOnUpdateNumericBoolean(HKCharacteristicKey.MotionDetected, 'valueMotionDetected',
+        strings.sensor.motion.active, strings.sensor.motion.inactive, true,
         (value) => {
           this.recordHistory(HistoryType.MOTION, { status: value }, true);
         },

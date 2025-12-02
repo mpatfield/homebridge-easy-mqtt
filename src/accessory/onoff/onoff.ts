@@ -21,13 +21,13 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
 
     this.setup(HKCharacteristicKey.On, false,
       'topicGetOn',
-      this.bindOnUpdateBoolean(HKCharacteristicKey.On, 'valueOn', 'valueOff', strings.onOff.stateOn, strings.onOff.stateOff, (value) => {
+      this.bindOnUpdateBoolean(HKCharacteristicKey.On, 'valueOn', 'valueOff', strings.onOff.stateOn, strings.onOff.stateOff, true, (value) => {
         this.recordHistory(HistoryType.CUSTOM, { status: value ? 1 : 0 }, true);
       }),
       true,
       'topicSetOn',
       this.bindOnSetBoolean(HKCharacteristicKey.On, 'topicSetOn', 'valueOn', 'valueOff', true,
-        strings.onOff.stateOnFuture, strings.onOff.stateOffFuture, (value) => {
+        strings.onOff.stateOnFuture, strings.onOff.stateOffFuture, true, (value) => {
           this.recordHistory(HistoryType.CUSTOM, { status: value ? 1 : 0 }, true);
         },
       ),

@@ -16,6 +16,8 @@ export class LeakSensorAccessory extends SensorAccessory<LeakSensorConfig> {
 
     this.setup(HKCharacteristicKey.LeakDetected, dependency.Characteristic.LeakDetected.LEAK_NOT_DETECTED,
       'topicGetLeakDetected',
-      this.bindOnUpdateNumericBoolean(HKCharacteristicKey.LeakDetected, 'valueLeakDetected', strings.sensor.leak.active, strings.sensor.leak.inactive), true);
+      this.bindOnUpdateNumericBoolean(HKCharacteristicKey.LeakDetected, 'valueLeakDetected',
+        strings.sensor.leak.active, strings.sensor.leak.inactive, true),
+      true);
   }
 }

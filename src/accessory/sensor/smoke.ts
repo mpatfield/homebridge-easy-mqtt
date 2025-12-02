@@ -16,7 +16,8 @@ export class SmokeSensorAccessory extends SensorAccessory<SmokeSensorConfig> {
 
     this.setup(HKCharacteristicKey.SmokeDetected, dependency.Characteristic.SmokeDetected.SMOKE_NOT_DETECTED,
       'topicGetSmokeDetected',
-      this.bindOnUpdateNumericBoolean(HKCharacteristicKey.SmokeDetected, 'valueSmokeDetected', strings.sensor.smoke.active, strings.sensor.smoke.inactive),
+      this.bindOnUpdateNumericBoolean(HKCharacteristicKey.SmokeDetected, 'valueSmokeDetected',
+        strings.sensor.smoke.active, strings.sensor.smoke.inactive, true),
       true);
   }
 }

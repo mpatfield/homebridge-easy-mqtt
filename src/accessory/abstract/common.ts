@@ -4,13 +4,14 @@ import { EveCharacteristic, isEveCharacteristic } from '../characteristic/eve.js
 
 import { strings } from '../../i18n/i18n.js';
 
-import { CharacteristicKey } from '../../model/enums.js';
-import { CharacteristicType, TemperatureConfig } from '../../model/types.js';
+import { CharacteristicKey, TimeUnits } from '../../model/enums.js';
+import { CharacteristicType, TemperatureConfig, TimeoutConfig } from '../../model/types.js';
 
 import { Log, LogType } from '../../tools/log.js';
 import { toNumber, toPrimitive } from '../../tools/primitive.js';
 import { Properties } from '../../tools/properties.js';
 import { temperatureUnits, toCelsius } from '../../tools/temperature.js';
+import { HOUR, MINUTE, SECOND } from '../../tools/time.js';
 import { assert, Assertable, assertType, Type } from '../../tools/validation.js';
 
 type OnUpdateHandler = (topic: string, value: PrimitiveTypes) => (Promise<void>);
@@ -39,6 +40,8 @@ export abstract class Common<C extends Assertable> {
 
   protected abstract get identifier(): string;
   protected abstract get useStoredProperties(): boolean;
+
+  private timeout?: NodeJS.Timeout;
 
   protected abstract publish(rawTopic: string, value: PrimitiveTypes): void;
 
@@ -227,7 +230,7 @@ export abstract class Common<C extends Assertable> {
   }
 
   protected bindOnUpdateBoolean(key: CharacteristicKey, trueKey: keyof C, falseKey: keyof C,
-    logTrue: string, logFalse: string, callback?: BooleanCallback): OnUpdateHandler {
+    logTrue: string, logFalse: string, allowAutoReset: boolean = false, callback?: BooleanCallback): OnUpdateHandler {
     return (async (_topic: string, value: PrimitiveTypes) => {
 
       let bool: boolean | undefined = undefined;
@@ -247,6 +250,13 @@ export abstract class Common<C extends Assertable> {
       this.onUpdate(key, bool, logString);
 
       callback?.(bool);
+
+      if (allowAutoReset && bool) {
+        this.startTimeout(() => {
+          this.onUpdate(key, false, logFalse);
+          callback?.(false);
+        });
+      }
 
     }).bind(this);
   }
@@ -269,11 +279,19 @@ export abstract class Common<C extends Assertable> {
   }
 
   protected bindOnUpdateNumericBoolean(charKey: CharacteristicKey, valueKey: keyof C,
-    logTrue: string, logFalse: string, callback?: NumberCallback): OnUpdateHandler {
+    logTrue: string, logFalse: string, allowAutoReset: boolean = false, callback?: NumberCallback): OnUpdateHandler {
     return (async (_topic: string, value: PrimitiveTypes) => {
       const numeric = value === this.getPrimitiveValue(valueKey) ? 1 : 0;
       this.onUpdate(charKey, numeric, numeric ? logTrue : logFalse);
       callback?.(numeric);
+
+      if (allowAutoReset && numeric === 1) {
+        this.startTimeout(() => {
+          this.onUpdate(charKey, 0, logFalse);
+          callback?.(0);
+        });
+      }
+
     }).bind(this);
   }
 
@@ -346,7 +364,8 @@ export abstract class Common<C extends Assertable> {
   protected bindOnSetBoolean(
     key: CharacteristicKey, setTopicKey: keyof C,
     trueValueKey: keyof C, falseValueKey: keyof C, trueValue: CharacteristicValue,
-    trueLog: string, falseLog: string, callback?: BooleanCallback,
+    trueLog: string, falseLog: string,
+    allowAutoReset: boolean = false, callback?: BooleanCallback,
   ) {
     return (async (value: CharacteristicValue) => {
 
@@ -372,6 +391,13 @@ export abstract class Common<C extends Assertable> {
       this.onSet(key, value, publish, setTopicKey, logString);
 
       callback?.(booleanValue);
+
+      if (allowAutoReset && booleanValue) {
+        this.startTimeout(() => {
+          this.onUpdate(key, false, falseLog);
+          callback?.(false);
+        });
+      }
 
     }).bind(this);
   }
@@ -456,6 +482,55 @@ export abstract class Common<C extends Assertable> {
     }
 
     return this.Characteristic[key];
+  }
+
+  protected startTimeout(callback: () => void) {
+
+    if (this.timeout !== undefined) {
+      this.logIfDesired(strings.autoReset.reset);
+    }
+
+    clearTimeout(this.timeout);
+    this.timeout = undefined;
+
+    if ( !('autoReset' in this.config) || this.config.autoReset === undefined) {
+      return;
+    }
+
+    const config = this.config.autoReset as TimeoutConfig;
+
+    if (!assert(this.log, this.name, config, 'time', 'units')) {
+      return;
+    }
+
+    let delay: number = config.time;
+    let string: string;
+
+    switch(config.units) {
+    case TimeUnits.MILLISECONDS:
+      delay = config.time;
+      string = strings.autoReset.startMilliseconds;
+      break;
+    case TimeUnits.SECONDS:
+      delay = config.time * SECOND;
+      string = strings.autoReset.startSeconds;
+      break;
+    case TimeUnits.MINUTES:
+      delay = config.time * MINUTE;
+      string = strings.autoReset.startMinutes;
+      break;
+    case TimeUnits.HOURS:
+      delay = config.time * HOUR;
+      string = strings.autoReset.startHours;
+      break;
+    }
+
+    this.timeout = setTimeout(() => {
+      this.timeout = undefined;
+      callback();
+    }, delay);
+
+    this.logIfDesired(string, config.time.toString());
   }
 
   protected logIfDesired(message: string, ...parameters: string[]): void;

@@ -20,7 +20,8 @@ export class OccupancySensorAccessory extends SensorAccessory<OccupancySensorCon
       this.bindOnUpdateNumericBoolean(
         HKCharacteristicKey.OccupancyDetected,
         'valueOccupancyDetected',
-        strings.sensor.occupancy.active, strings.sensor.occupancy.inactive),
+        strings.sensor.occupancy.active, strings.sensor.occupancy.inactive,
+        true),
       true);
   }
 }

@@ -130,6 +130,13 @@ export enum LabelType {
   ARABIC_NUMERALS = 'ARABIC_NUMERALS'
 }
 
+export enum TimeUnits {
+  MILLISECONDS = 'MILLISECONDS',
+  SECONDS = 'SECONDS',
+  MINUTES = 'MINUTES',
+  HOURS = 'HOURS',
+}
+
 export enum ValveType {
   GENERIC_VALVE = 'GENERIC_VALVE',
   IRRIGATION = 'IRRIGATION',

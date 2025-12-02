@@ -20,7 +20,8 @@ export class CO2SensorAccessory extends SensorAccessory<CO2SensorConfig> {
       this.bindOnUpdateNumericBoolean(
         HKCharacteristicKey.CarbonDioxideDetected,
         'valueCarbonDioxideDetected',
-        strings.sensor.carbonDioxide.active, strings.sensor.carbonDioxide.inactive),
+        strings.sensor.carbonDioxide.active, strings.sensor.carbonDioxide.inactive,
+        true),
       true);
 
     this.setup(HKCharacteristicKey.CarbonDioxideLevel, 0,

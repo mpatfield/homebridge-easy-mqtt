@@ -3,7 +3,7 @@ import { PlatformConfig as HBPlatformConfig, PlatformAccessory } from 'homebridg
 export type ServiceType = typeof import('homebridge').Service;
 export type CharacteristicType = typeof import('homebridge').Characteristic;
 
-import { AccessoryType, LabelType, ValveType } from './enums.js';
+import { AccessoryType, LabelType, TimeUnits, ValveType } from './enums.js';
 
 import { History } from './history.js';
 import { Log } from '../tools/log.js';
@@ -32,6 +32,15 @@ export type TemperatureConfig = {
 }
 
 export type AddonConfig = Assertable & {
+}
+
+export type TimeoutConfig = Assertable & {
+  time: number,
+  units: TimeUnits
+}
+
+export type AutoResetConfig = {
+  autoReset?: TimeoutConfig,
 }
 
 export type FilterMaintenanceConfig = AddonConfig & {
@@ -107,7 +116,7 @@ export type BaseAccessoryConfig = MQTTAccessoryConfig & {
   valueStatusActive?: string,
 }
 
-export type OnOffConfig = BaseAccessoryConfig & {
+export type OnOffConfig = BaseAccessoryConfig & AutoResetConfig & {
   topicGetCurrentConsumption?: string,
   topicGetElectricCurrent?: string,
   topicGetOn: string,
@@ -157,21 +166,21 @@ export type AirSensorConfig = SensorConfig & {
   valueAQUnknown?: string,
 }
 
-export type COSensorConfig = SensorConfig & {
+export type COSensorConfig = SensorConfig & AutoResetConfig & {
   topicGetCarbonMonoxideDetected: string,
   topicGetCarbonMonoxideLevel?: string,
   topicGetCarbonMonoxidePeakLevel?: string,
   valueCarbonMonoxideDetected: string,
 }
 
-export type CO2SensorConfig = SensorConfig & {
+export type CO2SensorConfig = SensorConfig & AutoResetConfig & {
   topicGetCarbonDioxideDetected: string,
   topicGetCarbonDioxideLevel?: string,
   topicGetCarbonDioxidePeakLevel?: string,
   valueCarbonDioxideDetected: string,
 }
 
-export type ContactSensorConfig = SensorConfig & {
+export type ContactSensorConfig = SensorConfig & AutoResetConfig & {
   topicGetContactSensorState: string,
   valueContactDetected: string,
 }
@@ -180,7 +189,7 @@ export type HumiditySensorConfig =  SensorConfig & {
   topicGetCurrentRelativeHumidity: string,
 }
 
-export type LeakSensorConfig = SensorConfig & {
+export type LeakSensorConfig = SensorConfig & AutoResetConfig & {
   topicGetLeakDetected: string,
   valueLeakDetected: string,
 }
@@ -189,17 +198,17 @@ export type LightSensorConfig = SensorConfig & {
   topicGetCurrentAmbientLightLevel: string,
 }
 
-export type MotionSensorConfig = SensorConfig & {
+export type MotionSensorConfig = SensorConfig & AutoResetConfig & {
   topicGetMotionDetected: string,
   valueMotionDetected: string,
 }
 
-export type OccupancySensorConfig = SensorConfig & {
+export type OccupancySensorConfig = SensorConfig & AutoResetConfig & {
   topicGetOccupancyDetected: string,
   valueOccupancyDetected: string,
 }
 
-export type SmokeSensorConfig = SensorConfig & {
+export type SmokeSensorConfig = SensorConfig & AutoResetConfig & {
   topicGetSmokeDetected: string,
   valueSmokeDetected: string,
 }
@@ -231,7 +240,7 @@ export type ThermostatConfig = TemperatureControlConfig & {
   valueModeOff?: string,
 }
 
-export type ActiveClimateConfig = TemperatureControlConfig & {
+export type ActiveClimateConfig = TemperatureControlConfig & AutoResetConfig & {
   maximumRotationSpeed?: number,
   topicGetActive: string,
   topicGetLockPhysicalControls?: string,
