@@ -394,7 +394,7 @@ export abstract class Common<C extends Assertable> {
 
       if (allowAutoReset && booleanValue) {
         this.startTimeout(() => {
-          this.onUpdate(key, false, falseLog);
+          this.onSet(key, typeof value === 'boolean' ? false : 0, this.getPrimitiveValue(falseValueKey)!, setTopicKey, falseLog);
           callback?.(false);
         });
       }
