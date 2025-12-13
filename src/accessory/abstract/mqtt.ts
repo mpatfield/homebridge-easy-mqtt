@@ -24,9 +24,9 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
   ) {
     super(dependency.config.info.name);
 
-    this.mqttClient = MQTT.connect(dependency.log, dependency.config.mqtt, this.name, (client: MQTT) => {
+    this.mqttClient = MQTT.connect(dependency.log, dependency.config.mqtt, this.identifier, this.name, (client: MQTT) => {
       this.topicHandlers.forEach( topicHandler => {
-        client.subscribe(topicHandler.topic, topicHandler.handler);
+        client.subscribe(this.identifier, topicHandler.topic, topicHandler.handler);
       });
     });
 
@@ -116,7 +116,7 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
   }
 
   public publish(topic: string, value: PrimitiveTypes) {
-    this.mqttClient?.publish(topic, value);
+    this.mqttClient?.publish(this.identifier, topic, value);
   }
 
   public teardown() {

@@ -53,6 +53,7 @@ class MQTTListener {
   topic: Topic;
 
   constructor(
+    readonly identifier: string,
     rawTopic: string,
     readonly handler: MQTTMessageHandler,
   ) {
@@ -66,12 +67,14 @@ interface MQTTError extends Error {
 
 type OnConnectCallback = ( (client: MQTT) => (void)) ;
 
+type OnConnectMessage = MQTTMessage & { identifier: string }
+
 export class MQTT {
 
   private static readonly INSTANCES = new Map<string, MQTT>();
 
   private readonly onConnectCallbacks: OnConnectCallback[] = [];
-  private readonly onConnectMessages = new Map<string, MQTTMessage>();
+  private readonly onConnectMessages: OnConnectMessage[] = [];
 
   private client: mqtt.MqttClient | undefined = undefined;
   private shouldReconnect = false;
@@ -82,7 +85,10 @@ export class MQTT {
 
   private readonly transformerStorage: Record<string, unknown>;
 
-  static connect(log: Log, config: MQTTConfig | undefined = undefined, caller: string, onConnect: OnConnectCallback): MQTT | undefined {
+  static connect(
+    log: Log, config: MQTTConfig | undefined = undefined,
+    callerIdentifier: string, callerName: string, onConnect: OnConnectCallback,
+  ): MQTT | undefined {
 
     let additionalOptions = {};
 
@@ -90,7 +96,7 @@ export class MQTT {
     try {
       additionalOptions = JSON.parse(configOptions);
     } catch (err) {
-      log.error(`${strings.mqttClient.badOptions}:\n"${configOptions}"`, caller);
+      log.error(`${strings.mqttClient.badOptions}:\n"${configOptions}"`, callerName);
       return;
     }
 
@@ -116,14 +122,14 @@ export class MQTT {
 
     let instance = MQTT.INSTANCES.get(id);
     if (instance !== undefined) {
-      log.ifVerbose(strings.mqttClient.reuse, caller, shortId);
+      log.ifVerbose(strings.mqttClient.reuse, callerName, shortId);
 
       if (instance.client?.connected) {
         onConnect(instance);
       }
 
     } else {
-      log.ifVerbose(strings.mqttClient.new, caller, shortId);
+      log.ifVerbose(strings.mqttClient.new, callerName, shortId);
 
       instance = new MQTT(id, log, broker, options);
       MQTT.INSTANCES.set(id, instance);
@@ -147,8 +153,7 @@ export class MQTT {
             continue;
           }
 
-          const key = `${message.topic}|${message.message}`;
-          instance?.onConnectMessages.set(key, message);
+          instance?.onConnectMessages.push({ identifier: callerIdentifier, ...message });
         }
       }
     }
@@ -157,12 +162,12 @@ export class MQTT {
   }
 
   private constructor(
-    private readonly id: string,
+    identifier: string,
     private readonly log: Log,
     private readonly broker: string,
     private readonly options: mqtt.IClientOptions & mqtt.IClientPublishOptions,
   ) {
-    this.transformerStorage = Properties.asRecord(id);
+    this.transformerStorage = Properties.asRecord(identifier);
   }
 
   private get host(): string {
@@ -188,7 +193,7 @@ export class MQTT {
       });
 
       this.onConnectMessages.forEach( message => {
-        this.publish(message.topic, message.message);
+        this.publish(message.identifier, message.topic, message.message);
       });
     });
 
@@ -207,14 +212,14 @@ export class MQTT {
     this.client = undefined;
   }
 
-  public subscribe(topic: string, handler: MQTTMessageHandler) {
+  public subscribe(callerIdentifier: string, topic: string, handler: MQTTMessageHandler) {
 
     if (!this.client || !this.client.connected) {
       this.log.error(strings.mqttClient.notConnected,  this.host);
       return;
     }
 
-    const mqttListener = new MQTTListener(topic, handler);
+    const mqttListener = new MQTTListener(callerIdentifier, topic, handler);
 
     this.client.subscribe(mqttListener.topic.base);
 
@@ -223,7 +228,7 @@ export class MQTT {
     this.listeners.set(mqttListener.topic.base, topicListeners);
   }
 
-  publish(rawTopic: string, value: PrimitiveTypes): void {
+  publish(callerIdentifier: string, rawTopic: string, value: PrimitiveTypes): void {
 
     if (!this.client || !this.client.connected) {
       this.log.error(strings.mqttClient.notConnected, this.host);
@@ -234,7 +239,7 @@ export class MQTT {
 
     if (topic.transformer) {
 
-      const transformedValue = this.executeTransformer(topic.transformer, value);
+      const transformedValue = this.executeTransformer(callerIdentifier, topic.transformer, value);
       if (transformedValue === undefined) {
         this.log.ifVerbose(strings.mqttClient.publishUndefined, this.host, topic.base);
         return;
@@ -307,7 +312,7 @@ export class MQTT {
 
         value = toPrimitive(value);
         if (listener.topic.transformer) {
-          value = this.executeTransformer(listener.topic.transformer, value);
+          value = this.executeTransformer(listener.identifier, listener.topic.transformer, value);
         }
 
         if (value === undefined) {
@@ -355,15 +360,15 @@ export class MQTT {
     }, reconnectDelay);
   }
 
-  private executeTransformer(transformer: string, value: PrimitiveTypes): PrimitiveTypes | undefined {
+  private executeTransformer(callerIdentifier: string, transformer: string, value: PrimitiveTypes): PrimitiveTypes | undefined {
     try {
 
       if (!/(?<!\.)\breturn\b/.test(transformer)) {
         transformer = `return ${transformer}`;
       }
 
-      const transformerFunction = new Function('value', 'storage', transformer);
-      const newValue = toPrimitive(transformerFunction(value, this.transformerStorage));
+      const transformerFunction = new Function('value', 'properties', 'storage', transformer);
+      const newValue = toPrimitive(transformerFunction(value, Properties.asRecord(callerIdentifier), this.transformerStorage));
 
       if (value !== newValue) {
         this.log.ifVerbose(strings.mqttClient.transformedValue, value, newValue);
