@@ -33,6 +33,8 @@ Lots more details about Homebridge Easy MQTT can be found on the [wiki](https://
 
 [fakegato-history](https://github.com/simont77/fakegato-history) by [@simont77](https://github.com/sponsors/simont77) *Copyright © 2017*
 
+[Publish throttling](https://github.com/mpatfield/homebridge-easy-mqtt/commit/cab1cc0c3da3b3bc7e940e8c3d2323af758e0ee8) adapted from [file-async-utils-ts](https://gist.github.com/Justin-Credible/693529fa4672a0d97963b95a26897812#file-async-utils-ts) by [@Justin-Credible](https://github.com/sponsors/Justin-Credible)
+
 [@nehmeroumani](https://github.com/nehmeroumani) for contributing Value Transformers to Easy MQTT
 
 [@steffen-micdev](https://github.com/sponsors/steffen-micdev) for German translations
