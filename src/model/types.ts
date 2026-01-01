@@ -82,6 +82,7 @@ export type MQTTConfig = Assertable & {
   username?: string,
   password?: string,
   options?: string,
+  minPublishIntervalMs?: number,
   onConnect?: MQTTMessage[]
 }
 

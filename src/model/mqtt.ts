@@ -131,7 +131,7 @@ export class MQTT {
     } else {
       log.ifVerbose(strings.mqttClient.new, callerName, shortId);
 
-      instance = new MQTT(id, log, broker, options);
+      instance = new MQTT(id, log, broker, options, config?.minPublishIntervalMs);
       MQTT.INSTANCES.set(id, instance);
 
       instance.connect();
@@ -166,6 +166,7 @@ export class MQTT {
     private readonly log: Log,
     private readonly broker: string,
     private readonly options: mqtt.IClientOptions & mqtt.IClientPublishOptions,
+    private readonly minPublishIntervalMs: number | undefined,
   ) {
     this.transformerStorage = Properties.asRecord(identifier);
   }
@@ -269,9 +270,53 @@ export class MQTT {
       message = value.toString();
     }
 
-    this.client.publish(topic.base, message, this.options);
+    if (this.minPublishIntervalMs === undefined) {
+      this.client.publish(topic.base, message, this.options);
+      this.log.ifVerbose( `${strings.mqttClient.publish} — ${topic.base} ${message}`, this.host);
+      return;
+    }
 
-    this.log.ifVerbose( `${strings.mqttClient.publish} — ${topic.base} ${message}`, this.host);
+    this.publishAsync(topic.base, message);
+  }
+
+  private publishLocks: Record<string, Promise<void>[]> = {};
+  private async publishAsync(topic: string, message: string) {
+
+    if (!this.publishLocks[topic]) {
+      this.publishLocks[topic] = [];
+    }
+
+    const locks = this.publishLocks[topic];
+
+    const isFirst = locks.length === 0;
+
+    let unlock = () => {};
+
+    const newLock = new Promise<void>((resolve) => {
+      unlock = resolve;
+    });
+
+    locks.push(newLock);
+
+    if (!isFirst) {
+      const predecessorLock = locks[locks.length - 2];
+      await predecessorLock;
+    }
+
+    const task = async () => {
+      this.client?.publish(topic, message, this.options);
+      this.log.ifVerbose( `${strings.mqttClient.publish} — ${topic} ${message}`, this.host);
+      await new Promise( (resolve) => {
+        setTimeout(resolve, this.minPublishIntervalMs);
+      });
+    };
+
+    try {
+      return await task();
+    } finally {
+      locks.splice(0, 1);
+      unlock();
+    }
   }
 
   private messageReceived(topic: string, message: string) {
