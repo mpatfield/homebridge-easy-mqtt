@@ -2,13 +2,16 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.7-beta.0 (2026-01-01)
+## 1.5.7-beta.1 (2026-01-07)
 
 ### Help Requested
 I recently created a new [Wiki](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Migrating-from-MQTTThing) to provide config examples for users migrating from MQTTThing. If you have an example of old/new config you'd be willing to share, please [post a message on Discord](https://discord.gg/E7RdAbYVWk) or [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
 
 ### Added
 - MQTT option `minPublishIntervalMs` to separate multiple messages published to the same topic by at least this number of milliseconds
+
+### Changed
+- Debounce slider values to prevent excess MQTT publishing ([#164](https://github.com/mpatfield/homebridge-easy-mqtt/issues/164#issuecomment-3720881007))
 
 ### Notes
 Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!

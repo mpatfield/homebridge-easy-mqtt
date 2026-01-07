@@ -7,6 +7,7 @@ import { strings } from '../../i18n/i18n.js';
 import { CharacteristicKey, TimeUnits } from '../../model/enums.js';
 import { CharacteristicType, TemperatureConfig, TimeoutConfig } from '../../model/types.js';
 
+import { debounce } from '../../tools/debounce.js';
 import { Log, LogType } from '../../tools/log.js';
 import { toNumber, toPrimitive } from '../../tools/primitive.js';
 import { Properties } from '../../tools/properties.js';
@@ -335,29 +336,37 @@ export abstract class Common<C extends Assertable> {
     }).bind(this);
   }
 
-  private onSetNumeric(key: CharacteristicKey, topic: keyof C, value: CharacteristicValue, logTemplate: string) {
+  private onSetNumeric(key: CharacteristicKey, topic: keyof C, value: CharacteristicValue, logTemplate: string, shouldDebounce: boolean) {
 
     if (typeof value !== 'number') {
       this.log.error(strings.characteristic.badValue, this.name, key, `'${value}'`);
       return;
     }
 
-    const logString = logTemplate.replace('%d', value.toString());
+    const task = () => {
+      const logString = logTemplate.replace('%d', value.toString());
+      this.onSet(key, value, value, topic, logString);
+    };
 
-    this.onSet(key, value, value, topic, logString);
+    if (shouldDebounce) {
+      debounce(`${this.identifier}_${key}`, task);
+    } else {
+      task();
+    }
   }
 
-  protected bindOnSetNumeric(key: CharacteristicKey, topic: keyof C, logTemplate: string) {
+  protected bindOnSetNumeric(key: CharacteristicKey, topic: keyof C, logTemplate: string, debounce: boolean = false) {
     return (async (value: CharacteristicValue) => {
-      this.onSetNumeric(key, topic, value, logTemplate);
+      this.onSetNumeric(key, topic, value, logTemplate, debounce);
     }).bind(this);
   }
 
-  protected bindOnSetPercentOrValue(key: CharacteristicKey, topic: keyof C, maximum: number | undefined, logPercent: string, logValue: string) {
+  protected bindOnSetPercentOrValue(key: CharacteristicKey, topic: keyof C, maximum: number | undefined,
+    logPercent: string, logValue: string, debounce: boolean = false) {
     return (async (value: CharacteristicValue) => {
       const isPercent = maximum === undefined || maximum === 100;
       const logTemplate = isPercent ? logPercent : logValue;
-      this.onSetNumeric(key, topic, value, logTemplate);
+      this.onSetNumeric(key, topic, value, logTemplate, debounce);
     }).bind(this);
   }
 

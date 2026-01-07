@@ -25,12 +25,14 @@ export class BlindAccessory extends PositionAccessory<BlindConfig> {
       'topicGetTargetHorizontalTiltAngle',
       this.bindOnUpdateNumeric(HKCharacteristicKey.TargetHorizontalTiltAngle, strings.position.blind.targetHorizontal), false,
       'topicSetTargetHorizontalTiltAngle',
-      this.bindOnSetNumeric(HKCharacteristicKey.TargetHorizontalTiltAngle, 'topicSetTargetHorizontalTiltAngle', strings.position.blind.targetHorizontalSet));
+      this.bindOnSetNumeric(HKCharacteristicKey.TargetHorizontalTiltAngle, 'topicSetTargetHorizontalTiltAngle',
+        strings.position.blind.targetHorizontalSet, true));
 
     this.setup(HKCharacteristicKey.TargetVerticalTiltAngle, 0,
       'topicGetTargetVerticalTiltAngle',
       this.bindOnUpdateNumeric(HKCharacteristicKey.TargetVerticalTiltAngle, strings.position.blind.targetVertical), false,
       'topicSetTargetVerticalTiltAngle',
-      this.bindOnSetNumeric(HKCharacteristicKey.TargetVerticalTiltAngle, 'topicSetTargetVerticalTiltAngle', strings.position.blind.targetVerticalSet));
+      this.bindOnSetNumeric(HKCharacteristicKey.TargetVerticalTiltAngle, 'topicSetTargetVerticalTiltAngle',
+        strings.position.blind.targetVerticalSet, true));
   }
 }

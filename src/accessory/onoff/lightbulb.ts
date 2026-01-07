@@ -23,7 +23,7 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
 
     this.setup(HKCharacteristicKey.Brightness, dependency.config.maximumBrightness,
       'topicGetBrightness', this.bindOnUpdateNumeric(HKCharacteristicKey.Brightness, getLogString), false,
-      'topicSetBrightness', this.bindOnSetNumeric(HKCharacteristicKey.Brightness, 'topicSetBrightness', setLogString),
+      'topicSetBrightness', this.bindOnSetNumeric(HKCharacteristicKey.Brightness, 'topicSetBrightness', setLogString, true),
     )?.setProps({ maxValue: dependency.config.maximumBrightness });
 
     this.setup(HKCharacteristicKey.ColorTemperature, 500,
@@ -31,17 +31,17 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
       this.bindOnUpdateNumeric(HKCharacteristicKey.ColorTemperature, strings.lightbulb.colorTemperature),
       false,
       'topicSetColorTemperature',
-      this.bindOnSetNumeric(HKCharacteristicKey.ColorTemperature, 'topicSetColorTemperature', strings.lightbulb.colorTemperatureFuture),
+      this.bindOnSetNumeric(HKCharacteristicKey.ColorTemperature, 'topicSetColorTemperature', strings.lightbulb.colorTemperatureFuture, true),
     );
 
     this.setup(HKCharacteristicKey.Hue, 0,
       'topicGetHue', this.bindOnUpdateNumeric(HKCharacteristicKey.Hue, strings.lightbulb.hue), false,
-      'topicSetHue', this.bindOnSetNumeric(HKCharacteristicKey.Hue, 'topicSetHue', strings.lightbulb.hueFuture),
+      'topicSetHue', this.bindOnSetNumeric(HKCharacteristicKey.Hue, 'topicSetHue', strings.lightbulb.hueFuture, true),
     );
 
     this.setup(HKCharacteristicKey.Saturation, 100,
       'topicGetSaturation', this.bindOnUpdateNumeric(HKCharacteristicKey.Saturation, strings.lightbulb.saturation), false,
-      'topicSetSaturation', this.bindOnSetNumeric(HKCharacteristicKey.Saturation, 'topicSetSaturation', strings.lightbulb.saturationFuture),
+      'topicSetSaturation', this.bindOnSetNumeric(HKCharacteristicKey.Saturation, 'topicSetSaturation', strings.lightbulb.saturationFuture, true),
     );
   }
 }

@@ -74,7 +74,7 @@ export class ThermostatAccessory extends TemperatureControlAccessory<ThermostatC
     this.setup(HKCharacteristicKey.TargetRelativeHumidity, 0,
       'topicGetTargetRelativeHumidity', this.bindOnUpdateNumeric(HKCharacteristicKey.TargetRelativeHumidity, strings.thermostat.humidityFuture), false,
       'topicSetTargetRelativeHumidity',
-      this.bindOnSetNumeric(HKCharacteristicKey.TargetRelativeHumidity, 'topicSetTargetRelativeHumidity', strings.thermostat.humidityFuture),
+      this.bindOnSetNumeric(HKCharacteristicKey.TargetRelativeHumidity, 'topicSetTargetRelativeHumidity', strings.thermostat.humidityFuture, true),
     );
   }
 }

@@ -6,6 +6,7 @@ import { strings } from '../../i18n/i18n.js';
 import { HKCharacteristicKey } from '../../model/enums.js';
 import { MQTTAccessoryDependency, TemperatureControlConfig } from '../../model/types.js';
 
+import { debounce } from '../../tools/debounce.js';
 import { fromCelsius, temperatureUnits, TemperatureUnits } from '../../tools/temperature.js';
 
 export const DEFAULT_TEMPERATURE = 10;
@@ -50,7 +51,9 @@ export abstract class TemperatureControlAccessory<C extends TemperatureControlCo
     return (async (value: CharacteristicValue) => {
       const temperature = this.temperatureFromCV(value);
       const logString = logTemplate.replace('%d°%s', `${temperature}°${this.temperatureUnits}`);
-      this.onSet(charKey, value, temperature, topic, logString);
+      debounce(`${this.identifier}_${charKey}`, () => {
+        this.onSet(charKey, value, temperature, topic, logString);
+      });
     }).bind(this);
   }
 
