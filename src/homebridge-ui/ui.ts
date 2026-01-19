@@ -35,11 +35,15 @@ function translateSchema(strings: Translation) {
     return tags.indexOf(a.tagName.toLowerCase()) - tags.indexOf(b.tagName.toLowerCase());
   });
 
+  const regex = /\$\{config\.(title|description|enumNames)\.([^}]+)\}/g;
+
   elements.forEach(element => {
-    let newHtml = element.innerHTML;
-    newHtml = newHtml.replaceAll(
-      /\$\{config\.(title|description|enumNames)\.([^}]+)\}/g,
-      (match, type: keyof typeof strings.config, key) => {
+    const walker = window.parent.document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null);
+
+    while (walker.nextNode()) {
+      const textNode = walker.currentNode as Text;
+      const original = textNode.nodeValue || '';
+      const replaced = original.replace(regex, (match, type: keyof typeof strings.config, key) => {
         if (
           strings.config[type] &&
           typeof strings.config[type] === 'object' &&
@@ -48,13 +52,14 @@ function translateSchema(strings: Translation) {
           return (strings.config[type] as Record<string, string>)[key];
         }
         return match;
-      },
-    );
-    if (element.innerHTML !== newHtml) {
-      element.innerHTML = newHtml;
+      });
+
+      if (original !== replaced) {
+        textNode.nodeValue = replaced;
+      }
     }
   });
-};
+}
 
 function updateAccessoryNames(strings: Translation) {
 
