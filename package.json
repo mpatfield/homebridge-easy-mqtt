@@ -20,7 +20,7 @@
   "main": "dist/homebridge/index.js",
   "scripts": {
     "build": "rimraf ./dist && tsc && npm run build:html && npm run build:ui",
-    "build:html": "node --loader ts-node/esm ./scripts/build-html.ts",
+    "build:html": "node --import tsx ./scripts/build-html.ts",
     "build:ui": "esbuild src/homebridge-ui/ui.ts --bundle --outfile=dist/homebridge-ui/public/ui.js --minify",
     "lint": "eslint . --max-warnings=0",
     "prepublishOnly": "npm run lint && npm run build"
@@ -61,7 +61,7 @@
     "homebridge": "^2.0.0-beta.29",
     "jiti": "^2.4.2",
     "rimraf": "^6.0.1",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.46.4"
   },
