@@ -344,9 +344,18 @@ export type LockConfig = BaseAccessoryConfig & {
   topicGetCurrentLockState: string,
   topicGetTargetLockState: string,
   topicSetTargetLockState: string,
-  topicGetLockCurrentState?: string, // Deprecated
-  topicGetLockTargetState?: string, // Deprecated
-  topicSetTargetState?: string, // Deprecated
+  /**
+   * @deprecated
+   */
+  topicGetLockCurrentState?: string,
+  /**
+   * @deprecated
+   */
+  topicGetLockTargetState?: string,
+  /**
+   * @deprecated
+   */
+  topicSetTargetState?: string,
   valueLockStateSecured: string,
   valueLockStateUnsecured: string,
   valueLockStateJammed?: string,
