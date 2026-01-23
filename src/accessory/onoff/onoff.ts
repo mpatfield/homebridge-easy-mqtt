@@ -8,7 +8,7 @@ import { EveCharacteristicKey, HKCharacteristicKey } from '../../model/enums.js'
 import { HistoryType } from '../../model/history.js';
 import { MQTTAccessoryDependency, OnOffConfig } from '../../model/types.js';
 
-import { HOUR } from '../../tools/time.js';
+import { HOUR, SECOND } from '../../tools/time.js';
 
 type LastConsumption = { time: number, value: number};
 
@@ -48,7 +48,7 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
     if (this.setup(EveCharacteristicKey.TotalConsumption, 0, 'topicGetTotalConsumption',
       this.bindOnUpdateNumeric(EveCharacteristicKey.TotalConsumption, strings.outlet.totalConsumption), false) === undefined) {
 
-      this.setupTopicless(EveCharacteristicKey.ResetTotal, EVE_EPOCH, () => {
+      this.setupTopicless(EveCharacteristicKey.ResetTotal, (Date.now() / SECOND) - EVE_EPOCH, () => {
         this.onUpdate(EveCharacteristicKey.TotalConsumption, 0, strings.outlet.totalConsumptionReset);
       });
     }

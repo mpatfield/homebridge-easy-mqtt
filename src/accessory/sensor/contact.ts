@@ -10,6 +10,8 @@ import { AccessoryType, EveCharacteristicKey, HKCharacteristicKey } from '../../
 import { HistoryType } from '../../model/history.js';
 import { ContactSensorConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
+import { SECOND } from '../../tools/time.js';
+
 type OnUpdateHandler = (topic: string, value: PrimitiveTypes) => (Promise<void>);
 
 export class ContactSensorAccessory extends SensorAccessory<ContactSensorConfig> {
@@ -43,7 +45,7 @@ export class ContactSensorAccessory extends SensorAccessory<ContactSensorConfig>
 
     this.setupTopicless(EveCharacteristicKey.TimesOpened, 0);
 
-    this.setupTopicless(EveCharacteristicKey.ResetTotal, EVE_EPOCH, () => {
+    this.setupTopicless(EveCharacteristicKey.ResetTotal, (Date.now() / SECOND) - EVE_EPOCH, () => {
       this.onUpdate(EveCharacteristicKey.TimesOpened, 0, strings.sensor.contact.timesOpenedReset);
     });
   }
