@@ -155,6 +155,8 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
       this.log.always(strings.startup.newAccessory, name);
     }
 
+    platformAccessory.updateDisplayName(name);
+
     return platformAccessory;
   }
 
