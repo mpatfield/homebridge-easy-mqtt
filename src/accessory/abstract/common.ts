@@ -131,7 +131,7 @@ export abstract class Common<C extends Assertable> {
       return;
     }
 
-    const startingValue = (this.useStoredProperties && this.getProperty(characteristicKey)) ?? defaultValue;
+    const startingValue = this.getProperty(characteristicKey) ?? defaultValue;
 
     if (this.isOptionalCharacteristic(characteristicKey)) {
       this.service.addOptionalCharacteristic(this.characteristicFromKey(characteristicKey));
@@ -178,7 +178,7 @@ export abstract class Common<C extends Assertable> {
   protected setupTopicless(characteristicKey: CharacteristicKey, defaultValue: CharacteristicValue,
     onSetCallback?: (value: CharacteristicValue) => (void)): Characteristic | undefined {
 
-    const startingValue = (this.useStoredProperties && this.getProperty(characteristicKey)) ?? defaultValue;
+    const startingValue = this.getProperty(characteristicKey) ?? defaultValue;
 
     if (this.isOptionalCharacteristic(characteristicKey)) {
       this.service.addOptionalCharacteristic(this.characteristicFromKey(characteristicKey));
