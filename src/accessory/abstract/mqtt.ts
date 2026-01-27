@@ -37,6 +37,7 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
       let accessoryService = dependency.platformAccessory.getServiceById(serviceInstance, this.identifier);
       if (!accessoryService) {
         accessoryService = dependency.platformAccessory.addService(serviceInstance, dependency.config.info.name, this.identifier);
+        accessoryService.addOptionalCharacteristic(dependency.Characteristic.ConfiguredName);
         accessoryService.setCharacteristic(dependency.Characteristic.ConfiguredName, dependency.config.info.name);
       }
 
