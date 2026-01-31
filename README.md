@@ -47,6 +47,8 @@ Lots more details about Homebridge Easy MQTT can be found on the [wiki](https://
 
 [@7ute](https://github.com/sponsors/7ute) for French translations
 
+Danish translations by Gemini, reviewed by [@EjvindHald](https://github.com/sponsors/EjvindHald)
+
 [Keryan Belahcene](https://www.instagram.com/keryan.me) for creating the [Flume](https://github.com/homebridge-plugins/homebridge-flume) header logo which I adapted for this plugin
 
 [homebridge-mqttthing](https://github.com/arachnetech/homebridge-mqttthing) by [@arachnetech](https://github.com/arachnetech) which served as the main inspiration for this project

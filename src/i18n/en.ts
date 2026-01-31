@@ -504,7 +504,7 @@ const en = {
     noTargetStateValues: '%s must have at least one state value defined (Auto, Manual)', // accessory name
     stateAuto: 'Setting %s to auto…', // accessory name
     stateIdle: '%s is idle', // accessory name
-    stateInactive: '%s is inactive', // accessory name    stateUnknown: '%s state is unknown', // accessory name
+    stateInactive: '%s is inactive', // accessory name
     stateManual: 'Setting %s to manual…', // accessory name
     statePurifying: '%s is purifying', // accessory name
     stateUnknown: '%s state is unknown', // accessory name
@@ -555,7 +555,7 @@ const en = {
     carbonMonoxide: {
       active: '%s detected carbon monoxide', // accessory name
       inactive: '%s stopped detecting carbon monoxide', // accessory name
-      level: '%s CO level is %d',  // accessory name, number
+      level: '%s CO level is %d', // accessory name, number
       peakLevel: '%s CO peak level is %d', // accessory name, number
     },
 
