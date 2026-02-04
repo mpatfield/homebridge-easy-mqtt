@@ -9,10 +9,12 @@ I recently created a new [Wiki](https://github.com/mpatfield/homebridge-easy-mqt
 
 ### Fixed
 - Changing accessory name also updates platform accessory name ([#172](https://github.com/mpatfield/homebridge-easy-mqtt/issues/172))
-- Updated mqtt dependency
 
 ### Added
 - Danske oversættelser, tak [@EjvindHald](https://github.com/sponsors/EjvindHald)!
+
+### Changed
+- Updated mqtt dependency
 
 ### Notes
 Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
