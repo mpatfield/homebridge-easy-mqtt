@@ -2,13 +2,14 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.9-beta.3 (2026-01-31)
+## 1.5.9 (2026-02-04)
 
 ### Help Requested
 I recently created a new [Wiki](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Migrating-from-MQTTThing) to provide config examples for users migrating from MQTTThing. If you have an example of old/new config you'd be willing to share, please [post a message on Discord](https://discord.gg/E7RdAbYVWk) or [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
 
 ### Fixed
 - Changing accessory name also updates platform accessory name ([#172](https://github.com/mpatfield/homebridge-easy-mqtt/issues/172))
+- Updated mqtt dependency
 
 ### Added
 - Danske oversættelser, tak [@EjvindHald](https://github.com/sponsors/EjvindHald)!
