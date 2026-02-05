@@ -124,3 +124,7 @@ dist
 .idea
 
 /test/hbConfig
+
+# Schemas
+/schemas
+config.schema.json

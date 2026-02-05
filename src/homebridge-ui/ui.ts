@@ -27,40 +27,6 @@ function translateHtml(strings: Translation) {
   });
 };
 
-function translateSchema(strings: Translation) {
-  const tags = ['span', 'label', 'legend', 'option', 'p'];
-  const elements = Array.from(
-    window.parent.document.querySelectorAll(tags.join(',')),
-  ).sort((a, b) => {
-    return tags.indexOf(a.tagName.toLowerCase()) - tags.indexOf(b.tagName.toLowerCase());
-  });
-
-  const regex = /\$\{config\.(title|description|enumNames)\.([^}]+)\}/g;
-
-  elements.forEach(element => {
-    const walker = window.parent.document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null);
-
-    while (walker.nextNode()) {
-      const textNode = walker.currentNode as Text;
-      const original = textNode.nodeValue || '';
-      const replaced = original.replace(regex, (match, type: keyof typeof strings.config, key) => {
-        if (
-          strings.config[type] &&
-          typeof strings.config[type] === 'object' &&
-          key in (strings.config[type] as Record<string, string>)
-        ) {
-          return (strings.config[type] as Record<string, string>)[key];
-        }
-        return match;
-      });
-
-      if (original !== replaced) {
-        textNode.nodeValue = replaced;
-      }
-    }
-  });
-}
-
 function updateAccessoryNames(strings: Translation) {
 
   const legends = Array.from(window.parent.document.querySelectorAll('fieldset legend'));
@@ -165,7 +131,6 @@ function showSettings(strings: Translation) {
   document.getElementById('footer')!.style.display = 'block';
 
   const observer = new MutationObserver(() => {
-    translateSchema(strings);
     updateAccessoryNames(strings);
   });
 
