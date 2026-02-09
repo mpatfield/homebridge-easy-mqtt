@@ -2,10 +2,13 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.10-beta. (2026-??-??)
+## 1.5.10-beta.0 (2026-02-09)
 
 ### Help Requested
 I recently created a new [Wiki](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Migrating-from-MQTTThing) to provide config examples for users migrating from MQTTThing. If you have an example of old/new config you'd be willing to share, please [post a message on Discord](https://discord.gg/E7RdAbYVWk) or [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
+
+### Added
+- Native support for RGB [`Lightbulb`](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Lightbulb)
 
 ### Changed
 - Config UI schemas are built rather than being translated at run-time ([open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose) if you have issues)
