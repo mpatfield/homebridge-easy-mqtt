@@ -157,6 +157,30 @@
               "enum": ["C", "F"],
               "enumNames": ["${config.enumNames.celsius}", "${config.enumNames.fahrenheit}"]
             },
+            "colorType": {
+              "type": "string",
+              "title": "${config.title.colorType}",
+              "enum": ["HSB", "RGB", "RGBW", "RGBWW"],
+              "enumNames": ["${config.enumNames.hsb}", "RGB", "RGBW", "RGBWW"]
+            },
+            "coldWhite": {
+              "type": "string"
+            },
+            "warmWhite": {
+              "type": "string"
+            },
+            "switchWhites": {
+              "type": "boolean"
+            },
+            "noWhiteMix": {
+              "type": "boolean"
+            },
+            "rgbHexPrefix": {
+              "type": "string"
+            },
+            "rgbThresholds": {
+              "type": "string"
+            },
             "valveType": {
               "type": "string",
               "title": "${config.title.valveType}",
@@ -247,6 +271,22 @@
             "topicSetSaturation": {
               "type": "string",
               "title": "${config.title.topicSetSaturation}"
+            },
+            "topicGetRGB": {
+              "type": "string",
+              "title": "${config.title.topicGetRGB}"
+            },
+            "topicSetRGB": {
+              "type": "string",
+              "title": "${config.title.topicSetRGB}"
+            },
+            "topicGetWhite": {
+              "type": "string",
+              "title": "${config.title.topicGetWhite}"
+            },
+            "topicSetWhite": {
+              "type": "string",
+              "title": "${config.title.topicSetWhite}"
             },
             "topicGetCurrentLockState": {
               "type": "string",
@@ -1801,6 +1841,26 @@
               "type": "fieldset",
               "notitle": true,
               "condition": {
+                "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Lightbulb';"
+              },
+              "items": [
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "items": [
+                    {
+                      "key": "accessories[].colorType",
+                      "flex": "0 0 33%"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "fieldset",
+              "notitle": true,
+              "condition": {
                 "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Valve';"
               },
               "items": [
@@ -2182,7 +2242,7 @@
                   "type": "fieldset",
                   "notitle": true,
                   "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Lightbulb';"
+                    "functionBody": "const colorType = model.accessories?.[arguments[1]]?.colorType; return model.accessories?.[arguments[1]]?.info?.type === 'Lightbulb' && (colorType === undefined || colorType === 'HSB');"
                   },
                   "items": [
                     {
@@ -2245,6 +2305,45 @@
                         },
                         {
                           "key": "accessories[].topicSetSaturation",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
+                    "functionBody": "const colorType = model.accessories?.[arguments[1]]?.colorType; return model.accessories?.[arguments[1]]?.info?.type === 'Lightbulb' && colorType !== undefined && colorType !== 'HSB';"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetRGB",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetRGB",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetWhite",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicSetWhite",
                           "flex": "0 0 50%"
                         }
                       ]

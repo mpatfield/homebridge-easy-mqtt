@@ -176,7 +176,7 @@ export abstract class Common<C extends Assertable> {
   }
 
   protected setupTopicless(characteristicKey: CharacteristicKey, defaultValue: CharacteristicValue,
-    onSetCallback?: (value: CharacteristicValue) => (void)): Characteristic | undefined {
+    onSetCallback?: (value: CharacteristicValue, changed: boolean) => (void)): Characteristic | undefined {
 
     const startingValue = this.getProperty(characteristicKey) ?? defaultValue;
 
@@ -195,8 +195,8 @@ export abstract class Common<C extends Assertable> {
 
     if (onSetCallback) {
       characteristic.onSet( async (value: CharacteristicValue) => {
-        onSetCallback(value);
-        this.onUpdate(characteristicKey, value);
+        const changed = this.onUpdate(characteristicKey, value);
+        onSetCallback(value, changed);
       });
     }
 

@@ -3,7 +3,7 @@ import { PlatformConfig as HBPlatformConfig, PlatformAccessory } from 'homebridg
 export type ServiceType = typeof import('homebridge').Service;
 export type CharacteristicType = typeof import('homebridge').Characteristic;
 
-import { AccessoryType, LabelType, TimeUnits, ValveType } from './enums.js';
+import { AccessoryType, ColorType, LabelType, TimeUnits, ValveType } from './enums.js';
 
 import { History } from './history.js';
 import { Log } from '../tools/log.js';
@@ -129,15 +129,26 @@ export type OnOffConfig = BaseAccessoryConfig & AutoResetConfig & {
 }
 
 export type LightbulbConfig = OnOffConfig & {
+  colorType?: ColorType,
+  coldWhite?: string,
+  warmWhite?: string,
+  switchWhites?: boolean,
+  noWhiteMix?: boolean,
+  rgbHexPrefix?: string,
+  rgbThresholds?: string,
   maximumBrightness?: number,
   topicGetBrightness?: string,
   topicGetColorTemperature?: string,
   topicGetHue?: string,
+  topicGetRGB?: string,
   topicGetSaturation?: string
+  topicGetWhite?: string,
   topicSetBrightness?: string,
   topicSetColorTemperature?: string,
   topicSetHue?: string,
+  topicSetRGB?: string,
   topicSetSaturation?: string
+  topicSetWhite?: string,
 }
 
 export type OutletConfig = OnOffConfig & {

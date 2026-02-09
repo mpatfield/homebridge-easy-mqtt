@@ -93,6 +93,7 @@ const en = {
       garageDoorOpener: 'Garage Door',
       heaterCooler: 'Heater/Cooler',
       hours: 'Hours',
+      hsb: 'HSB (Default)',
       humiditySensor: 'Humidity Sensor',
       leakSensor: 'Leak Sensor',
       lightbulb: 'Lightbulb',
@@ -121,6 +122,7 @@ const en = {
     title: {
       accessory: 'Accessory',
       broker: 'Broker',
+      colorType: 'Color Type',
       disableLogging: 'Disable Logging',
       group: 'Group',
       historyEnabled: 'Enable History',
@@ -181,6 +183,7 @@ const en = {
       topicGetPM10Density: 'Get PM10',
       topicGetPM2_5Density: 'Get PM2.5',
       topicGetPositionState: 'Get Position State*',
+      topicGetRGB: 'Get RGB',
       topicGetRotationDirection: 'Get Direction',
       topicGetRotationSpeed: 'Get Rotation Speed',
       topicGetSaturation: 'Get Saturation',
@@ -212,6 +215,7 @@ const en = {
       topicGetVOCDensity: 'Get VOC',
       topicGetVoltage: 'Get Voltage (Eve-only)',
       topicGetVolume: 'Get Volume',
+      topicGetWhite: 'Get White',
       topicResetFilterIndication: 'Reset Filter',
       topicSetActive: 'Set Active*',
       topicSetBrightness: 'Set Brightness',
@@ -223,6 +227,7 @@ const en = {
       topicSetLockPhysicalControls: 'Set Lock Controls',
       topicSetMuted: 'Set Muted',
       topicSetOn: 'Set On/Off State*',
+      topicSetRGB: 'Set RGB',
       topicSetRotationDirection: 'Set Direction',
       topicSetRotationSpeed: 'Set Rotation Speed',
       topicSetSaturation: 'Set Saturation',
@@ -244,6 +249,7 @@ const en = {
       topicSetValveIsConfigured: 'Set Is Configured',
       topicSetValveSetDuration: 'Set Duration',
       topicSetVolume: 'Set Volume',
+      topicSetWhite: 'Set White',
       topics: 'Topics',
       type: 'Type',
       units: 'Units',
@@ -409,6 +415,12 @@ const en = {
   },
 
   lightbulb: {
+    badColorType: '%s has invalid color type %s. Must be one of: %s', // accessory name, input, list of type names
+    badHexValue: '%s expects hex values %s but received %s', // accessory name, example, input
+    badRGBType: '%s expects RGB value of type %s but received %s', // accessory name, type, type
+    badRGBValue: '%s is expecting RGB value like %s but received %s', // accessory name, example, input
+    badWhiteType: '%s is unable to deterine white value from %s',  // accessory name, input
+    badWhiteValue: '%s is expecting white value like %s but received %s', // accessory name, example, input
     brightnessPercent: '%s brightness is %d%', // accessory name, number
     brightnessPercentFuture: 'Setting %s brightness to %d%…', // accessory name, number
     brightnessValue: '%s brightness is %d', // accessory name, number
@@ -417,8 +429,10 @@ const en = {
     colorTemperatureFuture: 'Setting %s color temperature to %dM…', // accessory name, number
     hue: '%s hue is %d°', // accessory name, number
     hueFuture: 'Setting %s hue to %d°…', // accessory name, number
+    rgbFuture: 'Setting %s RGB to %s…', // accessory name, value
     saturation: '%s saturation is %d%', // accessory name, number
     saturationFuture: 'Setting %s saturation to %d%…', // accessory name, number
+    whiteFuture: 'Setting &s white to %s…', // accessory name, value
   },
 
   lock: {

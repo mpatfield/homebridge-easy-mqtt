@@ -1,3 +1,7 @@
+export function printableValues<T>(o: { [s: string]: T; } | ArrayLike<T>): string {
+  return Object.values(o).map(value => `'${value}'`).join(', ');
+}
+
 export enum AccessoryType {
   AirPurifier = 'AirPurifier',
   AirQualitySensor = 'AirQualitySensor',
@@ -123,6 +127,17 @@ export enum EveCharacteristicKey {
   TimesOpened = 'TimesOpened',
   TotalConsumption = 'TotalConsumption',
   Voltage = 'Voltage',
+}
+
+export function isValidColorType(input?: ColorType): boolean {
+  return input === undefined || Object.values(ColorType).includes(input);
+}
+
+export enum ColorType {
+  HSB = 'HSB',
+  RGB = 'RGB',
+  RGBW = 'RGBW',
+  RGBWW = 'RGBWW',
 }
 
 export enum LabelType {
