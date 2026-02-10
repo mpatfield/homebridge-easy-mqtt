@@ -225,9 +225,9 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
 
   private updateHSB() {
 
-    let red = this.cachedRGBW.red || 255;
-    let green = this.cachedRGBW.green || 255;
-    let blue = this.cachedRGBW.blue || 255;
+    let red = this.cachedRGBW.red ?? 255;
+    let green = this.cachedRGBW.green ?? 255;
+    let blue = this.cachedRGBW.blue ?? 255;
 
     if (this.cachedRGBW.white !== undefined) {
       red = Math.min(red + this.cachedRGBW.white, 255);
