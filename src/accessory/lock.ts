@@ -45,8 +45,7 @@ export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends B
 
     this.setup(HKCharacteristicKey.LockTargetState, dependency.Characteristic.LockTargetState.SECURED,
       'topicGetTargetLockState',
-      this.bindOnUpdateState(HKCharacteristicKey.LockTargetState, targetStates, targetStrings, strings.lock.stateUnknown,
-        'valueLockStateSecured', 'valueLockStateUnsecured'),
+      this.bindOnUpdateState(HKCharacteristicKey.LockTargetState, targetStates, targetStrings, strings.lock.stateUnknown),
       requireTopics,
       'topicSetTargetLockState',
       this.bindOnSetState(HKCharacteristicKey.LockTargetState, 'topicSetTargetLockState', targetStates, targetStrings, strings.lock.badValue),
@@ -69,6 +68,12 @@ export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends B
       this.logIfDesired(LogType.ERROR, this.stringForState(current));
     } else {
       this.logIfDesired(this.stringForState(current));
+    }
+
+    if (current === this.Characteristic.LockCurrentState.UNSECURED) {
+      this.startTimeout( () => {
+        this.service.getCharacteristic(this.Characteristic.LockTargetState).handleSetRequest(this.Characteristic.LockTargetState.SECURED);
+      });
     }
   }
 
