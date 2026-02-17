@@ -45,7 +45,8 @@ export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends B
 
     this.setup(HKCharacteristicKey.LockTargetState, dependency.Characteristic.LockTargetState.SECURED,
       'topicGetTargetLockState',
-      this.bindOnUpdateState(HKCharacteristicKey.LockTargetState, targetStates, targetStrings, strings.lock.stateUnknown),
+      this.bindOnUpdateState(HKCharacteristicKey.LockTargetState, targetStates, targetStrings, strings.lock.stateUnknown,
+        'valueLockStateSecured', 'valueLockStateUnsecured'),
       requireTopics,
       'topicSetTargetLockState',
       this.bindOnSetState(HKCharacteristicKey.LockTargetState, 'topicSetTargetLockState', targetStates, targetStrings, strings.lock.badValue),

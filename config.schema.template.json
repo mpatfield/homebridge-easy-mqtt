@@ -1921,7 +1921,7 @@
               "displayFlex": true,
               "flex-direction": "row",
               "condition": {
-                "functionBody": "return ['AirPurifier', 'CarbonDioxideSensor', 'CarbonMonoxideSensor', 'ContactSensor', 'Fanv2', 'HeaterCooler', 'LeakSensor', 'Lightbulb', 'MotionSensor', 'OccupancySensor', 'Outlet', 'SmokeSensor', 'Switch'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                "functionBody": "return ['AirPurifier', 'CarbonDioxideSensor', 'CarbonMonoxideSensor', 'ContactSensor', 'Fanv2', 'HeaterCooler', 'LeakSensor', 'Lightbulb', 'LockMechanism', 'MotionSensor', 'OccupancySensor', 'Outlet', 'SmokeSensor', 'Switch'].includes(model.accessories?.[arguments[1]]?.info?.type);"
               },
               "items": [
                 {

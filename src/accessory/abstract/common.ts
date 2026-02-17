@@ -316,7 +316,7 @@ export abstract class Common<C extends Assertable> {
   }
 
   protected bindOnUpdateState(key: CharacteristicKey, states: Map<keyof C, CharacteristicValue>,
-    strings: Map<CharacteristicValue, string>, unknownLog: string) {
+    strings: Map<CharacteristicValue, string>, unknownLog: string, defaultState?: keyof C, oppositeState?: keyof C) {
     return (async (_topic: string, value: PrimitiveTypes) => {
 
       let characteristicValue: CharacteristicValue | undefined;
@@ -333,6 +333,15 @@ export abstract class Common<C extends Assertable> {
       }
 
       this.onUpdate(key, characteristicValue, strings.get(characteristicValue));
+
+      const defaultValue = defaultState !== undefined ? states.get(defaultState) : undefined;
+      const oppositeValue = oppositeState !== undefined ? states.get(oppositeState) : undefined;
+      if (defaultValue !== undefined && characteristicValue === oppositeValue) {
+        this.startTimeout(() => {
+          this.onUpdate(key, defaultValue, strings.get(defaultValue));
+        });
+      }
+
     }).bind(this);
   }
 
