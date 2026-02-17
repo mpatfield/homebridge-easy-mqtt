@@ -12,7 +12,8 @@ I recently created a new [Wiki](https://github.com/mpatfield/homebridge-easy-mqt
 - [Auto-reset](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Auto%E2%80%90Reset) timer for [`LockMechanism`](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/LockMechanism)
 
 ### Changed
-- Config UI schemas are built rather than being translated at run-time ([open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose) if you have issues)
+- ⚠️ Improved [auto-reset](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Auto%E2%80%90Reset) logic — please [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose) if you notice issues
+- Config UI schemas are pre-built rather than translated at run-time — please [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose) if you notice translation issues
 
 ### Notes
 Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!

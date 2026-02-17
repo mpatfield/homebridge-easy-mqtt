@@ -1,4 +1,4 @@
-import { Characteristic, CharacteristicSetHandler, CharacteristicValue, Nullable, PrimitiveTypes, Service } from 'homebridge';
+import { Characteristic, CharacteristicSetHandler, CharacteristicValue, Nullable, Perms, PrimitiveTypes, Service } from 'homebridge';
 
 import { EveCharacteristic, isEveCharacteristic } from '../characteristic/eve.js';
 
@@ -254,7 +254,14 @@ export abstract class Common<C extends Assertable> {
 
       if (allowAutoReset && bool) {
         this.startTimeout(() => {
-          this.onUpdate(key, false, logFalse);
+
+          const char = this.service.getCharacteristic(this.characteristicFromKey(key));
+          if (char.props.perms.includes(Perms.PAIRED_WRITE)) {
+            char.handleSetRequest(false);
+          } else {
+            this.onUpdate(key, false, logFalse);
+          }
+
           callback?.(false);
         });
       }
@@ -288,7 +295,14 @@ export abstract class Common<C extends Assertable> {
 
       if (allowAutoReset && numeric === 1) {
         this.startTimeout(() => {
-          this.onUpdate(charKey, 0, logFalse);
+
+          const char = this.service.getCharacteristic(this.characteristicFromKey(charKey));
+          if (char.props.perms.includes(Perms.PAIRED_WRITE)) {
+            char.handleSetRequest(0);
+          } else {
+            this.onUpdate(charKey, 0, logFalse);
+          }
+
           callback?.(0);
         });
       }
@@ -373,8 +387,7 @@ export abstract class Common<C extends Assertable> {
   protected bindOnSetBoolean(
     key: CharacteristicKey, setTopicKey: keyof C,
     trueValueKey: keyof C, falseValueKey: keyof C, trueValue: CharacteristicValue,
-    trueLog: string, falseLog: string,
-    allowAutoReset: boolean = false, callback?: BooleanCallback,
+    trueLog: string, falseLog: string, callback?: BooleanCallback,
   ) {
     return (async (value: CharacteristicValue) => {
 
@@ -400,13 +413,6 @@ export abstract class Common<C extends Assertable> {
       this.onSet(key, value, publish, setTopicKey, logString);
 
       callback?.(booleanValue);
-
-      if (allowAutoReset && booleanValue) {
-        this.startTimeout(() => {
-          this.onSet(key, typeof value === 'boolean' ? false : 0, this.getPrimitiveValue(falseValueKey)!, setTopicKey, falseLog);
-          callback?.(false);
-        });
-      }
 
     }).bind(this);
   }
