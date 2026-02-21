@@ -28,6 +28,7 @@ export enum AccessoryType {
   TemperatureSensor = 'TemperatureSensor',
   Thermostat = 'Thermostat',
   Valve = 'Valve',
+  Window = 'Window',
   WindowCovering = 'WindowCovering',
 }
 

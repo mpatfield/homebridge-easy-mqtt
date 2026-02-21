@@ -116,6 +116,7 @@ const en = {
       valveIrrigation: 'Irrigation',
       valveShower: 'Shower Head',
       valveFaucet: 'Water Faucet',
+      window: 'Window',
       windowCovering: 'Window Covering',
     },
 

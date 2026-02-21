@@ -2,21 +2,26 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.10 (2026-02-18)
+## 1.5.11-beta.0 (2026-02-20)
 
 ### Help Requested
 I recently created a new [Wiki](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Migrating-from-MQTTThing) to provide config examples for users migrating from MQTTThing. If you have an example of old/new config you'd be willing to share, please [post a message on Discord](https://discord.gg/gcGd6t7v) or [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
 
 ### Added
-- Native support for RGB [`Lightbulb`](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Lightbulb)
+- [`Window`](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Window) accessory type
+
+### Notes
+Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
+
+## 1.5.10 (2026-02-18)
+
+### Added
+- Native RGB support for [`Lightbulb`](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Lightbulb)
 - [Auto-reset](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Auto%E2%80%90Reset) timer for [`LockMechanism`](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/LockMechanism)
 
 ### Changed
 - ⚠️ Improved [auto-reset](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Auto%E2%80%90Reset) logic — please [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose) if you notice issues
 - Config UI schemas are pre-built rather than translated at run-time — please [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose) if you notice translation issues
-
-### Notes
-Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
 
 ## 1.5.9 (2026-02-04)
 

@@ -23,6 +23,7 @@ import { OutletAccessory } from '../onoff/outlet.js';
 import { SwitchAccessory } from '../onoff/switch.js';
 
 import { BlindAccessory } from '../position/blind.js';
+import { WindowAccessory } from '../position/window.js';
 
 import { AirSensorAccessory } from '../sensor/air.js';
 import { CO2SensorAccessory } from '../sensor/carbonDioxide.js';
@@ -100,6 +101,8 @@ export function createAccessory(
     return new ThermostatAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.ThermostatConfig>);
   case AccessoryType.Valve:
     return new ValveAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.ValveConfig>);
+  case AccessoryType.Window:
+    return new WindowAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.PositionConfig>);
   case AccessoryType.WindowCovering:
     return new BlindAccessory(mqttDependency as Types.MQTTAccessoryDependency<Types.BlindConfig>);
   }
