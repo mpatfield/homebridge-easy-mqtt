@@ -13,6 +13,15 @@ const i18n_replacements = {
   github: '<a target="_blank" href="https://github.com/mpatfield/homebridge-easy-mqtt/">GitHub</a>',
 };
 
+function getParentDocument(): Document | undefined {
+  try {
+    return window.parent.document;
+  } catch (err) {
+    console.warn('Unable to access parent document (cross-origin). Some UI features disabled.');
+    return undefined;
+  }
+}
+
 function translateHtml(strings: Translation) {
   document.querySelectorAll('[i18n]').forEach(element => {
 
@@ -29,7 +38,12 @@ function translateHtml(strings: Translation) {
 
 function updateAccessoryNames(strings: Translation) {
 
-  const legends = Array.from(window.parent.document.querySelectorAll('fieldset legend'));
+  const parentDocument = getParentDocument();
+  if (!parentDocument) {
+    return;
+  }
+
+  const legends = Array.from(parentDocument.querySelectorAll('fieldset legend'));
 
   for(const legend of legends) {
     const fieldset = legend.closest('fieldset');
@@ -130,14 +144,18 @@ function showSettings(strings: Translation) {
   document.getElementById('support')!.style.display = 'block';
   document.getElementById('footer')!.style.display = 'block';
 
-  const observer = new MutationObserver(() => {
-    updateAccessoryNames(strings);
-  });
+  const parentDocument = getParentDocument();
+  if (parentDocument) {
 
-  observer.observe(
-    window.parent.document.body,
-    { childList: true, subtree: true },
-  );
+    const observer = new MutationObserver(() => {
+      updateAccessoryNames(strings);
+    });
+
+    observer.observe(
+      parentDocument.body,
+      { childList: true, subtree: true },
+    );
+  }
 
   homebridge.addEventListener('configChanged', (evt: Event) => {
     const configs = (evt as MessageEvent).data as PlatformConfig[];
