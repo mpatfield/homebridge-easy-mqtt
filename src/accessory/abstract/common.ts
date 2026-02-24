@@ -234,7 +234,7 @@ export abstract class Common<C extends Assertable> {
     logTrue: string, logFalse: string, allowAutoReset: boolean = false, callback?: BooleanCallback): OnUpdateHandler {
     return (async (_topic: string, value: PrimitiveTypes) => {
 
-      let bool: boolean | undefined = undefined;
+      let bool: boolean;
       switch (value) {
       case this.getPrimitiveValue(trueKey):
         bool = true;

@@ -272,11 +272,10 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
       let warmFactor = calculateWhiteFactor(rgb, this.warmWhiteRGB);
       let coldFactor = calculateWhiteFactor(rgb, this.coldWhiteRGB);
 
-      let whiteFactor = warmFactor + coldFactor;
+      const whiteFactor = warmFactor + coldFactor;
       if( whiteFactor > 1 ) {
         warmFactor = warmFactor / whiteFactor;
         coldFactor = coldFactor / whiteFactor;
-        whiteFactor = 1;
       }
 
       warmWhite = Math.floor( warmFactor * 255 );

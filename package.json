@@ -54,11 +54,12 @@
     "node-persist": "^4.0.4"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/lodash.merge": "^4.6.9",
     "@types/node-persist": "^3.1.8",
     "@types/ws": "^8.18.1",
     "esbuild": "^0.27.0",
-    "eslint": "^9.27.0",
+    "eslint": "^10.0.2",
     "homebridge": "^2.0.0-beta.29",
     "jiti": "^2.4.2",
     "rimraf": "^6.0.1",

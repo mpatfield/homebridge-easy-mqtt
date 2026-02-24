@@ -90,7 +90,7 @@ export class MQTT {
     callerIdentifier: string, callerName: string, onConnect: OnConnectCallback,
   ): MQTT | undefined {
 
-    let additionalOptions = {};
+    let additionalOptions;
 
     const configOptions = config?.options ?? '{}';
     try {
@@ -107,7 +107,7 @@ export class MQTT {
       ...additionalOptions,
     };
 
-    let seed: string = DEFAULT_BROKER;
+    let seed: string;
     const broker = config?.broker ?? process.env.EASYMQTT_BROKER ?? DEFAULT_BROKER;
     try {
       const url = new URL(broker);
