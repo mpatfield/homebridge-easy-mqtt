@@ -1,3 +1,6 @@
+import { readFileSync } from 'fs';
+import merge from 'lodash.merge';
+
 import da from './da.js';
 import de from './de.js';
 import en from './en.js';
@@ -16,7 +19,7 @@ export enum Language {
   VI = 'vi',
 }
 
-const Translations: Record<Language, Translation> = {
+const Translations: Record<Language, unknown> = {
   [Language.DA]: da,
   [Language.DE]: de,
   [Language.EN]: en,
@@ -26,18 +29,28 @@ const Translations: Record<Language, Translation> = {
   [Language.VI]: vi,
 };
 
-export type Translation = typeof en;
-
 let currentLanguage: Language = Language.EN;
 
 export function getLanguage() {
   return currentLanguage;
 }
 
-export function setLanguage(i18nLang: string) {
+export function setLanguage(configPath: string) {
+
+  let isoLang: string | undefined;
+  try {
+    const systemConfig = readFileSync(configPath, { encoding: 'utf8' });
+    isoLang = JSON.parse(systemConfig).platforms.filter( (c: Record<string, string>) => c.platform === 'config')[0].lang;
+  } catch {
+    // nothing
+  }
+
+  if (isoLang === undefined || isoLang.trim().length === 0 || isoLang === 'auto') {
+    isoLang = Intl.DateTimeFormat().resolvedOptions().locale.split('-')[0];
+  }
 
   let language = Language.EN;
-  switch(i18nLang) {
+  switch(isoLang) {
   case Language.DE:
     language = Language.DE;
     break;
@@ -55,19 +68,20 @@ export function setLanguage(i18nLang: string) {
     break;
   }
 
-  currentLanguage = Translations[language] ? language : Language.EN;
+  currentLanguage = Translations[language] !== undefined ? language : Language.EN;
 }
 
+export type Translation = typeof en;
+
 export function getStrings(language: Language): Translation {
-  return Translations[language] ?? Translations[Language.EN];
+  const overrides = Translations[language];
+  return merge({}, en, overrides);
 }
 
 const translations = new Proxy({} as Translation, {
-  get(_target, prop: string) {
-    return (
-      Translations[currentLanguage][prop as keyof Translation] ??
-      Translations[Language.EN][prop as keyof Translation]
-    );
+  get(_target, prop: keyof Translation) {
+    const overrides = Translations[currentLanguage] as Record<string, unknown>;
+    return overrides[prop] ?? en[prop];
   },
 });
 

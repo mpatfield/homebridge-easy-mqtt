@@ -2,13 +2,16 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.11-beta.0 (2026-02-20)
+## 1.5.11-beta.1 (2026-02-20)
 
 ### Help Requested
 I recently created a new [Wiki](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Migrating-from-MQTTThing) to provide config examples for users migrating from MQTTThing. If you have an example of old/new config you'd be willing to share, please [post a message on Discord](https://discord.gg/gcGd6t7v) or [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
 
 ### Added
 - [`Window`](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Window) accessory type
+
+### Changed
+- Reworked translation system for easier maintenance — please [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose) if you notice translation issues
 
 ### Notes
 Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!

@@ -1,8 +1,4 @@
-import merge from 'lodash.merge';
-
-import en from './en.js';
-
-const overrides = {
+const de = {
 
   accessory: {
     badType: '%s Konfigurationsvariable %s sollte den Typ %s haben, war aber %s',
@@ -622,7 +618,5 @@ const overrides = {
     setDurationFuture: '%s wird für %d Sekunden ausgeführt…',
   },
 };
-
-const de = merge({}, en, overrides);
 
 export default de;

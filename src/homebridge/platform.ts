@@ -31,8 +31,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
     private readonly api: API,
   ) {
 
-    const userLang = Intl.DateTimeFormat().resolvedOptions().locale.split('-')[0];
-    setLanguage(userLang);
+    setLanguage(api.user.configPath());
 
     this.log = new Log(logger, config.verbose);
 

@@ -1,8 +1,4 @@
-import merge from 'lodash.merge';
-
-import en from './en.js';
-
-const overrides = {
+const vi = {
 
   accessory: {
     batteryLevel: 'Pin của %s còn %d%',
@@ -552,7 +548,5 @@ const overrides = {
     setDurationFuture: '%s sẽ chạy trong %d giây',
   },
 };
-
-const vi = merge({}, en, overrides);
 
 export default vi;

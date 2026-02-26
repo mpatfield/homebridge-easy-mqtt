@@ -1,8 +1,4 @@
-import merge from 'lodash.merge';
-
-import en from './en.js';
-
-const overrides = {
+const fr = {
 
   accessory: {
     batteryLevel: 'La batterie de %s est à %d%',
@@ -552,7 +548,5 @@ const overrides = {
     setDurationFuture: '%s fonctionnera pendant %d secondes',
   },
 };
-
-const fr = merge({}, en, overrides);
 
 export default fr;

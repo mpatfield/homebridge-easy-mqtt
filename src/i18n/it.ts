@@ -1,8 +1,4 @@
-import merge from 'lodash.merge';
-
-import en from './en.js';
-
-const overrides = {
+const it = {
 
   accessory: {
     batteryLevel: '%s livello batteria: %d%',
@@ -534,7 +530,5 @@ const overrides = {
   },
 
 };
-
-const it = merge({}, en, overrides);
 
 export default it;
