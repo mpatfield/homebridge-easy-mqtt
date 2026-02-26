@@ -5,51 +5,51 @@ import en from './en.js';
 const overrides = {
 
   accessory: {
-    batteryLevel: 'Pin của %s còn %d%', // accessory name, number
-    batteryLow: 'Pin của %s yếu', // accessory name
-    batteryNotLow: 'Pin của %s bình thường', // accessory name
-    missingRequired: '%s thiếu biến cấu hình bắt buộc %s', // accessory name, variable name
-    statusActive: '%s hiện đã khả dụng', // accessory name
-    statusInactive: '%s không khả dụng', // accessory name
+    batteryLevel: 'Pin của %s còn %d%',
+    batteryLow: 'Pin của %s yếu',
+    batteryNotLow: 'Pin của %s bình thường',
+    missingRequired: '%s thiếu biến cấu hình bắt buộc %s',
+    statusActive: '%s hiện đã khả dụng',
+    statusInactive: '%s không khả dụng',
   },
 
   active: {
-    active: '%s đang hoạt động', // accessory name
-    activeSet: 'Đang đặt %s thành hoạt động…', // accessory name
-    controlsLocked: 'Điều khiển của %s đã bị khóa', // accessory name
-    controlsLockFuture: 'Đang đặt điều khiển của %s thành khóa…', // accessory name
-    controlsUnLocked: 'Điều khiển của %s đã được mở khóa', // accessory name
-    controlsUnlockFuture: 'Đang đặt điều khiển của %s thành mở khóa…', // accessory name
-    inactiveSet: 'Đang đặt %s thành không hoạt động…', // accessory name
-    notActive: '%s không hoạt động', // accessory name
-    rotationPercentUpdate: 'Tốc độ quay của %s là %d%', // accessory name, number
-    rotationPercentSet: 'Đang đặt tốc độ quay của %s thành %d%…', // accessory name, number
-    swingDisabled: 'Chế độ lắc của %s đã tắt', // accessory name
-    swingDisabledFuture: 'Đang tắt chế độ lắc của %s…', // accessory name
-    swingEnabled: 'Chế độ lắc của %s đã bật', // accessory name
-    swingEnabledFuture: 'Đang bật chế độ lắc của %s…', // accessory name
+    active: '%s đang hoạt động',
+    activeSet: 'Đang đặt %s thành hoạt động…',
+    controlsLocked: 'Điều khiển của %s đã bị khóa',
+    controlsLockFuture: 'Đang đặt điều khiển của %s thành khóa…',
+    controlsUnLocked: 'Điều khiển của %s đã được mở khóa',
+    controlsUnlockFuture: 'Đang đặt điều khiển của %s thành mở khóa…',
+    inactiveSet: 'Đang đặt %s thành không hoạt động…',
+    notActive: '%s không hoạt động',
+    rotationPercentUpdate: 'Tốc độ quay của %s là %d%',
+    rotationPercentSet: 'Đang đặt tốc độ quay của %s thành %d%…',
+    swingDisabled: 'Chế độ lắc của %s đã tắt',
+    swingDisabledFuture: 'Đang tắt chế độ lắc của %s…',
+    swingEnabled: 'Chế độ lắc của %s đã bật',
+    swingEnabledFuture: 'Đang bật chế độ lắc của %s…',
   },
 
   characteristic: {
-    badValue: '%s yêu cầu giá trị số cho %s nhưng nhận được %s', // accessory name, characteristic name, value
-    outOfRange: '%s đang cố đặt %s thành %s, vượt ngoài phạm vi cho phép. Đang đặt về %s.', // accessory name, characteristic name, number, number
-    updated: '%s đã cập nhật %s với giá trị %s', // accessory name, characteristic name, value
+    badValue: '%s yêu cầu giá trị số cho %s nhưng nhận được %s',
+    outOfRange: '%s đang cố đặt %s thành %s, vượt ngoài phạm vi cho phép. Đang đặt về %s.',
+    updated: '%s đã cập nhật %s với giá trị %s',
   },
 
   climate: {
-    badTemperatureValue: '%s yêu cầu giá trị số cho nhiệt độ nhưng nhận được %s', // accessory name, value
-    coolingThreshold: 'Ngưỡng làm mát của %s là %d°%s', // accessory name, number, units
-    coolingThresholdFuture: 'Đang đặt ngưỡng làm mát của %s thành %d°%s…', // accessory name, number, units
-    heatingThreshold: 'Ngưỡng sưởi của %s là %d°%s', // accessory name, number, units
-    heatingThresholdFuture: 'Đang đặt ngưỡng sưởi của %s thành %d°%s…', // accessory name, number, units
-    humidityUpdate: 'Độ ẩm của %s là %d%%', // accessory name, number
-    temperatureUpdate: 'Nhiệt độ của %s là %d°%s', // accessory name, number, units
+    badTemperatureValue: '%s yêu cầu giá trị số cho nhiệt độ nhưng nhận được %s',
+    coolingThreshold: 'Ngưỡng làm mát của %s là %d°%s',
+    coolingThresholdFuture: 'Đang đặt ngưỡng làm mát của %s thành %d°%s…',
+    heatingThreshold: 'Ngưỡng sưởi của %s là %d°%s',
+    heatingThresholdFuture: 'Đang đặt ngưỡng sưởi của %s thành %d°%s…',
+    humidityUpdate: 'Độ ẩm của %s là %d%%',
+    temperatureUpdate: 'Nhiệt độ của %s là %d°%s',
   },
 
   config: {
-    continue: 'Tiếp tục %s', // arrow symbol
+    continue: 'Tiếp tục %s',
     required: 'Các trường bắt buộc được đánh dấu bằng dấu hoa thị (*)',
-    support: 'Xem tài liệu và hỗ trợ tại %s', // link
+    support: 'Xem tài liệu và hỗ trợ tại %s',
     thankYou: 'Cảm ơn bạn đã cài đặt homebridge-easy-mqtt',
 
     description: {
@@ -283,240 +283,235 @@ const overrides = {
   },
 
   error: {
-    hasFault: '%s gặp sự cố', // accessory name
-    isTampered: '%s đã bị can thiệp', // accessory name
-    noFault: '%s không có sự cố', // accessory name
-    notTampered: 'Trạng thái bị can thiệp của %s đã được đặt lại', // accessory name
+    hasFault: '%s gặp sự cố',
+    isTampered: '%s đã bị can thiệp',
+    noFault: '%s không có sự cố',
+    notTampered: 'Trạng thái bị can thiệp của %s đã được đặt lại',
   },
 
   fanv2: {
-    badValue: '%s thiếu giá trị cho trạng thái quạt %s', // accessory name, value
-    clockwise: '%s đang quay thuận chiều kim đồng hồ', // accessory name
-    counterClockwise: '%s đang quay ngược chiều kim đồng hồ', // accessory name
-    noCurrentStateValues: '%s phải có ít nhất một trạng thái hiện tại (Inactive, Idle, Blowing)', // accessory name
-    noTargetStateValues: '%s phải có ít nhất một trạng thái mục tiêu (Auto, Manual)', // accessory name
-    setDirectionClockwise: 'Đang đặt %s quay thuận chiều kim đồng hồ…', // accessory name
-    setDirectionCounterClockwise: 'Đang đặt %s quay ngược chiều kim đồng hồ…', // accessory name
-    stateAuto: 'Đang đặt %s thành tự động…', // accessory name
-    stateBlowing: '%s đang thổi gió', // accessory name
-    stateIdle: '%s đang chờ', // accessory name
-    stateInactive: '%s không hoạt động', // accessory name
-    stateManual: 'Đang đặt %s thành thủ công…', // accessory name
-    stateUnknown: 'Không xác định được trạng thái của %s', // accessory name
+    badValue: '%s thiếu giá trị cho trạng thái quạt %s',
+    clockwise: '%s đang quay thuận chiều kim đồng hồ',
+    counterClockwise: '%s đang quay ngược chiều kim đồng hồ',
+    noCurrentStateValues: '%s phải có ít nhất một trạng thái hiện tại (Inactive, Idle, Blowing)',
+    noTargetStateValues: '%s phải có ít nhất một trạng thái mục tiêu (Auto, Manual)',
+    setDirectionClockwise: 'Đang đặt %s quay thuận chiều kim đồng hồ…',
+    setDirectionCounterClockwise: 'Đang đặt %s quay ngược chiều kim đồng hồ…',
+    stateAuto: 'Đang đặt %s thành tự động…',
+    stateBlowing: '%s đang thổi gió',
+    stateIdle: '%s đang chờ',
+    stateInactive: '%s không hoạt động',
+    stateManual: 'Đang đặt %s thành thủ công…',
+    stateUnknown: 'Không xác định được trạng thái của %s',
   },
 
   filter: {
-    change: '%s cần bảo dưỡng bộ lọc', // accessory name
-    level: 'Bộ lọc %s còn %d%', // accessory name, number
-    ok: 'Bộ lọc %s bình thường', // accessory name
-    reset: 'Đang đặt lại bộ lọc cho %s…', // accessory name
+    change: '%s cần bảo dưỡng bộ lọc',
+    level: 'Bộ lọc %s còn %d%',
+    ok: 'Bộ lọc %s bình thường',
+    reset: 'Đang đặt lại bộ lọc cho %s…',
   },
 
   garage: {
-    badValue: '%s thiếu giá trị cho trạng thái cửa %s', // accessory name, value
-    noCurrentStateValues: '%s phải có ít nhất một trạng thái hiện tại (Open, Closed, Opening, Closing, Stopped)', // accessory name
-    noTargetStateValues: '%s phải có ít nhất một trạng thái mục tiêu (Open, Closed)', // accessory name
-    obstructed: '%s bị cản trở', // accessory name
-    stateClosed: '%s đã đóng', // accessory name
+    badValue: '%s thiếu giá trị cho trạng thái cửa %s',
+    noCurrentStateValues: '%s phải có ít nhất một trạng thái hiện tại (Open, Closed, Opening, Closing, Stopped)',
+    noTargetStateValues: '%s phải có ít nhất một trạng thái mục tiêu (Open, Closed)',
+    obstructed: '%s bị cản trở',
+    stateClosed: '%s đã đóng',
     stateClosedFuture: 'Đang đóng %s…',
-    stateClosing: '%s đang đóng', // accessory name
-    stateOpen: '%s đang mở', // accessory name
-    stateOpenFuture: 'Đang mở %s…', // accessory name
-    stateOpening: '%s đang mở', // accessory name
-    stateStopped: '%s đã dừng', // accessory name
-    stateUnknown: 'Không xác định được trạng thái của %s', // accessory name
-    unknownValue: '%s không xác định được trạng thái cửa từ giá trị %s. Bỏ qua…', // accessory name, value
-    unobstructed: '%s không bị cản trở', // accessory name
+    stateClosing: '%s đang đóng',
+    stateOpen: '%s đang mở',
+    stateOpenFuture: 'Đang mở %s…',
+    stateOpening: '%s đang mở',
+    stateStopped: '%s đã dừng',
+    unknownValue: '%s không xác định được trạng thái cửa từ giá trị %s. Bỏ qua…',
+    unobstructed: '%s không bị cản trở',
   },
 
   heaterCooler: {
-    badValue: '%s thiếu giá trị cho trạng thái sưởi/làm mát %s', // accessory name, value
-    noStateValues: '%s phải có ít nhất một trạng thái (Không hoạt động, Chờ, Sưởi, Làm mát)', // accessory name
-    stateAuto: 'Đang đặt %s thành tự động…', // accessory name
-    stateCool: 'Đang đặt %s sang chế độ làm mát…', // accessory name
-    stateCooling: '%s đang làm mát', // accessory name
-    stateHeat: 'Đang đặt %s sang chế độ sưởi…', // accessory name
-    stateHeating: '%s đang sưởi', // accessory name
-    stateIdle: '%s đang chờ', // accessory name
-    stateInactive: '%s không hoạt động', // accessory name
-    stateUnknown: 'Không xác định được trạng thái của %s', // accessory name
-    unknownValue: '%s không xác định được trạng thái sưởi/làm mát từ giá trị %s. Đang bỏ qua…', // accessory name, value
+    badValue: '%s thiếu giá trị cho trạng thái sưởi/làm mát %s',
+    noStateValues: '%s phải có ít nhất một trạng thái (Không hoạt động, Chờ, Sưởi, Làm mát)',
+    stateAuto: 'Đang đặt %s thành tự động…',
+    stateCool: 'Đang đặt %s sang chế độ làm mát…',
+    stateCooling: '%s đang làm mát',
+    stateHeat: 'Đang đặt %s sang chế độ sưởi…',
+    stateHeating: '%s đang sưởi',
+    stateIdle: '%s đang chờ',
+    stateInactive: '%s không hoạt động',
+    stateUnknown: 'Không xác định được trạng thái của %s',
+    unknownValue: '%s không xác định được trạng thái sưởi/làm mát từ giá trị %s. Đang bỏ qua…',
   },
 
   lightbulb: {
-    brightnessPercent: 'Độ sáng của %s là %d%', // accessory name, number
-    brightnessPercentFuture: 'Đang đặt độ sáng của %s thành %d%…', // accessory name, number
-    colorTemperature: 'Nhiệt độ màu của %s là %dM', // accessory name, number
-    colorTemperatureFuture: 'Đang đặt nhiệt độ màu của %s thành %dM…', // accessory name, number
-    hue: 'Sắc độ của %s là %d°', // accessory name, number
-    hueFuture: 'Đang đặt sắc độ của %s thành %d°…', // accessory name, number
-    saturation: 'Độ bão hòa của %s là %d%', // accessory name, number
-    saturationFuture: 'Đang đặt độ bão hòa của %s thành %d%…', // accessory name, number
+    brightnessPercent: 'Độ sáng của %s là %d%',
+    brightnessPercentFuture: 'Đang đặt độ sáng của %s thành %d%…',
+    colorTemperature: 'Nhiệt độ màu của %s là %dM',
+    colorTemperatureFuture: 'Đang đặt nhiệt độ màu của %s thành %dM…',
+    hue: 'Sắc độ của %s là %d°',
+    hueFuture: 'Đang đặt sắc độ của %s thành %d°…',
+    saturation: 'Độ bão hòa của %s là %d%',
+    saturationFuture: 'Đang đặt độ bão hòa của %s thành %d%…',
   },
 
   lock: {
-    badValue: '%s không xác định được trạng thái khóa từ %s', // accessory name, value
-    stateJammed: '%s bị kẹt', // accessory name
-    stateSecured: '%s đã khóa', // accessory name
-    stateSecuredFuture: 'Đang khóa %s…', // accessory name
-    stateUnsecured: '%s đã mở khóa', // accessory name
-    stateUnsecuredFuture: 'Đang mở khóa %s…', // accessory name
-    stateUnknown: 'Không xác định được trạng thái của %s', // accessory name
+    badValue: '%s không xác định được trạng thái khóa từ %s',
+    stateJammed: '%s bị kẹt',
+    stateSecured: '%s đã khóa',
+    stateSecuredFuture: 'Đang khóa %s…',
+    stateUnsecured: '%s đã mở khóa',
+    stateUnsecuredFuture: 'Đang mở khóa %s…',
+    stateUnknown: 'Không xác định được trạng thái của %s',
   },
 
   mqttClient: {
-    badOptions: 'Tùy chọn bổ sung cho %s phải là JSON hợp lệ', // accessory name
+    badOptions: 'Tùy chọn bổ sung cho %s phải là JSON hợp lệ',
     badMessages: 'Tin nhắn onConnect phải là mảng chứa topic/message objects',
-    connected: 'Đã kết nối tới %s và đang chờ cập nhật…', // host
-    connectionClosed: 'Đã đóng kết nối tới %s', // host
-    error: 'Lỗi client trên %s', // host
-    new: '%s tạo một client mới với id %s', // accessory name, uuid
-    noListeners: 'Không có listener trên %s cho topic %s', // host, topic
-    notConnected: 'Client chưa kết nối tới %s', // host
-    parseFailed: 'Không thể phân tích tin nhắn trên %s', // host
-    publish: 'Đang publish tới %s', // host
-    reuse: '%s đang tái sử dụng client hiện có với id %s', // accessory name, uuid
-    receivedMessage: 'Nhận tin nhắn trên %s với topic %s', // host, topic
-    reconnectMinutes: 'Sẽ thử kết nối lại %s trong %s phút…', // host, number
-    reconnectSeconds: 'Sẽ thử kết nối lại %s trong %s giây…', // host, number
+    connected: 'Đã kết nối tới %s và đang chờ cập nhật…',
+    connectionClosed: 'Đã đóng kết nối tới %s',
+    error: 'Lỗi client trên %s',
+    new: '%s tạo một client mới với id %s',
+    noListeners: 'Không có listener trên %s cho topic %s',
+    notConnected: 'Client chưa kết nối tới %s',
+    parseFailed: 'Không thể phân tích tin nhắn trên %s',
+    publish: 'Đang publish tới %s',
+    reuse: '%s đang tái sử dụng client hiện có với id %s',
+    receivedMessage: 'Nhận tin nhắn trên %s với topic %s',
+    reconnectMinutes: 'Sẽ thử kết nối lại %s trong %s phút…',
+    reconnectSeconds: 'Sẽ thử kết nối lại %s trong %s giây…',
   },
 
   onOff: {
-    stateOff: '%s đang tắt', // accessory name
-    stateOffFuture: 'Đang tắt %s…', // accessory name
-    stateOn: '%s đang bật', // accessory name
-    stateOnFuture: 'Đang bật %s…', // accessory name
+    stateOff: '%s đang tắt',
+    stateOffFuture: 'Đang tắt %s…',
+    stateOn: '%s đang bật',
+    stateOnFuture: 'Đang bật %s…',
   },
 
   outlet: {
-    badValue: '%s không lấy được trạng thái sử dụng cho %s', // accessory name, value
-    inUse: '%s đang sử dụng', // accessory name
-    notInUse: '%s không sử dụng', // accessory name
+    badValue: '%s không lấy được trạng thái sử dụng cho %s',
+    inUse: '%s đang sử dụng',
+    notInUse: '%s không sử dụng',
   },
 
   position: {
 
     blind: {
-      currentHorizontal: 'Góc ngang hiện tại của %s là %d°', // accessory name, number
-      currentVertical: 'Góc dọc hiện tại của %s là %d°', // accessory name, number
-      targetHorizontal: 'Góc ngang mục tiêu của %s là %d°', // accessory name, number
-      targetHorizontalSet: 'Đang đặt góc ngang mục tiêu của %s thành %d°…', // accessory name, number
-      targetVertical: 'Góc dọc mục tiêu của %s là %d°', // accessory name, number
-      targetVerticalSet: 'Đang đặt góc dọc mục tiêu của %s thành %d°…', // accessory name, number
+      currentHorizontal: 'Góc ngang hiện tại của %s là %d°',
+      currentVertical: 'Góc dọc hiện tại của %s là %d°',
+      targetHorizontal: 'Góc ngang mục tiêu của %s là %d°',
+      targetHorizontalSet: 'Đang đặt góc ngang mục tiêu của %s thành %d°…',
+      targetVertical: 'Góc dọc mục tiêu của %s là %d°',
+      targetVerticalSet: 'Đang đặt góc dọc mục tiêu của %s thành %d°…',
     },
 
-    current: 'Vị trí hiện tại của %s là %d%', // accessory name, number
-    hold: 'Đang đặt vị trí của %s thành giữ…', // accessory name
-    noPositionValues: '%s phải có ít nhất một trạng thái vị trí (Đang giảm, Đang tăng, Dừng)', // accessory name
-    obstructed: '%s bị cản trở', // accessory name
-    resume: 'Đang đặt vị trí của %s thành tiếp tục…', // accessory name
-    stateDecreasing: 'Vị trí của %s đang giảm', // accessory name
-    stateIncreasing: 'Vị trí của %s đang tăng', // accessory name
-    stateStopped: 'Vị trí của %s đã dừng', // accessory name
-    stateUnknown: 'Không xác định được trạng thái vị trí của %s', // accessory name
-    target: 'Vị trí mục tiêu của %s là %d%', // accessory name, number
-    targetSet: 'Đang đặt vị trí mục tiêu của %s thành %d%…', // accessory name, number
-    unknownValue: '%s không xác định được trạng thái vị trí từ giá trị %s. Đang bỏ qua…', // accessory name, value
-    unobstructed: '%s không bị cản trở', // accessory name
+    hold: 'Đang đặt vị trí của %s thành giữ…',
+    noPositionValues: '%s phải có ít nhất một trạng thái vị trí (Đang giảm, Đang tăng, Dừng)',
+    obstructed: '%s bị cản trở',
+    resume: 'Đang đặt vị trí của %s thành tiếp tục…',
+    stateDecreasing: 'Vị trí của %s đang giảm',
+    stateIncreasing: 'Vị trí của %s đang tăng',
+    stateStopped: 'Vị trí của %s đã dừng',
+    unknownValue: '%s không xác định được trạng thái vị trí từ giá trị %s. Đang bỏ qua…',
+    unobstructed: '%s không bị cản trở',
   },
 
   purifier: {
-    badValue: '%s thiếu giá trị cho trạng thái máy lọc không khí %s', // accessory name, value
-    noCurrentStateValues: '%s phải có ít nhất một trạng thái hiện tại (Không hoạt động, Chờ, Đang lọc)', // accessory name
-    noTargetStateValues: '%s phải có ít nhất một trạng thái mục tiêu (Tự động, Thủ công)', // accessory name
-    stateAuto: 'Đang đặt %s thành tự động…', // accessory name
-    stateIdle: '%s đang chờ', // accessory name
-    stateInactive: '%s không hoạt động', // accessory name
-    stateManual: 'Đang đặt %s thành thủ công…', // accessory name
-    statePurifying: '%s đang lọc', // accessory name
-    stateUnknown: 'Không xác định được trạng thái của %s', // accessory name
+    badValue: '%s thiếu giá trị cho trạng thái máy lọc không khí %s',
+    noCurrentStateValues: '%s phải có ít nhất một trạng thái hiện tại (Không hoạt động, Chờ, Đang lọc)',
+    noTargetStateValues: '%s phải có ít nhất một trạng thái mục tiêu (Tự động, Thủ công)',
+    stateAuto: 'Đang đặt %s thành tự động…',
+    stateIdle: '%s đang chờ',
+    stateInactive: '%s không hoạt động',
+    stateManual: 'Đang đặt %s thành thủ công…',
+    statePurifying: '%s đang lọc',
+    stateUnknown: 'Không xác định được trạng thái của %s',
   },
 
   security: {
-    badValue: '%s thiếu giá trị cho trạng thái an ninh %s', // accessory name, value
-    noStateValues: '%s phải có ít nhất một trạng thái (Đi vắng, Tắt, etc.)', // accessory name
-    stateAway: '%s đang bật chế độ đi vắng', // accessory name
-    stateAwayFuture: 'Đang bật chế độ đi vắng cho %s…', // accessory name
-    stateDisarmed: '%s đã tắt an ninh', // accessory name
-    stateDisarmFuture: 'Đang tắt an ninh %s…', // accessory name
-    stateNight: '%s đang bật chế độ ban đêm', // accessory name
-    stateNightFuture: 'Đang bật chế độ ban đêm cho %s…', // accessory name
-    stateStay: '%s đang bật chế độ ở nhà', // accessory name
-    stateStayFuture: 'Đang bật chế độ ở nhà cho %s…', // accessory name
-    stateTriggered: 'Báo động của %s đã kích hoạt', // accessory name
-    stateUnknown: 'Không xác định được trạng thái của %s', // accessory name
-    unknownValue: '%s không xác định được trạng thái an ninh từ giá trị %s. Đang bỏ qua…', // accessory name, value
+    badValue: '%s thiếu giá trị cho trạng thái an ninh %s',
+    noStateValues: '%s phải có ít nhất một trạng thái (Đi vắng, Tắt, etc.)',
+    stateAway: '%s đang bật chế độ đi vắng',
+    stateAwayFuture: 'Đang bật chế độ đi vắng cho %s…',
+    stateDisarmed: '%s đã tắt an ninh',
+    stateDisarmFuture: 'Đang tắt an ninh %s…',
+    stateNight: '%s đang bật chế độ ban đêm',
+    stateNightFuture: 'Đang bật chế độ ban đêm cho %s…',
+    stateStay: '%s đang bật chế độ ở nhà',
+    stateStayFuture: 'Đang bật chế độ ở nhà cho %s…',
+    stateTriggered: 'Báo động của %s đã kích hoạt',
+    stateUnknown: 'Không xác định được trạng thái của %s',
+    unknownValue: '%s không xác định được trạng thái an ninh từ giá trị %s. Đang bỏ qua…',
   },
 
   sensor: {
 
     air: {
-      noStateValues: '%s phải có ít nhất một trạng thái chất lượng không khí (Tuyệt vời, Tốt, Bình thường, Kém, Xấu)', // accessory name
-      densityNitrogen: 'Nồng độ nitơ của %s là %d µg/m³', // accessory name, number
-      densityOzone: 'Nồng độ ozone của %s là %d µg/m³', // accessory name, number
-      densityPM10: 'Nồng độ PM10 của %s là %d µg/m³', // accessory name, number
-      densityPM2_5: 'Nồng độ PM2.5 của %s là %d µg/m³', // accessory name, number
-      densitySulphur: 'Nồng độ SO2 của %s là %d µg/m³', // accessory name, number
-      densityVOC: 'Nồng độ VOC của %s là %d µg/m³', // accessory name, number
-      qualityExcellent: 'Chất lượng không khí của %s: Tuyệt vời', // accessory name
-      qualityFair: 'Chất lượng không khí của %s: Bình thường', // accessory name
-      qualityGood: 'Chất lượng không khí của %s: Tốt', // accessory name
-      qualityInferior: 'Chất lượng không khí của %s: Kém', // accessory name
-      qualityPoor: 'Chất lượng không khí của %s: Xấu', // accessory name
-      qualityUnknown: 'Chất lượng không khí của %s: Không xác định', // accessory name
-      unknownValue: '%s không xác định được chất lượng không khí từ giá trị %s. Đang bỏ qua…', // accessory name, value
+      noStateValues: '%s phải có ít nhất một trạng thái chất lượng không khí (Tuyệt vời, Tốt, Bình thường, Kém, Xấu)',
+      densityNitrogen: 'Nồng độ nitơ của %s là %d µg/m³',
+      densityOzone: 'Nồng độ ozone của %s là %d µg/m³',
+      densityPM10: 'Nồng độ PM10 của %s là %d µg/m³',
+      densityPM2_5: 'Nồng độ PM2.5 của %s là %d µg/m³',
+      densitySulphur: 'Nồng độ SO2 của %s là %d µg/m³',
+      densityVOC: 'Nồng độ VOC của %s là %d µg/m³',
+      qualityExcellent: 'Chất lượng không khí của %s: Tuyệt vời',
+      qualityFair: 'Chất lượng không khí của %s: Bình thường',
+      qualityGood: 'Chất lượng không khí của %s: Tốt',
+      qualityInferior: 'Chất lượng không khí của %s: Kém',
+      qualityPoor: 'Chất lượng không khí của %s: Xấu',
+      qualityUnknown: 'Chất lượng không khí của %s: Không xác định',
+      unknownValue: '%s không xác định được chất lượng không khí từ giá trị %s. Đang bỏ qua…',
     },
 
     carbonDioxide: {
-      active: '%s phát hiện CO2', // accessory name
-      inactive: '%s ngừng phát hiện CO2', // accessory name
-      level: 'Nồng độ CO2 của %s là %d', // accessory name, number
-      peakLevel: 'Nồng độ CO2 cực đại của %s là %d', // accessory name, number
+      active: '%s phát hiện CO2',
+      inactive: '%s ngừng phát hiện CO2',
+      level: 'Nồng độ CO2 của %s là %d',
+      peakLevel: 'Nồng độ CO2 cực đại của %s là %d',
     },
 
     carbonMonoxide: {
-      active: '%s phát hiện CO', // accessory name
-      inactive: '%s ngừng phát hiện CO', // accessory name
-      level: 'Nồng độ CO của %s là %d',  // accessory name, number
-      peakLevel: 'Nồng độ CO cực đại của %s là %d', // accessory name, number
+      active: '%s phát hiện CO',
+      inactive: '%s ngừng phát hiện CO',
+      level: 'Nồng độ CO của %s là %d',
+      peakLevel: 'Nồng độ CO cực đại của %s là %d',
     },
 
     contact: {
-      active: '%s phát hiện tiếp xúc', // accessory name
-      inactive: '%s ngừng phát hiện tiếp xúc', // accessory name
+      active: '%s phát hiện tiếp xúc',
+      inactive: '%s ngừng phát hiện tiếp xúc',
     },
 
     leak: {
-      active: '%s phát hiện rò rỉ', // accessory name
-      inactive: '%s ngừng phát hiện rò rỉ', // accessory name
+      active: '%s phát hiện rò rỉ',
+      inactive: '%s ngừng phát hiện rò rỉ',
     },
 
     light: {
-      level: 'Mức ánh sáng hiện tại của %s là %d lx', // accessory name, number
+      level: 'Mức ánh sáng hiện tại của %s là %d lx',
     },
 
     motion: {
-      active: '%s phát hiện chuyển động', // accessory name
-      inactive: '%s ngừng phát hiện chuyển động', // accessory name
+      active: '%s phát hiện chuyển động',
+      inactive: '%s ngừng phát hiện chuyển động',
     },
 
     occupancy: {
-      active: '%s phát hiện có người', // accessory name
-      inactive: '%s không còn phát hiện người', // accessory name
+      active: '%s phát hiện có người',
+      inactive: '%s không còn phát hiện người',
     },
 
     smoke: {
-      active: '%s phát hiện khói', // accessory name
-      inactive: '%s không còn phát hiện khói', // accessory name
+      active: '%s phát hiện khói',
+      inactive: '%s không còn phát hiện khói',
     },
   },
 
   startup: {
     complete: '✓ Cài đặt hoàn tất',
-    newAccessory: 'Đang thêm %s', // accessory name
-    removeAccessory: 'Đang gỡ %s', // accessory name
-    restoringAccessory: 'Đang khôi phục %s', // accessory name
-    unsupportedType: 'Loại thiết bị không được hỗ trợ: %s', // accessory type
+    newAccessory: 'Đang thêm %s',
+    removeAccessory: 'Đang gỡ %s',
+    restoringAccessory: 'Đang khôi phục %s',
+    unsupportedType: 'Loại thiết bị không được hỗ trợ: %s',
     welcome: [
       'Hãy ★ plugin này trên GitHub nếu bạn thấy hữu ích! https://github.com/mpatfield/homebridge-easy-mqtt',
       'Bạn có muốn tài trợ cho plugin này không? https://github.com/sponsors/mpatfield',
@@ -525,36 +520,36 @@ const overrides = {
   },
 
   thermostat: {
-    badValue: '%s thiếu giá trị cho trạng thái nhiệt kế %s', // accessory name, value
-    humidityFuture: 'Đang đặt độ ẩm của %s thành %d%…', // accessory name, number
-    noStateValues: '%s phải có ít nhất một trạng thái (Tắt, Sưởi, Làm mát)', // accessory name
-    stateAutoFuture: 'Đang đặt %s thành tự động…', // accessory name
-    stateCool: '%s đang ở chế độ làm mát', // accessory name
-    stateCoolFuture: 'Đang đặt %s sang chế độ làm mát…', // accessory name
-    stateHeat: '%s đang ở chế độ sưởi', // accessory name
-    stateHeatFuture: 'Đang đặt %s sang chế độ sưởi…', // accessory name
-    stateOff: '%s đang tắt', // accessory name
-    stateOffFuture: 'Đang tắt %s…', // accessory name
-    stateUnknown: 'Không xác định được trạng thái của %s', // accessory name
-    temperatureTarget: 'Nhiệt độ mục tiêu của %s là %d°%s', // accessory name, number, units
-    temperatureTargetFuture: 'Đang đặt nhiệt độ mục tiêu của %s thành %d°%s…', // accessory name, number, units
+    badValue: '%s thiếu giá trị cho trạng thái nhiệt kế %s',
+    humidityFuture: 'Đang đặt độ ẩm của %s thành %d%…',
+    noStateValues: '%s phải có ít nhất một trạng thái (Tắt, Sưởi, Làm mát)',
+    stateAutoFuture: 'Đang đặt %s thành tự động…',
+    stateCool: '%s đang ở chế độ làm mát',
+    stateCoolFuture: 'Đang đặt %s sang chế độ làm mát…',
+    stateHeat: '%s đang ở chế độ sưởi',
+    stateHeatFuture: 'Đang đặt %s sang chế độ sưởi…',
+    stateOff: '%s đang tắt',
+    stateOffFuture: 'Đang tắt %s…',
+    stateUnknown: 'Không xác định được trạng thái của %s',
+    temperatureTarget: 'Nhiệt độ mục tiêu của %s là %d°%s',
+    temperatureTargetFuture: 'Đang đặt nhiệt độ mục tiêu của %s thành %d°%s…',
   },
 
   valve: {
-    active: '%s đang hoạt động', // accessory name
-    activeSet: 'Đang đặt %s thành hoạt động…', // accessory name
-    badValveType: '%s có kiểu van không hợp lệ %s. Phải là một trong %s.', // accessory name, value, list of values
-    configured: '%s đã được cấu hình', // accessory name
-    configuredFuture: 'Đang đặt %s thành cấu hình…', // accessory name
-    durationRemaining: '%s còn %d giây', // accessory name
-    inactive: '%s không hoạt động', // accessory name
-    inactiveSet: 'Đang đặt %s thành không hoạt động…', // accessory name
-    inUse: '%s đang được sử dụng', // accessory name
-    notConfigured: '%s chưa được cấu hình', // accessory name
-    notConfiguredFuture: 'Đang đặt %s thành chưa cấu hình…', // accessory name
-    notInUse: '%s không được sử dụng', // accessory name
-    setDuration: 'Thời lượng của %s là %d giây', // accessory name
-    setDurationFuture: '%s sẽ chạy trong %d giây', // accessory name
+    active: '%s đang hoạt động',
+    activeSet: 'Đang đặt %s thành hoạt động…',
+    badValveType: '%s có kiểu van không hợp lệ %s. Phải là một trong %s.',
+    configured: '%s đã được cấu hình',
+    configuredFuture: 'Đang đặt %s thành cấu hình…',
+    durationRemaining: '%s còn %d giây',
+    inactive: '%s không hoạt động',
+    inactiveSet: 'Đang đặt %s thành không hoạt động…',
+    inUse: '%s đang được sử dụng',
+    notConfigured: '%s chưa được cấu hình',
+    notConfiguredFuture: 'Đang đặt %s thành chưa cấu hình…',
+    notInUse: '%s không được sử dụng',
+    setDuration: 'Thời lượng của %s là %d giây',
+    setDurationFuture: '%s sẽ chạy trong %d giây',
   },
 };
 

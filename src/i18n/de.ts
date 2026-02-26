@@ -541,7 +541,7 @@ const overrides = {
     carbonMonoxide: {
       active: '%s hat Kohlenmonoxid erkannt',
       inactive: '%s hat die Erkennung von Kohlenmonoxid gestoppt',
-      level: '%s CO-Gehalt beträgt %d',  // accessory name, number
+      level: '%s CO-Gehalt beträgt %d',
       peakLevel: '%s CO-Spitzenwert beträgt %d',
     },
 
@@ -578,8 +578,6 @@ const overrides = {
 
   startup: {
     complete: '✓ Setup abgeschlossen für %s',
-    failed: '✗ Setup fehlgeschlagen für %s',
-    initializing: 'Initialisiere %s…',
     newAccessory: 'Füge %s hinzu',
     removeAccessory: 'Entferne %s',
     restoringAccessory: 'Stelle %s wieder her',
