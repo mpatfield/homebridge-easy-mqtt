@@ -24,6 +24,7 @@
   "exclude": [
     "eslint.config.ts",
     "node_modules",
-    "src/homebridge-ui/ui.ts"
+    "src/homebridge-ui/ui.ts",
+    "src/i18n/missing"
   ]
 }
