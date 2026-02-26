@@ -1,4 +1,4 @@
-const fr_new = {
+const fr = {
 
   accessory: {
     badType: '%s config variable %s should have type %s but was %s', // accessory name, variable name, type, type
@@ -151,4 +151,4 @@ const fr_new = {
 
 };
 
-export default fr_new;
+export default fr;

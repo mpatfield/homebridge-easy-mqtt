@@ -1,4 +1,4 @@
-const da_new = {
+const da = {
 
   config: {
 
@@ -35,4 +35,4 @@ const da_new = {
 
 };
 
-export default da_new;
+export default da;

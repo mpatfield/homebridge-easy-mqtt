@@ -1,4 +1,4 @@
-const de_new = {
+const de = {
 
   autoReset: {
     reset: 'Resetting timer for %s', // accessory name
@@ -68,4 +68,4 @@ const de_new = {
 
 };
 
-export default de_new;
+export default de;
