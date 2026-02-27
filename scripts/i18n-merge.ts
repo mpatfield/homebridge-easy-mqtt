@@ -58,4 +58,5 @@ for (const language of Object.values(Language)) {
   const mergedFile = `${fileHeader.replaceAll('%s', language)}${content}${fileFooter.replaceAll('%s', language)}`;
 
   fs.writeFileSync(i18nFilePath, mergedFile);
+  fs.unlink(mergePath, ()=>{} );
 }
