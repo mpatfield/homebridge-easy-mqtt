@@ -3,8 +3,6 @@ const da = {
   config: {
 
     enumNames: {
-      celsius: '°C',
-      fahrenheit: '°F',
       hsb: 'HSB (Default)',
       window: 'Window',
     },

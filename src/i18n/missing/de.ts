@@ -18,8 +18,6 @@ const de = {
   config: {
 
     enumNames: {
-      celsius: '°C',
-      fahrenheit: '°F',
       fanv2: 'Fan (v2)',
       hours: 'Hours',
       hsb: 'HSB (Default)',

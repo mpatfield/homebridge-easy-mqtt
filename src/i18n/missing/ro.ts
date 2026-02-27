@@ -36,9 +36,7 @@ const ro = {
   config: {
 
     enumNames: {
-      celsius: '°C',
       doorbell: 'Doorbell',
-      fahrenheit: '°F',
       hours: 'Hours',
       hsb: 'HSB (Default)',
       milliseconds: 'Milliseconds',

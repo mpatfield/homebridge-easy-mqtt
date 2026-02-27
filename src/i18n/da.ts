@@ -120,7 +120,6 @@ const da = {
 
     title: {
       accessory: 'Tilbehør',
-      broker: 'Broker',
       disableLogging: 'Deaktiver logning',
       group: 'Gruppe',
       historyEnabled: 'Aktiver historik',
@@ -245,7 +244,6 @@ const da = {
       topicSetValveSetDuration: 'Sæt Varighed',
       topicSetVolume: 'Sæt Lydstyrke',
       topics: 'Emner',
-      type: 'Type',
       units: 'Enheder',
       username: 'Brugernavn',
       valveType: 'Ventiltype',
@@ -289,7 +287,6 @@ const da = {
       valueLockStateUnsecured: 'Usikret/Låst op*',
       valueLockStateUnsecuredOptional: 'Usikret/Låst op',
       valueLongPress: 'Langt Tryk',
-      valueModeAuto: 'Auto',
       valueModeBlowing: 'Blæser',
       valueModeCool: 'Køl',
       valueModeHeat: 'Varme',
@@ -306,7 +303,6 @@ const da = {
       valueOn: 'Til*',
       valueOutletInUse: 'I Brug',
       valueOutletNotInUse: 'Ikke I Brug',
-      valuePositionHold: 'Hold',
       valuePositionDecreasing: 'Aftagende',
       valuePositionIncreasing: 'Stigende',
       valuePositionObstructed: 'Blokeret',
