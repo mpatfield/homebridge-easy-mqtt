@@ -12,6 +12,8 @@ I recently created a new [Wiki](https://github.com/mpatfield/homebridge-easy-mqt
 
 ### Changed
 - Reworked translation system for easier maintenance — please [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose) if you notice translation issues
+- Traduceri actualizate în limba română. Mulțumesc, [@rursache](https://github.com/sponsors/rursache)!
+- Aktualisierte deutsche Übersetzungen. Danke, [@steffen-micdev](https://github.com/sponsors/steffen-micdev)!
 
 ### Notes
 Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
