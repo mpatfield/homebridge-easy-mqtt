@@ -2,10 +2,10 @@ const de = {
 
   autoReset: {
     reset: 'Resetting timer for %s', // accessory name
-    startMilliseconds: '%s will reset in %s milliseconds…', // accessory name, number
-    startSeconds: '%s will reset in %s seconds…', // accessory name, number
-    startMinutes: '%s will reset in %s minutes…', // accessory name, number
     startHours: '%s will reset in %s hours…', // accessory name, number
+    startMilliseconds: '%s will reset in %s milliseconds…', // accessory name, number
+    startMinutes: '%s will reset in %s minutes…', // accessory name, number
+    startSeconds: '%s will reset in %s seconds…', // accessory name, number
   },
 
   button: {

@@ -5,16 +5,16 @@ const vi = {
   },
 
   active: {
-    rotationValueUpdate: '%s rotation speed set to %d', // accessory name, number
     rotationValueSet: 'Setting %s rotation speed to %d…', // accessory name, number
+    rotationValueUpdate: '%s rotation speed set to %d', // accessory name, number
   },
 
   autoReset: {
     reset: 'Resetting timer for %s', // accessory name
-    startMilliseconds: '%s will reset in %s milliseconds…', // accessory name, number
-    startSeconds: '%s will reset in %s seconds…', // accessory name, number
-    startMinutes: '%s will reset in %s minutes…', // accessory name, number
     startHours: '%s will reset in %s hours…', // accessory name, number
+    startMilliseconds: '%s will reset in %s milliseconds…', // accessory name, number
+    startMinutes: '%s will reset in %s minutes…', // accessory name, number
+    startSeconds: '%s will reset in %s seconds…', // accessory name, number
   },
 
   button: {
@@ -82,12 +82,12 @@ const vi = {
     brightnessValueFuture: 'Setting %s brightness to %d…', // accessory name, number
     muted: '%s is muted', // accessory name, number
     mutedFuture: 'Setting %s to muted', // accessory name
+    unmuted: '%s is unmuted', // accessory name, number
+    unmutedFuture: 'Setting %s to unmuted', // accessory name
     volumePercent: '%s volume is %d%', // accessory name, number
     volumePercentFuture: 'Setting %s volume to %d%…', // accessory name, number
     volumeValue: '%s volume is %d', // accessory name, number
     volumeValueFuture: 'Setting %s volume to %d…', // accessory name, number
-    unmuted: '%s is unmuted', // accessory name, number
-    unmutedFuture: 'Setting %s to unmuted', // accessory name
   },
 
   history: {
@@ -113,8 +113,8 @@ const vi = {
   mqttClient: {
     messageUndefined: 'Message on %s with topic %s was transformed to undefined. Ignoring…', // host, topic
     publishUndefined: 'Nothing to publish to %s with topic %s. Transformed value is undefined.', // host, topic
-    transformFailed: 'Unable to execute transform:',
     transformedValue: 'Transforming value from %s to %s', // number, number
+    transformFailed: 'Unable to execute transform:',
   },
 
   outlet: {

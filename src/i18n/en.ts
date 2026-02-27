@@ -19,10 +19,10 @@ const en = {
     controlsUnlockFuture: 'Setting %s controls to unlocked…', // accessory name
     inactiveSet: 'Setting %s to inactive…', // accessory name
     notActive: '%s is not active', // accessory name
-    rotationPercentUpdate: '%s rotation is %d%', // accessory name, number
     rotationPercentSet: 'Setting %s rotation speed to %d%…', // accessory name, number
-    rotationValueUpdate: '%s rotation speed set to %d', // accessory name, number
+    rotationPercentUpdate: '%s rotation is %d%', // accessory name, number
     rotationValueSet: 'Setting %s rotation speed to %d…', // accessory name, number
+    rotationValueUpdate: '%s rotation speed set to %d', // accessory name, number
     swingEnabled: '%s swing is enabled', // accessory name
     swingEnabledFuture: 'Setting %s swing to enabled…', // accessory name
     swingDisabled: '%s swing is disabled', // accessory name
@@ -31,10 +31,10 @@ const en = {
 
   autoReset: {
     reset: 'Resetting timer for %s', // accessory name
-    startMilliseconds: '%s will reset in %s milliseconds…', // accessory name, number
-    startSeconds: '%s will reset in %s seconds…', // accessory name, number
-    startMinutes: '%s will reset in %s minutes…', // accessory name, number
     startHours: '%s will reset in %s hours…', // accessory name, number
+    startMilliseconds: '%s will reset in %s milliseconds…', // accessory name, number
+    startMinutes: '%s will reset in %s minutes…', // accessory name, number
+    startSeconds: '%s will reset in %s seconds…', // accessory name, number
   },
 
   button: {
@@ -68,9 +68,6 @@ const en = {
 
   config: {
     continue: 'Continue %s', // arrow symbol
-    required: 'Required fields are marked with an asterisk (*)',
-    support: 'For documentation and support please visit %s', // link
-    thankYou: 'Thank you for installing homebridge-easy-mqtt',
 
     description: {
       broker: 'If not supplied, defaults to mqtt://127.0.0.1:1883/',
@@ -112,13 +109,17 @@ const en = {
       temperatureSensor: 'Temperature Sensor',
       thermostat: 'Thermostat',
       valve: 'Valve',
+      valveFaucet: 'Water Faucet',
       valveGeneric: 'Generic',
       valveIrrigation: 'Irrigation',
       valveShower: 'Shower Head',
-      valveFaucet: 'Water Faucet',
       window: 'Window',
       windowCovering: 'Window Covering',
     },
+
+    required: 'Required fields are marked with an asterisk (*)',
+    support: 'For documentation and support please visit %s', // link
+    thankYou: 'Thank you for installing homebridge-easy-mqtt',
 
     title: {
       accessory: 'Accessory',
@@ -156,10 +157,10 @@ const en = {
       topicGetCurrentHeaterCoolerState: 'Get Current Mode*',
       topicGetCurrentHeatingCoolingState: 'Get Current Mode*',
       topicGetCurrentHorizontalTiltAngle: 'Get Horizontal Angle',
-      topicGetCurrentPurifierState: 'Get Current Mode*',
       topicGetCurrentLockState: 'Get Current State*',
       topicGetCurrentLockStateOptional: 'Get Current Lock State',
       topicGetCurrentPosition: 'Get Current Position*',
+      topicGetCurrentPurifierState: 'Get Current Mode*',
       topicGetCurrentRelativeHumidity: 'Get Relative Humidity*',
       topicGetCurrentRelativeHumidityOptional: 'Get Relative Humidity',
       topicGetCurrentSecurityState: 'Get Current State*',
@@ -199,10 +200,10 @@ const en = {
       topicGetTargetHeaterCoolerState: 'Get Target Mode*',
       topicGetTargetHeatingCoolingState: 'Get Target Mode*',
       topicGetTargetHorizontalTiltAngle: 'Get Target Horizontal Angle',
-      topicGetTargetPosition: 'Get Target Position*',
-      topicGetTargetPurifierState: 'Get Target Mode*',
       topicGetTargetLockState: 'Get Target State*',
       topicGetTargetLockStateOptional: 'Get Target Lock State',
+      topicGetTargetPosition: 'Get Target Position*',
+      topicGetTargetPurifierState: 'Get Target Mode*',
       topicGetTargetRelativeHumidity: 'Get Target Humidity',
       topicGetTargetSecurityState: 'Get Target State*',
       topicGetTargetTemperature: 'Get Target Temperature*',
@@ -218,6 +219,7 @@ const en = {
       topicGetVolume: 'Get Volume',
       topicGetWhite: 'Get White',
       topicResetFilterIndication: 'Reset Filter',
+      topics: 'Topics',
       topicSetActive: 'Set Active*',
       topicSetBrightness: 'Set Brightness',
       topicSetColorTemperature: 'Set Color Temperature',
@@ -238,10 +240,10 @@ const en = {
       topicSetTargetHeaterCoolerState: 'Set Target Mode*',
       topicSetTargetHeatingCoolingState: 'Set Target Mode*',
       topicSetTargetHorizontalTiltAngle: 'Set Target Horizontal Angle',
-      topicSetTargetPosition: 'Set Target Position*',
-      topicSetTargetPurifierState: 'Set Target Mode*',
       topicSetTargetLockState: 'Set Target State*',
       topicSetTargetLockStateOptional: 'Set Target Lock State',
+      topicSetTargetPosition: 'Set Target Position*',
+      topicSetTargetPurifierState: 'Set Target Mode*',
       topicSetTargetRelativeHumidity: 'Set Target Humidity ',
       topicSetTargetSecurityState: 'Set Target State*',
       topicSetTargetTemperature: 'Set Target Temperature*',
@@ -251,12 +253,11 @@ const en = {
       topicSetValveSetDuration: 'Set Duration',
       topicSetVolume: 'Set Volume',
       topicSetWhite: 'Set White',
-      topics: 'Topics',
       type: 'Type',
       units: 'Units',
       username: 'Username',
-      valveType: 'Valve Type',
       valueActive: 'Active*',
+      valveType: 'Valve Type',
       valueAlarmTriggered: 'Triggered',
       valueAQExcellent: 'AQ Excellent',
       valueAQFair: 'AQ Fair',
@@ -313,22 +314,22 @@ const en = {
       valueOn: 'On*',
       valueOutletInUse: 'In Use',
       valueOutletNotInUse: 'Not In Use',
-      valuePositionHold: 'Hold',
       valuePositionDecreasing: 'Decreasing',
+      valuePositionHold: 'Hold',
       valuePositionIncreasing: 'Increasing',
       valuePositionObstructed: 'Obstructed',
       valuePositionResume: 'Resume',
       valuePositionStopped: 'Stopped',
+      values: 'Values',
       valueSinglePress: 'Single Press',
       valueSmokeDetected: 'Smoke Detected*',
       valueStateActive: 'State Active*',
       valueStateInactive: 'State Inactive*',
       valueStatusActive: 'Available/Reachable',
-      valueSwingEnabled: 'Swing Enabled',
       valueSwingDisabled: 'Swing Disabled',
+      valueSwingEnabled: 'Swing Enabled',
       valueTampered: 'Tampered',
       valueUnmuted: 'Unmuted',
-      values: 'Values',
       verbose: 'Additional Logging',
     },
   },
@@ -340,12 +341,12 @@ const en = {
     brightnessValueFuture: 'Setting %s brightness to %d…', // accessory name, number
     muted: '%s is muted', // accessory name, number
     mutedFuture: 'Setting %s to muted', // accessory name
+    unmuted: '%s is unmuted', // accessory name, number
+    unmutedFuture: 'Setting %s to unmuted', // accessory name
     volumePercent: '%s volume is %d%', // accessory name, number
     volumePercentFuture: 'Setting %s volume to %d%…', // accessory name, number
     volumeValue: '%s volume is %d', // accessory name, number
     volumeValueFuture: 'Setting %s volume to %d…', // accessory name, number
-    unmuted: '%s is unmuted', // accessory name, number
-    unmutedFuture: 'Setting %s to unmuted', // accessory name
   },
 
   error: {
@@ -452,19 +453,19 @@ const en = {
     connected: 'Connected to %s and listening for updates…', // host
     connectionClosed: 'Closed connection to %s', // host
     error: 'Client error on %s', // host
+    messageUndefined: 'Message on %s with topic %s was transformed to undefined. Ignoring…', // host, topic
     new: '%s creating a new client with id %s', // accessory name, uuid
     noListeners: 'No listeners on %s for topic %s', // host, topic
     notConnected: 'Client not connected to %s', // host
-    messageUndefined: 'Message on %s with topic %s was transformed to undefined. Ignoring…', // host, topic
     parseFailed: 'Failed to parse message on %s', // host
     publish: 'Publishing to %s', // host
     publishUndefined: 'Nothing to publish to %s with topic %s. Transformed value is undefined.', // host, topic
-    reuse: '%s reusing existing client with id %s', // accessory name, uuid
     receivedMessage: 'Received message on %s with topic %s', // host, topic
     reconnectMinutes: 'Will attempt to reconnect to %s in %s minutes…', // host, number
     reconnectSeconds: 'Will attempt to reconnect to %s in %s seconds…', // host, number
-    transformFailed: 'Unable to execute transform:',
+    reuse: '%s reusing existing client with id %s', // accessory name, uuid
     transformedValue: 'Transforming value from %s to %s', // number, number
+    transformFailed: 'Unable to execute transform:',
   },
 
   onOff: {
