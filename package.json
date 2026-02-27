@@ -4,7 +4,7 @@
   "displayName": "Homebridge Easy MQTT",
   "description": "Homebridge plugin for MQTT devices",
   "type": "module",
-  "version": "1.5.11-beta.0",
+  "version": "1.5.11-beta.1",
   "homepage": "https://github.com/mpatfield/homebridge-easy-mqtt#readme",
   "repository": {
     "type": "git",
@@ -23,7 +23,11 @@
     "build:html": "node --import tsx ./scripts/build-html.ts",
     "build:schemas": "node --import tsx ./scripts/build-schemas.ts",
     "build:ui": "esbuild src/homebridge-ui/ui.ts --bundle --outfile=dist/homebridge-ui/public/ui.js --minify",
-    "lint": "eslint . --max-warnings=0",
+    "i18n": "npm run i18n:merge && npm run i18n:clean && npm run i18n:missing",
+    "i18n:clean": "node --import tsx ./scripts/i18n-clean.ts",
+    "i18n:merge": "node --import tsx ./scripts/i18n-merge.ts",
+    "i18n:missing": "node --import tsx ./scripts/i18n-missing.ts",
+    "lint": "eslint . --fix --max-warnings=0",
     "prepublishOnly": "npm run lint && npm run build"
   },
   "keywords": [
