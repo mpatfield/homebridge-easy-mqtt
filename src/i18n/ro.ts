@@ -7,6 +7,7 @@ const ro = {
     missingRequired: '%s lipsește variabila de configurare necesară %s',
     statusActive: '%s este acum disponibil',
     statusInactive: '%s este indisponibil',
+    badType: 'Variabila de configurare %s a lui %s ar trebui să fie de tipul %s, dar a fost %s',
   },
 
   active: {
@@ -24,12 +25,15 @@ const ro = {
     swingDisabledFuture: 'Se dezactivează oscilarea %s…',
     swingEnabled: 'Oscilarea %s este activată',
     swingEnabledFuture: 'Se activează oscilarea %s…',
+    rotationValueSet: 'Se setează viteza de rotație a lui %s la %d…',
+    rotationValueUpdate: 'Viteza de rotație a lui %s setată la %d',
   },
 
   characteristic: {
     badValue: '%s aștepta un număr pentru %s dar a primit %s',
     outOfRange: '%s încearcă să seteze %s la %s care este în afara intervalului permis. Se setează la %s.',
     updated: '%s a actualizat %s cu valoarea %s',
+    unknownValue: '%s nu poate determina starea booleană din %s. Se ignoră…',
   },
 
   climate: {
@@ -85,6 +89,15 @@ const ro = {
       valveShower: 'Cap de duș',
       valveFaucet: 'Robinet de apă',
       windowCovering: 'Acoperire fereastră',
+      doorbell: 'Sonerie',
+      hours: 'Ore',
+      hsb: 'HSB (Implicit)',
+      milliseconds: 'Milisecunde',
+      minutes: 'Minute',
+      seconds: 'Secunde',
+      statelessSwitch: 'Comutator fără stare',
+      valveGeneric: 'Generic',
+      window: 'Fereastră',
     },
 
     title: {
@@ -271,6 +284,32 @@ const ro = {
       valueTampered: 'Manipulat',
       values: 'Valori',
       verbose: 'Înregistrare suplimentară',
+      broker: 'Broker',
+      colorType: 'Tip culoare',
+      historyEnabled: 'Activare istoric',
+      maximum: 'Maxim',
+      time: 'Întârziere resetare automată',
+      topicEventButtonPress: 'Apăsare buton*',
+      topicGetCurrentConsumption: 'Obține Wați (doar Eve)',
+      topicGetElectricCurrent: 'Obține Amperi (doar Eve)',
+      topicGetMuted: 'Obține starea de mut',
+      topicGetRGB: 'Obține RGB',
+      topicGetTotalConsumption: 'Obține kWh (doar Eve)',
+      topicGetVoltage: 'Obține Voltaj (doar Eve)',
+      topicGetVolume: 'Obține Volum',
+      topicGetWhite: 'Obține Alb',
+      topicSetMuted: 'Setare Mut',
+      topicSetRGB: 'Setare RGB',
+      topicSetVolume: 'Setare Volum',
+      topicSetWhite: 'Setare Alb',
+      units: 'Unități',
+      valueDoublePress: 'Apăsare dublă',
+      valueLongPress: 'Apăsare lungă',
+      valueModeAuto: 'Automat',
+      valueModeManual: 'Manual',
+      valueMuted: 'Mut',
+      valueSinglePress: 'Apăsare simplă',
+      valueUnmuted: 'Cu sunet',
     },
   },
 
@@ -343,6 +382,16 @@ const ro = {
     hueFuture: 'Se setează nuanța %s la %d°…',
     saturation: 'Saturația %s este %d%%',
     saturationFuture: 'Se setează saturația %s la %d%%…',
+    badColorType: '%s are tipul de culoare invalid %s. Trebuie să fie unul dintre: %s',
+    badHexValue: '%s așteaptă valori hex %s, dar a primit %s',
+    badRGBType: '%s așteaptă valoare RGB de tipul %s, dar a primit %s',
+    badRGBValue: '%s așteaptă o valoare RGB de forma %s, dar a primit %s',
+    badWhiteType: '%s nu poate determina valoarea de alb din %s',
+    badWhiteValue: '%s așteaptă o valoare de alb de forma %s, dar a primit %s',
+    brightnessValue: 'Luminozitatea %s este %d',
+    brightnessValueFuture: 'Se setează luminozitatea %s la %d…',
+    rgbFuture: 'Se setează RGB-ul %s la %s…',
+    whiteFuture: 'Se setează albul %s la %s…',
   },
 
   lock: {
@@ -370,6 +419,10 @@ const ro = {
     receivedMessage: 'Mesaj primit pe %s cu subiectul %s',
     reconnectMinutes: 'Se va încerca reconectarea la %s în %s minute…',
     reconnectSeconds: 'Se va încerca reconectarea la %s în %s secunde…',
+    messageUndefined: 'Mesajul pe %s cu topicul %s a fost transformat în undefined. Se ignoră…',
+    publishUndefined: 'Nu există nimic de publicat pe %s cu topicul %s. Valoarea transformată este undefined.',
+    transformedValue: 'Se transformă valoarea din %s în %s',
+    transformFailed: 'Nu s-a putut executa transformarea:',
   },
 
   onOff: {
@@ -383,6 +436,11 @@ const ro = {
     badValue: '%s nu poate obține starea în-uz pentru %s',
     inUse: '%s este în uz',
     notInUse: '%s nu este în uz',
+    currentConsumption: 'Consumul %s este %dW',
+    electricCurrent: 'Curentul %s este %dA',
+    totalConsumption: 'Consumul %s este %dkWh',
+    totalConsumptionReset: 'Consumul %s a fost resetat',
+    voltage: 'Tensiunea %s este %dV',
   },
 
   position: {
@@ -405,6 +463,12 @@ const ro = {
     stateStopped: 'Poziția %s este oprită',
     unknownValue: '%s nu poate determina starea poziției din valoarea %s. Se ignoră…',
     unobstructed: '%s nu este obstrucționat',
+    currentPercent: 'Poziția curentă a lui %s este %d%',
+    currentValue: 'Poziția curentă a lui %s este %d',
+    targetPercent: 'Poziția țintă a lui %s este %d%',
+    targetPercentSet: 'Se setează poziția țintă a lui %s la %d%…',
+    targetValue: 'Poziția țintă a lui %s este %d',
+    targetValueSet: 'Se setează poziția țintă a lui %s la %d…',
   },
 
   purifier: {
@@ -436,6 +500,7 @@ const ro = {
   },
 
   sensor: {
+
     air: {
       noStateValues: '%s trebuie să aibă cel puțin o valoare de stare definită (Excelentă, Bună, Acceptabilă, Inferioară, Slabă)',
       densityNitrogen: 'Densitatea de azot %s este %d µg/m³',
@@ -470,6 +535,7 @@ const ro = {
     contact: {
       active: '%s a detectat contact',
       inactive: '%s a oprit detectarea contactului',
+      timesOpenedReset: 'Contorul de deschideri al lui %s a fost resetat',
     },
 
     leak: {
@@ -541,6 +607,48 @@ const ro = {
     notInUse: '%s nu este în uz',
     setDuration: 'Durata setată %s este %d secunde',
     setDurationFuture: '%s va rula %d secunde',
+  },
+
+  autoReset: {
+    reset: 'Se resetează cronometrul pentru %s',
+    startHours: '%s se va reseta în %s ore…',
+    startMilliseconds: '%s se va reseta în %s milisecunde…',
+    startMinutes: '%s se va reseta în %s minute…',
+    startSeconds: '%s se va reseta în %s secunde…',
+  },
+
+  button: {
+    doublePress: '%s a fost apăsat dublu',
+    doublePressValue: '%s a fost apăsat dublu (%s)',
+    duplicateValues: 'Valorile de apăsare ale %s trebuie să fie unice',
+    longPress: '%s a fost apăsat lung',
+    longPressValue: '%s a fost apăsat lung (%s)',
+    noValues: '%s trebuie să aibă cel puțin o valoare de eveniment definită (Apăsare simplă, Apăsare dublă, Apăsare lungă)',
+    singlePress: '%s a fost apăsat simplu',
+    singlePressValue: '%s a fost apăsat simplu (%s)',
+    unknownValue: '%s nu poate determina evenimentul de apăsare a butonului din valoarea %s. Se ignoră…',
+  },
+
+  doorbell: {
+    brightnessPercent: 'Luminozitatea %s este %d%',
+    brightnessPercentFuture: 'Se setează luminozitatea %s la %d%…',
+    brightnessValue: 'Luminozitatea %s este %d',
+    brightnessValueFuture: 'Se setează luminozitatea %s la %d…',
+    muted: '%s este pe mut',
+    mutedFuture: 'Se pune %s pe mut',
+    unmuted: '%s nu este pe mut',
+    unmutedFuture: 'Se scoate %s de pe mut',
+    volumePercent: 'Volumul %s este %d%',
+    volumePercentFuture: 'Se setează volumul %s la %d%…',
+    volumeValue: 'Volumul %s este %d',
+    volumeValueFuture: 'Se setează volumul %s la %d…',
+  },
+
+  history: {
+    cleanup: 'Se elimină istoricul pentru %s',
+    cleanupFailed: 'Nu s-a putut elimina istoricul pentru %s. Încercați să eliminați manual fișierul %s din directorul \'persist\' al Homebridge.',
+    entry: '%s înregistrare în istoric:',
+    updatedCharacteristic: '%s a actualizat %s cu valoarea %s',
   },
 };
 

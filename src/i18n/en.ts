@@ -434,7 +434,7 @@ const en = {
     rgbFuture: 'Setting %s RGB to %s…', // accessory name, value
     saturation: '%s saturation is %d%', // accessory name, number
     saturationFuture: 'Setting %s saturation to %d%…', // accessory name, number
-    whiteFuture: 'Setting &s white to %s…', // accessory name, value
+    whiteFuture: 'Setting %s white to %s…', // accessory name, value
   },
 
   lock: {
