@@ -28,7 +28,7 @@ const da = {
     badWhiteType: '%s is unable to deterine white value from %s',  // accessory name, input
     badWhiteValue: '%s is expecting white value like %s but received %s', // accessory name, example, input
     rgbFuture: 'Setting %s RGB to %s…', // accessory name, value
-    whiteFuture: 'Setting &s white to %s…', // accessory name, value
+    whiteFuture: 'Setting %s white to %s…', // accessory name, value
   },
 
 };

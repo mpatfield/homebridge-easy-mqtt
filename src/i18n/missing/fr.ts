@@ -111,7 +111,7 @@ const fr = {
     brightnessValue: '%s brightness is %d', // accessory name, number
     brightnessValueFuture: 'Setting %s brightness to %d…', // accessory name, number
     rgbFuture: 'Setting %s RGB to %s…', // accessory name, value
-    whiteFuture: 'Setting &s white to %s…', // accessory name, value
+    whiteFuture: 'Setting %s white to %s…', // accessory name, value
   },
 
   mqttClient: {
