@@ -15,7 +15,7 @@ const mergeDir = path.join(__dirname, '../src/i18n/merge');
 const i18nPath = path.join(__dirname, '../src/i18n/');
 
 const fileHeader = 'const %s = ';
-const fileFooter = ';\n\nexport default %s;';
+const fileFooter = ';\n\nexport default %s;\n';
 
 function sort(strings: Strings): Strings {
   if (Array.isArray(strings)) {
