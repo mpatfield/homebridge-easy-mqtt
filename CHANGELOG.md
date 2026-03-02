@@ -15,6 +15,7 @@ I recently created a new [Wiki](https://github.com/mpatfield/homebridge-easy-mqt
 - Traductions françaises mises à jour. Merci, [@7ute](https://github.com/sponsors/7ute)!
 - Aktualisierte deutsche Übersetzungen. Danke, [@steffen-micdev](https://github.com/sponsors/steffen-micdev)!
 - Traduceri actualizate în limba română. Mulțumesc, [@rursache](https://github.com/sponsors/rursache)!
+- Bản dịch tiếng Việt được cập nhật. Cảm ơn [@khanhnd88](https://github.com/sponsors/khanhnd88)!
 
 ### Notes
 Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
