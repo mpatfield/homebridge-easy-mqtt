@@ -40,7 +40,7 @@ const __dirname = path.dirname(__filename);
 const homebridgeUIDir = path.join(__dirname, '../src/homebridge-ui');
 
 const scriptPath = path.join(homebridgeUIDir, 'ui.ts');
-const scriptFile = fs.readFileSync(scriptPath, 'utf8').replace(/{ __I18N_REPLACE__ :.*}/g, JSON.stringify(strings, null, 2)); // TODO remove null,2
+const scriptFile = fs.readFileSync(scriptPath, 'utf8').replace(/{ __I18N_REPLACE__ :.*}/g, JSON.stringify(strings));
 
 const script = (await esbuild.build({
   stdin: {
