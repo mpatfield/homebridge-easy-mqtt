@@ -67,6 +67,7 @@ const de = {
   },
 
   config: {
+    accessory: 'Zubehör',
     continue: 'Setze %s fort',
 
     description: {
@@ -118,7 +119,7 @@ const de = {
     },
     required: 'Erforderliche Felder sind mit einem Sternchen (*) gekennzeichnet',
     support: 'Für Dokumentation und Unterstützung besuchen Sie bitte %s',
-    thankYou: 'Danke, dass Sie homebridge-easy-mqtt installiert haben',
+    thankYou: 'Danke, dass Sie %s installiert haben',
 
     title: {
       accessory: 'Zubehör',

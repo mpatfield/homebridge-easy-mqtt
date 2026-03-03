@@ -67,6 +67,7 @@ const ro = {
   },
 
   config: {
+    accessory: 'Accesoriu',
     continue: 'Continuă %s',
 
     description: {
@@ -118,7 +119,7 @@ const ro = {
     },
     required: 'Câmpurile obligatorii sunt marcate cu asterisc (*)',
     support: 'Pentru documentație și suport, vă rugăm să vizitați %s',
-    thankYou: 'Vă mulțumim că ați instalat homebridge-easy-mqtt',
+    thankYou: 'Vă mulțumim că ați instalat %s',
 
     title: {
       accessory: 'Accesoriu',

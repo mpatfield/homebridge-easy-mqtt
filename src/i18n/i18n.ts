@@ -52,7 +52,7 @@ export function setLanguage(configPath: string) {
   currentLanguage = isoLang in Translations ? isoLang as Language : Language.EN;
 }
 
-export type Translation = typeof en;
+type Translation = typeof en;
 
 export function getTranslation(language: Language): Record<string, string | object> {
   return Translations[language] ?? {};

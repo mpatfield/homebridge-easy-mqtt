@@ -67,10 +67,11 @@ const da = {
   },
 
   config: {
+    accessory: 'Tilbehør',
     continue: 'Fortsæt %s',
     required: 'Påkrævede felter er markeret med en stjerne (*)',
     support: 'For dokumentation og support besøg venligst %s',
-    thankYou: 'Tak fordi du installerede homebridge-easy-mqtt',
+    thankYou: 'Tak fordi du installerede %s',
 
     description: {
       broker: 'Hvis ikke angivet, bruges standard mqtt://127.0.0.1:1883/',

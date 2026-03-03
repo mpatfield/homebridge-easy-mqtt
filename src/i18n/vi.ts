@@ -67,6 +67,7 @@ const vi = {
   },
 
   config: {
+    accessory: 'Thiết bị',
     continue: 'Tiếp tục %s',
 
     description: {
@@ -118,7 +119,7 @@ const vi = {
     },
     required: 'Các trường bắt buộc được đánh dấu bằng dấu hoa thị (*)',
     support: 'Xem tài liệu và hỗ trợ tại %s',
-    thankYou: 'Cảm ơn bạn đã cài đặt homebridge-easy-mqtt',
+    thankYou: 'Cảm ơn bạn đã cài đặt %s',
 
     title: {
       accessory: 'Thiết bị',

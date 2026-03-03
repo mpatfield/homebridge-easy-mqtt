@@ -1,17 +1,12 @@
 import { IHomebridgePluginUi } from '@homebridge/plugin-ui-utils/ui.interface';
 
-import { Translation } from '../i18n/i18n.js';
-
 import { AccessoryType } from '../model/enums.js';
 import { LockConfig, PlatformConfig } from '../model/types.js';
 
 declare const homebridge: IHomebridgePluginUi;
 
-const i18n_replacements = {
-  arrow: '&rarr;',
-  easy_mqtt: 'Easy MQTT',
-  github: '<a target="_blank" href="https://github.com/mpatfield/homebridge-easy-mqtt/">GitHub</a>',
-};
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let strings: any = { __I18N_REPLACE__ : '' };
 
 function getParentDocument(): Document | undefined {
   try {
@@ -22,21 +17,14 @@ function getParentDocument(): Document | undefined {
   }
 }
 
-function translateHtml(strings: Translation) {
+function translateHtml() {
   document.querySelectorAll('[i18n]').forEach(element => {
-
-    const key = element.getAttribute('i18n') as keyof typeof strings.config;
-    let string = strings.config[key] as string;
-
-    const token = element.getAttribute('i18n_replace') as keyof typeof i18n_replacements;
-    if (token) {
-      string = string.replace('%s', i18n_replacements[token]);
-    }
-    element.innerHTML = string;
+    const key = element.getAttribute('i18n') as string;
+    element.innerHTML = strings[key];
   });
 };
 
-function updateAccessoryNames(strings: Translation) {
+function updateAccessoryNames() {
 
   const parentDocument = getParentDocument();
   if (!parentDocument) {
@@ -48,12 +36,12 @@ function updateAccessoryNames(strings: Translation) {
   for(const legend of legends) {
     const fieldset = legend.closest('fieldset');
     const input = fieldset?.querySelector('input[type="text"][name="name"]') as HTMLInputElement | null;
-    if (input && legend.textContent !== (input.value || strings.config.title.accessory)) {
-      legend.textContent = input.value !== '' ? input.value : strings.config.title.accessory;
+    if (input && legend.textContent !== (input.value || strings.accessory)) {
+      legend.textContent = input.value !== '' ? input.value : strings.accessory;
     }
 
     if (input && !input.dataset.accessoryNameListener) {
-      input.addEventListener('input', () => updateAccessoryNames(strings));
+      input.addEventListener('input', () => updateAccessoryNames());
       input.dataset.accessoryNameListener = 'true';
     }
   }
@@ -89,7 +77,7 @@ function updateConfigWithUUIDs(config: PlatformConfig) {
   let changed = false;
 
   config.accessories?.forEach( (accessoryConfig) => {
-    if (accessoryConfig.info.id === undefined) {
+    if (accessoryConfig.info && !accessoryConfig.info.id) {
       const id = generateUUID();
       accessoryConfig.info.id = id;
       changed = true;
@@ -139,7 +127,7 @@ async function migrateDeprecatedConfigFields(configs: PlatformConfig[]) {
   }
 }
 
-function showSettings(strings: Translation) {
+function showSettings() {
   document.getElementById('pageIntro')!.style.display = 'none';
   document.getElementById('support')!.style.display = 'block';
   document.getElementById('footer')!.style.display = 'block';
@@ -148,7 +136,7 @@ function showSettings(strings: Translation) {
   if (parentDocument) {
 
     const observer = new MutationObserver(() => {
-      updateAccessoryNames(strings);
+      updateAccessoryNames();
     });
 
     observer.observe(
@@ -169,10 +157,10 @@ function showSettings(strings: Translation) {
   homebridge.enableSaveButton();
 }
 
-function showIntro(strings: Translation) {
+function showIntro() {
   const introContinue = document.getElementById('introContinue') as HTMLButtonElement;
   introContinue.addEventListener('click', async () => {
-    showSettings(strings);
+    showSettings();
   });
   document.getElementById('pageIntro')!.style.display = 'block';
   homebridge.hideSpinner();
@@ -186,15 +174,15 @@ function showIntro(strings: Translation) {
 (async () => {
 
   const language = await homebridge.i18nCurrentLang();
-  const strings = await homebridge.request('i18n', language);
-  translateHtml(strings);
+  strings = (language in strings) ? strings[language] : strings.en;
+  translateHtml();
 
   const config = await homebridge.getPluginConfig() as PlatformConfig[];
   if (config.length) {
     await migrateDeprecatedConfigFields(config);
-    showSettings(strings);
+    showSettings();
   } else {
-    await homebridge.updatePluginConfig([{ name: i18n_replacements.easy_mqtt }]);
-    showIntro(strings);
+    await homebridge.updatePluginConfig([{ name: 'Easy MQTT' }]);
+    showIntro();
   }
 })();

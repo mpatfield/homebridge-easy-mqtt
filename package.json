@@ -19,10 +19,9 @@
   },
   "main": "dist/homebridge/index.js",
   "scripts": {
-    "build": "rimraf ./dist && tsc && npm run build:html && npm run build:schemas && npm run build:ui",
+    "build": "rimraf ./dist ./schemas ./config.schema.json && tsc && npm run build:html && npm run build:schemas",
     "build:html": "node --import tsx ./scripts/build-html.ts",
     "build:schemas": "node --import tsx ./scripts/build-schemas.ts",
-    "build:ui": "esbuild src/homebridge-ui/ui.ts --bundle --outfile=dist/homebridge-ui/public/ui.js --minify",
     "i18n": "npm run i18n:merge && npm run i18n:clean && npm run i18n:missing",
     "i18n:clean": "node --import tsx ./scripts/i18n-clean.ts",
     "i18n:merge": "node --import tsx ./scripts/i18n-merge.ts",

@@ -26,10 +26,11 @@ const it = {
   },
 
   config: {
+    accessory: 'Accessorio',
     continue: 'Continua %s',
     required: 'I campi obbligatori sono contrassegnati con un asterisco (*)',
     support: 'Per documentazione e supporto visita %s',
-    thankYou: 'Grazie per aver installato homebridge-easy-mqtt',
+    thankYou: 'Grazie per aver installato %s',
 
     description: {
       broker: 'Se non fornito, di default mqtt://127.0.0.1:1883/',

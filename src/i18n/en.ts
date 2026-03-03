@@ -67,6 +67,7 @@ const en = {
   },
 
   config: {
+    accessory: 'Accessory',
     continue: 'Continue %s', // arrow symbol
 
     description: {
@@ -119,7 +120,7 @@ const en = {
 
     required: 'Required fields are marked with an asterisk (*)',
     support: 'For documentation and support please visit %s', // link
-    thankYou: 'Thank you for installing homebridge-easy-mqtt',
+    thankYou: 'Thank you for installing %s', // plugin name
 
     title: {
       accessory: 'Accessory',
