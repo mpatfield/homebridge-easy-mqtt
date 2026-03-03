@@ -2,7 +2,7 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.11-beta.1 (2026-02-20)
+## 1.5.11-beta.2 (2026-03-03)
 
 ### Help Requested
 I recently created a new [Wiki](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Migrating-from-MQTTThing) to provide config examples for users migrating from MQTTThing. If you have an example of old/new config you'd be willing to share, please [post a message on Discord](https://discord.gg/gcGd6t7v) or [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
@@ -16,6 +16,7 @@ I recently created a new [Wiki](https://github.com/mpatfield/homebridge-easy-mqt
 - Aktualisierte deutsche Übersetzungen. Danke, [@steffen-micdev](https://github.com/sponsors/steffen-micdev)!
 - Traduceri actualizate în limba română. Mulțumesc, [@rursache](https://github.com/sponsors/rursache)!
 - Bản dịch tiếng Việt được cập nhật. Cảm ơn [@khanhnd88](https://github.com/sponsors/khanhnd88)!
+- Opdaterede danske oversættelser. Tak [@EjvindHald](https://github.com/sponsors/EjvindHald)!
 
 ### Notes
 Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
