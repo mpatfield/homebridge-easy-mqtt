@@ -8,7 +8,7 @@
   "homepage": "https://github.com/mpatfield/homebridge-easy-mqtt#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mpatfield/homebridge-easy-mqtt.git"
+    "url": "git+https://github.com/mpatfield/homebridge-easy-mqtt.git"
   },
   "funding": {
     "type": "github",
