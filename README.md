@@ -37,6 +37,10 @@ Lots more details about Homebridge Easy MQTT can be found on the [wiki](https://
 
 [@nehmeroumani](https://github.com/nehmeroumani) for contributing Value Transformers to Easy MQTT
 
+[@EjvindHald](https://github.com/sponsors/EjvindHald) for Danish translations
+
+[@7ute](https://github.com/sponsors/7ute) for French translations
+
 [@steffen-micdev](https://github.com/sponsors/steffen-micdev) for German translations
 
 [@Shikaban](https://github.com/sponsors/Shikaban) for Italian translations
@@ -44,10 +48,6 @@ Lots more details about Homebridge Easy MQTT can be found on the [wiki](https://
 [@rursache](https://github.com/sponsors/rursache) for Romanian translations
 
 [@khanhnd88](https://github.com/sponsors/khanhnd88) for Vietnamese translations
-
-[@7ute](https://github.com/sponsors/7ute) for French translations
-
-Danish translations by Gemini, reviewed by [@EjvindHald](https://github.com/sponsors/EjvindHald)
 
 [Keryan Belahcene](https://www.instagram.com/keryan.me) for creating the [Flume](https://github.com/homebridge-plugins/homebridge-flume) header logo which I adapted for this plugin
 
