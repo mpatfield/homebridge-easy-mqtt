@@ -33,6 +33,7 @@ export enum AccessoryType {
 }
 
 export enum AddonType {
+  Battery = 'Battery',
   FilterMaintenance = 'FilterMaintenance',
 }
 

@@ -39,8 +39,10 @@ export type TimeoutConfig = Assertable & {
   units: TimeUnits
 }
 
-export type AutoResetConfig = {
-  autoReset?: TimeoutConfig,
+export type BatteryConfig = AddonConfig & {
+  topicGetBatteryLevel?: string,
+  topicGetBatteryLow?: string,
+  valueBatteryLow?: string,
 }
 
 export type FilterMaintenanceConfig = AddonConfig & {
@@ -108,13 +110,14 @@ export type CustomCharacteristicConfig = Assertable & {
   units?: string,
 }
 
-export type BaseAccessoryConfig = MQTTAccessoryConfig & {
+export type BaseAccessoryConfig = MQTTAccessoryConfig & BatteryConfig & {
   info: AdditionalInfoConfig,
-  topicGetBatteryLevel?: string,
-  topicGetBatteryLow?: string,
   topicGetStatusActive?: string,
-  valueBatteryLow?: string,
   valueStatusActive?: string,
+}
+
+export type AutoResetConfig = {
+  autoReset?: TimeoutConfig,
 }
 
 export type OnOffConfig = BaseAccessoryConfig & AutoResetConfig & {

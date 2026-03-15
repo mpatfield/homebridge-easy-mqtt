@@ -2,10 +2,18 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.11 (2026-03-10)
+## 1.5.12-beta.0 (2026-03-15)
 
 ### Help Requested
 This [Wiki](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Migrating-from-MQTTThing) provides config examples for users migrating from MQTTThing. If you have an example of old/new config you'd be willing to share, please [post a message on Discord](https://discord.gg/fdc46U7Kjv) or [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
+
+### Changed
+- Better handling of battery topics — current battery level will now be displayed in the Home app
+
+### Notes
+Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
+
+## 1.5.11 (2026-03-10)
 
 ### Added
 - [`Window`](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Window) accessory type
@@ -17,9 +25,6 @@ This [Wiki](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Migrating-fro
 - Traduceri actualizate în limba română. Mulțumesc, [@rursache](https://github.com/sponsors/rursache)!
 - Bản dịch tiếng Việt được cập nhật. Cảm ơn [@khanhnd88](https://github.com/sponsors/khanhnd88)!
 - Opdaterede danske oversættelser. Tak [@EjvindHald](https://github.com/sponsors/EjvindHald)!
-
-### Notes
-Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
 
 ## 1.5.10 (2026-02-18)
 

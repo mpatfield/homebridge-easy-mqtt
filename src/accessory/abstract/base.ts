@@ -1,8 +1,10 @@
 import { MQTTAccessory } from './mqtt.js';
 
-import { PLATFORM_NAME } from '../../homebridge/settings.js';
+import { Battery } from '../addons/battery.js';
 
 import { isOptionalHKCharacteristic } from '../characteristic/characteristic.js';
+
+import { PLATFORM_NAME } from '../../homebridge/settings.js';
 
 import { strings } from '../../i18n/i18n.js';
 
@@ -27,21 +29,14 @@ export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessor
       .setCharacteristic(dependency.Characteristic.FirmwareRevision, dependency.config.info.version ?? getVersion());
     }
 
-    this.setup(HKCharacteristicKey.BatteryLevel, 100,
-      'topicGetBatteryLevel', this.bindOnUpdateNumeric(HKCharacteristicKey.BatteryLevel, strings.accessory.batteryLevel), false);
-
-    this.setup(HKCharacteristicKey.StatusLowBattery, dependency.Characteristic.StatusLowBattery.BATTERY_LEVEL_NORMAL,
-      'topicGetBatteryLow',
-      this.bindOnUpdateBooleanSingle(HKCharacteristicKey.StatusLowBattery, 'valueBatteryLow',
-        strings.accessory.batteryLow, strings.accessory.batteryNotLow, LogType.WARNING),
-      false,
-    );
 
     this.setup(HKCharacteristicKey.StatusActive, true,
       'topicGetStatusActive',
       this.bindOnUpdateBooleanSingle(HKCharacteristicKey.StatusActive, 'valueStatusActive',
         strings.accessory.statusActive, strings.accessory.statusInactive, LogType.ALWAYS, LogType.WARNING),
       false);
+
+    this.addTopicHandlers(Battery.topicHandlers(dependency.Service, this, dependency.config));
   }
 
   override isOptionalCharacteristic(key: CharacteristicKey): boolean {

@@ -1,13 +1,13 @@
 import { PrimitiveTypes, Service } from 'homebridge';
 
 import { Common } from '../abstract/common.js';
+import { MQTTAccessory } from '../abstract/mqtt.js';
 
 import { AddonType } from '../../model/enums.js';
 import { AddonConfig, CharacteristicType, MQTTAccessoryConfig } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
 import { assert } from '../../tools/validation.js';
-import { MQTTAccessory } from '../abstract/mqtt.js';
 
 type AddonConstructor<C extends AddonConfig, A extends Addon<C>> =
   new (
