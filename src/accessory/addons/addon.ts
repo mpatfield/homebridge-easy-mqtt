@@ -7,7 +7,6 @@ import { AddonType } from '../../model/enums.js';
 import { AddonConfig, CharacteristicType, MQTTAccessoryConfig } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
-import { assert } from '../../tools/validation.js';
 
 type AddonConstructor<C extends AddonConfig, A extends Addon<C>> =
   new (
@@ -24,13 +23,13 @@ export abstract class Addon<C extends AddonConfig> extends Common<C> {
     parentAccessory: MQTTAccessory<MQTTAccessoryConfig>,
     addonServiceInstance: AddonServiceType,
     config: C,
-    required: (keyof C)[],
+    keys: (keyof C)[],
     constructor: AddonConstructor<C, A>,
   ): A | undefined {
 
     const existingAddonService = parentAccessory.platformAccessory.getService(addonServiceInstance);
 
-    if (required.filter( (key) => config[key] !== undefined ).length === 0 || !assert(parentAccessory.log, parentAccessory.name, config, ...required)) {
+    if (keys.filter( (key) => config[key] !== undefined ).length === 0) {
       if (existingAddonService !== undefined) {
         parentAccessory.platformAccessory.removeService(existingAddonService);
       }
