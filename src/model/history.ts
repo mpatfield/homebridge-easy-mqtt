@@ -79,7 +79,7 @@ export class History {
       return false;
     }
 
-    const historyService = this.historyServices.get(accessory.identifier)
+    const historyService = this.historyServices.get(accessory.platformAccessory.UUID)
       ?? this.createHistoryService(config, accessory, type, updateLastActivation);
 
     const time = Math.floor(Date.now() / 1000);
@@ -113,7 +113,7 @@ export class History {
     };
 
     const historyService = HistoryService(type, accessory.platformAccessory, options);
-    this.historyServices.set(accessory.identifier, historyService);
+    this.historyServices.set(accessory.platformAccessory.UUID, historyService);
 
     if (!addLastActivation) {
       return historyService;
@@ -148,16 +148,17 @@ export class History {
   }
 
   private getFilename(accessory: Accessory): string {
-    return this.api.hap.uuid.generate(accessory.identifier + HISTORY_UUID);
+    const seed = accessory.config.info.group !== undefined ? accessory.platformAccessory.UUID : accessory.identifier;
+    return this.api.hap.uuid.generate(seed + HISTORY_UUID);
   }
 
   private async cleanup(accessory: Accessory) {
 
-    if (this.cleanedUp.has(accessory.identifier)) {
+    if (this.cleanedUp.has(accessory.platformAccessory.UUID)) {
       return;
     }
 
-    this.cleanedUp.add(accessory.identifier);
+    this.cleanedUp.add(accessory.platformAccessory.UUID);
 
     const filename = this.getFilename(accessory);
     const filePath = path.join(this.persistPath, filename);

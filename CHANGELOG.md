@@ -2,13 +2,17 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.12-beta.1 (2026-03-15)
+## 1.5.12-beta.2 (2026-03-15)
 
 ### Help Requested
 This [Wiki](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Migrating-from-MQTTThing) provides config examples for users migrating from MQTTThing. If you have an example of old/new config you'd be willing to share, please [post a message on Discord](https://discord.gg/fdc46U7Kjv) or [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
 
 ### Changed
 - Better handling of battery topics — current battery level will now be displayed in the Home app
+
+### Fixed
+- Unhandled 'S2R2' characteristic errors from Eve history ([#204](https://github.com/mpatfield/homebridge-easy-mqtt/issues/204))
+    - ⚠️ History will be reset for grouped accessories with history enabled — unfortunately this is unavoidable
 
 ### Notes
 Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!

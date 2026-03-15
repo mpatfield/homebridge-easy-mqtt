@@ -66,7 +66,7 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
     return this.dependency.platformAccessory;
   }
 
-  protected get config(): C {
+  public get config(): C {
     return this.dependency.config;
   }
 
