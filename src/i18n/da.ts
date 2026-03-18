@@ -614,7 +614,6 @@ const da = {
     welcome: [
       'Giv venligst dette plugin en ★ på GitHub, hvis du finder det nyttigt! https://github.com/mpatfield/homebridge-easy-mqtt',
       'Vil du sponsorere dette plugin? https://github.com/sponsors/mpatfield',
-      'Vil du se dette plugin på dit eget sprog? Besøg venligst https://github.com/mpatfield/homebridge-easy-mqtt/issues/4',
     ],
   },
 

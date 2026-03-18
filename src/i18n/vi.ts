@@ -614,7 +614,6 @@ const vi = {
     welcome: [
       'Hãy ★ plugin này trên GitHub nếu bạn thấy hữu ích! https://github.com/mpatfield/homebridge-easy-mqtt',
       'Bạn có muốn tài trợ cho plugin này không? https://github.com/sponsors/mpatfield',
-      'Muốn thấy plugin này bằng ngôn ngữ của bạn? Hãy ghé https://github.com/mpatfield/homebridge-easy-mqtt/issues/4',
     ],
   },
 

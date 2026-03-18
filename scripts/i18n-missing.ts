@@ -23,7 +23,7 @@ function findMissing(missing: Strings, existing: Strings) {
       continue;
     }
 
-    if (existingValue !== undefined) {
+    if (existingValue !== undefined || Number(key) > 0) {
       delete missing[key];
     }
   }

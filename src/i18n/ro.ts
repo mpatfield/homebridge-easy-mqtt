@@ -614,7 +614,6 @@ const ro = {
     welcome: [
       'Vă rugăm să dați ★ acestui plugin pe GitHub dacă îl găsiți util! https://github.com/mpatfield/homebridge-easy-mqtt',
       'Doriți să sponsorizați acest plugin? https://github.com/sponsors/mpatfield',
-      'Doriți să vedeți acest plugin în limba dumneavoastră? Vă rugăm să vizitați https://github.com/mpatfield/homebridge-easy-mqtt/issues/4',
     ],
   },
 

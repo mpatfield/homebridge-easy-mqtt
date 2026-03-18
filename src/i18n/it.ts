@@ -489,7 +489,6 @@ const it = {
     welcome: [
       'Per favore ★ questo plugin su GitHub se lo trovi utile! https://github.com/mpatfield/homebridge-easy-mqtt',
       'Vuoi sponsorizzare questo plugin? https://github.com/sponsors/mpatfield',
-      'Vuoi vedere questo plugin nella tua lingua? Visita https://github.com/mpatfield/homebridge-easy-mqtt/issues/4',
     ],
   },
 
