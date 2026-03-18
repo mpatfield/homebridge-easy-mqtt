@@ -30,3 +30,11 @@ export function assertType<A extends Assertable>(log: Log, caller: string, expec
   }
   return valid;
 }
+
+export function isValid(e: Record<string, unknown>, input?: string) {
+  return input === undefined || Object.values(e).includes(input);
+}
+
+export function printableValues(e: Record<string, unknown>): string {
+  return Object.values(e).map(value => `'${value}'`).join(', ');
+}

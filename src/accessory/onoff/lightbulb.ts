@@ -2,11 +2,12 @@ import { OnOffAccessory } from './onoff.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, ColorType, HKCharacteristicKey, isValidColorType, printableValues } from '../../model/enums.js';
+import { AccessoryType, ColorType, HKCharacteristicKey } from '../../model/enums.js';
 import { LightbulbConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
 import { parseCSVRGB, RGB, RGBtoHSB, HSBtoRGB, calculateWhiteFactor } from '../../tools/color.js';
 import { debounce } from '../../tools/debounce.js';
+import { isValid, printableValues } from '../../tools/validation.js';
 
 const DEFAULT_WARM_WHITE: RGB = { red: 255, green: 158, blue: 61 };
 const DEFAULT_COLD_WHITE: RGB = { red: 204, green: 219, blue: 255 };
@@ -28,7 +29,7 @@ export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
 
     if (dependency.config.colorType !== undefined && dependency.config.colorType !== ColorType.HSB) {
 
-      if (isValidColorType(dependency.config.colorType)) {
+      if (isValid(ColorType, dependency.config.colorType)) {
         this.setupRGB();
         return;
       }
