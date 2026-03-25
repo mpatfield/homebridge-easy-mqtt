@@ -18,18 +18,6 @@ export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends B
   constructor(dependency: MQTTAccessoryDependency<C>, requireTopics: boolean = true) {
     super(dependency);
 
-    if (this.config.topicGetLockCurrentState !== undefined && this.config.topicGetCurrentLockState === undefined) {
-      this.config.topicGetCurrentLockState = this.config.topicGetLockCurrentState;
-    }
-
-    if (this.config.topicGetLockTargetState !== undefined && this.config.topicGetTargetLockState === undefined) {
-      this.config.topicGetTargetLockState = this.config.topicGetLockTargetState;
-    }
-
-    if (this.config.topicSetTargetState !== undefined && this.config.topicSetTargetLockState === undefined) {
-      this.config.topicSetTargetLockState = this.config.topicSetTargetState;
-    }
-
     this.setup(HKCharacteristicKey.LockCurrentState, dependency.Characteristic.LockCurrentState.UNKNOWN,
       'topicGetCurrentLockState', this.onCurrentStateUpdate.bind(this), requireTopics);
 

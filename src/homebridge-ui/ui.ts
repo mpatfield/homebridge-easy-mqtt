@@ -1,7 +1,6 @@
 import { IHomebridgePluginUi } from '@homebridge/plugin-ui-utils/ui.interface';
 
-import { AccessoryType } from '../model/enums.js';
-import { LockConfig, PlatformConfig } from '../model/types.js';
+import { PlatformConfig } from '../model/types.js';
 
 declare const homebridge: IHomebridgePluginUi;
 
@@ -89,43 +88,19 @@ function updateConfigWithUUIDs(config: PlatformConfig) {
   }
 };
 
-async function migrateDeprecatedConfigFields(configs: PlatformConfig[]) {
+// async function migrateDeprecatedConfigFields(configs: PlatformConfig[]) {
 
-  let changed = false;
+//   const changed = false;
 
-  for (const platformConfig of configs) {
-    for (const accessoryConfig of platformConfig.accessories ?? []) {
+//   for (const platformConfig of configs) {
+//     for (const accessoryConfig of platformConfig.accessories ?? []) {
+//     }
+//   }
 
-      if (accessoryConfig.info.type !== AccessoryType.LockMechanism) {
-        continue;
-      }
-
-      const lockConfig = accessoryConfig as LockConfig;
-
-      if (lockConfig.topicGetLockCurrentState !== undefined) {
-        lockConfig.topicGetCurrentLockState = lockConfig.topicGetLockCurrentState;
-        lockConfig.topicGetLockCurrentState = undefined;
-        changed = true;
-      }
-
-      if (lockConfig.topicGetLockTargetState !== undefined) {
-        lockConfig.topicGetTargetLockState = lockConfig.topicGetLockTargetState;
-        lockConfig.topicGetLockTargetState = undefined;
-        changed = true;
-      }
-
-      if (lockConfig.topicSetTargetState !== undefined) {
-        lockConfig.topicSetTargetLockState = lockConfig.topicSetTargetState;
-        lockConfig.topicSetTargetState = undefined;
-        changed = true;
-      }
-    }
-  }
-
-  if (changed) {
-    await homebridge.updatePluginConfig(configs);
-  }
-}
+//   if (changed) {
+//     await homebridge.updatePluginConfig(configs);
+//   }
+// }
 
 function showSettings() {
   document.getElementById('pageIntro')!.style.display = 'none';
@@ -179,7 +154,7 @@ function showIntro() {
 
   const config = await homebridge.getPluginConfig() as PlatformConfig[];
   if (config.length) {
-    await migrateDeprecatedConfigFields(config);
+    // await migrateDeprecatedConfigFields(config);
     showSettings();
   } else {
     await homebridge.updatePluginConfig([{ name: 'Easy MQTT' }]);
