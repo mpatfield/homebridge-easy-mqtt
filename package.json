@@ -4,7 +4,7 @@
   "displayName": "Homebridge Easy MQTT",
   "description": "Homebridge plugin for MQTT devices",
   "type": "module",
-  "version": "1.5.13-beta.0",
+  "version": "1.5.13",
   "homepage": "https://github.com/mpatfield/homebridge-easy-mqtt#readme",
   "repository": {
     "type": "git",
