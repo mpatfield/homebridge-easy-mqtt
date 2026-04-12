@@ -129,6 +129,7 @@ const en = {
       disableLogging: 'Disable Logging',
       group: 'Group',
       historyEnabled: 'Enable History',
+      minimum: 'Minimum',
       maximum: 'Maximum',
       name: 'Name',
       options: 'Options',

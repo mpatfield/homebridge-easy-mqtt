@@ -151,6 +151,14 @@
               "type": "integer",
               "title": "${config.title.maximum}"
             },
+            "minimumTemperature": {
+              "type": "integer",
+              "title": "${config.title.minimum}"
+            },
+            "maximumTemperature": {
+              "type": "integer",
+              "title": "${config.title.maximum}"
+            },
             "temperatureUnits": {
               "type": "string",
               "title": "${config.title.sourceUnits}",
@@ -3095,6 +3103,25 @@
                       "flex-direction": "row",
                       "items": [
                         {
+                          "key": "accessories[].temperatureUnits",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].minimumTemperature",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].maximumTemperature",
+                          "flex": "0 0 25%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
                           "key": "accessories[].topicGetCurrentHeatingCoolingState",
                           "flex": "0 0 50%"
                         }
@@ -3123,10 +3150,6 @@
                         {
                           "key": "accessories[].topicGetCurrentTemperature",
                           "flex": "0 0 50%"
-                        },
-                        {
-                          "key": "accessories[].temperatureUnits",
-                          "flex": "0 0 25%"
                         }
                       ]
                     },

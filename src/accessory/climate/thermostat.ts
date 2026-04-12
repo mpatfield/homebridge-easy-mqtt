@@ -6,6 +6,8 @@ import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
 import { HistoryType } from '../../model/history.js';
 import { MQTTAccessoryDependency, ThermostatConfig } from '../../model/types.js';
 
+import { toCelsius } from '../../tools/temperature.js';
+
 export class ThermostatAccessory extends TemperatureControlAccessory<ThermostatConfig> {
 
   protected getAccessoryType(): AccessoryType {
@@ -64,7 +66,10 @@ export class ThermostatAccessory extends TemperatureControlAccessory<ThermostatC
       true,
       'topicSetTargetTemperature',
       this.bindOnSetTemperature(HKCharacteristicKey.TargetTemperature, 'topicSetTargetTemperature', strings.thermostat.temperatureTargetFuture),
-    );
+    )?.setProps({
+      minValue: dependency.config.minimumTemperature ? toCelsius(dependency.config.minimumTemperature, this.temperatureUnits) : undefined,
+      maxValue: dependency.config.maximumTemperature ? toCelsius(dependency.config.maximumTemperature, this.temperatureUnits) : undefined,
+    });
 
     this.setup(HKCharacteristicKey.CurrentRelativeHumidity, 0,
       'topicGetCurrentRelativeHumidity', this.bindOnUpdateNumeric(HKCharacteristicKey.CurrentRelativeHumidity, strings.climate.humidityUpdate, (value) => {
