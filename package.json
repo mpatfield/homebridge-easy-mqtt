@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "fakegato-history": "file:./lib/fakegato-history",
-    "homebridge-lib": "^7.1.6",
+    "homebridge-lib": "^8.0.0",
     "lodash.merge": "^4.6.2",
     "mqtt": "^5.7.0",
     "node-persist": "^4.0.4"
