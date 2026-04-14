@@ -130,6 +130,7 @@ const en = {
       group: 'Group',
       historyEnabled: 'Enable History',
       minimum: 'Minimum',
+      minimumStep: 'Step',
       maximum: 'Maximum',
       name: 'Name',
       options: 'Options',

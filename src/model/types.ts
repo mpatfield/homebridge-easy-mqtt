@@ -243,6 +243,7 @@ export type TemperatureControlConfig = BaseAccessoryConfig & TemperatureConfig &
 export type ThermostatConfig = TemperatureControlConfig & {
   minimumTemperature?: number,
   maximumTemperature?: number,
+  minimumStep?: number,
   topicGetCurrentHeatingCoolingState: string,
   topicGetCurrentRelativeHumidity?: string,
   topicGetTargetHeatingCoolingState: string,

@@ -159,6 +159,10 @@
               "type": "integer",
               "title": "${config.title.maximum}"
             },
+            "minimumStep": {
+              "type": "number",
+              "title": "${config.title.minimumStep}"
+            },
             "temperatureUnits": {
               "type": "string",
               "title": "${config.title.sourceUnits}",
@@ -3112,6 +3116,10 @@
                         },
                         {
                           "key": "accessories[].maximumTemperature",
+                          "flex": "0 0 25%"
+                        },
+                        {
+                          "key": "accessories[].minimumStep",
                           "flex": "0 0 25%"
                         }
                       ]
