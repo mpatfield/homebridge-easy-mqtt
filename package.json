@@ -4,7 +4,7 @@
   "displayName": "Homebridge Easy MQTT",
   "description": "Homebridge plugin for MQTT devices",
   "type": "module",
-  "version": "1.5.14",
+  "version": "1.5.15-beta.0",
   "homepage": "https://github.com/mpatfield/homebridge-easy-mqtt#readme",
   "repository": {
     "type": "git",
@@ -55,7 +55,7 @@
     "zigbee2mqtt"
   ],
   "engines": {
-    "homebridge": "^1.8.0 || ^2.0.0-beta.0",
+    "homebridge": "^1.8.0 || ^2.0.0",
     "node": "^20 || ^22 || ^24"
   },
   "dependencies": {
@@ -69,7 +69,7 @@
     "@eslint/js": "^10.0.1",
     "@types/lodash.merge": "^4.6.9",
     "@types/node-persist": "^3.1.8",
-    "homebridge": "^2.0.0-beta.29",
+    "homebridge": "^2.0.0",
     "jiti": "^2.4.2",
     "rimraf": "^6.0.1",
     "tsx": "^4.21.0",

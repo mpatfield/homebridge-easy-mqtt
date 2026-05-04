@@ -2,14 +2,19 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.14 (2026-04-21)
+## 1.5.15-beta.0 ()
 
-### Added
-- Minimum/maximum temperature and step size for [`Thermostat`](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Thermostat) ([#221](https://github.com/mpatfield/homebridge-easy-mqtt/issues/221))
+### Changed
+- Removed `beta` from `homebridge` dependency
 
 ### Notes
 - This [Wiki](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Migrating-from-MQTTThing) provides config examples for users migrating from MQTTThing. If you have an example of old/new config you'd be willing to share, please [post a message on Discord](https://discord.gg/fdc46U7Kjv) or [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose).
 - Would you like to see Homebridge Easy MQTT in your language? Please consider [getting involved](https://github.com/mpatfield/homebridge-easy-mqtt/issues/4). No coding experience required!
+
+## 1.5.14 (2026-04-21)
+
+### Added
+- Minimum/maximum temperature and step size for [`Thermostat`](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Thermostat) ([#221](https://github.com/mpatfield/homebridge-easy-mqtt/issues/221))
 
 ## 1.5.13 (2026-03-30)
 
