@@ -35,7 +35,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
     this.log = new Log(logger, config.verbose);
 
-    this.log.always(
+    this.log.ifVerbose(
       'v%s | System %s | Node %s | HB v%s | HAPNodeJS v%s',
       getVersion(),
       process.platform,
@@ -56,7 +56,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
   }
 
   configureAccessory(accessory: PlatformAccessory): void {
-    this.log.always(strings.startup.restoringAccessory, accessory.displayName);
+    this.log.ifVerbose(strings.startup.restoringAccessory, accessory.displayName);
     this.platformAccessories.set(accessory.context.identifier, accessory);
   }
 
