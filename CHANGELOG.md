@@ -2,7 +2,10 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.15-beta.2 ()
+## 1.5.15-beta.3 ()
+
+### Fixed
+- Potential crash in translation system
 
 ### Changed
 - Removed `beta` from `homebridge` dependency
