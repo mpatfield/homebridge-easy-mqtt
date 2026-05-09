@@ -64,6 +64,8 @@ const it = {
       broker: 'Broker',
       colorType: 'Color Type',
       historyEnabled: 'Enable History',
+      minimum: 'Minimum',
+      minimumStep: 'Step',
       maximum: 'Maximum',
       password: 'Password',
       time: 'Auto-Reset Delay',
