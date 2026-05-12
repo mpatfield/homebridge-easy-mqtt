@@ -2,7 +2,7 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.15-beta.3 ()
+## 1.5.15 (2026-05-12)
 
 ### Fixed
 - Potential crash in translation system
