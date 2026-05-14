@@ -79,6 +79,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
     const Service = this.api.hap.Service;
     const Characteristic = this.api.hap.Characteristic;
+    const HapStatusError = this.api.hap.HapStatusError;
 
     const history = new History(this.api, this.log);
 
@@ -103,7 +104,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
       const uuid = this.api.hap.uuid.generate(id);
 
       const platformAccessory = this.createPlatformAccessory(accessoryConfig.info.name, uuid);
-      const dependency: AccessoryDependency = { Service, Characteristic, platformAccessory, log: this.log, history: history };
+      const dependency: AccessoryDependency = { Service, Characteristic, HapStatusError, platformAccessory, log: this.log, history: history };
 
       const accessory = createAccessory(dependency, accessoryConfig);
 
@@ -119,7 +120,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
       const uuid = this.api.hap.uuid.generate(groupName);
       const platformAccessory = this.createPlatformAccessory(groupName, uuid);
-      const dependency: AccessoryDependency = { Service, Characteristic, platformAccessory, log: this.log, history: history };
+      const dependency: AccessoryDependency = { Service, Characteristic, HapStatusError, platformAccessory, log: this.log, history: history };
 
       const configs = groups.get(groupName)!;
 

@@ -1,7 +1,11 @@
 const it = {
 
   accessory: {
+    available: '%s is available', // accessory name
     badType: '%s config variable %s should have type %s but was %s', // accessory name, variable name, type, type
+    statusActive: '%s is active', // accessory name
+    statusInactive: '%s is inactive', // accessory name
+    unavailable: '%s is not available', // accessory name
   },
 
   active: {
@@ -70,10 +74,12 @@ const it = {
       password: 'Password',
       time: 'Auto-Reset Delay',
       topicEventButtonPress: 'Button Press*',
+      topicGetAvailable: 'Get Available/Reachable',
       topicGetCurrentConsumption: 'Get Watts (Eve-only)',
       topicGetElectricCurrent: 'Get Amps (Eve-only)',
       topicGetMuted: 'Get Muted',
       topicGetRGB: 'Get RGB',
+      topicGetStatusActive: 'Get Active Status',
       topicGetTotalConsumption: 'Get kWh (Eve-only)',
       topicGetVoltage: 'Get Voltage (Eve-only)',
       topicGetVolume: 'Get Volume',
@@ -89,6 +95,7 @@ const it = {
       valueModeIdle: 'Idle',
       valueMuted: 'Muted',
       valueSinglePress: 'Single Press',
+      valueStatusActive: 'Status Active',
       valueUnmuted: 'Unmuted',
     },
   },

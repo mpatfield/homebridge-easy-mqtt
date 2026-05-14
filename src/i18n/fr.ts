@@ -6,8 +6,6 @@ const fr = {
     batteryLow: 'La batterie de %s est faible',
     batteryNotLow: 'Le niveau de batterie de %s est correct',
     missingRequired: '%s ne dispose pas de la variable de configuration requise %s',
-    statusActive: '%s est maintenant disponible',
-    statusInactive: '%s est indisponible',
   },
 
   active: {
@@ -190,7 +188,6 @@ const fr = {
       topicGetRotationSpeed: 'Obtenir vitesse rotation',
       topicGetSaturation: 'Obtenir saturation',
       topicGetSmokeDetected: 'Obtenir fumée détectée*',
-      topicGetStatusActive: 'Obtenir disponibilité',
       topicGetStatusFault: 'Obtenir défaut',
       topicGetStatusTampered: 'Obtenir altération',
       topicGetSulphurDioxideDensity: 'Obtenir dioxyde de soufre',
@@ -267,6 +264,7 @@ const fr = {
       valueArmAway: 'Armement absent',
       valueArmNight: 'Armement nuit',
       valueArmStay: 'Armement présent',
+      valueAvailable: 'Disponible/Accessible',
       valueBatteryLow: 'Batterie faible',
       valueCarbonDioxideDetected: 'CO2 détecté*',
       valueCarbonMonoxideDetected: 'CO détecté*',
@@ -323,7 +321,6 @@ const fr = {
       valueSmokeDetected: 'Fumée détectée*',
       valueStateActive: 'État actif*',
       valueStateInactive: 'État inactif*',
-      valueStatusActive: 'Disponible/Accessible',
       valueSwingDisabled: 'Oscillation désactivée',
       valueSwingEnabled: 'Oscillation activée',
       valueTampered: 'Altéré',

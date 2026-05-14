@@ -7,10 +7,10 @@ import { CharacteristicKeys } from '../characteristic/characteristic.js';
 import { CustomCharacteristic } from '../characteristic/custom.js';
 
 import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
-import { MQTT } from '../../model/mqtt.js';
-import { CharacteristicType, MQTTAccessoryConfig, MQTTAccessoryDependency } from '../../model/types.js';
-
 import { HistoryEntry, HistoryType } from '../../model/history.js';
+import { MQTT } from '../../model/mqtt.js';
+import { CharacteristicType, HapStatusErrorType, MQTTAccessoryConfig, MQTTAccessoryDependency } from '../../model/types.js';
+
 import { Log } from '../../tools/log.js';
 
 export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Common<C> {
@@ -56,10 +56,15 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
     }
 
     this.setupCustomCharacteristics();
+    this.setupAvailabilityHandler();
   }
 
   public get Characteristic(): CharacteristicType {
     return this.dependency.Characteristic;
+  }
+
+  public get HapStatusError(): HapStatusErrorType {
+    return this.dependency.HapStatusError;
   }
 
   public get platformAccessory(): PlatformAccessory {
@@ -114,6 +119,17 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
       characteristic.updateValue(null);
       this.accessoryService.removeCharacteristic(characteristic);
     }
+  }
+
+  private setupAvailabilityHandler() {
+
+    if (this.config.topicGetAvailable === undefined) {
+      return;
+    }
+
+    this.addTopicHandlers([{ topic: this.config.topicGetAvailable, handler: (async (_topic: string, value: PrimitiveTypes) => {
+      this.isAvailable = value === this.getPrimitiveValue('valueAvailable', true);
+    }).bind(this) }]);
   }
 
   public publish(topic: string, value: PrimitiveTypes) {

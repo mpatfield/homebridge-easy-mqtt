@@ -240,6 +240,10 @@
                 }
               ]
             },
+            "topicGetAvailable": {
+              "type": "string",
+              "title": "${config.title.topicGetAvailable}"
+            },
             "topicGetBatteryLevel": {
               "type": "string",
               "title": "${config.title.topicGetBatteryLevel}"
@@ -687,6 +691,10 @@
             "topicGetVoltage": {
               "type": "string",
               "title": "${config.title.topicGetVoltage}"
+            },
+            "valueAvailable": {
+              "type": "string",
+              "title": "${config.title.valueAvailable}"
             },
             "valueBatteryLow": {
               "type": "string",
@@ -1458,6 +1466,19 @@
               },
               "then": {
                 "required": ["valueSwingEnabled", "valueSwingDisabled"]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "topicGetAvailable": {
+                    "minLength": 1
+                  }
+                },
+                "required": ["topicGetAvailable"]
+              },
+              "then": {
+                "required": ["valueAvailable"]
               }
             },
             {
@@ -3303,11 +3324,11 @@
                   "flex-direction": "row",
                   "items": [
                     {
-                      "key": "accessories[].topicGetBatteryLevel",
+                      "key": "accessories[].topicGetAvailable",
                       "flex": "0 0 50%"
                     },
                     {
-                      "key": "accessories[].topicGetBatteryLow",
+                      "key": "accessories[].topicGetStatusActive",
                       "flex": "0 0 50%"
                     }
                   ]
@@ -3318,7 +3339,11 @@
                   "flex-direction": "row",
                   "items": [
                     {
-                      "key": "accessories[].topicGetStatusActive",
+                      "key": "accessories[].topicGetBatteryLevel",
+                      "flex": "0 0 50%"
+                    },
+                    {
+                      "key": "accessories[].topicGetBatteryLow",
                       "flex": "0 0 50%"
                     }
                   ]
@@ -4044,11 +4069,15 @@
                   "flex-direction": "row",
                   "items": [
                     {
-                      "key": "accessories[].valueBatteryLow",
+                      "key": "accessories[].valueAvailable",
                       "flex": "0 0 25%"
                     },
                     {
                       "key": "accessories[].valueStatusActive",
+                      "flex": "0 0 25%"
+                    },
+                    {
+                      "key": "accessories[].valueBatteryLow",
                       "flex": "0 0 25%"
                     }
                   ]

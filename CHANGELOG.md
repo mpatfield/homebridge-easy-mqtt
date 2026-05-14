@@ -2,6 +2,15 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
+## 1.5.16-beta.0 ()
+
+### Added
+- Added `topicGetAvailable` for "Last Will and Testament" (LWT) before an accessory goes offline
+    - If value does not match `valueAvailable`, then accessory will show "No Response" in HomeKit until the next successful get event
+
+### Changed
+- Renamed "Get Availability" to "Get Active Status" in config UI to avoid confusion with the new `topicGetAvailable` (see above)
+
 ## 1.5.15 (2026-05-12)
 
 ### Fixed

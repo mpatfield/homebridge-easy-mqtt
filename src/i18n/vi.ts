@@ -6,8 +6,6 @@ const vi = {
     batteryLow: 'Pin của %s yếu',
     batteryNotLow: 'Pin của %s bình thường',
     missingRequired: '%s thiếu biến cấu hình bắt buộc %s',
-    statusActive: '%s hiện đã khả dụng',
-    statusInactive: '%s không khả dụng',
   },
 
   active: {
@@ -190,7 +188,6 @@ const vi = {
       topicGetRotationSpeed: 'Lấy tốc độ quay',
       topicGetSaturation: 'Lấy độ bão hòa',
       topicGetSmokeDetected: 'Lấy trạng thái khói*',
-      topicGetStatusActive: 'Lấy trạng thái khả dụng',
       topicGetStatusFault: 'Lấy lỗi',
       topicGetStatusTampered: 'Lấy trạng thái bị can thiệp',
       topicGetSulphurDioxideDensity: 'Lấy nồng độ SO2',
@@ -267,6 +264,7 @@ const vi = {
       valueArmAway: 'Kích hoạt khi đi vắng',
       valueArmNight: 'Kích hoạt ban đêm',
       valueArmStay: 'Kích hoạt khi ở nhà',
+      valueAvailable: 'Có sẵn / Kết nối được',
       valueBatteryLow: 'Pin yếu',
       valueCarbonDioxideDetected: 'Phát hiện CO2*',
       valueCarbonMonoxideDetected: 'Phát hiện CO*',
@@ -323,7 +321,6 @@ const vi = {
       valueSmokeDetected: 'Phát hiện khói*',
       valueStateActive: 'Đang hoạt động*',
       valueStateInactive: 'Không hoạt động*',
-      valueStatusActive: 'Có sẵn / Kết nối được',
       valueSwingDisabled: 'Tắt chế độ lắc',
       valueSwingEnabled: 'Bật chế độ lắc',
       valueTampered: 'Bị can thiệp',

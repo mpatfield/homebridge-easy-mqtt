@@ -6,8 +6,6 @@ const da = {
     batteryLow: '%s batteri er lavt',
     batteryNotLow: '%s batteri er okay',
     missingRequired: '%s mangler påkrævet konfigurationsvariabel %s',
-    statusActive: '%s er nu tilgængelig',
-    statusInactive: '%s er utilgængelig',
   },
 
   active: {
@@ -190,7 +188,6 @@ const da = {
       topicGetRotationSpeed: 'Hent Rotationshastighed',
       topicGetSaturation: 'Hent Mætning',
       topicGetSmokeDetected: 'Hent Røg Registreret*',
-      topicGetStatusActive: 'Hent Tilgængelighed',
       topicGetStatusFault: 'Hent Fejl',
       topicGetStatusTampered: 'Hent Manipuleret',
       topicGetSulphurDioxideDensity: 'Hent Svovldioxid',
@@ -267,6 +264,7 @@ const da = {
       valueArmAway: 'Tilkobl Ude',
       valueArmNight: 'Tilkobl Nat',
       valueArmStay: 'Tilkobl Hjemme',
+      valueAvailable: 'Tilgængelig/Opnåelig',
       valueBatteryLow: 'Lavt Batteri',
       valueCarbonDioxideDetected: 'CO2 Registreret*',
       valueCarbonMonoxideDetected: 'CO Registreret*',
@@ -323,7 +321,6 @@ const da = {
       valueSmokeDetected: 'Røg Registreret*',
       valueStateActive: 'Tilstand Aktiv*',
       valueStateInactive: 'Tilstand Inaktiv*',
-      valueStatusActive: 'Tilgængelig/Opnåelig',
       valueSwingDisabled: 'Svingning Deaktiveret',
       valueSwingEnabled: 'Svingning Aktiveret',
       valueTampered: 'Manipuleret',

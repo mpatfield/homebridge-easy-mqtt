@@ -1,13 +1,15 @@
 const en = {
 
   accessory: {
+    available: '%s is available', // accessory name
     badType: '%s config variable %s should have type %s but was %s', // accessory name, variable name, type, type
     batteryLevel: '%s battery is at %d%', // accessory name, number
     batteryLow: '%s battery is low', // accessory name
     batteryNotLow: '%s battery is okay', // accessory name
     missingRequired: '%s is missing required config variable %s', // accessory name, variable name
-    statusActive: '%s is now available', // accessory name
-    statusInactive: '%s is unavailable', // accessory name
+    statusActive: '%s is active', // accessory name
+    statusInactive: '%s is inactive', // accessory name
+    unavailable: '%s is not available', // accessory name
   },
 
   active: {
@@ -141,6 +143,7 @@ const en = {
       topicEventButtonPress: 'Button Press*',
       topicGetActive: 'Get Active*',
       topicGetAirQuality: 'Get Air Quality*',
+      topicGetAvailable: 'Get Available/Reachable',
       topicGetBatteryLevel: 'Get Battery Level',
       topicGetBatteryLow: 'Get Battery Low',
       topicGetBrightness: 'Get Brightness',
@@ -194,7 +197,7 @@ const en = {
       topicGetSaturation: 'Get Saturation',
       topicGetSmokeDetected: 'Get Smoke Detected*',
       topicGetSwingMode: 'Get Swing Enabled',
-      topicGetStatusActive: 'Get Availability',
+      topicGetStatusActive: 'Get Active Status',
       topicGetStatusFault: 'Get Fault',
       topicGetStatusTampered: 'Get Tampered',
       topicGetSulphurDioxideDensity: 'Get Sulphur Dioxide',
@@ -271,6 +274,7 @@ const en = {
       valueArmAway: 'Arm Away',
       valueArmNight: 'Arm Night',
       valueArmStay: 'Arm Stay',
+      valueAvailable: 'Available/Reachable',
       valueBatteryLow: 'Battery Low',
       valueCarbonDioxideDetected: 'CO2 Detected*',
       valueCarbonMonoxideDetected: 'CO Detected*',
@@ -328,7 +332,7 @@ const en = {
       valueSmokeDetected: 'Smoke Detected*',
       valueStateActive: 'State Active*',
       valueStateInactive: 'State Inactive*',
-      valueStatusActive: 'Available/Reachable',
+      valueStatusActive: 'Status Active',
       valueSwingDisabled: 'Swing Disabled',
       valueSwingEnabled: 'Swing Enabled',
       valueTampered: 'Tampered',

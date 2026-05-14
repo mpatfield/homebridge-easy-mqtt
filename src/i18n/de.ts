@@ -6,8 +6,6 @@ const de = {
     batteryLow: 'Die Batterie von %s ist schwach',
     batteryNotLow: 'Die Batterie von %s ist in Ordnung',
     missingRequired: '%s benötigt die erforderliche Konfigurationsvariable %s',
-    statusActive: '%s ist jetzt verfügbar',
-    statusInactive: '%s ist nicht verfügbar',
   },
 
   active: {
@@ -190,7 +188,6 @@ const de = {
       topicGetRotationSpeed: 'Hole Drehgeschwindigkeit',
       topicGetSaturation: 'Hole Sättigung',
       topicGetSmokeDetected: 'Hole Rauch erkannt*',
-      topicGetStatusActive: 'Hole Verfügbarkeit',
       topicGetStatusFault: 'Hole Fehlerstatus',
       topicGetStatusTampered: 'Hole Manipulation erkannt',
       topicGetSulphurDioxideDensity: 'Hole Schwefeldioxid',
@@ -267,6 +264,7 @@ const de = {
       valueArmAway: 'Status Außer Haus',
       valueArmNight: 'Status Nacht',
       valueArmStay: 'Status Bleiben',
+      valueAvailable: 'Verfügbar/Erreichbar*',
       valueBatteryLow: 'Batterie Niedrig',
       valueCarbonDioxideDetected: 'CO2 Erkannt*',
       valueCarbonMonoxideDetected: 'CO Erkannt*',
@@ -323,7 +321,6 @@ const de = {
       valueSmokeDetected: 'Rauch Erkannt*',
       valueStateActive: 'Status Aktiv*',
       valueStateInactive: 'Status Inaktiv*',
-      valueStatusActive: 'Verfügbar/Erreichbar*',
       valueSwingDisabled: 'Schwingen Deaktiviert',
       valueSwingEnabled: 'Schwingen Aktiv',
       valueTampered: 'Manipuliert',

@@ -5,8 +5,6 @@ const it = {
     batteryLow: 'La batteria di %s è scarica',
     batteryNotLow: 'La batteria di %s è carica',
     missingRequired: '%s manca la variabile di configurazione richiesta %s',
-    statusActive: '%s è ora disponibile',
-    statusInactive: '%s non è disponibile',
   },
 
   characteristic: {
@@ -130,7 +128,6 @@ const it = {
       topicGetRotationSpeed: 'Ottieni velocità di rotazione',
       topicGetSaturation: 'Ottieni saturazione',
       topicGetSmokeDetected: 'Ottieni fumo rilevato*',
-      topicGetStatusActive: 'Ottieni disponibilità',
       topicGetStatusFault: 'Ottieni guasto',
       topicGetStatusTampered: 'Ottieni manomissione',
       topicGetSulphurDioxideDensity: 'Ottieni anidride solforosa',
@@ -198,6 +195,7 @@ const it = {
       valueArmAway: 'Armato fuori casa',
       valueArmNight: 'Armato notte',
       valueArmStay: 'Armato in casa',
+      valueAvailable: 'Disponibile/Raggiungibile',
       valueBatteryLow: 'Batteria scarica',
       valueCarbonDioxideDetected: 'CO2 rilevato*',
       valueCarbonMonoxideDetected: 'CO rilevato*',
@@ -248,7 +246,6 @@ const it = {
       valueSmokeDetected: 'Fumo rilevato*',
       valueStateActive: 'Stato attivo*',
       valueStateInactive: 'Stato inattivo*',
-      valueStatusActive: 'Disponibile/Raggiungibile',
       valueSwingDisabled: 'Oscillazione disabilitata',
       valueSwingEnabled: 'Oscillazione abilitata',
       valueTampered: 'Manomesso',

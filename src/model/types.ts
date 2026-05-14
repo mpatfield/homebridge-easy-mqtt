@@ -2,6 +2,7 @@ import { PlatformConfig as HBPlatformConfig, PlatformAccessory } from 'homebridg
 
 export type ServiceType = typeof import('homebridge').Service;
 export type CharacteristicType = typeof import('homebridge').Characteristic;
+export type HapStatusErrorType = typeof import('homebridge').HapStatusError;
 
 import { AccessoryType, ColorType, LabelType, TimeUnits, ValveType } from './enums.js';
 
@@ -13,6 +14,7 @@ import { Assertable } from '../tools/validation.js';
 export type AccessoryDependency = {
   Service: ServiceType,
   Characteristic: CharacteristicType,
+  HapStatusError: HapStatusErrorType,
   platformAccessory: PlatformAccessory,
   log: Log,
   history: History,
@@ -101,6 +103,8 @@ export type MQTTAccessoryConfig = Assertable & {
   customCharacteristics?: CustomCharacteristicConfig[];
   resetOnRestart?: boolean,
   disableLogging: boolean,
+  topicGetAvailable?: string,
+  valueAvailable?: string,
 }
 
 export type CustomCharacteristicConfig = Assertable & {

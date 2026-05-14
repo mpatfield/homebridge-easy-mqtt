@@ -34,9 +34,13 @@ export class Properties {
     return PROPERTIES.get(identifier)?.get(key);
   }
 
-  public static async set(identifier: string, key: string, item: Storable | undefined) {
+  public static set(identifier: string, key: string, item: Storable | undefined): boolean {
 
     const items = PROPERTIES.get(identifier) || new Map();
+
+    if (items.get(key) === item) {
+      return false;
+    }
 
     if (item !== undefined) {
       items.set(key, item);
@@ -47,6 +51,8 @@ export class Properties {
     PROPERTIES.set(identifier, items);
 
     Properties.save();
+
+    return true;
   }
 
   public static asRecord<K extends string, V extends Storable>(identifier: string): Record<K, V> {

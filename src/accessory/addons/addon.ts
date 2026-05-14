@@ -4,7 +4,7 @@ import { Common } from '../abstract/common.js';
 import { MQTTAccessory } from '../abstract/mqtt.js';
 
 import { AddonType } from '../../model/enums.js';
-import { AddonConfig, CharacteristicType, MQTTAccessoryConfig } from '../../model/types.js';
+import { AddonConfig, CharacteristicType, HapStatusErrorType, MQTTAccessoryConfig } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
 
@@ -59,6 +59,10 @@ export abstract class Addon<C extends AddonConfig> extends Common<C> {
 
   protected get Characteristic(): CharacteristicType {
     return this.parentAccessory.Characteristic;
+  }
+
+  public get HapStatusError(): HapStatusErrorType {
+    return this.parentAccessory.HapStatusError;
   }
 
   protected get log(): Log {

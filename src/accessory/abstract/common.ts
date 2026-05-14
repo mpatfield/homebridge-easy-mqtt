@@ -5,7 +5,7 @@ import { EveCharacteristic, isEveCharacteristic } from '../characteristic/eve.js
 import { strings } from '../../i18n/i18n.js';
 
 import { CharacteristicKey, TimeUnits } from '../../model/enums.js';
-import { CharacteristicType, TemperatureConfig, TimeoutConfig } from '../../model/types.js';
+import { CharacteristicType, HapStatusErrorType, TemperatureConfig, TimeoutConfig } from '../../model/types.js';
 
 import { debounce } from '../../tools/debounce.js';
 import { Log, LogType } from '../../tools/log.js';
@@ -23,6 +23,9 @@ export type PublishHandler = (topic: string, value: PrimitiveTypes) => void;
 type NumberCallback = (value: number) => void;
 type BooleanCallback = (value: boolean) => void
 
+const AVAILABILITY_KEY = 'Available';
+const HAP_COMMUNICATION_FAILURE = -70402;
+
 export abstract class Common<C extends Assertable> {
 
   public readonly topicHandlers: TopicHandler[] = [];
@@ -33,6 +36,7 @@ export abstract class Common<C extends Assertable> {
 
   protected abstract get service(): Service;
   protected abstract get Characteristic(): CharacteristicType;
+  protected abstract get HapStatusError(): HapStatusErrorType;
 
   protected abstract get log(): Log;
   protected abstract get disableLogging(): boolean;
@@ -93,6 +97,23 @@ export abstract class Common<C extends Assertable> {
     Properties.set(this.identifier, key, value);
   }
 
+  protected get isAvailable(): boolean {
+    return Properties.get(this.identifier, AVAILABILITY_KEY) !== false;
+  }
+
+  protected set isAvailable(value: boolean) {
+
+    if (!Properties.set(this.identifier, AVAILABILITY_KEY, value)) {
+      return;
+    }
+
+    if (value) {
+      this.logIfDesired(LogType.ALWAYS, strings.accessory.available);
+    } else {
+      this.logIfDesired(LogType.WARNING, strings.accessory.unavailable);
+    }
+  }
+
   protected setup(
     characteristicKey: CharacteristicKey, defaultValue: CharacteristicValue,
     getTopicKey: keyof C, onUpdateHandler: OnUpdateHandler, assertGetTopic: boolean,
@@ -143,10 +164,18 @@ export abstract class Common<C extends Assertable> {
     this.setProperty(characteristicKey, startingValue);
 
     characteristic.onGet( async (): Promise<Nullable<CharacteristicValue>> => {
+      if (!this.isAvailable) {
+        throw new this.HapStatusError(HAP_COMMUNICATION_FAILURE);
+      }
       return this.getProperty(characteristicKey) ?? null;
     });
 
-    this.topicHandlers.push({ topic: this.config[getTopicKey] as string, handler: onUpdateHandler });
+    const onUpdateHandlerWrapper: OnUpdateHandler = async (topic, value) => {
+      this.isAvailable = true;
+      await onUpdateHandler(topic, value);
+    };
+
+    this.topicHandlers.push({ topic: this.config[getTopicKey] as string, handler: onUpdateHandlerWrapper });
 
     return characteristic;
   }

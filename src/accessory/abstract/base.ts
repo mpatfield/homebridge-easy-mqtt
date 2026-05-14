@@ -11,7 +11,6 @@ import { strings } from '../../i18n/i18n.js';
 import { CharacteristicKey, HKCharacteristicKey } from '../../model/enums.js';
 import { BaseAccessoryConfig, MQTTAccessoryDependency } from '../../model/types.js';
 
-import { LogType } from '../../tools/log.js';
 import getVersion from '../../tools/version.js';
 
 export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessoryConfig> extends MQTTAccessory<C> {
@@ -33,7 +32,7 @@ export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessor
     this.setup(HKCharacteristicKey.StatusActive, true,
       'topicGetStatusActive',
       this.bindOnUpdateBooleanSingle(HKCharacteristicKey.StatusActive, 'valueStatusActive',
-        strings.accessory.statusActive, strings.accessory.statusInactive, LogType.ALWAYS, LogType.WARNING),
+        strings.accessory.statusActive, strings.accessory.statusInactive),
       false);
 
     this.addTopicHandlers(Battery.topicHandlers(dependency.Service, this, dependency.config));

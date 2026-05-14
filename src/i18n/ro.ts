@@ -6,8 +6,6 @@ const ro = {
     batteryLow: 'Bateria %s este descărcată',
     batteryNotLow: 'Bateria %s este în regulă',
     missingRequired: '%s lipsește variabila de configurare necesară %s',
-    statusActive: '%s este acum disponibil',
-    statusInactive: '%s este indisponibil',
   },
 
   active: {
@@ -190,7 +188,6 @@ const ro = {
       topicGetRotationSpeed: 'Obține viteză rotație',
       topicGetSaturation: 'Obține saturație',
       topicGetSmokeDetected: 'Obține fum detectat*',
-      topicGetStatusActive: 'Obține disponibilitate',
       topicGetStatusFault: 'Obține defecțiune',
       topicGetStatusTampered: 'Obține manipulat',
       topicGetSulphurDioxideDensity: 'Obține dioxid de sulf',
@@ -267,6 +264,7 @@ const ro = {
       valueArmAway: 'Armează plecat',
       valueArmNight: 'Armează noapte',
       valueArmStay: 'Armează acasă',
+      valueAvailable: 'Disponibil/Accesibil',
       valueBatteryLow: 'Baterie descărcată',
       valueCarbonDioxideDetected: 'CO2 detectat*',
       valueCarbonMonoxideDetected: 'CO detectat*',
@@ -323,7 +321,6 @@ const ro = {
       valueSmokeDetected: 'Fum detectat*',
       valueStateActive: 'Stare activă*',
       valueStateInactive: 'Stare inactivă*',
-      valueStatusActive: 'Disponibil/Accesibil',
       valueSwingDisabled: 'Oscilare dezactivată',
       valueSwingEnabled: 'Oscilare activată',
       valueTampered: 'Manipulat',
