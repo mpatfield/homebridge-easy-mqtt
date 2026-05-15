@@ -11,8 +11,6 @@ export class Properties {
   public static async initStorage(persistPath: string) {
     await storage.init({ dir: persistPath, forgiveParseErrors: true });
 
-    await Properties.migrateDeprecatedProperties();
-
     const storageJson = await storage.get(PLATFORM_NAME);
     if (storageJson === undefined) {
       Properties.save();
@@ -74,43 +72,5 @@ export class Properties {
 
     const storageJson = JSON.stringify(storageArray);
     await storage.set(PLATFORM_NAME, storageJson);
-  }
-
-  private static async migrateDeprecatedProperties() {
-
-    const keysJson = await storage.get('a6ac8cc1-5112-41c9-98b8-198601281ebb');
-    if (keysJson === undefined) {
-      return;
-    }
-
-    const keys = new Set<string>();
-    try {
-      const keysArray: string[] = JSON.parse(keysJson);
-      keysArray.forEach(key => keys.add(key));
-      await storage.removeItem('a6ac8cc1-5112-41c9-98b8-198601281ebb');
-    } catch {
-      // ignore
-    }
-
-    for (const key of keys) {
-
-      try {
-
-        const propertiesJson = await storage.get(key);
-        if (propertiesJson === undefined) {
-          continue;
-        }
-
-        const array = JSON.parse(propertiesJson);
-        const properties = new Map<string, Storable>(array);
-
-        PROPERTIES.set(key.replace(':Properties', ''), properties);
-
-        await storage.removeItem(key);
-
-      } catch {
-        // ignore
-      }
-    }
   }
 }
