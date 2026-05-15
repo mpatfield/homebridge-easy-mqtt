@@ -2,7 +2,7 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.16-beta.0 ()
+## 1.5.16-beta.1 ()
 
 ### Added
 - Added `topicGetAvailable` for "Last Will and Testament" (LWT) before an accessory goes offline
@@ -10,6 +10,9 @@ All notable changes to homebridge-dummy will be documented in this file.
 
 ### Changed
 - Renamed "Get Availability" to "Get Active Status" in config UI to avoid confusion with the new `topicGetAvailable` (see above)
+
+### Fixed
+- Potential race condition in persistent storage
 
 ## 1.5.15 (2026-05-12)
 
