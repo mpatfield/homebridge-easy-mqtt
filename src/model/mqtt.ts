@@ -198,7 +198,7 @@ export class MQTT {
       });
     });
 
-    this.client.on('message', (topic, message) => this.messageReceived(topic, message.toString()));
+    this.client.on('message', (_topic, _message, packet) => this.messageReceived(packet));
 
     this.client.on('close', () => this.connectionClosed());
 
@@ -319,15 +319,17 @@ export class MQTT {
     }
   }
 
-  private messageReceived(topic: string, message: string) {
+  private messageReceived(packet: mqtt.IPublishPacket) {
 
     this.reconnectCount = 0;
 
+    const topic = packet.topic;
+    const message = packet.payload.toString().trim();
+    const meta = `(qos: ${packet.qos}, dup: ${packet.dup}, retain: ${packet.retain})`;
+
     try {
 
-      message = message.trim();
-
-      this.log.ifVerbose(strings.mqttClient.receivedMessage, this.host, topic, `\n${message}`);
+      this.log.ifVerbose(strings.mqttClient.receivedMessage, this.host, topic, `${meta}\n${message}`);
 
       const listeners = this.listeners.get(topic);
       if (!listeners || listeners.length === 0) {
