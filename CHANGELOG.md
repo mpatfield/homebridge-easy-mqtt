@@ -2,6 +2,11 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
+## 1.5.17-beta.0 ()
+
+### Fixed
+- Potential crash on launch
+
 ## 1.5.16 (2026-05-25)
 
 ### Added
