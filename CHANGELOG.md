@@ -2,7 +2,7 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.16-beta.2 ()
+## 1.5.16 (2026-05-25)
 
 ### Added
 - Added `topicGetAvailable` for "Last Will and Testament" (LWT) before an accessory goes offline
