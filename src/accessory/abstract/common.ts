@@ -34,6 +34,14 @@ export abstract class Common<C extends Assertable> {
     public readonly name: string,
   ) {}
 
+  public teardown() {
+    if (this.timeout !== undefined && this.timeoutCallback !== undefined) {
+      this.log.warning(strings.autoReset.teardown, this.name);
+      clearTimeout(this.timeout);
+      this.timeoutCallback();
+    }
+  }
+
   protected abstract get service(): Service;
   protected abstract get Characteristic(): CharacteristicType;
   protected abstract get HapStatusError(): HapStatusErrorType;
@@ -47,6 +55,7 @@ export abstract class Common<C extends Assertable> {
   protected abstract get useStoredProperties(): boolean;
 
   private timeout?: NodeJS.Timeout;
+  private timeoutCallback?: () => (void);
 
   protected abstract publish(rawTopic: string, value: PrimitiveTypes): void;
 
@@ -232,30 +241,33 @@ export abstract class Common<C extends Assertable> {
     return characteristic;
   }
 
+  protected onUpdateNumeric(key: CharacteristicKey, value: PrimitiveTypes, logTemplate?: string, callback?: NumberCallback) {
+
+    if (typeof value !== 'number') {
+      this.log.error(strings.characteristic.badValue, this.name, key, `'${value.toString()}'`);
+      return;
+    }
+
+    const characteristic = this.service.getCharacteristic(this.characteristicFromKey(key));
+    const minValue = characteristic.props.minValue;
+    const maxValue = characteristic.props.maxValue;
+    if (minValue !== undefined && value < minValue) {
+      this.logIfDesired(LogType.WARNING, strings.characteristic.outOfRange, key, `'${value.toString()}'`, `'${minValue.toString()}'`);
+      value = minValue;
+    } else if (maxValue !== undefined && value > maxValue) {
+      this.logIfDesired(LogType.WARNING, strings.characteristic.outOfRange, key, `'${value.toString()}'`, `'${maxValue.toString()}'`);
+      value = maxValue;
+    }
+
+    const logString = logTemplate !== undefined ? logTemplate.replace('%d', value.toString()) : undefined;
+    this.onUpdate(key, value, logString);
+
+    callback?.(value);
+  }
+
   protected bindOnUpdateNumeric(key: CharacteristicKey, logTemplate: string, callback?: NumberCallback): OnUpdateHandler {
     return (async (_topic: string, value: PrimitiveTypes) => {
-
-      if (typeof value !== 'number') {
-        this.log.error(strings.characteristic.badValue, this.name, key, `'${value.toString()}'`);
-        return;
-      }
-
-      const characteristic = this.service.getCharacteristic(this.characteristicFromKey(key));
-      const minValue = characteristic.props.minValue;
-      const maxValue = characteristic.props.maxValue;
-      if (minValue !== undefined && value < minValue) {
-        this.logIfDesired(LogType.WARNING, strings.characteristic.outOfRange, key, `'${value.toString()}'`, `'${minValue.toString()}'`);
-        value = minValue;
-      } else if (maxValue !== undefined && value > maxValue) {
-        this.logIfDesired(LogType.WARNING, strings.characteristic.outOfRange, key, `'${value.toString()}'`, `'${maxValue.toString()}'`);
-        value = maxValue;
-      }
-
-      const logString = logTemplate.replace('%d', value.toString());
-      this.onUpdate(key, value, logString);
-
-      callback?.(value);
-
+      this.onUpdateNumeric(key, value, logTemplate, callback);
     }).bind(this);
   }
 
@@ -413,36 +425,43 @@ export abstract class Common<C extends Assertable> {
     }).bind(this);
   }
 
+  protected onSetBoolean(
+    key: CharacteristicKey, value: CharacteristicValue, setTopicKey: keyof C,
+    trueValueKey: keyof C, falseValueKey: keyof C, trueValue: CharacteristicValue,
+    trueLog: string, falseLog: string, callback?: BooleanCallback,
+  ) {
+
+    if (!this.assert(setTopicKey, trueValueKey, falseValueKey)) {
+      return;
+    }
+
+    if (!setTopicKey.toString().startsWith('topic')) {
+      throw new Error(`Trying to fetch topic with unexpected property name '${setTopicKey.toString()}'`);
+    }
+
+    if (!trueValueKey.toString().startsWith('value')) {
+      throw new Error(`Trying to fetch value with unexpected property name '${trueValueKey.toString()}'`);
+    }
+
+    if (!falseValueKey.toString().startsWith('value')) {
+      throw new Error(`Trying to fetch value with unexpected property name '${falseValueKey.toString()}'`);
+    }
+
+    const booleanValue = value === trueValue;
+    const logString = booleanValue ? trueLog : falseLog;
+    const publish = booleanValue ? this.getPrimitiveValue(trueValueKey)! : this.getPrimitiveValue(falseValueKey)!;
+    this.onSet(key, value, publish, setTopicKey, logString);
+
+    callback?.(booleanValue);
+  }
+
   protected bindOnSetBoolean(
     key: CharacteristicKey, setTopicKey: keyof C,
     trueValueKey: keyof C, falseValueKey: keyof C, trueValue: CharacteristicValue,
     trueLog: string, falseLog: string, callback?: BooleanCallback,
   ) {
     return (async (value: CharacteristicValue) => {
-
-      if (!this.assert(setTopicKey, trueValueKey, falseValueKey)) {
-        return;
-      }
-
-      if (!setTopicKey.toString().startsWith('topic')) {
-        throw new Error(`Trying to fetch topic with unexpected property name '${setTopicKey.toString()}'`);
-      }
-
-      if (!trueValueKey.toString().startsWith('value')) {
-        throw new Error(`Trying to fetch value with unexpected property name '${trueValueKey.toString()}'`);
-      }
-
-      if (!falseValueKey.toString().startsWith('value')) {
-        throw new Error(`Trying to fetch value with unexpected property name '${falseValueKey.toString()}'`);
-      }
-
-      const booleanValue = value === trueValue;
-      const logString = booleanValue ? trueLog : falseLog;
-      const publish = booleanValue ? this.getPrimitiveValue(trueValueKey)! : this.getPrimitiveValue(falseValueKey)!;
-      this.onSet(key, value, publish, setTopicKey, logString);
-
-      callback?.(booleanValue);
-
+      this.onSetBoolean(key, value, setTopicKey, trueValueKey, falseValueKey, trueValue, trueLog, falseLog, callback);
     }).bind(this);
   }
 
@@ -528,7 +547,7 @@ export abstract class Common<C extends Assertable> {
     return this.Characteristic[key];
   }
 
-  protected startTimeout(callback: () => void) {
+  protected startTimeout(callback: () => void, config?: TimeoutConfig) {
 
     if (this.timeout !== undefined) {
       this.logIfDesired(strings.autoReset.reset);
@@ -536,12 +555,16 @@ export abstract class Common<C extends Assertable> {
 
     clearTimeout(this.timeout);
     this.timeout = undefined;
+    this.timeoutCallback = undefined;
 
-    if ( !('autoReset' in this.config) || this.config.autoReset === undefined) {
-      return;
+    if (config === undefined) {
+
+      if ( !('autoReset' in this.config) || this.config.autoReset === undefined) {
+        return;
+      }
+
+      config = this.config.autoReset as TimeoutConfig;
     }
-
-    const config = this.config.autoReset as TimeoutConfig;
 
     if (!assert(this.log, this.name, config, 'time', 'units')) {
       return;
@@ -569,8 +592,10 @@ export abstract class Common<C extends Assertable> {
       break;
     }
 
+    this.timeoutCallback = callback;
     this.timeout = setTimeout(() => {
       this.timeout = undefined;
+      this.timeoutCallback = undefined;
       callback();
     }, delay);
 

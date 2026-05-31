@@ -136,7 +136,8 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
     this.mqttClient?.publish(this.identifier, topic, value);
   }
 
-  public teardown() {
+  override teardown() {
+    super.teardown();
     this.mqttClient?.teardown();
   }
 

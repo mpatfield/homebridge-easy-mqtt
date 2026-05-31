@@ -404,6 +404,9 @@ export type DoorbellConfig = ButtonConfig & {
 
 export type ValveConfig = BaseAccessoryConfig & {
   valveType?: ValveType,
+  minimumDuration?: number,
+  maximumDuration?: number,
+  simulateDuration?: boolean,
   topicGetStatusFault?: string,
   topicGetValveActive: string,
   topicGetValveInUse: string,

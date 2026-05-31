@@ -4,16 +4,22 @@ import { BaseAccessory } from './abstract/base.js';
 
 import { strings } from '../i18n/i18n.js';
 
-import { AccessoryType, HKCharacteristicKey, ValveType } from '../model/enums.js';
+import { AccessoryType, HKCharacteristicKey, TimeUnits, ValveType } from '../model/enums.js';
 import { MQTTAccessoryDependency, ValveConfig } from '../model/types.js';
 
 import { LogType } from '../tools/log.js';
+import { SECOND } from '../tools/time.js';
+
+const DEFAULT_MIN_DURATION = 300; // 5 minutes
+const DEFAULT_MAX_DURATION = 3600; // 1 hour
 
 export class ValveAccessory extends BaseAccessory<ValveConfig> {
 
   protected getAccessoryType(): AccessoryType {
     return AccessoryType.Valve;
   }
+
+  private durationFinishTime?: number;
 
   constructor(dependency: MQTTAccessoryDependency<ValveConfig>) {
     super(dependency);
@@ -38,14 +44,42 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
         strings.error.hasFault, strings.error.noFault, LogType.WARNING),
       false);
 
-    this.setup(HKCharacteristicKey.SetDuration, 0,
-      'topicGetValveSetDuration', this.bindOnUpdateNumeric(HKCharacteristicKey.SetDuration, strings.valve.setDuration), false,
-      'topicSetValveSetDuration',
-      this.bindOnSetNumeric(HKCharacteristicKey.SetDuration, 'topicSetValveSetDuration', strings.valve.setDurationFuture),
-    );
+    const minimumDuration: number = dependency.config.minimumDuration ? dependency.config.minimumDuration * 60 : DEFAULT_MIN_DURATION;
+    const maximumDuration: number = dependency.config.maximumDuration ? dependency.config.maximumDuration * 60 : DEFAULT_MAX_DURATION;
 
-    this.setup(HKCharacteristicKey.RemainingDuration, 0,
-      'topicGetValveRemainingDuration', this.bindOnUpdateNumeric(HKCharacteristicKey.RemainingDuration, strings.valve.durationRemaining), false);
+    if (this.simulateDuration) {
+
+      const durationTopics = [
+        dependency.config.topicGetValveSetDuration,
+        dependency.config.topicSetValveSetDuration,
+        dependency.config.topicGetValveRemainingDuration,
+      ].filter(topic => topic !== undefined);
+      if (durationTopics.length > 0) {
+        dependency.log.warning(strings.valve.durationTopicsIgnored, this.name, `(${durationTopics.join(', ')})`);
+      }
+
+      this.setupTopicless(HKCharacteristicKey.SetDuration, minimumDuration)?.setProps( {
+        minValue: minimumDuration,
+        maxValue: maximumDuration,
+      });
+
+      const characteristic = this.service.getCharacteristic(this.characteristicFromKey(HKCharacteristicKey.RemainingDuration));
+      characteristic.onGet( async () => this.remainingDuration);
+
+    } else {
+
+      this.setup(HKCharacteristicKey.SetDuration, minimumDuration,
+        'topicGetValveSetDuration', this.bindOnUpdateNumeric(HKCharacteristicKey.SetDuration, strings.valve.setDuration), false,
+        'topicSetValveSetDuration',
+        this.bindOnSetNumeric(HKCharacteristicKey.SetDuration, 'topicSetValveSetDuration', strings.valve.setDurationFuture),
+      )?.setProps( {
+        minValue: minimumDuration,
+        maxValue: maximumDuration,
+      });
+
+      this.setup(HKCharacteristicKey.RemainingDuration, 0,
+        'topicGetValveRemainingDuration', this.bindOnUpdateNumeric(HKCharacteristicKey.RemainingDuration, strings.valve.durationRemaining), false);
+    }
 
     this.setup(HKCharacteristicKey.IsConfigured, dependency.Characteristic.IsConfigured.NOT_CONFIGURED,
       'topicGetValveIsConfigured',
@@ -56,6 +90,64 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
         dependency.Characteristic.IsConfigured.CONFIGURED, strings.valve.configuredFuture, strings.valve.notConfiguredFuture,
       ),
     );
+  }
+
+  private get simulateDuration(): boolean {
+    return this.config.simulateDuration === true;
+  }
+
+  override onUpdate(key: HKCharacteristicKey, value: CharacteristicValue, logString: string | undefined = undefined): boolean {
+
+    if (this.simulateDuration && key === HKCharacteristicKey.InUse && value === this.Characteristic.InUse.IN_USE) {
+      this.startTimerSimulator();
+    }
+
+    return super.onUpdate(key, value, logString);
+  }
+
+  private get remainingDuration(): number {
+
+    if (this.durationFinishTime === undefined) {
+      return 0;
+    }
+
+    const remainingSeconds = (this.durationFinishTime - Date.now()) / SECOND;
+    return Math.max(0, remainingSeconds);
+  }
+
+  private startTimerSimulator() {
+
+    const duration = this.getProperty(HKCharacteristicKey.SetDuration) as number;
+    if (duration === undefined) {
+      throw new Error(`${this.name} tried to start simulation timer before setting duration`);
+    }
+
+    const MINUTE = 60;
+    const HOUR = 3600;
+
+    let config: { time: number, units: TimeUnits };
+    if (duration < MINUTE) {
+      config = { time: duration, units: TimeUnits.SECONDS };
+    } else if (duration < HOUR) {
+      config = { time: duration / MINUTE, units: TimeUnits.MINUTES };
+    } else {
+      config = { time: duration / HOUR, units: TimeUnits.HOURS };
+    }
+
+    this.durationFinishTime = Date.now() + (duration * SECOND);
+
+    this.startTimeout( () => {
+      this.durationFinishTime = undefined;
+
+      this.onSetBoolean(HKCharacteristicKey.Active, this.Characteristic.Active.INACTIVE,
+        'topicSetValveActive', 'valueActive', 'valueInactive',
+        this.Characteristic.Active.ACTIVE, strings.valve.activeSet, strings.valve.inactiveSet);
+
+      super.onUpdate(HKCharacteristicKey.InUse, this.Characteristic.InUse.NOT_IN_USE, strings.valve.notInUse);
+
+    }, config);
+
+    this.onUpdateNumeric(HKCharacteristicKey.RemainingDuration, duration);
   }
 
   private toValveTypeCV(value: ValveType | undefined): CharacteristicValue {

@@ -33,6 +33,7 @@ const it = {
     startMilliseconds: '%s will reset in %s milliseconds…', // accessory name, number
     startMinutes: '%s will reset in %s minutes…', // accessory name, number
     startSeconds: '%s will reset in %s seconds…', // accessory name, number
+    teardown: '%s is currently waiting to be reset. Performing reset now.', // accessory name
   },
 
   button: {
@@ -69,9 +70,12 @@ const it = {
       colorType: 'Color Type',
       historyEnabled: 'Enable History',
       minimum: 'Minimum',
+      minimumDuration: 'Minimum Duration (Minutes)',
       minimumStep: 'Step',
       maximum: 'Maximum',
+      maximumDuration: 'Maximum Duration (Minutes)',
       password: 'Password',
+      simulateDuration: 'Simulate Duration',
       time: 'Auto-Reset Delay',
       topicEventButtonPress: 'Button Press*',
       topicGetAvailable: 'Get Available/Reachable',
@@ -170,6 +174,9 @@ const it = {
 
   },
 
+  valve: {
+    durationTopicsIgnored: '%s is using a built-in timer, so duration topics %s will be ignored', // accessory name, list of topics
+  },
 };
 
 export default it;

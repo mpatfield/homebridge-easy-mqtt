@@ -37,6 +37,7 @@ const en = {
     startMilliseconds: '%s will reset in %s milliseconds…', // accessory name, number
     startMinutes: '%s will reset in %s minutes…', // accessory name, number
     startSeconds: '%s will reset in %s seconds…', // accessory name, number
+    teardown: '%s is currently waiting to be reset. Performing reset now.', // accessory name
   },
 
   button: {
@@ -132,12 +133,15 @@ const en = {
       group: 'Group',
       historyEnabled: 'Enable History',
       minimum: 'Minimum',
+      minimumDuration: 'Minimum Duration (Minutes)',
       minimumStep: 'Step',
       maximum: 'Maximum',
+      maximumDuration: 'Maximum Duration (Minutes)',
       name: 'Name',
       options: 'Options',
       password: 'Password',
       resetOnRestart: 'Reset on Restart',
+      simulateDuration: 'Simulate Duration',
       sourceUnits: 'Source Units',
       time: 'Auto-Reset Delay',
       topicEventButtonPress: 'Button Press*',
@@ -649,6 +653,7 @@ const en = {
     configured: '%s is configured', // accessory name
     configuredFuture: 'Setting %s is to configured…', // accessory name
     durationRemaining: '%s has %d seconds remaining', // accessory name
+    durationTopicsIgnored: '%s is using a built-in timer, so duration topics %s will be ignored', // accessory name, list of topics
     inactive: '%s is inactive', // accessory name
     inactiveSet: 'Setting %s to inactive…', // accessory name
     inUse: '%s is in use', // accessory name

@@ -199,6 +199,20 @@
               "enum": ["GENERIC_VALVE", "IRRIGATION", "SHOWER_HEAD", "WATER_FAUCET"],
               "enumNames": ["${config.enumNames.valveGeneric}", "${config.enumNames.valveIrrigation}", "${config.enumNames.valveShower}", "${config.enumNames.valveFaucet}"]
             },
+            "minimumDuration": {
+              "type": "integer",
+              "title": "${config.title.minimumDuration}",
+              "minimum": 5
+            },
+            "maximumDuration": {
+              "type": "integer",
+              "title": "${config.title.maximumDuration}",
+              "minimum": 5
+            },
+            "simulateDuration": {
+              "type": "boolean",
+              "title": "${config.title.simulateDuration}"
+            },
             "autoReset": {
               "type": "object",
               "properties": {
@@ -1905,9 +1919,18 @@
                     {
                       "key": "accessories[].valveType",
                       "flex": "0 0 33%"
+                    },
+                    {
+                      "key": "accessories[].minimumDuration",
+                      "flex": "0 0 33%"
+                    },
+                    {
+                      "key": "accessories[].maximumDuration",
+                      "flex": "0 0 33%"
                     }
                   ]
-                }
+                },
+                "accessories[].simulateDuration"
               ]
             },
             "accessories[].mqtt.broker",
