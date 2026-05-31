@@ -37,8 +37,7 @@ export abstract class Common<C extends Assertable> {
   public teardown() {
     if (this.timeout !== undefined && this.timeoutCallback !== undefined) {
       this.log.warning(strings.autoReset.teardown, this.name);
-      clearTimeout(this.timeout);
-      this.timeoutCallback();
+      this.cancelTimeout(true);
     }
   }
 
@@ -553,9 +552,7 @@ export abstract class Common<C extends Assertable> {
       this.logIfDesired(strings.autoReset.reset);
     }
 
-    clearTimeout(this.timeout);
-    this.timeout = undefined;
-    this.timeoutCallback = undefined;
+    this.cancelTimeout();
 
     if (config === undefined) {
 
@@ -600,6 +597,22 @@ export abstract class Common<C extends Assertable> {
     }, delay);
 
     this.logIfDesired(string, config.time.toString());
+  }
+
+  protected cancelTimeout(runCallback: boolean = false) {
+
+    if (this.timeout === undefined) {
+      return;
+    }
+
+    const callback = this.timeoutCallback;
+    clearTimeout(this.timeout);
+    this.timeout = undefined;
+    this.timeoutCallback = undefined;
+
+    if (runCallback) {
+      callback?.();
+    }
   }
 
   protected logIfDesired(message: string, ...parameters: string[]): void;

@@ -31,7 +31,7 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
       this.bindOnUpdateNumericBoolean(HKCharacteristicKey.Active, 'valueActive', strings.valve.active, strings.valve.inactive), true,
       'topicSetValveActive',
       this.bindOnSetBoolean(HKCharacteristicKey.Active, 'topicSetValveActive', 'valueActive', 'valueInactive',
-        dependency.Characteristic.Active.ACTIVE, strings.valve.activeSet, strings.valve.inactiveSet),
+        dependency.Characteristic.Active.ACTIVE, strings.valve.activeSet, strings.valve.inactiveSet, this.onSetActive.bind(this)),
     );
 
     this.setup(HKCharacteristicKey.InUse, dependency.Characteristic.InUse.NOT_IN_USE,
@@ -58,7 +58,7 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
         dependency.log.warning(strings.valve.durationTopicsIgnored, this.name, `(${durationTopics.join(', ')})`);
       }
 
-      this.setupTopicless(HKCharacteristicKey.SetDuration, minimumDuration)?.setProps( {
+      this.setupTopicless(HKCharacteristicKey.SetDuration, minimumDuration, () => undefined)?.setProps( {
         minValue: minimumDuration,
         maxValue: maximumDuration,
       });
@@ -98,11 +98,41 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
 
   override onUpdate(key: HKCharacteristicKey, value: CharacteristicValue, logString: string | undefined = undefined): boolean {
 
-    if (this.simulateDuration && key === HKCharacteristicKey.InUse && value === this.Characteristic.InUse.IN_USE) {
-      this.startTimerSimulator();
+    if (!this.simulateDuration) {
+      return super.onUpdate(key, value, logString);
     }
 
-    return super.onUpdate(key, value, logString);
+    if (key === HKCharacteristicKey.Active && value === this.Characteristic.Active.INACTIVE) {
+      const changed = super.onUpdate(key, value, logString);
+      this.stopTimerSimulator();
+      super.onUpdate(HKCharacteristicKey.InUse, this.Characteristic.InUse.NOT_IN_USE, strings.valve.notInUse);
+      return changed;
+    }
+
+    if (key !== HKCharacteristicKey.InUse) {
+      return super.onUpdate(key, value, logString);
+    }
+
+    const changed = super.onUpdate(key, value, logString);
+    if (value === this.Characteristic.InUse.IN_USE) {
+      if (changed) {
+        this.startTimerSimulator();
+      }
+    } else if (value === this.Characteristic.InUse.NOT_IN_USE) {
+      this.stopTimerSimulator();
+    }
+
+    return changed;
+  }
+
+  private onSetActive(active: boolean) {
+
+    if (!this.simulateDuration || active) {
+      return;
+    }
+
+    this.stopTimerSimulator();
+    super.onUpdate(HKCharacteristicKey.InUse, this.Characteristic.InUse.NOT_IN_USE, strings.valve.notInUse);
   }
 
   private get remainingDuration(): number {
@@ -112,12 +142,12 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
     }
 
     const remainingSeconds = (this.durationFinishTime - Date.now()) / SECOND;
-    return Math.max(0, remainingSeconds);
+    return Math.max(0, Math.ceil(remainingSeconds));
   }
 
   private startTimerSimulator() {
 
-    const duration = this.getProperty(HKCharacteristicKey.SetDuration) as number;
+    const duration = this.setDuration;
     if (duration === undefined) {
       throw new Error(`${this.name} tried to start simulation timer before setting duration`);
     }
@@ -137,7 +167,7 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
     this.durationFinishTime = Date.now() + (duration * SECOND);
 
     this.startTimeout( () => {
-      this.durationFinishTime = undefined;
+      this.stopTimerSimulator();
 
       this.onSetBoolean(HKCharacteristicKey.Active, this.Characteristic.Active.INACTIVE,
         'topicSetValveActive', 'valueActive', 'valueInactive',
@@ -148,6 +178,24 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
     }, config);
 
     this.onUpdateNumeric(HKCharacteristicKey.RemainingDuration, duration);
+  }
+
+  private stopTimerSimulator() {
+
+    this.durationFinishTime = undefined;
+    this.cancelTimeout();
+    super.onUpdate(HKCharacteristicKey.RemainingDuration, 0);
+  }
+
+  private get setDuration(): number | undefined {
+
+    const storedDuration = this.getProperty(HKCharacteristicKey.SetDuration);
+    if (typeof storedDuration === 'number') {
+      return storedDuration;
+    }
+
+    const characteristic = this.service.getCharacteristic(this.characteristicFromKey(HKCharacteristicKey.SetDuration));
+    return typeof characteristic.value === 'number' ? characteristic.value : undefined;
   }
 
   private toValveTypeCV(value: ValveType | undefined): CharacteristicValue {
