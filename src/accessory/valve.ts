@@ -98,16 +98,18 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
 
   override onUpdate(key: HKCharacteristicKey, value: CharacteristicValue, logString: string | undefined = undefined): boolean {
 
+    const changed = super.onUpdate(key, value, logString);
+
     if (this.simulateDuration && key === HKCharacteristicKey.InUse) {
 
-      if (value === this.Characteristic.InUse.IN_USE) {
+      if (changed && value === this.Characteristic.InUse.IN_USE) {
         this.startTimerSimulator();
       } else if (value === this.Characteristic.InUse.NOT_IN_USE) {
         this.stopTimerSimulator();
       }
     }
 
-    return super.onUpdate(key, value, logString);
+    return changed;
   }
 
   private get remainingDuration(): number {
