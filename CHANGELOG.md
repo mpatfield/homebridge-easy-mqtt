@@ -2,7 +2,7 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.17-beta.1 ()
+## 1.5.17-beta.2 ()
 
 ### Added
 - 'Simulate Duration' option to enable auto-shutoff for [`Valves`](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Valve) that do not have duration topics
@@ -10,6 +10,9 @@ All notable changes to homebridge-dummy will be documented in this file.
 
 ### Fixed
 - Potential crash on launch
+
+### Notes
+Please consider giving this plugin a ⭐️ on [GitHub](https://github.com/mpatfield/homebridge-easy-mqtt) if you're finding it useful!
 
 ## 1.5.16 (2026-05-25)
 

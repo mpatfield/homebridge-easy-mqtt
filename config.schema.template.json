@@ -202,12 +202,12 @@
             "minimumDuration": {
               "type": "integer",
               "title": "${config.title.minimumDuration}",
-              "minimum": 5
+              "minimum": 1
             },
             "maximumDuration": {
               "type": "integer",
               "title": "${config.title.maximumDuration}",
-              "minimum": 5
+              "minimum": 1
             },
             "simulateDuration": {
               "type": "boolean",

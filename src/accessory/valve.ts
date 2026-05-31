@@ -58,7 +58,7 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
         dependency.log.warning(strings.valve.durationTopicsIgnored, this.name, `(${durationTopics.join(', ')})`);
       }
 
-      this.setupTopicless(HKCharacteristicKey.SetDuration, minimumDuration)?.setProps( {
+      this.setupTopicless(HKCharacteristicKey.SetDuration, minimumDuration, ()=>{})?.setProps( {
         minValue: minimumDuration,
         maxValue: maximumDuration,
       });
@@ -98,8 +98,13 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
 
   override onUpdate(key: HKCharacteristicKey, value: CharacteristicValue, logString: string | undefined = undefined): boolean {
 
-    if (this.simulateDuration && key === HKCharacteristicKey.InUse && value === this.Characteristic.InUse.IN_USE) {
-      this.startTimerSimulator();
+    if (this.simulateDuration && key === HKCharacteristicKey.InUse) {
+
+      if (value === this.Characteristic.InUse.IN_USE) {
+        this.startTimerSimulator();
+      } else if (value === this.Characteristic.InUse.NOT_IN_USE) {
+        this.stopTimerSimulator();
+      }
     }
 
     return super.onUpdate(key, value, logString);
@@ -112,7 +117,7 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
     }
 
     const remainingSeconds = (this.durationFinishTime - Date.now()) / SECOND;
-    return Math.max(0, remainingSeconds);
+    return Math.max(0, Math.ceil(remainingSeconds));
   }
 
   private startTimerSimulator() {
@@ -148,6 +153,12 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
     }, config);
 
     this.onUpdateNumeric(HKCharacteristicKey.RemainingDuration, duration);
+  }
+
+  private stopTimerSimulator() {
+    this.durationFinishTime = undefined;
+    this.onUpdateNumeric(HKCharacteristicKey.RemainingDuration, 0);
+    this.stopTimeout();
   }
 
   private toValveTypeCV(value: ValveType | undefined): CharacteristicValue {
