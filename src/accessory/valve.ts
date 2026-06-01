@@ -58,7 +58,7 @@ export class ValveAccessory extends BaseAccessory<ValveConfig> {
         dependency.log.warning(strings.valve.durationTopicsIgnored, this.name, `(${durationTopics.join(', ')})`);
       }
 
-      this.setupTopicless(HKCharacteristicKey.SetDuration, minimumDuration, ()=>{})?.setProps( {
+      this.setupTopicless(HKCharacteristicKey.SetDuration, minimumDuration, ()=>{}, {
         minValue: minimumDuration,
         maxValue: maximumDuration,
       });

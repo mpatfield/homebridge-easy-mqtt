@@ -1,4 +1,7 @@
-import { Characteristic, CharacteristicSetHandler, CharacteristicValue, Nullable, Perms, PrimitiveTypes, Service } from 'homebridge';
+import {
+  Characteristic, CharacteristicProps, CharacteristicSetHandler, CharacteristicValue,
+  Nullable, PartialAllowingNull, Perms, PrimitiveTypes, Service,
+} from 'homebridge';
 
 import { EveCharacteristic, isEveCharacteristic } from '../characteristic/eve.js';
 
@@ -214,7 +217,7 @@ export abstract class Common<C extends Assertable> {
   }
 
   protected setupTopicless(characteristicKey: CharacteristicKey, defaultValue: CharacteristicValue,
-    onSetCallback?: (value: CharacteristicValue, changed: boolean) => (void)): Characteristic | undefined {
+    onSetCallback?: (value: CharacteristicValue, changed: boolean) => (void), props?: PartialAllowingNull<CharacteristicProps>): Characteristic | undefined {
 
     const startingValue = this.getProperty(characteristicKey) ?? defaultValue;
 
@@ -223,6 +226,11 @@ export abstract class Common<C extends Assertable> {
     }
 
     const characteristic = this.service.getCharacteristic(this.characteristicFromKey(characteristicKey));
+
+    if (props !== undefined) {
+      characteristic.setProps(props);
+    }
+
     characteristic.setValue(startingValue);
 
     this.setProperty(characteristicKey, startingValue);
