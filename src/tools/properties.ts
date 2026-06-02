@@ -36,7 +36,7 @@ export class Properties {
     return PROPERTIES.get(identifier)?.get(key);
   }
 
-  public static set(identifier: string, key: string, item: Storable | undefined): boolean {
+  public static set(identifier: string, key: string, item: Storable | undefined, persist: boolean = true): boolean {
 
     const items = PROPERTIES.get(identifier) || new Map();
 
@@ -52,7 +52,9 @@ export class Properties {
 
     PROPERTIES.set(identifier, items);
 
-    Properties.save();
+    if (persist) {
+      Properties.save();
+    }
 
     return true;
   }

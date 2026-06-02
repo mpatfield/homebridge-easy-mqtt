@@ -2,13 +2,15 @@
 
 All notable changes to homebridge-dummy will be documented in this file.
 
-## 1.5.17-beta.4 ()
+## 1.5.17-beta.5 ()
 
 ### Added
-- 'Simulate Duration' option to enable auto-shutoff for [`Valves`](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Valve) that do not have duration topics
+- "Simulate Duration" option to enable auto-shutoff for [`Valves`](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Valve) that do not have duration topics
 - Minimum and Maximum 'Default Run Time' for [`Valve`](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Valve) accessory type
 
 ### Fixed
+- "Reset on Restart" not working as intended — causing characteristic warnings and crashes
+    - ⚠️ This has been broken for a while — please [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose) if you notice any issues with this option enabled
 - Potential crash on launch
 
 ### Notes

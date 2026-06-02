@@ -40,7 +40,7 @@ export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends B
     );
   }
 
-  private async onCurrentStateUpdate(topic: string, value: PrimitiveTypes): Promise<void> {
+  private async onCurrentStateUpdate(_topic: string, value: PrimitiveTypes): Promise<void> {
 
     const current = this.currentStateFromValue(value);
 

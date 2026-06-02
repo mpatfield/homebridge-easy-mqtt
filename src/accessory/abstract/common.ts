@@ -1,6 +1,6 @@
 import {
   Characteristic, CharacteristicProps, CharacteristicSetHandler, CharacteristicValue,
-  Nullable, PartialAllowingNull, Perms, PrimitiveTypes, Service,
+  PartialAllowingNull, Perms, PrimitiveTypes, Service,
 } from 'homebridge';
 
 import { EveCharacteristic, isEveCharacteristic } from '../characteristic/eve.js';
@@ -97,16 +97,11 @@ export abstract class Common<C extends Assertable> {
   }
 
   public getProperty(key: CharacteristicKey): CharacteristicValue | undefined {
-    return this.useStoredProperties ? Properties.get(this.identifier, key) : undefined;
+    return Properties.get(this.identifier, key);
   }
 
-  public setProperty(key: CharacteristicKey, value: CharacteristicValue) {
-
-    if (!this.useStoredProperties) {
-      return;
-    }
-
-    Properties.set(this.identifier, key, value);
+  public setProperty(key: CharacteristicKey, value: CharacteristicValue, persist: boolean = false): boolean {
+    return Properties.set(this.identifier, key, value, persist || this.useStoredProperties);
   }
 
   protected get isAvailable(): boolean {
@@ -115,7 +110,7 @@ export abstract class Common<C extends Assertable> {
 
   protected set isAvailable(value: boolean) {
 
-    if (!Properties.set(this.identifier, AVAILABILITY_KEY, value)) {
+    if (!Properties.set(this.identifier, AVAILABILITY_KEY, value, this.useStoredProperties)) {
       return;
     }
 
@@ -164,22 +159,22 @@ export abstract class Common<C extends Assertable> {
       return;
     }
 
-    const startingValue = this.getProperty(characteristicKey) ?? defaultValue;
-
     if (this.isOptionalCharacteristic(characteristicKey)) {
       this.service.addOptionalCharacteristic(this.characteristicFromKey(characteristicKey));
     }
 
     const characteristic = this.service.getCharacteristic(this.characteristicFromKey(characteristicKey));
+
+    const startingValue = !this.useStoredProperties ? defaultValue : (this.getProperty(characteristicKey) ?? defaultValue);
     characteristic.setValue(startingValue);
 
     this.setProperty(characteristicKey, startingValue);
 
-    characteristic.onGet( async (): Promise<Nullable<CharacteristicValue>> => {
+    characteristic.onGet( async (): Promise<CharacteristicValue> => {
       if (!this.isAvailable) {
         throw new this.HapStatusError(HAP_COMMUNICATION_FAILURE);
       }
-      return this.getProperty(characteristicKey) ?? null;
+      return this.getProperty(characteristicKey) ?? startingValue;
     });
 
     const onUpdateHandlerWrapper: OnUpdateHandler = async (topic, value) => {
@@ -219,8 +214,6 @@ export abstract class Common<C extends Assertable> {
   protected setupTopicless(characteristicKey: CharacteristicKey, defaultValue: CharacteristicValue,
     onSetCallback?: (value: CharacteristicValue, changed: boolean) => (void), props?: PartialAllowingNull<CharacteristicProps>): Characteristic | undefined {
 
-    const startingValue = this.getProperty(characteristicKey) ?? defaultValue;
-
     if (this.isOptionalCharacteristic(characteristicKey)) {
       this.service.addOptionalCharacteristic(this.characteristicFromKey(characteristicKey));
     }
@@ -231,12 +224,13 @@ export abstract class Common<C extends Assertable> {
       characteristic.setProps(props);
     }
 
+    const startingValue = !this.useStoredProperties ? defaultValue : (this.getProperty(characteristicKey) ?? defaultValue);
     characteristic.setValue(startingValue);
 
     this.setProperty(characteristicKey, startingValue);
 
-    characteristic.onGet( async (): Promise<Nullable<CharacteristicValue>> => {
-      return this.getProperty(characteristicKey) ?? null;
+    characteristic.onGet( async (): Promise<CharacteristicValue> => {
+      return this.getProperty(characteristicKey) ?? startingValue;
     });
 
     if (onSetCallback) {
