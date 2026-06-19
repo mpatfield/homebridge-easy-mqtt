@@ -1,7 +1,7 @@
 {
   "name": "homebridge-easy-mqtt",
   "platform": "HomebridgeEasyMQTT",
-  "displayName": "Homebridge Easy MQTT",
+  "displayName": "Easy MQTT",
   "description": "Homebridge plugin for MQTT devices",
   "type": "module",
   "version": "1.5.17",
@@ -87,7 +87,7 @@
   },
   "license": "Apache-2.0",
   "allowScripts": {
-    "esbuild@0.28.0": true,
-    "fsevents@2.3.3": true
+    "esbuild": true,
+    "fsevents": true
   }
 }
