@@ -2,11 +2,11 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory } from 'homebridg
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings.js';
 
-import { BaseAccessory } from '../accessory/abstract/base.js';
-import { GroupAccessory } from '../accessory/abstract/group.js';
-import { createAccessory, createIdentifier } from '../accessory/abstract/helper.js';
+import { BaseAccessory } from '../homekit/abstract/base.js';
+import { GroupAccessory } from '../homekit/abstract/group.js';
+import { createAccessory, createIdentifier } from '../homekit/abstract/helper.js';
 
-import { initEveCharacteristics } from '../accessory/characteristic/eve.js';
+import { initEveCharacteristics } from '../homekit/characteristic/eve.js';
 
 import { setLanguage, strings } from '../i18n/i18n.js';
 

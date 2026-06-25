@@ -7,8 +7,8 @@ import path from 'path';
 import { EveCharacteristicKey } from './enums.js';
 import { HistoryConfig, MQTTAccessoryConfig } from './types.js';
 
-import { MQTTAccessory } from '../accessory/abstract/mqtt.js';
-import { EveCharacteristic } from '../accessory/characteristic/eve.js';
+import { MQTTAccessory } from '../homekit/abstract/mqtt.js';
+import { EveCharacteristic } from '../homekit/characteristic/eve.js';
 
 import { strings } from '../i18n/i18n.js';
 
