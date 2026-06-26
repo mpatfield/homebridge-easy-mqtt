@@ -56,8 +56,10 @@ const it = {
 
     enumNames: {
       doorbell: 'Doorbell',
+      homekit: 'HomeKit (Default)',
       hours: 'Hours',
       hsb: 'HSB (Default)',
+      matter: 'Matter (Beta)',
       milliseconds: 'Milliseconds',
       minutes: 'Minutes',
       seconds: 'Seconds',
@@ -75,6 +77,7 @@ const it = {
       maximum: 'Maximum',
       maximumDuration: 'Maximum Duration (Minutes)',
       password: 'Password',
+      protocol: 'Protocol',
       simulateDuration: 'Simulate Duration',
       time: 'Auto-Reset Delay',
       topicEventButtonPress: 'Button Press*',

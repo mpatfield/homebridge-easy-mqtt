@@ -1,3 +1,8 @@
+export enum Protocol {
+  HomeKit = 'HomeKit',
+  Matter = 'Matter',
+}
+
 export enum AccessoryType {
   AirPurifier = 'AirPurifier',
   AirQualitySensor = 'AirQualitySensor',

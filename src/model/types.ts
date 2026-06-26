@@ -4,7 +4,7 @@ export type ServiceType = typeof import('homebridge').Service;
 export type CharacteristicType = typeof import('homebridge').Characteristic;
 export type HapStatusErrorType = typeof import('homebridge').HapStatusError;
 
-import { AccessoryType, ColorType, LabelType, TimeUnits, ValveType } from './enums.js';
+import { AccessoryType, ColorType, LabelType, Protocol, TimeUnits, ValveType } from './enums.js';
 
 import { History } from './history.js';
 import { Log } from '../tools/log.js';
@@ -66,6 +66,7 @@ export type InfoConfig = Assertable & {
   id: string,
   name: string,
   type: AccessoryType,
+  protocol?: Protocol,
   group?: string,
 }
 

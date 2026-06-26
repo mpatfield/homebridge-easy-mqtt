@@ -13,11 +13,17 @@ const ro = {
 
   config: {
 
+    enumNames: {
+      homekit: 'HomeKit (Default)',
+      matter: 'Matter (Beta)',
+    },
+
     title: {
       minimum: 'Minimum',
       minimumDuration: 'Minimum Duration (Minutes)',
       minimumStep: 'Step',
       maximumDuration: 'Maximum Duration (Minutes)',
+      protocol: 'Protocol',
       simulateDuration: 'Simulate Duration',
       topicGetAvailable: 'Get Available/Reachable',
       topicGetStatusActive: 'Get Active Status',
