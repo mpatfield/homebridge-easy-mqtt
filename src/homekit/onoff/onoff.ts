@@ -1,4 +1,4 @@
-import { BaseAccessory } from '../abstract/base.js';
+import { HomeKitAccessory } from '../abstract/base.js';
 
 import { EVE_EPOCH, EveCharacteristic } from '../characteristic/eve.js';
 
@@ -12,7 +12,7 @@ import { HOUR, SECOND } from '../../tools/time.js';
 
 type LastConsumption = { time: number, value: number};
 
-export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extends BaseAccessory<C> {
+export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extends HomeKitAccessory<C> {
 
   private lastConsumption?: LastConsumption;
 

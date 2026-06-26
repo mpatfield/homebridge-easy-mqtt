@@ -1,6 +1,6 @@
 import { CharacteristicValue, PrimitiveTypes } from 'homebridge';
 
-import { BaseAccessory } from './abstract/base.js';
+import { HomeKitAccessory } from './abstract/base.js';
 
 import { strings } from '../i18n/i18n.js';
 
@@ -9,7 +9,7 @@ import { LockConfig, MQTTAccessoryDependency } from '../model/types.js';
 
 import { LogType } from '../tools/log.js';
 
-export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends BaseAccessory<C> {
+export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends HomeKitAccessory<C> {
 
   protected getAccessoryType(): AccessoryType {
     return AccessoryType.LockMechanism;

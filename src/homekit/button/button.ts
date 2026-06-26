@@ -1,6 +1,6 @@
 import { PrimitiveTypes, Service } from 'homebridge';
 
-import { BaseAccessory } from '../abstract/base.js';
+import { HomeKitAccessory } from '../abstract/base.js';
 
 import { strings } from '../../i18n/i18n.js';
 
@@ -19,7 +19,7 @@ class Button {
   ) { }
 }
 
-export abstract class ButtonAccessory<C extends ButtonConfig = ButtonConfig> extends BaseAccessory<C> {
+export abstract class ButtonAccessory<C extends ButtonConfig = ButtonConfig> extends HomeKitAccessory<C> {
 
   private _singlePressValues?: PrimitiveTypes[];
   private _doublePressValues?: PrimitiveTypes[];

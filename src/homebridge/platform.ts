@@ -2,7 +2,7 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory } from 'homebridg
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings.js';
 
-import { BaseAccessory } from '../homekit/abstract/base.js';
+import { HomeKitAccessory } from '../homekit/abstract/base.js';
 import { GroupAccessory } from '../homekit/abstract/group.js';
 import { createAccessory, createIdentifier } from '../homekit/abstract/helper.js';
 
@@ -23,7 +23,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
   private readonly log: Log;
 
   private readonly platformAccessories: Map<string, PlatformAccessory> = new Map();
-  private readonly accessories: (BaseAccessory<BaseAccessoryConfig> | GroupAccessory)[] = [];
+  private readonly accessories: (HomeKitAccessory<BaseAccessoryConfig> | GroupAccessory)[] = [];
 
   constructor(
     logger: Logger,

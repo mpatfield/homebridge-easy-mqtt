@@ -1,6 +1,7 @@
 import { CharacteristicValue } from 'homebridge';
 
-import { BaseAccessory } from '../abstract/base.js';
+import { HomeKitAccessory } from '../abstract/base.js';
+
 import { strings } from '../../i18n/i18n.js';
 
 import { HKCharacteristicKey } from '../../model/enums.js';
@@ -13,7 +14,7 @@ export const DEFAULT_TEMPERATURE = 10;
 const DEFAULT_COOLING_THRESHOLD = 25;
 const DEFAULT_HEATING_THRESHOLD = 20;
 
-export abstract class TemperatureControlAccessory<C extends TemperatureControlConfig = TemperatureControlConfig> extends BaseAccessory<C> {
+export abstract class TemperatureControlAccessory<C extends TemperatureControlConfig = TemperatureControlConfig> extends HomeKitAccessory<C> {
 
   constructor(dependency: MQTTAccessoryDependency<C>) {
     super(dependency);

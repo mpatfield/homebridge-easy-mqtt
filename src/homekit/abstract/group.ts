@@ -1,4 +1,4 @@
-import { BaseAccessory } from './base.js';
+import { HomeKitAccessory } from './base.js';
 
 import { AccessoryDependency, BaseAccessoryConfig } from '../../model/types.js';
 
@@ -8,7 +8,7 @@ import getVersion from '../../tools/version.js';
 
 export class GroupAccessory {
 
-  private readonly accessories: (BaseAccessory<BaseAccessoryConfig>)[] = [];
+  private readonly accessories: (HomeKitAccessory<BaseAccessoryConfig>)[] = [];
 
   constructor(
     dependency: AccessoryDependency,

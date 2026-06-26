@@ -1,4 +1,4 @@
-import { BaseAccessory } from './base.js';
+import { HomeKitAccessory } from './base.js';
 
 import { strings } from '../../i18n/i18n.js';
 
@@ -47,7 +47,7 @@ export function createAccessory(
   dependency: Types.AccessoryDependency,
   config: Types.BaseAccessoryConfig,
   isGrouped: boolean = false,
-): BaseAccessory | undefined {
+): HomeKitAccessory | undefined {
 
   const mqttDependency: Types.MQTTAccessoryDependency<Types.BaseAccessoryConfig> =
   { ...dependency, config, isGrouped };

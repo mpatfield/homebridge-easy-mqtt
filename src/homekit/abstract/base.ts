@@ -13,7 +13,7 @@ import { BaseAccessoryConfig, MQTTAccessoryDependency } from '../../model/types.
 
 import getVersion from '../../tools/version.js';
 
-export abstract class BaseAccessory<C extends BaseAccessoryConfig = BaseAccessoryConfig> extends MQTTAccessory<C> {
+export abstract class HomeKitAccessory<C extends BaseAccessoryConfig = BaseAccessoryConfig> extends MQTTAccessory<C> {
 
   constructor(dependency: MQTTAccessoryDependency<C>) {
     super(dependency);

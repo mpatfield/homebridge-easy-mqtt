@@ -1,6 +1,6 @@
 import { CharacteristicValue, PrimitiveTypes } from 'homebridge';
 
-import { BaseAccessory } from './abstract/base.js';
+import { HomeKitAccessory } from './abstract/base.js';
 
 import { strings } from '../i18n/i18n.js';
 
@@ -9,7 +9,7 @@ import { MQTTAccessoryDependency, SecurityConfig } from '../model/types.js';
 
 import { LogType } from '../tools/log.js';
 
-export class SecuritySystemAccessory extends BaseAccessory<SecurityConfig> {
+export class SecuritySystemAccessory extends HomeKitAccessory<SecurityConfig> {
 
   private readonly STATES: Map<keyof SecurityConfig, number>;
   private readonly CURRENT_STRINGS: Map<CharacteristicValue, string>;

@@ -1,6 +1,6 @@
 import { CharacteristicValue } from 'homebridge';
 
-import { BaseAccessory } from './abstract/base.js';
+import { HomeKitAccessory } from './abstract/base.js';
 
 import { strings } from '../i18n/i18n.js';
 
@@ -13,7 +13,7 @@ import { SECOND } from '../tools/time.js';
 const DEFAULT_MIN_DURATION = 300; // 5 minutes
 const DEFAULT_MAX_DURATION = 3600; // 1 hour
 
-export class ValveAccessory extends BaseAccessory<ValveConfig> {
+export class ValveAccessory extends HomeKitAccessory<ValveConfig> {
 
   protected getAccessoryType(): AccessoryType {
     return AccessoryType.Valve;

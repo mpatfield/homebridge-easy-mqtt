@@ -1,4 +1,5 @@
-import { BaseAccessory } from '../abstract/base.js';
+import { HomeKitAccessory } from '../abstract/base.js';
+
 import { strings } from '../../i18n/i18n.js';
 
 import { HKCharacteristicKey } from '../../model/enums.js';
@@ -6,7 +7,7 @@ import { MQTTAccessoryDependency, SensorConfig } from '../../model/types.js';
 
 import { LogType } from '../../tools/log.js';
 
-export abstract class SensorAccessory<C extends SensorConfig = SensorConfig> extends BaseAccessory<C> {
+export abstract class SensorAccessory<C extends SensorConfig = SensorConfig> extends HomeKitAccessory<C> {
 
   constructor(dependency: MQTTAccessoryDependency<C>) {
     super(dependency);
