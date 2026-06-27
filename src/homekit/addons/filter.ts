@@ -2,13 +2,12 @@ import { CharacteristicValue, Service } from 'homebridge';
 
 import { Addon } from './addon.js';
 
-import { TopicHandler } from '../abstract/common.js';
 import { MQTTAccessory } from '../abstract/mqtt.js';
 
 import { strings } from '../../i18n/i18n.js';
 
 import { AddonType, HKCharacteristicKey, ServiceType } from '../../model/homekit.js';
-import { FilterMaintenanceConfig, MQTTAccessoryConfig } from '../../model/types.js';
+import { FilterMaintenanceConfig, MQTTAccessoryConfig, TopicHandler } from '../../model/types.js';
 
 import { LogType } from '../../tools/log.js';
 

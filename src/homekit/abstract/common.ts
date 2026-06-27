@@ -9,7 +9,7 @@ import { strings } from '../../i18n/i18n.js';
 
 import { TimeUnits } from '../../model/enums.js';
 import { CharacteristicKey, CharacteristicType, HapStatusErrorType } from '../../model/homekit.js';
-import { TemperatureConfig, TimeoutConfig } from '../../model/types.js';
+import { OnUpdateHandler, TemperatureConfig, TimeoutConfig, TopicHandler } from '../../model/types.js';
 
 import { debounce } from '../../tools/debounce.js';
 import { Log, LogType } from '../../tools/log.js';
@@ -18,11 +18,6 @@ import { Properties } from '../../tools/properties.js';
 import { temperatureUnits, toCelsius } from '../../tools/temperature.js';
 import { HOUR, MINUTE, SECOND } from '../../tools/time.js';
 import { assert, Assertable, assertType, Type } from '../../tools/validation.js';
-
-type OnUpdateHandler = (topic: string, value: PrimitiveTypes) => (Promise<void>);
-export type TopicHandler = {topic: string, handler: OnUpdateHandler};
-
-export type PublishHandler = (topic: string, value: PrimitiveTypes) => void;
 
 type NumberCallback = (value: number) => void;
 type BooleanCallback = (value: boolean) => void

@@ -9,11 +9,9 @@ import { strings } from '../../i18n/i18n.js';
 import { AccessoryType } from '../../model/enums.js';
 import { HistoryType } from '../../model/history.js';
 import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
-import { ContactSensorConfig } from '../../model/types.js';
+import { ContactSensorConfig, OnUpdateHandler } from '../../model/types.js';
 
 import { SECOND } from '../../tools/time.js';
-
-type OnUpdateHandler = (topic: string, value: PrimitiveTypes) => (Promise<void>);
 
 export class ContactSensorAccessory extends SensorAccessory<ContactSensorConfig> {
 
