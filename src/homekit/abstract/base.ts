@@ -19,15 +19,14 @@ export abstract class HomeKitAccessory<C extends BaseAccessoryConfig = BaseAcces
     super(dependency);
 
     if (!dependency.isGrouped) {
-    this.platformAccessory.getService(dependency.Service.AccessoryInformation)!
-      .setCharacteristic(dependency.Characteristic.Name, dependency.config.info.name)
-      .setCharacteristic(dependency.Characteristic.ConfiguredName, dependency.config.info.name)
-      .setCharacteristic(dependency.Characteristic.Manufacturer, dependency.config.info.manufacturer ?? PLATFORM_NAME)
-      .setCharacteristic(dependency.Characteristic.Model, dependency.config.info.model ?? dependency.config.info.type)
-      .setCharacteristic(dependency.Characteristic.SerialNumber, dependency.config.info.serialNumber ?? this.identifier)
-      .setCharacteristic(dependency.Characteristic.FirmwareRevision, dependency.config.info.version ?? getVersion());
+      this.platformAccessory.getService(dependency.Service.AccessoryInformation)!
+        .setCharacteristic(dependency.Characteristic.Name, dependency.config.info.name)
+        .setCharacteristic(dependency.Characteristic.ConfiguredName, dependency.config.info.name)
+        .setCharacteristic(dependency.Characteristic.Manufacturer, dependency.config.info.manufacturer ?? PLATFORM_NAME)
+        .setCharacteristic(dependency.Characteristic.Model, dependency.config.info.model ?? dependency.config.info.type)
+        .setCharacteristic(dependency.Characteristic.SerialNumber, dependency.config.info.serialNumber ?? this.identifier)
+        .setCharacteristic(dependency.Characteristic.FirmwareRevision, dependency.config.info.version ?? getVersion());
     }
-
 
     this.setup(HKCharacteristicKey.StatusActive, true,
       'topicGetStatusActive',
