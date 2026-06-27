@@ -5,7 +5,8 @@ import { HomeKitAccessory } from '../abstract/base.js';
 import { strings } from '../../i18n/i18n.js';
 
 import { AccessoryType, LabelType } from '../../model/enums.js';
-import { ButtonConfig, MQTTAccessoryDependency } from '../../model/types.js';
+import { MQTTAccessoryDependency } from '../../model/homekit.js';
+import { ButtonConfig } from '../../model/types.js';
 
 import { toPrimitive } from '../../tools/primitive.js';
 

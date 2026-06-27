@@ -7,8 +7,9 @@ import { EveCharacteristic, isEveCharacteristic } from '../characteristic/eve.js
 
 import { strings } from '../../i18n/i18n.js';
 
-import { CharacteristicKey, TimeUnits } from '../../model/enums.js';
-import { CharacteristicType, HapStatusErrorType, TemperatureConfig, TimeoutConfig } from '../../model/types.js';
+import { TimeUnits } from '../../model/enums.js';
+import { CharacteristicKey, CharacteristicType, HapStatusErrorType } from '../../model/homekit.js';
+import { TemperatureConfig, TimeoutConfig } from '../../model/types.js';
 
 import { debounce } from '../../tools/debounce.js';
 import { Log, LogType } from '../../tools/log.js';

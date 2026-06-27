@@ -2,8 +2,9 @@ import { OnOffAccessory } from './onoff.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, ColorType, HKCharacteristicKey } from '../../model/enums.js';
-import { LightbulbConfig, MQTTAccessoryDependency } from '../../model/types.js';
+import { AccessoryType, ColorType } from '../../model/enums.js';
+import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
+import { LightbulbConfig } from '../../model/types.js';
 
 import { parseCSVRGB, RGB, RGBtoHSB, HSBtoRGB, calculateWhiteFactor } from '../../tools/color.js';
 import { debounce } from '../../tools/debounce.js';

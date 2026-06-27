@@ -2,8 +2,9 @@ import { SensorAccessory } from './sensor.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
-import { MQTTAccessoryDependency, OccupancySensorConfig } from '../../model/types.js';
+import { AccessoryType } from '../../model/enums.js';
+import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
+import { OccupancySensorConfig } from '../../model/types.js';
 
 export class OccupancySensorAccessory extends SensorAccessory<OccupancySensorConfig> {
 

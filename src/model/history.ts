@@ -4,11 +4,10 @@ import { access, unlink } from 'fs/promises';
 import { API, CharacteristicValue, Nullable, PlatformAccessory } from 'homebridge';
 import path from 'path';
 
-import { EveCharacteristicKey } from './enums.js';
 import { HistoryConfig, MQTTAccessoryConfig } from './types.js';
 
 import { MQTTAccessory } from '../homekit/abstract/mqtt.js';
-import { EveCharacteristic } from '../homekit/characteristic/eve.js';
+import { EveCharacteristic, EveCharacteristicKey } from '../homekit/characteristic/eve.js';
 
 import { strings } from '../i18n/i18n.js';
 

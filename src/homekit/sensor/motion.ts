@@ -2,9 +2,10 @@ import { SensorAccessory } from './sensor.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
+import { AccessoryType } from '../../model/enums.js';
 import { HistoryType } from '../../model/history.js';
-import { MotionSensorConfig, MQTTAccessoryDependency } from '../../model/types.js';
+import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
+import { MotionSensorConfig } from '../../model/types.js';
 
 export class MotionSensorAccessory extends SensorAccessory<MotionSensorConfig> {
 

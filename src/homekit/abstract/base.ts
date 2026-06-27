@@ -8,8 +8,8 @@ import { PLATFORM_NAME } from '../../homebridge/settings.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { CharacteristicKey, HKCharacteristicKey } from '../../model/enums.js';
-import { BaseAccessoryConfig, MQTTAccessoryDependency } from '../../model/types.js';
+import { CharacteristicKey, HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
+import { BaseAccessoryConfig } from '../../model/types.js';
 
 import getVersion from '../../tools/version.js';
 

@@ -7,8 +7,8 @@ import { MQTTAccessory } from '../abstract/mqtt.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AddonType, HKCharacteristicKey } from '../../model/enums.js';
-import { BatteryConfig, MQTTAccessoryConfig, ServiceType } from '../../model/types.js';
+import { AddonType, HKCharacteristicKey, ServiceType } from '../../model/homekit.js';
+import { BatteryConfig, MQTTAccessoryConfig } from '../../model/types.js';
 
 import { LogType } from '../../tools/log.js';
 

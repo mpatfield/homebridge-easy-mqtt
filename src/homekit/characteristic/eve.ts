@@ -1,9 +1,21 @@
 import { API } from 'homebridge';
 import { EveHomeKitTypes } from 'homebridge-lib/EveHomeKitTypes';
 
-import { CharacteristicKey, EveCharacteristicKey } from '../../model/enums.js';
+import { CharacteristicKey } from '../../model/homekit.js';
 
 export const EVE_EPOCH = 978307200; // Seconds since Jan 1, 2001
+
+export enum EveCharacteristicKey {
+  ClosedDuration = 'ClosedDuration',
+  CurrentConsumption = 'CurrentConsumption',
+  ElectricCurrent = 'ElectricCurrent',
+  LastActivation = 'LastActivation',
+  OpenDuration = 'OpenDuration',
+  ResetTotal = 'ResetTotal',
+  TimesOpened = 'TimesOpened',
+  TotalConsumption = 'TotalConsumption',
+  Voltage = 'Voltage'
+}
 
 let _EveHomeKitTypes: EveHomeKitTypes | undefined;
 

@@ -2,13 +2,14 @@ import { PrimitiveTypes } from 'homebridge';
 
 import { SensorAccessory } from './sensor.js';
 
-import { EVE_EPOCH } from '../characteristic/eve.js';
+import { EVE_EPOCH, EveCharacteristicKey } from '../characteristic/eve.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, EveCharacteristicKey, HKCharacteristicKey } from '../../model/enums.js';
+import { AccessoryType } from '../../model/enums.js';
 import { HistoryType } from '../../model/history.js';
-import { ContactSensorConfig, MQTTAccessoryDependency } from '../../model/types.js';
+import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
+import { ContactSensorConfig } from '../../model/types.js';
 
 import { SECOND } from '../../tools/time.js';
 

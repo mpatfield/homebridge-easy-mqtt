@@ -2,9 +2,10 @@ import { SensorAccessory } from './sensor.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
+import { AccessoryType } from '../../model/enums.js';
+import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
 import { HistoryType } from '../../model/history.js';
-import { MQTTAccessoryDependency, TemperatureSensorConfig } from '../../model/types.js';
+import { TemperatureSensorConfig } from '../../model/types.js';
 
 export class TemperatureSensorAccessory extends SensorAccessory<TemperatureSensorConfig> {
 

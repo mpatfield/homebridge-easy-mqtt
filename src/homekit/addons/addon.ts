@@ -3,8 +3,8 @@ import { PrimitiveTypes, Service } from 'homebridge';
 import { Common } from '../abstract/common.js';
 import { MQTTAccessory } from '../abstract/mqtt.js';
 
-import { AddonType } from '../../model/enums.js';
-import { AddonConfig, CharacteristicType, HapStatusErrorType, MQTTAccessoryConfig } from '../../model/types.js';
+import { AddonType , CharacteristicType, HapStatusErrorType } from '../../model/homekit.js';
+import { AddonConfig, MQTTAccessoryConfig } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
 

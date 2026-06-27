@@ -1,6 +1,7 @@
 import { HomeKitAccessory } from './base.js';
 
-import { AccessoryDependency, BaseAccessoryConfig } from '../../model/types.js';
+import { BaseAccessoryConfig } from '../../model/types.js';
+import { HomeKitAccessoryDependency } from '../../model/homekit.js';
 
 import { createHomeKitAccessory } from './helper.js';
 import { PLATFORM_NAME } from '../../homebridge/settings.js';
@@ -11,7 +12,7 @@ export class GroupAccessory {
   private readonly accessories: (HomeKitAccessory<BaseAccessoryConfig>)[] = [];
 
   constructor(
-    dependency: AccessoryDependency,
+    dependency: HomeKitAccessoryDependency,
     name: string,
     configs: BaseAccessoryConfig[],
   ) {

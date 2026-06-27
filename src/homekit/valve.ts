@@ -4,8 +4,9 @@ import { HomeKitAccessory } from './abstract/base.js';
 
 import { strings } from '../i18n/i18n.js';
 
-import { AccessoryType, HKCharacteristicKey, TimeUnits, ValveType } from '../model/enums.js';
-import { MQTTAccessoryDependency, ValveConfig } from '../model/types.js';
+import { AccessoryType, TimeUnits, ValveType } from '../model/enums.js';
+import { HKCharacteristicKey, MQTTAccessoryDependency } from '../model/homekit.js';
+import { ValveConfig } from '../model/types.js';
 
 import { LogType } from '../tools/log.js';
 import { SECOND } from '../tools/time.js';

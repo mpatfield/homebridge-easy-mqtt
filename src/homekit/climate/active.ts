@@ -2,8 +2,8 @@ import { TemperatureControlAccessory } from './temperatureControl.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { HKCharacteristicKey } from '../../model/enums.js';
-import { ActiveClimateConfig, MQTTAccessoryDependency } from '../../model/types.js';
+import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
+import { ActiveClimateConfig } from '../../model/types.js';
 
 export abstract class ActiveClimateAccessory<C extends ActiveClimateConfig = ActiveClimateConfig> extends TemperatureControlAccessory<C> {
 

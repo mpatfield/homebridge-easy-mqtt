@@ -1,12 +1,12 @@
 import { HomeKitAccessory } from '../abstract/base.js';
 
-import { EVE_EPOCH, EveCharacteristic } from '../characteristic/eve.js';
+import { EVE_EPOCH, EveCharacteristic, EveCharacteristicKey } from '../characteristic/eve.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { EveCharacteristicKey, HKCharacteristicKey } from '../../model/enums.js';
+import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
 import { HistoryType } from '../../model/history.js';
-import { MQTTAccessoryDependency, OnOffConfig } from '../../model/types.js';
+import { OnOffConfig } from '../../model/types.js';
 
 import { HOUR, SECOND } from '../../tools/time.js';
 

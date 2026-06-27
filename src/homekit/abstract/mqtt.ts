@@ -6,10 +6,11 @@ import { createIdentifier } from './helper.js';
 import { CharacteristicKeys } from '../characteristic/characteristic.js';
 import { CustomCharacteristic } from '../characteristic/custom.js';
 
-import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
+import { AccessoryType } from '../../model/enums.js';
+import { CharacteristicType, HapStatusErrorType, HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
 import { HistoryEntry, HistoryType } from '../../model/history.js';
 import { MQTT } from '../../model/mqtt.js';
-import { CharacteristicType, HapStatusErrorType, MQTTAccessoryConfig, MQTTAccessoryDependency } from '../../model/types.js';
+import { MQTTAccessoryConfig } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
 

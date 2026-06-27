@@ -2,8 +2,9 @@ import { ActiveClimateAccessory } from './active.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
-import { FanV2Config, MQTTAccessoryDependency } from '../../model/types.js';
+import { AccessoryType } from '../../model/enums.js';
+import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
+import { FanV2Config } from '../../model/types.js';
 
 export class FanV2Accessory extends ActiveClimateAccessory<FanV2Config> {
 

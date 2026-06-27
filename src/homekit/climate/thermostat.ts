@@ -2,9 +2,10 @@ import { TemperatureControlAccessory, DEFAULT_TEMPERATURE } from './temperatureC
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, HKCharacteristicKey } from '../../model/enums.js';
+import { AccessoryType } from '../../model/enums.js';
+import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
 import { HistoryType } from '../../model/history.js';
-import { MQTTAccessoryDependency, ThermostatConfig } from '../../model/types.js';
+import { ThermostatConfig } from '../../model/types.js';
 
 import { TemperatureUnits, toCelsius } from '../../tools/temperature.js';
 

@@ -2,8 +2,8 @@ import { HomeKitAccessory } from '../abstract/base.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { HKCharacteristicKey } from '../../model/enums.js';
-import { MQTTAccessoryDependency, PositionConfig } from '../../model/types.js';
+import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
+import { PositionConfig } from '../../model/types.js';
 
 import { LogType } from '../../tools/log.js';
 

@@ -1,6 +1,7 @@
 import { Characteristic, CharacteristicValue, Formats, Nullable, Perms, PrimitiveTypes, Service } from 'homebridge';
 
-import { CharacteristicType, CustomCharacteristicConfig } from '../../model/types.js';
+import { CharacteristicType } from '../../model/homekit.js';
+import { CustomCharacteristicConfig } from '../../model/types.js';
 
 import { Log } from '../../tools/log.js';
 import { strings } from '../../i18n/i18n.js';

@@ -1,4 +1,7 @@
-import { AccessoryType, CharacteristicKey, EveCharacteristicKey, HKCharacteristicKey } from '../../model/enums.js';
+import { EveCharacteristicKey } from './eve.js';
+
+import { AccessoryType } from '../../model/enums.js';
+import { CharacteristicKey, HKCharacteristicKey } from '../../model/homekit.js';
 
 let _CharacteristicKeys: CharacteristicKey[] | undefined;
 export function CharacteristicKeys(): CharacteristicKey[] {

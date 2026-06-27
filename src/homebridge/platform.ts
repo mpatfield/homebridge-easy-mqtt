@@ -12,7 +12,8 @@ import { setLanguage, strings } from '../i18n/i18n.js';
 
 import { Protocol } from '../model/enums.js';
 import { History } from '../model/history.js';
-import { AccessoryDependency, BaseAccessoryConfig, PlatformConfig } from '../model/types.js';
+import { HomeKitAccessoryDependency } from '../model/homekit.js';
+import { BaseAccessoryConfig, PlatformConfig } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
 import { Properties } from '../tools/properties.js';
@@ -106,7 +107,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
         const uuid = this.api.hap.uuid.generate(id);
 
         const platformAccessory = this.createHomeKitAccessory(accessoryConfig.info.name, uuid);
-        const dependency: AccessoryDependency = {
+        const dependency: HomeKitAccessoryDependency = {
           Service: this.api.hap.Service,
           Characteristic: this.api.hap.Characteristic,
           HapStatusError: this.api.hap.HapStatusError,
@@ -135,7 +136,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
       const uuid = this.api.hap.uuid.generate(groupName);
       const platformAccessory = this.createHomeKitAccessory(groupName, uuid);
-      const dependency: AccessoryDependency = {
+      const dependency: HomeKitAccessoryDependency = {
         Service: this.api.hap.Service,
         Characteristic: this.api.hap.Characteristic,
         HapStatusError: this.api.hap.HapStatusError,
