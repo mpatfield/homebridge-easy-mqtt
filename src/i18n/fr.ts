@@ -604,14 +604,7 @@ const fr = {
 
   startup: {
     complete: '✓ Configuration terminée',
-    newAccessory: 'Ajout de %s',
-    removeAccessory: 'Suppression de %s',
-    restoringAccessory: 'Restauration de %s',
     unsupportedType: 'Type d\'accessoire non pris en charge %s',
-    welcome: [
-      'Veuillez ★ ce plugin sur GitHub si vous le trouvez utile ! https://github.com/mpatfield/homebridge-easy-mqtt',
-      'Souhaitez-vous parrainer ce plugin ? https://github.com/sponsors/mpatfield',
-    ],
   },
 
   thermostat: {

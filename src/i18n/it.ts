@@ -478,14 +478,7 @@ const it = {
 
   startup: {
     complete: '✓ Configurazione completata',
-    newAccessory: 'Aggiunta %s',
-    removeAccessory: 'Rimozione %s',
-    restoringAccessory: 'Ripristino %s',
     unsupportedType: 'Tipo di accessorio non supportato %s',
-    welcome: [
-      'Per favore ★ questo plugin su GitHub se lo trovi utile! https://github.com/mpatfield/homebridge-easy-mqtt',
-      'Vuoi sponsorizzare questo plugin? https://github.com/sponsors/mpatfield',
-    ],
   },
 
   thermostat: {

@@ -4,18 +4,19 @@ import { PLATFORM_NAME, PLUGIN_NAME } from './settings.js';
 
 import { HomeKitAccessory } from '../homekit/abstract/base.js';
 import { GroupAccessory } from '../homekit/abstract/group.js';
-import { createAccessory, createIdentifier } from '../homekit/abstract/helper.js';
+import { createHomeKitAccessory, createIdentifier } from '../homekit/abstract/helper.js';
 
 import { initEveCharacteristics } from '../homekit/characteristic/eve.js';
 
 import { setLanguage, strings } from '../i18n/i18n.js';
 
+import { Protocol } from '../model/enums.js';
+import { History } from '../model/history.js';
 import { AccessoryDependency, BaseAccessoryConfig, PlatformConfig } from '../model/types.js';
 
-import { History } from '../model/history.js';
 import { Log } from '../tools/log.js';
 import { Properties } from '../tools/properties.js';
-import { assert } from '../tools/validation.js';
+import { assert, printableValues } from '../tools/validation.js';
 import getVersion from '../tools/version.js';
 
 export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
@@ -23,7 +24,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
   private readonly log: Log;
 
   private readonly platformAccessories: Map<string, PlatformAccessory> = new Map();
-  private readonly accessories: (HomeKitAccessory<BaseAccessoryConfig> | GroupAccessory)[] = [];
+  private readonly homekitAccessories: (HomeKitAccessory<BaseAccessoryConfig> | GroupAccessory)[] = [];
 
   constructor(
     logger: Logger,
@@ -36,15 +37,14 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
     this.log = new Log(logger, config.verbose);
 
     this.log.ifVerbose(
-      'v%s | System %s | Node %s | HB v%s | HAPNodeJS v%s',
+      'v%s | System %s | Node %s | HB v%s | HAPNodeJS v%s | Matter %s',
       getVersion(),
       process.platform,
       process.version,
       api.serverVersion,
       api.hap.HAPLibraryVersion(),
+      !this.api.isMatterAvailable?.() ? 'unavailable' : ( !this.api.isMatterEnabled?.() ? 'disabled' : 'enabled' ),
     );
-
-    initEveCharacteristics(api);
 
     this.api.on('didFinishLaunching', () => {
       this.setup();
@@ -56,12 +56,12 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
   }
 
   configureAccessory(accessory: PlatformAccessory): void {
-    this.log.ifVerbose(strings.startup.restoringAccessory, accessory.displayName);
+    this.log.ifVerbose(strings.startup.homekitRestoringAccessory, accessory.displayName);
     this.platformAccessories.set(accessory.context.identifier, accessory);
   }
 
   private teardown() {
-    this.accessories.forEach( accessory => {
+    this.homekitAccessories.forEach( accessory => {
       accessory.teardown();
     });
   }
@@ -74,14 +74,8 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
       this.config.accessories = [];
     }
 
-    const keepIdentifiers = new Set<string>();
-    const groups = new Map<string, BaseAccessoryConfig[]>();
-
-    const Service = this.api.hap.Service;
-    const Characteristic = this.api.hap.Characteristic;
-    const HapStatusError = this.api.hap.HapStatusError;
-
-    const history = new History(this.api, this.log);
+    const keepHomeKitIdentifiers = new Set<string>();
+    const homekitGroups = new Map<string, BaseAccessoryConfig[]>();
 
     for (const accessoryConfig of this.config.accessories) {
 
@@ -90,57 +84,83 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
         continue;
       }
 
-      const groupName = accessoryConfig.info.group;
-      if (groupName !== undefined) {
-
-        const group = groups.get(groupName) ?? [];
-        group.push(accessoryConfig);
-        groups.set(groupName, group);
-
-        continue;
+      if (accessoryConfig.info.protocol === undefined) {
+        accessoryConfig.info.protocol = Protocol.HomeKit;
       }
 
-      const id = createIdentifier(accessoryConfig.info);
-      const uuid = this.api.hap.uuid.generate(id);
+      if (accessoryConfig.info.protocol === Protocol.HomeKit) {
 
-      const platformAccessory = this.createPlatformAccessory(accessoryConfig.info.name, uuid);
-      const dependency: AccessoryDependency = { Service, Characteristic, HapStatusError, platformAccessory, log: this.log, history: history };
+        initEveCharacteristics(this.api);
 
-      const accessory = createAccessory(dependency, accessoryConfig);
+        const groupName = accessoryConfig.info.group;
+        if (groupName !== undefined) {
 
-      if (accessory === undefined) {
-        continue;
+          const group = homekitGroups.get(groupName) ?? [];
+          group.push(accessoryConfig);
+          homekitGroups.set(groupName, group);
+
+          continue;
+        }
+
+        const id = createIdentifier(accessoryConfig.info);
+        const uuid = this.api.hap.uuid.generate(id);
+
+        const platformAccessory = this.createHomeKitAccessory(accessoryConfig.info.name, uuid);
+        const dependency: AccessoryDependency = {
+          Service: this.api.hap.Service,
+          Characteristic: this.api.hap.Characteristic,
+          HapStatusError: this.api.hap.HapStatusError,
+          platformAccessory,
+          log: this.log,
+          history: History.instance(this.api, this.log),
+        };
+
+        const accessory = createHomeKitAccessory(dependency, accessoryConfig);
+        if (accessory === undefined) {
+          continue;
+        }
+
+        keepHomeKitIdentifiers.add(uuid);
+        this.homekitAccessories.push(accessory);
+
+      } else if (accessoryConfig.info.protocol === Protocol.Matter) {
+        // TODO
+
+      } else {
+        this.log.warning(strings.startup.unsupportedProtocol, `'${accessoryConfig.info.protocol}'`, printableValues(Protocol));
       }
-
-      keepIdentifiers.add(uuid);
-      this.accessories.push(accessory);
     }
 
-    for (const groupName of groups.keys()) {
+    for (const groupName of homekitGroups.keys()) {
 
       const uuid = this.api.hap.uuid.generate(groupName);
-      const platformAccessory = this.createPlatformAccessory(groupName, uuid);
-      const dependency: AccessoryDependency = { Service, Characteristic, HapStatusError, platformAccessory, log: this.log, history: history };
+      const platformAccessory = this.createHomeKitAccessory(groupName, uuid);
+      const dependency: AccessoryDependency = {
+        Service: this.api.hap.Service,
+        Characteristic: this.api.hap.Characteristic,
+        HapStatusError: this.api.hap.HapStatusError,
+        platformAccessory,
+        log: this.log,
+        history: History.instance(this.api, this.log),
+      };
 
-      const configs = groups.get(groupName)!;
-
+      const configs = homekitGroups.get(groupName)!;
       const groupAccessory = new GroupAccessory(dependency, groupName, configs);
 
-      keepIdentifiers.add(uuid);
-      this.accessories.push(groupAccessory);
+      keepHomeKitIdentifiers.add(uuid);
+      this.homekitAccessories.push(groupAccessory);
     }
 
     this.platformAccessories.forEach(accessory => {
-      if (!keepIdentifiers.has(accessory.context.identifier)) {
-        this.removeCachedAccessory(accessory);
+      if (!keepHomeKitIdentifiers.has(accessory.context.identifier)) {
+        this.removeHomeKitAccessory(accessory);
       }
     });
 
-    const randIndex = Math.floor(Math.random() * strings.startup.welcome.length);
-    this.log.always(`${strings.startup.complete}\n${strings.startup.welcome[randIndex]}`);
+    this.log.always(strings.startup.complete);
   }
 
-  private createPlatformAccessory(name: string, uuid: string): PlatformAccessory {
+  private createHomeKitAccessory(name: string, uuid: string): PlatformAccessory {
 
     let platformAccessory = this.platformAccessories.get(uuid);
     if (!platformAccessory) {
@@ -152,7 +172,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
       this.platformAccessories.set(uuid, platformAccessory);
 
-      this.log.always(strings.startup.newAccessory, name);
+      this.log.always(strings.startup.homekitNewAccessory, name);
     }
 
     if (name !== platformAccessory.displayName) {
@@ -162,8 +182,8 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
     return platformAccessory;
   }
 
-  private removeCachedAccessory(accessory: PlatformAccessory) {
-    this.log.always(strings.startup.removeAccessory, accessory.displayName);
+  private removeHomeKitAccessory(accessory: PlatformAccessory) {
+    this.log.always(strings.startup.homekitRemoveAccessory, accessory.displayName);
     this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
     this.platformAccessories.delete(accessory.context.identifier);
   }

@@ -7,6 +7,7 @@ export type HapStatusErrorType = typeof import('homebridge').HapStatusError;
 import { AccessoryType, ColorType, LabelType, Protocol, TimeUnits, ValveType } from './enums.js';
 
 import { History } from './history.js';
+
 import { Log } from '../tools/log.js';
 import { TemperatureUnits } from '../tools/temperature.js';
 import { Assertable } from '../tools/validation.js';

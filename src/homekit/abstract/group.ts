@@ -2,7 +2,7 @@ import { HomeKitAccessory } from './base.js';
 
 import { AccessoryDependency, BaseAccessoryConfig } from '../../model/types.js';
 
-import { createAccessory } from './helper.js';
+import { createHomeKitAccessory } from './helper.js';
 import { PLATFORM_NAME } from '../../homebridge/settings.js';
 import getVersion from '../../tools/version.js';
 
@@ -32,7 +32,7 @@ export class GroupAccessory {
 
     for (const config of configs) {
 
-      const accessory = createAccessory(dependency, config, true);
+      const accessory = createHomeKitAccessory(dependency, config, true);
       if (!accessory) {
         continue;
       }

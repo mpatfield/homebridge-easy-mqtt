@@ -56,6 +56,8 @@ function HistoryService(type: HistoryType, accessory: PlatformAccessory, options
 
 export class History {
 
+  private static _instance?: History;
+
   private readonly historyServices = new Map<string, HistoryService>();
   private readonly persistPath: string;
 
@@ -69,6 +71,15 @@ export class History {
 
     ServiceProvider = fakegato(api);
     this.persistPath = api.user.persistPath();
+  }
+
+  public static instance(api: API, log: Log): History {
+
+    if (!History._instance) {
+      History._instance = new History(api, log);
+    }
+
+    return History._instance;
   }
 
   public record(accessory: Accessory, config: HistoryConfig | undefined, type: HistoryType, entry: HistoryEntry,

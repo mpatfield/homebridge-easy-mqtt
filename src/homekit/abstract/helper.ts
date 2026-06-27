@@ -43,7 +43,7 @@ export function createIdentifier(info: Types.InfoConfig): string {
   return info.id ?? `${PLUGIN_NAME}:${info.type}:${info.name}`;
 }
 
-export function createAccessory(
+export function createHomeKitAccessory(
   dependency: Types.AccessoryDependency,
   config: Types.BaseAccessoryConfig,
   isGrouped: boolean = false,

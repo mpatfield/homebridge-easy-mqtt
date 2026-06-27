@@ -604,14 +604,7 @@ const vi = {
 
   startup: {
     complete: '✓ Cài đặt hoàn tất',
-    newAccessory: 'Đang thêm %s',
-    removeAccessory: 'Đang gỡ %s',
-    restoringAccessory: 'Đang khôi phục %s',
     unsupportedType: 'Loại thiết bị không được hỗ trợ: %s',
-    welcome: [
-      'Hãy ★ plugin này trên GitHub nếu bạn thấy hữu ích! https://github.com/mpatfield/homebridge-easy-mqtt',
-      'Bạn có muốn tài trợ cho plugin này không? https://github.com/sponsors/mpatfield',
-    ],
   },
 
   thermostat: {

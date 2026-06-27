@@ -31,6 +31,12 @@ const da = {
     },
   },
 
+  startup: {
+    homekitNewAccessory: 'Adding HomeKit accessory %s', // accessory name
+    homekitRemoveAccessory: 'Removing HomeKit accessory %s', // accessory name
+    homekitRestoringAccessory: 'Restoring HomeKit accessory %s', // accessory name
+  },
+
   valve: {
     durationTopicsIgnored: '%s is using a built-in timer, so duration topics %s will be ignored', // accessory name, list of topics
   },

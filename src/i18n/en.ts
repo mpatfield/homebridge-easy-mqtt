@@ -622,15 +622,11 @@ const en = {
 
   startup: {
     complete: '✓ Setup complete',
-    newAccessory: 'Adding %s', // accessory name
-    removeAccessory: 'Removing %s', // accessory name
-    restoringAccessory: 'Restoring %s', // accessory name
+    homekitNewAccessory: 'Adding HomeKit accessory %s', // accessory name
+    homekitRemoveAccessory: 'Removing HomeKit accessory %s', // accessory name
+    homekitRestoringAccessory: 'Restoring HomeKit accessory %s', // accessory name
+    unsupportedProtocol: 'Unsupported protocol %s. Must be one of: %s', // protocol, list of protocols
     unsupportedType: 'Unsupported accessory type %s', // accessory type
-    welcome: [
-      'Please ★ this plugin on GitHub if you\'re finding it useful! https://github.com/mpatfield/homebridge-easy-mqtt',
-      'Would you like to sponsor this plugin? https://github.com/sponsors/mpatfield',
-      'Want to see this plugin in your own language? Please visit https://github.com/mpatfield/homebridge-easy-mqtt/issues/4',
-    ],
   },
 
   thermostat: {
