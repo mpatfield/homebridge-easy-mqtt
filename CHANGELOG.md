@@ -1,6 +1,14 @@
 # Change Log
 
-All notable changes to homebridge-dummy will be documented in this file.
+All notable changes to homebridge-easy-mqtt will be documented in this file.
+
+## 2.0.0-beta. ()
+
+### Changed
+- ⚠️ Dropped [official support](https://github.com/homebridge/homebridge/wiki/How-To-Update-Node.js) for Node.js v20 and added Node.js v26
+
+### Notes
+- Please consider giving this plugin a ⭐️ on [GitHub](https://github.com/mpatfield/homebridge-easy-mqtt) if you're finding it useful!
 
 ## 1.5.17 (2026-06-04)
 
@@ -12,9 +20,6 @@ All notable changes to homebridge-dummy will be documented in this file.
 - "Reset on Restart" not working as intended — causing characteristic warnings and crashes
     - ⚠️ This has been broken for a while — please [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose) if you notice any new issues with this option enabled
 - Potential crash on launch
-
-### Notes
-Please consider giving this plugin a ⭐️ on [GitHub](https://github.com/mpatfield/homebridge-easy-mqtt) if you're finding it useful!
 
 ## 1.5.16 (2026-05-25)
 
