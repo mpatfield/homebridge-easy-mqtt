@@ -9,6 +9,7 @@ import { MATTER_SERIAL_MAX_LEN, MatterPath, MatterType, MatterValue, MatterValue
 import { MQTT } from '../../model/mqtt.js';
 import { BaseAccessoryConfig, OnUpdateHandler, TimeoutConfig, TopicHandler } from '../../model/types.js';
 
+import { debounce } from '../../tools/debounce.js';
 import { Log, LogType } from '../../tools/log.js';
 import { toPrimitive } from '../../tools/primitive.js';
 import { Properties } from '../../tools/properties.js';
@@ -127,7 +128,7 @@ export abstract class BaseMatterAccessory<C extends BaseAccessoryConfig = BaseAc
     };
   }
 
-  private get config(): C {
+  protected get config(): C {
     return this.dependency.config;
   }
 
@@ -141,6 +142,10 @@ export abstract class BaseMatterAccessory<C extends BaseAccessoryConfig = BaseAc
 
   protected get useStoredProperties(): boolean {
     return this.config.resetOnRestart !== true;
+  }
+
+  protected hasProperty(key: MatterValueKey): boolean {
+    return Properties.has(this.UUID, key);
   }
 
   protected getProperty(key: MatterValueKey): MatterValue | undefined {
@@ -246,6 +251,28 @@ export abstract class BaseMatterAccessory<C extends BaseAccessoryConfig = BaseAc
     }).bind(this);
   }
 
+  protected bindOnUpdateNumeric(path: MatterPath, minValue: number, maxValue: number, logTemplate: string): OnUpdateHandler {
+    return (async (_topic: string, value: PrimitiveTypes) => {
+
+      if (typeof value !== 'number') {
+        this.log.error(strings.characteristic.badValue, this.displayName, path.valueKey, `'${value.toString()}'`);
+        return;
+      }
+
+      if (value < minValue) {
+        this.logIfDesired(LogType.WARNING, strings.characteristic.outOfRange, path.valueKey, `'${value.toString()}'`, `'${minValue.toString()}'`);
+        value = minValue;
+      } else if (maxValue !== undefined && value > maxValue) {
+        this.logIfDesired(LogType.WARNING, strings.characteristic.outOfRange, path.valueKey, `'${value.toString()}'`, `'${maxValue.toString()}'`);
+        value = maxValue;
+      }
+
+      const logString = logTemplate !== undefined ? logTemplate.replace('%d', value.toString()) : undefined;
+      this.onUpdate(path, value, logString);
+
+    }).bind(this);
+  }
+
   private onSet(path: MatterPath, value: MatterValue, publish: PrimitiveTypes, topic: keyof C, logString: string | undefined) {
 
     if (!this.assert(topic)) {
@@ -281,6 +308,20 @@ export abstract class BaseMatterAccessory<C extends BaseAccessoryConfig = BaseAc
     const logString = booleanValue ? trueLog : falseLog;
     const publish = booleanValue ? this.getPrimitiveValue(trueValueKey)! : this.getPrimitiveValue(falseValueKey)!;
     this.onSet(path, value, publish, setTopicKey, logString);
+  }
+
+  protected onSetNumeric(path: MatterPath, value: MatterValue, setTopicKey: keyof C, logTemplate: string, shouldDebounce: boolean) {
+
+    const task = () => {
+      const logString = logTemplate.replace('%d', value.toString());
+      this.onSet(path, value, value, setTopicKey, logString);
+    };
+
+    if (shouldDebounce) {
+      debounce(`${this.UUID}_${path.valueKey}`, task);
+    } else {
+      task();
+    }
   }
 
   private startAutoResetTimeout(callback: () => void, config?: TimeoutConfig) {
