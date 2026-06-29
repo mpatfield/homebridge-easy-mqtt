@@ -18,3 +18,12 @@ export enum MatterType {
 }
 
 export type MatterValue = boolean | number;
+
+export type MatterPath = {
+  clusterKey: MatterClusterKey,
+  valueKey: MatterValueKey,
+}
+
+export function MatterPath(clusterKey: MatterClusterKey, valueKey: MatterValueKey): MatterPath {
+  return { clusterKey, valueKey };
+}
