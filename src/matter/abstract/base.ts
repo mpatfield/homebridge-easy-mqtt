@@ -60,18 +60,6 @@ export abstract class BaseMatterAccessory<C extends BaseAccessoryConfig = BaseAc
         client.subscribe(this.UUID, topicHandler.topic, topicHandler.handler);
       });
     });
-
-    // TODO
-    // this.setup(HKCharacteristicKey.StatusActive, true,
-    //   'topicGetStatusActive',
-    //   this.bindOnUpdateBooleanSingle(HKCharacteristicKey.StatusActive, 'valueStatusActive',
-    //     strings.accessory.statusActive, strings.accessory.statusInactive),
-    //   false);
-
-    // TODO
-    // this.addTopicHandlers([{ topic: this.config.topicGetAvailable, handler: (async (_topic: string, value: PrimitiveTypes) => {
-    //   this.isAvailable = value === this.getPrimitiveValue('valueAvailable', true);
-    // }).bind(this) }]);
   }
 
   protected abstract getMatterType(): MatterType;
