@@ -35,6 +35,6 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
   }
 
   private async setOn(value: boolean): Promise<void> {
-    this.onSetBoolean(this.onOffPath, value, 'topicGetOn', 'valueOn', 'valueOff', true, strings.onOff.stateOn, strings.onOff.stateOff);
+    this.onSetBoolean(this.onOffPath, value, 'topicSetOn', 'valueOn', 'valueOff', true, strings.onOff.stateOn, strings.onOff.stateOff);
   }
 }
