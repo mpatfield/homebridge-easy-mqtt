@@ -1,14 +1,16 @@
-import { API, DynamicPlatformPlugin, Logger, PlatformAccessory } from 'homebridge';
+import { API, DynamicPlatformPlugin, Logger, MatterAccessory, PlatformAccessory } from 'homebridge';
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings.js';
 
 import { HomeKitAccessory } from '../homekit/abstract/base.js';
 import { GroupAccessory } from '../homekit/abstract/group.js';
 import { createHomeKitAccessory, createIdentifier } from '../homekit/abstract/helper.js';
-
 import { initEveCharacteristics } from '../homekit/characteristic/eve.js';
 
 import { setLanguage, strings } from '../i18n/i18n.js';
+
+import { BaseMatterAccessory } from '../matter/abstract/base.js';
+import { createMatterAccessory } from '../matter/helper.js';
 
 import { Protocol } from '../model/enums.js';
 import { History } from '../model/history.js';
@@ -24,8 +26,11 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
   private readonly log: Log;
 
-  private readonly platformAccessories: Map<string, PlatformAccessory> = new Map();
+  private readonly homekitPlatformAccessories: Map<string, PlatformAccessory> = new Map();
   private readonly homekitAccessories: (HomeKitAccessory<BaseAccessoryConfig> | GroupAccessory)[] = [];
+
+  private readonly matterPlatformAccessories: Map<string, MatterAccessory> = new Map();
+  private readonly matterAccessories: (BaseMatterAccessory<BaseAccessoryConfig>)[] = [];
 
   constructor(
     logger: Logger,
@@ -47,24 +52,24 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
       !this.api.isMatterAvailable?.() ? 'unavailable' : ( !this.api.isMatterEnabled?.() ? 'disabled' : 'enabled' ),
     );
 
-    this.api.on('didFinishLaunching', () => {
-      this.setup();
-    });
+    this.api.on('didFinishLaunching', () => this.setup());
 
-    this.api.on('shutdown', () => {
-      this.teardown();
-    });
+    this.api.on('shutdown', () => this.teardown());
   }
 
   configureAccessory(accessory: PlatformAccessory): void {
     this.log.ifVerbose(strings.startup.homekitRestoringAccessory, accessory.displayName);
-    this.platformAccessories.set(accessory.context.identifier, accessory);
+    this.homekitPlatformAccessories.set(accessory.context.identifier, accessory);
+  }
+
+  configureMatterAccessory(accessory: MatterAccessory) {
+    this.log.ifVerbose(strings.startup.matterRestoringAccessory, accessory.displayName);
+    this.matterPlatformAccessories.set(accessory.UUID, accessory);
   }
 
   private teardown() {
-    this.homekitAccessories.forEach( accessory => {
-      accessory.teardown();
-    });
+    this.homekitAccessories.forEach(accessory => accessory.teardown());
+    this.matterAccessories.forEach(accessory => accessory.teardown());
   }
 
   private async setup(): Promise<void> {
@@ -75,8 +80,10 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
       this.config.accessories = [];
     }
 
-    const keepHomeKitIdentifiers = new Set<string>();
+    const homekitKeepIdentifiers = new Set<string>();
     const homekitGroups = new Map<string, BaseAccessoryConfig[]>();
+
+    const matterKeepIdentifiers = new Set<string>();
 
     for (const accessoryConfig of this.config.accessories) {
 
@@ -106,7 +113,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
         const id = createIdentifier(accessoryConfig.info);
         const uuid = this.api.hap.uuid.generate(id);
 
-        const platformAccessory = this.createHomeKitAccessory(accessoryConfig.info.name, uuid);
+        const platformAccessory = this.createHomeKitPlatformAccessory(accessoryConfig.info.name, uuid);
         const dependency: HomeKitAccessoryDependency = {
           Service: this.api.hap.Service,
           Characteristic: this.api.hap.Characteristic,
@@ -121,11 +128,44 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
           continue;
         }
 
-        keepHomeKitIdentifiers.add(uuid);
+        homekitKeepIdentifiers.add(uuid);
         this.homekitAccessories.push(accessory);
 
       } else if (accessoryConfig.info.protocol === Protocol.Matter) {
-        // TODO
+
+        if (!this.api.isMatterAvailable?.()) {
+          this.log.warning(strings.startup.matterUnavailable, PLATFORM_NAME);
+          continue;
+        }
+
+        if (!this.api.isMatterEnabled?.()) {
+          this.log.warning(strings.startup.matterDisabled, PLATFORM_NAME);
+          continue;
+        }
+
+        if (accessoryConfig.info.group) {
+          this.log.warning(strings.startup.matterGroups);
+          continue;
+        }
+
+        if (!this.api.matter) {
+          throw new Error('Unable to get MatterAPI instance');
+        }
+
+        const accessory = createMatterAccessory({
+          matter: this.api.matter,
+          config: accessoryConfig,
+          log: this.log,
+        });
+
+        if (accessory === undefined) {
+          continue;
+        }
+
+        await this.registerMatterPlatformAccessory(accessory.toMatterAccessory());
+
+        matterKeepIdentifiers.add(accessory.UUID);
+        this.matterAccessories.push(accessory);
 
       } else {
         this.log.warning(strings.startup.unsupportedProtocol, `'${accessoryConfig.info.protocol}'`, printableValues(Protocol));
@@ -135,7 +175,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
     for (const groupName of homekitGroups.keys()) {
 
       const uuid = this.api.hap.uuid.generate(groupName);
-      const platformAccessory = this.createHomeKitAccessory(groupName, uuid);
+      const platformAccessory = this.createHomeKitPlatformAccessory(groupName, uuid);
       const dependency: HomeKitAccessoryDependency = {
         Service: this.api.hap.Service,
         Characteristic: this.api.hap.Characteristic,
@@ -148,22 +188,28 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
       const configs = homekitGroups.get(groupName)!;
       const groupAccessory = new GroupAccessory(dependency, groupName, configs);
 
-      keepHomeKitIdentifiers.add(uuid);
+      homekitKeepIdentifiers.add(uuid);
       this.homekitAccessories.push(groupAccessory);
     }
 
-    this.platformAccessories.forEach(accessory => {
-      if (!keepHomeKitIdentifiers.has(accessory.context.identifier)) {
-        this.removeHomeKitAccessory(accessory);
+    this.homekitPlatformAccessories.forEach(accessory => {
+      if (!homekitKeepIdentifiers.has(accessory.context.identifier)) {
+        this.removeHomeKitPlatformAccessory(accessory);
+      }
+    });
+
+    this.matterPlatformAccessories.forEach(async accessory => {
+      if (!matterKeepIdentifiers.has(accessory.UUID)) {
+        await this.removeMatterPlatformAccessory(accessory);
       }
     });
 
     this.log.always(strings.startup.complete);
   }
 
-  private createHomeKitAccessory(name: string, uuid: string): PlatformAccessory {
+  private createHomeKitPlatformAccessory(name: string, uuid: string): PlatformAccessory {
 
-    let platformAccessory = this.platformAccessories.get(uuid);
+    let platformAccessory = this.homekitPlatformAccessories.get(uuid);
     if (!platformAccessory) {
 
       platformAccessory = new this.api.platformAccessory(name, uuid);
@@ -171,7 +217,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
 
       this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [platformAccessory]);
 
-      this.platformAccessories.set(uuid, platformAccessory);
+      this.homekitPlatformAccessories.set(uuid, platformAccessory);
 
       this.log.always(strings.startup.homekitNewAccessory, name);
     }
@@ -183,9 +229,23 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
     return platformAccessory;
   }
 
-  private removeHomeKitAccessory(accessory: PlatformAccessory) {
+  private async registerMatterPlatformAccessory(accessory: MatterAccessory) {
+    if (!this.matterPlatformAccessories.has(accessory.UUID)) {
+      this.log.always(strings.startup.matterNewAccessory, accessory.displayName);
+    }
+    this.matterPlatformAccessories.set(accessory.UUID, accessory);
+    await this.api.matter?.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+  }
+
+  private removeHomeKitPlatformAccessory(accessory: PlatformAccessory) {
     this.log.always(strings.startup.homekitRemoveAccessory, accessory.displayName);
     this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
-    this.platformAccessories.delete(accessory.context.identifier);
+    this.homekitPlatformAccessories.delete(accessory.context.identifier);
+  }
+
+  private async removeMatterPlatformAccessory(accessory: MatterAccessory) {
+    this.log.always(strings.startup.matterRemoveAccessory, accessory.displayName);
+    await this.api.matter?.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+    this.matterPlatformAccessories.delete(accessory.UUID);
   }
 }
