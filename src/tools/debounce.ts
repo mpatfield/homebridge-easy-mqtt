@@ -1,6 +1,6 @@
 const TIMEOUTS = new Map<string, NodeJS.Timeout>();
 
-const DEFAULT_TIMEOUT = 250;
+const DEFAULT_TIMEOUT = 350;
 
 export function debounce(key: string, task: () => (void), timeout: number = DEFAULT_TIMEOUT) {
 
