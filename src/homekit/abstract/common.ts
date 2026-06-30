@@ -21,6 +21,7 @@ import { assert, Assertable, assertType, Type } from '../../tools/validation.js'
 
 type NumberCallback = (value: number) => void;
 type BooleanCallback = (value: boolean) => void
+type CharacteristicValueCallback = (value: CharacteristicValue) => void
 
 const AVAILABILITY_KEY = 'Available';
 const HAP_COMMUNICATION_FAILURE = -70402;
@@ -464,7 +465,7 @@ export abstract class Common<C extends Assertable> {
   }
 
   protected bindOnSetState(key: CharacteristicKey, setTopicKey: keyof C, states: Map<keyof C, CharacteristicValue>,
-    strings: Map<CharacteristicValue, string>, badValueLog: string) {
+    strings: Map<CharacteristicValue, string>, badValueLog: string, callback?: CharacteristicValueCallback) {
     return (async (value: CharacteristicValue) => {
 
       if (!this.assert(setTopicKey)) {
@@ -484,6 +485,8 @@ export abstract class Common<C extends Assertable> {
       }
 
       this.onSet(key, value, publish, setTopicKey, strings.get(value));
+
+      callback?.(value);
 
     }).bind(this);
   }

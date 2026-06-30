@@ -37,8 +37,21 @@ export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends H
       this.bindOnUpdateState(HKCharacteristicKey.LockTargetState, targetStates, targetStrings, strings.lock.stateUnknown),
       requireTopics,
       'topicSetTargetLockState',
-      this.bindOnSetState(HKCharacteristicKey.LockTargetState, 'topicSetTargetLockState', targetStates, targetStrings, strings.lock.badValue),
+      this.bindOnSetState(HKCharacteristicKey.LockTargetState, 'topicSetTargetLockState', targetStates, targetStrings, strings.lock.badValue, (state) => {
+        this.startRelockTimer(state);
+      }),
     );
+  }
+
+  private startRelockTimer(state: CharacteristicValue) {
+
+    if (state !== this.Characteristic.LockCurrentState.UNSECURED) {
+      return;
+    }
+
+    this.startTimeout(() => {
+      this.service.getCharacteristic(this.Characteristic.LockTargetState).handleSetRequest(this.Characteristic.LockTargetState.SECURED);
+    });
   }
 
   private async onCurrentStateUpdate(_topic: string, value: PrimitiveTypes): Promise<void> {
@@ -59,11 +72,7 @@ export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends H
       this.logIfDesired(this.stringForState(current));
     }
 
-    if (current === this.Characteristic.LockCurrentState.UNSECURED) {
-      this.startTimeout( () => {
-        this.service.getCharacteristic(this.Characteristic.LockTargetState).handleSetRequest(this.Characteristic.LockTargetState.SECURED);
-      });
-    }
+    this.startRelockTimer(current);
   }
 
   private currentStateFromValue(value: PrimitiveTypes | undefined): CharacteristicValue {

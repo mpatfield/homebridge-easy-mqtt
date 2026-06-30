@@ -39,5 +39,11 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
 
   private async setOn(value: boolean): Promise<void> {
     this.onSetBoolean(this.onOffPath, value, 'topicSetOn', 'valueOn', 'valueOff', true, strings.onOff.stateOn, strings.onOff.stateOff);
+
+    if (value) {
+      this.startAutoResetTimeout( () => {
+        this.setOn(false);
+      });
+    }
   }
 }

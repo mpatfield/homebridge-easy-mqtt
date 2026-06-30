@@ -9,6 +9,7 @@ All notable changes to homebridge-easy-mqtt will be documented in this file.
     - ⚠️ Enabling Matter on an existing Easy MQTT accessory will require you to reconfigure any scenes or automations for that accessory
 
 ### Changed
+- [Auto-Reset](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Auto%E2%80%90Reset) timer is restarted whenever accessory state is re-triggered ([#267](https://github.com/mpatfield/homebridge-easy-mqtt/issues/267))
 - ⚠️ Dropped [official support](https://github.com/homebridge/homebridge/wiki/How-To-Update-Node.js) for Node.js v20 and added Node.js v26
 
 ### Notes

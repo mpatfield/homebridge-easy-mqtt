@@ -241,12 +241,7 @@ export abstract class BaseMatterAccessory<C extends BaseAccessoryConfig = BaseAc
 
       if (bool && autoResetHandlerKey !== undefined) {
         this.startAutoResetTimeout(() => {
-          const handler = this.getHandler(path.clusterKey, autoResetHandlerKey);
-          if (handler !== undefined) {
-            handler(false);
-          } else {
-            this.onUpdate(path, false, logFalse);
-          }
+          this.getHandler(path.clusterKey, autoResetHandlerKey)?.(false);
         });
       }
 
@@ -326,7 +321,7 @@ export abstract class BaseMatterAccessory<C extends BaseAccessoryConfig = BaseAc
     }
   }
 
-  private startAutoResetTimeout(callback: () => void, config?: TimeoutConfig) {
+  protected startAutoResetTimeout(callback: () => void, config?: TimeoutConfig) {
 
     if (this.autoResetTimeout !== undefined) {
       this.logIfDesired(strings.autoReset.reset);

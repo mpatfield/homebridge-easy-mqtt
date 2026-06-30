@@ -21,14 +21,14 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
 
     this.setup(HKCharacteristicKey.On, false,
       'topicGetOn',
-      this.bindOnUpdateBoolean(HKCharacteristicKey.On, 'valueOn', 'valueOff', strings.onOff.stateOn, strings.onOff.stateOff, true, (value) => {
-        this.recordHistory(HistoryType.CUSTOM, { status: value ? 1 : 0 }, true);
+      this.bindOnUpdateBoolean(HKCharacteristicKey.On, 'valueOn', 'valueOff', strings.onOff.stateOn, strings.onOff.stateOff, false, (value) => {
+        this.onSetOn(value);
       }),
       true,
       'topicSetOn',
       this.bindOnSetBoolean(HKCharacteristicKey.On, 'topicSetOn', 'valueOn', 'valueOff', true,
         strings.onOff.stateOnFuture, strings.onOff.stateOffFuture, (value) => {
-          this.recordHistory(HistoryType.CUSTOM, { status: value ? 1 : 0 }, true);
+          this.onSetOn(value);
         },
       ),
     );
@@ -52,6 +52,20 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
         this.onUpdate(EveCharacteristicKey.TotalConsumption, 0, strings.outlet.totalConsumptionReset);
       });
     }
+  }
+
+  private onSetOn(on: boolean) {
+
+    if (on) {
+      this.startTimeout(() => {
+        this.onSetBoolean(HKCharacteristicKey.On, false, 'topicSetOn', 'valueOn', 'valueOff', true, strings.onOff.stateOnFuture, strings.onOff.stateOffFuture,
+          () => {
+            this.onSetOn(false);
+          });
+      });
+    }
+
+    this.recordHistory(HistoryType.CUSTOM, { status: on ? 1 : 0 }, true);
   }
 
   private recordConsumption(value: number) {
