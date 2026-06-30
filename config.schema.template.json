@@ -2342,7 +2342,7 @@
                       "displayFlex": true,
                       "flex-direction": "row",
                       "condition": {
-                        "functionBody": "model.accessories?.[arguments[1]]?.info?.protocol !== 'Matter';"
+                        "functionBody": "return model.accessories?.[arguments[1]]?.info?.protocol !== 'Matter';"
                       },
                       "items": [
                         {
@@ -2360,7 +2360,7 @@
                       "displayFlex": true,
                       "flex-direction": "row",
                       "condition": {
-                        "functionBody": "model.accessories?.[arguments[1]]?.info?.protocol !== 'Matter';"
+                        "functionBody": "return model.accessories?.[arguments[1]]?.info?.protocol !== 'Matter';"
                       },
                       "items": [
                         {
@@ -2378,7 +2378,7 @@
                       "displayFlex": true,
                       "flex-direction": "row",
                       "condition": {
-                        "functionBody": "model.accessories?.[arguments[1]]?.info?.protocol !== 'Matter';"
+                        "functionBody": "return model.accessories?.[arguments[1]]?.info?.protocol !== 'Matter';"
                       },
                       "items": [
                         {
