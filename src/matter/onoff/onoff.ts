@@ -2,7 +2,7 @@ import { BaseMatterAccessory, MatterAccessoryDependency } from '../abstract/base
 
 import { strings } from '../../i18n/i18n.js';
 
-import { MatterClusterKey, MatterPath, MatterValueKey } from '../../model/matter.js';
+import { MatterClusterKey, MatterClusterPath, MatterHandlerKey, MatterValueKey } from '../../model/matter.js';
 import { OnOffConfig } from '../../model/types.js';
 
 export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extends BaseMatterAccessory<C> {
@@ -10,17 +10,20 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
   constructor(dependency: MatterAccessoryDependency<C>) {
     super(dependency);
 
-    this.setupGet('topicGetOn', this.bindOnUpdateBoolean(this.onOffPath, 'valueOn', 'valueOff', strings.onOff.stateOn, strings.onOff.stateOff));
+    this.setupGet(
+      this.onOffPath, false,
+      'topicGetOn', this.bindOnUpdateBoolean(this.onOffPath, 'valueOn', 'valueOff', strings.onOff.stateOn, strings.onOff.stateOff, MatterHandlerKey.off),
+    );
   }
 
-  private get onOffPath(): MatterPath {
-    return MatterPath(MatterClusterKey.onOff, MatterValueKey.onOff);
+  private get onOffPath(): MatterClusterPath {
+    return MatterClusterPath(MatterClusterKey.onOff, MatterValueKey.onOff);
   }
 
   override get clusters() {
     return {
       onOff: {
-        onOff: this.useStoredProperties && this.getProperty(MatterValueKey.onOff) === true,
+        onOff: this.getProperty(MatterValueKey.onOff) as boolean,
       },
     };
   }

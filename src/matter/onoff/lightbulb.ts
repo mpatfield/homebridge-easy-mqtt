@@ -6,7 +6,7 @@ import { MatterAccessoryDependency } from '../abstract/base.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { MatterClusterKey, MatterPath, MatterType, MatterValueKey } from '../../model/matter.js';
+import { MatterClusterKey, MatterClusterPath, MatterType, MatterValueKey } from '../../model/matter.js';
 import { LightbulbConfig } from '../../model/types.js';
 
 const MATTER_MAX_LEVEL = 254;
@@ -25,7 +25,10 @@ export class MatterLightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
     this.maxLevel = this.config.maximumBrightness ?? MATTER_MAX_LEVEL;
 
     if (this.isDimmer) {
-      this.setupGet('topicGetBrightness', this.bindOnUpdateNumeric(this.currentLevelPath, 1, this.maxLevel, strings.lightbulb.brightnessValue));
+      this.setupGet(
+        this.currentLevelPath, this.maxLevel,
+        'topicGetBrightness', this.bindOnUpdateNumeric(this.currentLevelPath, 1, this.maxLevel, strings.lightbulb.brightnessValue),
+      );
     }
   }
 
@@ -33,8 +36,8 @@ export class MatterLightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
     return this.config.topicGetBrightness !== undefined;
   }
 
-  private get currentLevelPath(): MatterPath {
-    return MatterPath(MatterClusterKey.levelControl, MatterValueKey.currentLevel);
+  private get currentLevelPath(): MatterClusterPath {
+    return MatterClusterPath(MatterClusterKey.levelControl, MatterValueKey.currentLevel);
   }
 
   override get clusters() {
@@ -43,17 +46,10 @@ export class MatterLightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
       return super.clusters;
     }
 
-    let startingValue: number;
-    if (this.useStoredProperties && this.hasProperty(MatterValueKey.currentLevel)) {
-      startingValue = this.getProperty(MatterValueKey.currentLevel) as number;
-    } else {
-      startingValue = this.maxLevel;
-    }
-
     return {
       ...super.clusters,
       levelControl: {
-        currentLevel: startingValue,
+        currentLevel: this.getProperty(MatterValueKey.currentLevel) as number,
         minLevel: 1,
         maxLevel: this.maxLevel,
       },

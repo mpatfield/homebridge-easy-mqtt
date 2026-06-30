@@ -17,13 +17,17 @@ export enum MatterType {
   OnOffSwitch = 'OnOffSwitch',
 }
 
+export enum MatterHandlerKey {
+  off = 'off',
+}
+
 export type MatterValue = boolean | number;
 
-export type MatterPath = {
+export type MatterClusterPath = {
   clusterKey: MatterClusterKey,
   valueKey: MatterValueKey,
 }
 
-export function MatterPath(clusterKey: MatterClusterKey, valueKey: MatterValueKey): MatterPath {
+export function MatterClusterPath(clusterKey: MatterClusterKey, valueKey: MatterValueKey): MatterClusterPath {
   return { clusterKey, valueKey };
 }

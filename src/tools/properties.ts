@@ -32,10 +32,6 @@ export class Properties {
     }
   }
 
-  public static has(identifier: string, key: string): boolean {
-    return PROPERTIES.get(identifier)?.has(key) === true;
-  }
-
   public static get(identifier: string, key: string): Storable | undefined {
     return PROPERTIES.get(identifier)?.get(key);
   }

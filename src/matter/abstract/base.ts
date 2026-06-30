@@ -1,11 +1,11 @@
-import { EndpointType, MatterAccessory, MatterAPI, PrimitiveTypes } from 'homebridge';
+import { EndpointType, MatterAccessory, MatterAPI, MatterCommandHandler, PrimitiveTypes } from 'homebridge';
 
 import { PLATFORM_NAME, PLUGIN_NAME } from '../../homebridge/settings.js';
 
 import { strings } from '../../i18n/i18n.js';
 
 import { TimeUnits } from '../../model/enums.js';
-import { MATTER_SERIAL_MAX_LEN, MatterPath, MatterType, MatterValue, MatterValueKey } from '../../model/matter.js';
+import { MATTER_SERIAL_MAX_LEN, MatterClusterKey, MatterClusterPath, MatterHandlerKey, MatterType, MatterValue, MatterValueKey } from '../../model/matter.js';
 import { MQTT } from '../../model/mqtt.js';
 import { BaseAccessoryConfig, OnUpdateHandler, TimeoutConfig, TopicHandler } from '../../model/types.js';
 
@@ -66,6 +66,15 @@ export abstract class BaseMatterAccessory<C extends BaseAccessoryConfig = BaseAc
 
   abstract get clusters(): MatterAccessory['clusters'] | undefined;
   abstract get handlers(): MatterAccessory['handlers'] | undefined;
+
+  private getHandler(clusterKey: MatterClusterKey, handlerKey: MatterHandlerKey): MatterCommandHandler | undefined {
+
+    if (this.handlers === undefined || this.handlers[clusterKey] === undefined || !(handlerKey in this.handlers[clusterKey])) {
+      return;
+    }
+
+    return this.handlers[clusterKey][handlerKey] as MatterCommandHandler;
+  }
 
   private get matter(): MatterAPI {
     return this.dependency.matter;
@@ -128,12 +137,8 @@ export abstract class BaseMatterAccessory<C extends BaseAccessoryConfig = BaseAc
     return this.config.disableLogging;
   }
 
-  protected get useStoredProperties(): boolean {
+  private get useStoredProperties(): boolean {
     return this.config.resetOnRestart !== true;
-  }
-
-  protected hasProperty(key: MatterValueKey): boolean {
-    return Properties.has(this.UUID, key);
   }
 
   protected getProperty(key: MatterValueKey): MatterValue | undefined {
@@ -176,7 +181,7 @@ export abstract class BaseMatterAccessory<C extends BaseAccessoryConfig = BaseAc
     return stringValue ? toPrimitive(stringValue) : undefined;
   }
 
-  private updateMatter(path: MatterPath, value: MatterValue) {
+  private updateMatter(path: MatterClusterPath, value: MatterValue) {
     this.matter.updateAccessoryState(this.UUID, path.clusterKey, { [path.valueKey]: value });
   }
 
@@ -188,20 +193,24 @@ export abstract class BaseMatterAccessory<C extends BaseAccessoryConfig = BaseAc
     this.mqttClient?.teardown();
   }
 
-  protected setupGet(getTopicKey: keyof C, getHandler: OnUpdateHandler) {
+  protected setupGet(path: MatterClusterPath, defaultValue: MatterValue, getTopicKey: keyof C, getHandler: OnUpdateHandler) {
     this.assertTopicKey(getTopicKey);
+
+    const startingValue = !this.useStoredProperties ? defaultValue : (this.getProperty(path.valueKey) ?? defaultValue);
+    this.onUpdate(path, startingValue);
+
     this.topicHandlers.push({ topic: this.config[getTopicKey] as string, handler: getHandler });
   }
 
-  private onUpdate(path: MatterPath, value: MatterValue, logString: string | undefined = undefined): boolean {
-
-    this.updateMatter(path, value);
+  private onUpdate(path: MatterClusterPath, value: MatterValue, logString: string | undefined = undefined): boolean {
 
     if (value === this.getProperty(path.valueKey)) {
       return false;
     }
 
     this.setProperty(path.valueKey, value);
+
+    this.updateMatter(path, value);
 
     if (logString) {
       this.logIfDesired(logString);
@@ -210,8 +219,8 @@ export abstract class BaseMatterAccessory<C extends BaseAccessoryConfig = BaseAc
     return true;
   }
 
-  protected bindOnUpdateBoolean(path: MatterPath, trueKey: keyof C, falseKey: keyof C,
-    logTrue: string, logFalse: string, allowAutoReset: boolean = false): OnUpdateHandler {
+  protected bindOnUpdateBoolean(path: MatterClusterPath, trueKey: keyof C, falseKey: keyof C,
+    logTrue: string, logFalse: string, autoResetHandlerKey?: MatterHandlerKey): OnUpdateHandler {
     return (async (_topic: string, value: PrimitiveTypes) => {
 
       let bool: boolean;
@@ -230,16 +239,21 @@ export abstract class BaseMatterAccessory<C extends BaseAccessoryConfig = BaseAc
       const logString = bool ? logTrue : logFalse;
       this.onUpdate(path, bool, logString);
 
-      if (allowAutoReset && bool) {
+      if (bool && autoResetHandlerKey !== undefined) {
         this.startAutoResetTimeout(() => {
-          this.onUpdate(path, false, logFalse);
+          const handler = this.getHandler(path.clusterKey, autoResetHandlerKey);
+          if (handler !== undefined) {
+            handler(false);
+          } else {
+            this.onUpdate(path, false, logFalse);
+          }
         });
       }
 
     }).bind(this);
   }
 
-  protected bindOnUpdateNumeric(path: MatterPath, minValue: number, maxValue: number, logTemplate: string): OnUpdateHandler {
+  protected bindOnUpdateNumeric(path: MatterClusterPath, minValue: number, maxValue: number, logTemplate: string): OnUpdateHandler {
     return (async (_topic: string, value: PrimitiveTypes) => {
 
       if (typeof value !== 'number') {
@@ -261,7 +275,7 @@ export abstract class BaseMatterAccessory<C extends BaseAccessoryConfig = BaseAc
     }).bind(this);
   }
 
-  private onSet(path: MatterPath, value: MatterValue, publish: PrimitiveTypes, topic: keyof C, logString: string | undefined) {
+  private onSet(path: MatterClusterPath, value: MatterValue, publish: PrimitiveTypes, topic: keyof C, logString: string | undefined) {
 
     if (!this.assert(topic)) {
       return;
@@ -279,7 +293,7 @@ export abstract class BaseMatterAccessory<C extends BaseAccessoryConfig = BaseAc
   }
 
   protected onSetBoolean(
-    path: MatterPath, value: MatterValue, setTopicKey: keyof C,
+    path: MatterClusterPath, value: MatterValue, setTopicKey: keyof C,
     trueValueKey: keyof C, falseValueKey: keyof C, trueValue: MatterValue,
     trueLog: string, falseLog: string,
   ) {
@@ -298,7 +312,7 @@ export abstract class BaseMatterAccessory<C extends BaseAccessoryConfig = BaseAc
     this.onSet(path, value, publish, setTopicKey, logString);
   }
 
-  protected onSetNumeric(path: MatterPath, value: MatterValue, setTopicKey: keyof C, logTemplate: string, shouldDebounce: boolean) {
+  protected onSetNumeric(path: MatterClusterPath, value: MatterValue, setTopicKey: keyof C, logTemplate: string, shouldDebounce: boolean) {
 
     const task = () => {
       const logString = logTemplate.replace('%d', value.toString());
