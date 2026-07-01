@@ -2,7 +2,7 @@
 
 All notable changes to homebridge-easy-mqtt will be documented in this file.
 
-## 2.0.0-alpha.0 ()
+## 2.0.0-beta.0 ()
 
 ### Added
 - [Matter Support](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Matter-Support) (Beta) for `Switch`, `Outlet`, and `Lightbulb`
