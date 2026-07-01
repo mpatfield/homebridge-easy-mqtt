@@ -1,6 +1,20 @@
 # Change Log
 
-All notable changes to homebridge-dummy will be documented in this file.
+All notable changes to homebridge-easy-mqtt will be documented in this file.
+
+## 2.0.0-alpha.0 ()
+
+### Added
+- [Matter Support](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Matter-Support) (Beta) for `Switch`, `Outlet`, and `Lightbulb`
+    - ⚠️ Enabling Matter on an existing Easy MQTT accessory will require you to reconfigure any scenes or automations for that accessory
+
+### Changed
+- [Auto-Reset](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Auto%E2%80%90Reset) timer is restarted whenever accessory state is re-triggered ([#267](https://github.com/mpatfield/homebridge-easy-mqtt/issues/267))
+- ⚠️ Dropped [official support](https://github.com/homebridge/homebridge/wiki/How-To-Update-Node.js) for Node.js v20 and added Node.js v26
+
+### Notes
+- The major version update from v1 to v2 reflects the significant code restructuring needed to support Matter. There should be no breaking changes for existing configurations, but please [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose) if you have any issues.
+- Please consider giving this plugin a ⭐️ on [GitHub](https://github.com/mpatfield/homebridge-easy-mqtt) if you're finding it useful!
 
 ## 1.5.17 (2026-06-04)
 
@@ -12,9 +26,6 @@ All notable changes to homebridge-dummy will be documented in this file.
 - "Reset on Restart" not working as intended — causing characteristic warnings and crashes
     - ⚠️ This has been broken for a while — please [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose) if you notice any new issues with this option enabled
 - Potential crash on launch
-
-### Notes
-Please consider giving this plugin a ⭐️ on [GitHub](https://github.com/mpatfield/homebridge-easy-mqtt) if you're finding it useful!
 
 ## 1.5.16 (2026-05-25)
 

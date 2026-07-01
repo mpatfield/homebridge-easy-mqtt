@@ -93,6 +93,7 @@ const en = {
       fanv2: 'Fan (v2)',
       garageDoorOpener: 'Garage Door',
       heaterCooler: 'Heater/Cooler',
+      homekit: 'HomeKit (Default)',
       hours: 'Hours',
       hsb: 'HSB (Default)',
       humiditySensor: 'Humidity Sensor',
@@ -100,6 +101,7 @@ const en = {
       lightbulb: 'Lightbulb',
       lightSensor: 'Light Sensor',
       lockMechanism: 'Lock Mechanism',
+      matter: 'Matter (Beta)',
       milliseconds: 'Milliseconds',
       minutes: 'Minutes',
       motionSensor: 'Motion Sensor',
@@ -140,6 +142,7 @@ const en = {
       name: 'Name',
       options: 'Options',
       password: 'Password',
+      protocol: 'Protocol',
       resetOnRestart: 'Reset on Restart',
       simulateDuration: 'Simulate Duration',
       sourceUnits: 'Source Units',
@@ -619,15 +622,17 @@ const en = {
 
   startup: {
     complete: '✓ Setup complete',
-    newAccessory: 'Adding %s', // accessory name
-    removeAccessory: 'Removing %s', // accessory name
-    restoringAccessory: 'Restoring %s', // accessory name
+    homekitNewAccessory: 'Adding HomeKit accessory:',
+    homekitRemoveAccessory: 'Removing HomeKit accessory:',
+    homekitRestoringAccessory: 'Restoring HomeKit accessory:',
+    matterDisabled: 'Matter is currently disabled. Please enable Matter in the %s parent bridge.', // plugin name
+    matterGroups: 'Groups are not yet supported for Matter accessories',
+    matterUnavailable: 'Matter is not available with this version of Homebridge. Please update to Homebridge v2.0+ to use Matter with %s.', // plugin name
+    matterNewAccessory: 'Adding new Matter accessory:',
+    matterRemoveAccessory: 'Removing Matter accessory:',
+    matterRestoringAccessory: 'Restoring Matter accessory:',
+    unsupportedProtocol: 'Unsupported protocol %s. Must be one of: %s', // protocol, list of protocols
     unsupportedType: 'Unsupported accessory type %s', // accessory type
-    welcome: [
-      'Please ★ this plugin on GitHub if you\'re finding it useful! https://github.com/mpatfield/homebridge-easy-mqtt',
-      'Would you like to sponsor this plugin? https://github.com/sponsors/mpatfield',
-      'Want to see this plugin in your own language? Please visit https://github.com/mpatfield/homebridge-easy-mqtt/issues/4',
-    ],
   },
 
   thermostat: {

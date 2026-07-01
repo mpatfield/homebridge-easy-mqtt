@@ -604,14 +604,7 @@ const ro = {
 
   startup: {
     complete: '✓ Configurare completă',
-    newAccessory: 'Se adaugă %s',
-    removeAccessory: 'Se elimină %s',
-    restoringAccessory: 'Se restaurează %s',
     unsupportedType: 'Tip de accesoriu nesuportat %s',
-    welcome: [
-      'Vă rugăm să dați ★ acestui plugin pe GitHub dacă îl găsiți util! https://github.com/mpatfield/homebridge-easy-mqtt',
-      'Doriți să sponsorizați acest plugin? https://github.com/sponsors/mpatfield',
-    ],
   },
 
   thermostat: {

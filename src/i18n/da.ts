@@ -604,14 +604,7 @@ const da = {
 
   startup: {
     complete: '✓ Opsætning fuldført',
-    newAccessory: 'Tilføjer %s',
-    removeAccessory: 'Fjerner %s',
-    restoringAccessory: 'Gendanner %s',
     unsupportedType: 'Ikke-understøttet tilbehørstype %s',
-    welcome: [
-      'Giv venligst dette plugin en ★ på GitHub, hvis du finder det nyttigt! https://github.com/mpatfield/homebridge-easy-mqtt',
-      'Vil du sponsorere dette plugin? https://github.com/sponsors/mpatfield',
-    ],
   },
 
   thermostat: {

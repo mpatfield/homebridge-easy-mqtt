@@ -4,11 +4,10 @@ import { access, unlink } from 'fs/promises';
 import { API, CharacteristicValue, Nullable, PlatformAccessory } from 'homebridge';
 import path from 'path';
 
-import { EveCharacteristicKey } from './enums.js';
 import { HistoryConfig, MQTTAccessoryConfig } from './types.js';
 
-import { MQTTAccessory } from '../accessory/abstract/mqtt.js';
-import { EveCharacteristic } from '../accessory/characteristic/eve.js';
+import { MQTTAccessory } from '../homekit/abstract/mqtt.js';
+import { EveCharacteristic, EveCharacteristicKey } from '../homekit/characteristic/eve.js';
 
 import { strings } from '../i18n/i18n.js';
 
@@ -55,6 +54,16 @@ function HistoryService(type: HistoryType, accessory: PlatformAccessory, options
 }
 
 export class History {
+
+  private static _instance?: History;
+  public static instance(api: API, log: Log): History {
+
+    if (!History._instance) {
+      History._instance = new History(api, log);
+    }
+
+    return History._instance;
+  }
 
   private readonly historyServices = new Map<string, HistoryService>();
   private readonly persistPath: string;

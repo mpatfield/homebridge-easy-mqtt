@@ -1,29 +1,14 @@
-import { PlatformConfig as HBPlatformConfig, PlatformAccessory } from 'homebridge';
+import { PlatformConfig as HBPlatformConfig, PrimitiveTypes } from 'homebridge';
 
-export type ServiceType = typeof import('homebridge').Service;
-export type CharacteristicType = typeof import('homebridge').Characteristic;
-export type HapStatusErrorType = typeof import('homebridge').HapStatusError;
+import { AccessoryType, ColorType, LabelType, Protocol, TimeUnits, ValveType } from './enums.js';
 
-import { AccessoryType, ColorType, LabelType, TimeUnits, ValveType } from './enums.js';
-
-import { History } from './history.js';
-import { Log } from '../tools/log.js';
 import { TemperatureUnits } from '../tools/temperature.js';
 import { Assertable } from '../tools/validation.js';
 
-export type AccessoryDependency = {
-  Service: ServiceType,
-  Characteristic: CharacteristicType,
-  HapStatusError: HapStatusErrorType,
-  platformAccessory: PlatformAccessory,
-  log: Log,
-  history: History,
-}
+export type OnUpdateHandler = (topic: string, value: PrimitiveTypes) => (Promise<void>);
+export type TopicHandler = { topic: string; handler: OnUpdateHandler; };
 
-export type MQTTAccessoryDependency<C extends MQTTAccessoryConfig> = AccessoryDependency & {
-  config: C,
-  isGrouped: boolean,
-}
+export type PublishHandler = (topic: string, value: PrimitiveTypes) => void;
 
 export type PlatformConfig = HBPlatformConfig & {
   accessories?: BaseAccessoryConfig[];
@@ -66,6 +51,7 @@ export type InfoConfig = Assertable & {
   id: string,
   name: string,
   type: AccessoryType,
+  protocol?: Protocol,
   group?: string,
 }
 
