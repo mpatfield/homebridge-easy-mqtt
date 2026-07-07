@@ -2,7 +2,7 @@
 
 All notable changes to homebridge-easy-mqtt will be documented in this file.
 
-## 2.0.0-beta.0 ()
+## 2.0.0 (2026-07-07)
 
 ### Added
 - [Matter Support](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Matter-Support) (Beta) for `Switch`, `Outlet`, and `Lightbulb`
@@ -11,6 +11,7 @@ All notable changes to homebridge-easy-mqtt will be documented in this file.
 ### Changed
 - [Auto-Reset](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Auto%E2%80%90Reset) timer is restarted whenever accessory state is re-triggered ([#267](https://github.com/mpatfield/homebridge-easy-mqtt/issues/267))
 - ⚠️ Dropped [official support](https://github.com/homebridge/homebridge/wiki/How-To-Update-Node.js) for Node.js v20 and added Node.js v26
+- Updated dependencies
 - Traductions françaises mises à jour. Merci, [@7ute](https://github.com/sponsors/7ute)!
 - Traduceri actualizate în limba română. Mulțumesc, [@rursache](https://github.com/sponsors/rursache)!
 - Bản dịch tiếng Việt được cập nhật. Cảm ơn [@khanhnd88](https://github.com/sponsors/khanhnd88)!
