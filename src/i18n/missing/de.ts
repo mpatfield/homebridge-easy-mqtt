@@ -31,6 +31,10 @@ const de = {
     },
   },
 
+  mqttClient: {
+    transformedTopic: 'Transforming topic from %s to %s', // topic, topic
+  },
+
   startup: {
     homekitNewAccessory: 'Adding HomeKit accessory:',
     homekitRemoveAccessory: 'Removing HomeKit accessory:',

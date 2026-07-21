@@ -147,7 +147,8 @@ const it = {
   mqttClient: {
     messageUndefined: 'Message on %s with topic %s was transformed to undefined. Ignoring…', // host, topic
     publishUndefined: 'Nothing to publish to %s with topic %s. Transformed value is undefined.', // host, topic
-    transformedValue: 'Transforming value from %s to %s', // number, number
+    transformedTopic: 'Transforming topic from %s to %s', // topic, topic
+    transformedValue: 'Transforming value from %s to %s', // value, value
     transformFailed: 'Unable to execute transform:',
   },
 

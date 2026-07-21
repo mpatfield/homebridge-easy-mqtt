@@ -18,7 +18,40 @@ const DEFAULT_BROKER = 'mqtt://127.0.0.1/';
 
 type MQTTMessageHandler = (topic: string, value: PrimitiveTypes) => void;
 
-type Topic = { base: string, jsonPath: string[], transformer?: string };
+class Topic {
+
+  constructor(readonly base: string, readonly jsonPath: string[], readonly transformer?: string) {
+  }
+
+  resolveTopic(value: PrimitiveTypes, callerIdentifier: string, transformerStorage: Record<string, unknown>, log: Log): string {
+
+    if (!/\$\{[^{}]+\}/.test(this.base)) {
+      return this.base;
+    }
+
+    const resolvedTopic = this.base.replace(/\$\{([^{}]+)\}/g, (match, transformer: string) => {
+
+      if (!/(?<!\.)\breturn\b/.test(transformer)) {
+        transformer = `return ${transformer}`;
+      }
+
+      try {
+        const transformerFunction = new Function('value', 'properties', 'storage', transformer);
+        return String(transformerFunction(value, Properties.asRecord(callerIdentifier), transformerStorage));
+
+      } catch(error) {
+        log.error(strings.mqttClient.transformFailed, `'${transformer}'`, `\n${error}`);
+        return match;
+      }
+    });
+
+    if (resolvedTopic !== this.base) {
+      log.ifVerbose(strings.mqttClient.transformedTopic, `${this.base}`, `${resolvedTopic}`);
+    }
+
+    return resolvedTopic;
+  }
+}
 
 function toTopicObject(rawTopic: string): Topic {
 
@@ -45,7 +78,7 @@ function toTopicObject(rawTopic: string): Topic {
     base = base.slice(0, finalPipeIndex);
   }
 
-  return { base, jsonPath, transformer };
+  return new Topic(base, jsonPath, transformer);
 }
 
 class MQTTListener {
@@ -236,13 +269,14 @@ export class MQTT {
       return;
     }
 
-    const topic = toTopicObject(rawTopic);
+    const topicObject = toTopicObject(rawTopic);
+    const topic = topicObject.resolveTopic(value, callerIdentifier, this.transformerStorage, this.log);
 
-    if (topic.transformer) {
+    if (topicObject.transformer) {
 
-      const transformedValue = this.executeTransformer(callerIdentifier, topic.transformer, value);
+      const transformedValue = this.executeTransformer(callerIdentifier, topicObject.transformer, value);
       if (transformedValue === undefined) {
-        this.log.ifVerbose(strings.mqttClient.publishUndefined, this.host, topic.base);
+        this.log.ifVerbose(strings.mqttClient.publishUndefined, this.host, topicObject.base);
         return;
       }
 
@@ -250,14 +284,14 @@ export class MQTT {
     }
 
     let message: string;
-    if (topic.jsonPath.length) {
+    if (topicObject.jsonPath.length) {
 
       let messageObject: Record<string, unknown> = {};
 
-      const pathParts = Array.from(topic.jsonPath);
+      const pathParts = Array.from(topicObject.jsonPath);
       do {
         const pathPart = pathParts.pop()!;
-        if (pathParts.length === topic.jsonPath.length - 1) {
+        if (pathParts.length === topicObject.jsonPath.length - 1) {
           messageObject[pathPart] = value;
         } else {
           messageObject = { [pathPart]: messageObject };
@@ -271,12 +305,12 @@ export class MQTT {
     }
 
     if (this.minPublishIntervalMs === undefined) {
-      this.client.publish(topic.base, message, this.options);
-      this.log.ifVerbose( `${strings.mqttClient.publish} — ${topic.base} ${message}`, this.host);
+      this.client.publish(topic, message, this.options);
+      this.log.ifVerbose( `${strings.mqttClient.publish} — ${topic} ${message}`, this.host);
       return;
     }
 
-    this.publishAsync(topic.base, message);
+    this.publishAsync(topic, message);
   }
 
   private publishLocks: Record<string, Promise<void>[]> = {};

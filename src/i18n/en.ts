@@ -478,7 +478,8 @@ const en = {
     reconnectMinutes: 'Will attempt to reconnect to %s in %s minutes…', // host, number
     reconnectSeconds: 'Will attempt to reconnect to %s in %s seconds…', // host, number
     reuse: '%s reusing existing client with id %s', // accessory name, uuid
-    transformedValue: 'Transforming value from %s to %s', // number, number
+    transformedTopic: 'Transforming topic from %s to %s', // topic, topic
+    transformedValue: 'Transforming value from %s to %s', // value, value
     transformFailed: 'Unable to execute transform:',
   },
 

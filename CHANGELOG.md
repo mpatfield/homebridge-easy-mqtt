@@ -2,6 +2,17 @@
 
 All notable changes to homebridge-easy-mqtt will be documented in this file.
 
+## 2.1.0-beta.0 (2026-07-21)
+
+### Added
+- [Topic Transformers](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Advanced-Topic-Notation#topic-transformer) to alter the publish topics based on the value
+
+### Changed
+- Updated dependencies
+
+### Notes
+- Please consider giving this plugin a ⭐️ on [GitHub](https://github.com/mpatfield/homebridge-easy-mqtt) if you're finding it useful!
+
 ## 2.0.0 (2026-07-07)
 
 ### Added
@@ -19,7 +30,6 @@ All notable changes to homebridge-easy-mqtt will be documented in this file.
 
 ### Notes
 - The major version update from v1 to v2 reflects the significant code restructuring needed to support Matter. There should be no breaking changes for existing configurations, but please [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose) if you have any issues.
-- Please consider giving this plugin a ⭐️ on [GitHub](https://github.com/mpatfield/homebridge-easy-mqtt) if you're finding it useful!
 
 ## 1.5.17 (2026-06-04)
 
