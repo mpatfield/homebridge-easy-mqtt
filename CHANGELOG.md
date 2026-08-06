@@ -2,7 +2,7 @@
 
 All notable changes to homebridge-easy-mqtt will be documented in this file.
 
-## 2.1.0-beta.0 (2026-07-21)
+## 2.1.0 (2026-08-06)
 
 ### Added
 - [Topic Transformers](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Advanced-Topic-Notation#topic-transformer) to alter the publish topics based on the value
