@@ -2,6 +2,18 @@
 
 All notable changes to homebridge-easy-mqtt will be documented in this file.
 
+## 2.1.1-beta.0 ()
+
+### Fixed
+- Availability/Reachability (LWT) topic not working for grouped accessories
+- [Custom Characteristics](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Custom-Characteristics) not working for grouped accessories
+
+### Changed
+- Updated dependencies
+
+### Notes
+- Please consider giving this plugin a ⭐️ on [GitHub](https://github.com/mpatfield/homebridge-easy-mqtt) if you're finding it useful!
+
 ## 2.1.0 (2026-08-06)
 
 ### Added
@@ -9,9 +21,6 @@ All notable changes to homebridge-easy-mqtt will be documented in this file.
 
 ### Changed
 - Updated dependencies
-
-### Notes
-- Please consider giving this plugin a ⭐️ on [GitHub](https://github.com/mpatfield/homebridge-easy-mqtt) if you're finding it useful!
 
 ## 2.0.0 (2026-07-07)
 

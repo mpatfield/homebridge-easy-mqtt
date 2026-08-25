@@ -8,6 +8,8 @@ import { EveCharacteristicKey } from '../homekit/characteristic/eve.js';
 
 import { Log } from '../tools/log.js';
 
+export const HKCharacteristicSuffix = '-0000-1000-8000-0026BB765291';
+
 export type ServiceType = typeof import('homebridge').Service;
 export type CharacteristicType = typeof import('homebridge').Characteristic;
 export type HapStatusErrorType = typeof import('homebridge').HapStatusError;

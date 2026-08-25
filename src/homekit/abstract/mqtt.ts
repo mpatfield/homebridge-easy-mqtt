@@ -7,7 +7,7 @@ import { CharacteristicKeys } from '../characteristic/characteristic.js';
 import { CustomCharacteristic } from '../characteristic/custom.js';
 
 import { AccessoryType } from '../../model/enums.js';
-import { CharacteristicType, HapStatusErrorType, HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
+import { CharacteristicType, HapStatusErrorType, HKCharacteristicKey, HKCharacteristicSuffix, MQTTAccessoryDependency } from '../../model/homekit.js';
 import { HistoryEntry, HistoryType } from '../../model/history.js';
 import { MQTT } from '../../model/mqtt.js';
 import { MQTTAccessoryConfig } from '../../model/types.js';
@@ -44,15 +44,15 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
 
       this.accessoryService = accessoryService;
 
-      return;
-    }
+    } else {
 
-    this.accessoryService = dependency.platformAccessory.getService(serviceInstance) || dependency.platformAccessory.addService(serviceInstance);
+      this.accessoryService = dependency.platformAccessory.getService(serviceInstance) || dependency.platformAccessory.addService(serviceInstance);
 
-    for (const type of Object.values(AccessoryType)) {
-      const existingService = dependency.platformAccessory.getService(dependency.Service[type]);
-      if (existingService && type !== dependency.config.info.type) {
-        dependency.platformAccessory.removeService(existingService);
+      for (const type of Object.values(AccessoryType)) {
+        const existingService = dependency.platformAccessory.getService(dependency.Service[type]);
+        if (existingService && type !== dependency.config.info.type) {
+          dependency.platformAccessory.removeService(existingService);
+        }
       }
     }
 
@@ -114,7 +114,9 @@ export abstract class MQTTAccessory<C extends MQTTAccessoryConfig> extends Commo
       }
     }
 
-    const toRemove = this.accessoryService.characteristics.filter( (characteristic) => !keepUUIDs.has(characteristic.UUID));
+    const toRemove = this.accessoryService.characteristics.filter(
+      (characteristic) => !keepUUIDs.has(characteristic.UUID) && !characteristic.UUID.endsWith(HKCharacteristicSuffix),
+    );
 
     for (const characteristic of toRemove) {
       characteristic.updateValue(null);
