@@ -619,7 +619,6 @@ const vi = {
   },
 
   startup: {
-    complete: '✓ Cài đặt hoàn tất',
     homekitNewAccessory: 'Đang thêm phụ kiện HomeKit:',
     homekitRemoveAccessory: 'Đang xóa phụ kiện HomeKit:',
     homekitRestoringAccessory: 'Đang khôi phục phụ kiện HomeKit:',

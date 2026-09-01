@@ -477,7 +477,6 @@ const it = {
   },
 
   startup: {
-    complete: '✓ Configurazione completata',
     unsupportedType: 'Tipo di accessorio non supportato %s',
   },
 

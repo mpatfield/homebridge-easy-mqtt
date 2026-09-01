@@ -619,7 +619,6 @@ const da = {
   },
 
   startup: {
-    complete: '✓ Opsætning fuldført',
     homekitNewAccessory: 'Tilføjer HomeKit-tilbehør:',
     homekitRemoveAccessory: 'Fjerner HomeKit-tilbehør:',
     homekitRestoringAccessory: 'Gendanner HomeKit-tilbehør:',

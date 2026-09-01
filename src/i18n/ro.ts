@@ -619,7 +619,6 @@ const ro = {
   },
 
   startup: {
-    complete: '✓ Configurare completă',
     homekitNewAccessory: 'Se adaugă accesoriul HomeKit:',
     homekitRemoveAccessory: 'Se elimină accesoriul HomeKit:',
     homekitRestoringAccessory: 'Se restaurează accesoriul HomeKit:',

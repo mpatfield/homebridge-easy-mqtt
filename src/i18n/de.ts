@@ -603,7 +603,6 @@ const de = {
   },
 
   startup: {
-    complete: '✓ Setup abgeschlossen für %s',
     unsupportedType: 'Nicht unterstützter Zubehörtyp %s',
   },
 

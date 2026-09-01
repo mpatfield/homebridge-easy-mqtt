@@ -622,7 +622,6 @@ const en = {
   },
 
   startup: {
-    complete: '✓ Setup complete',
     homekitNewAccessory: 'Adding HomeKit accessory:',
     homekitRemoveAccessory: 'Removing HomeKit accessory:',
     homekitRestoringAccessory: 'Restoring HomeKit accessory:',

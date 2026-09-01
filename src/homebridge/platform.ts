@@ -203,8 +203,6 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
         await this.removeMatterPlatformAccessory(accessory);
       }
     });
-
-    this.log.always(strings.startup.complete);
   }
 
   private createHomeKitPlatformAccessory(name: string, uuid: string): PlatformAccessory {
