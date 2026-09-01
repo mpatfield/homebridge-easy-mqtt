@@ -2,11 +2,10 @@
 
 All notable changes to homebridge-easy-mqtt will be documented in this file.
 
-## 2.1.1-beta.0 ()
+## 2.1.1 (2026-08-31)
 
 ### Fixed
-- Availability/Reachability (LWT) topic not working for grouped accessories
-- [Custom Characteristics](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Custom-Characteristics) not working for grouped accessories
+- [Availability/Reachability](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Accessories#topics--values) (LWT) topic and [Custom Characteristics](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/Custom-Characteristics) broken for grouped accessories
 
 ### Changed
 - Updated dependencies
