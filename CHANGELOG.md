@@ -2,6 +2,14 @@
 
 All notable changes to homebridge-easy-mqtt will be documented in this file.
 
+## 2.1.2 (2026-09-08)
+
+### Changed
+- Updated dependencies
+
+### Notes
+- Please consider giving this plugin a ⭐️ on [GitHub](https://github.com/mpatfield/homebridge-easy-mqtt) if you're finding it useful!
+
 ## 2.1.1 (2026-08-31)
 
 ### Fixed
@@ -9,9 +17,6 @@ All notable changes to homebridge-easy-mqtt will be documented in this file.
 
 ### Changed
 - Updated dependencies
-
-### Notes
-- Please consider giving this plugin a ⭐️ on [GitHub](https://github.com/mpatfield/homebridge-easy-mqtt) if you're finding it useful!
 
 ## 2.1.0 (2026-08-06)
 
