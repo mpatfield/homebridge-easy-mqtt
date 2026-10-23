@@ -409,3 +409,22 @@ export type ValveConfig = BaseAccessoryConfig & {
   valueInUse: string,
   valueNotConfigured?: string,
 }
+
+export type IrrigationValveConfig = {
+  id: string,
+  name: string,
+  topicGetValveActive: string,
+  topicGetValveInUse: string,
+  topicSetValveActive: string,
+}
+
+export type IrrigationSystemConfig = BaseAccessoryConfig & {
+  valves: IrrigationValveConfig[],
+  valveType?: ValveType,
+  minimumDuration?: number,
+  maximumDuration?: number,
+  simulateDuration?: boolean,
+  valueActive: string,
+  valueInactive: string,
+  valueInUse: string,
+}

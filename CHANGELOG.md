@@ -2,13 +2,21 @@
 
 All notable changes to homebridge-easy-mqtt will be documented in this file.
 
-## 2.1.3 (2026-10-11)
+## 2.2.0-beta.0 ()
+
+### Added
+- [Irrigation System]() for properly grouping multiple valves ([#311](https://github.com/mpatfield/homebridge-easy-mqtt/issues/311))
 
 ### Changed
 - Updated dependencies
 
 ### Notes
 - Please consider giving this plugin a ⭐️ on [GitHub](https://github.com/mpatfield/homebridge-easy-mqtt) if you're finding it useful!
+
+## 2.1.3 (2026-10-11)
+
+### Changed
+- Updated dependencies
 
 ## 2.1.2 (2026-09-08)
 

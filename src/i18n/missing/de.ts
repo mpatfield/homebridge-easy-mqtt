@@ -15,6 +15,7 @@ const de = {
 
     enumNames: {
       homekit: 'HomeKit (Default)',
+      irrigationSystem: 'Irrigation System',
       matter: 'Matter (Beta)',
     },
 
@@ -28,7 +29,14 @@ const de = {
       topicGetAvailable: 'Get Available/Reachable',
       topicGetStatusActive: 'Get Active Status',
       valueStatusActive: 'Status Active',
+      valve: 'Valve',
     },
+
+    valve: 'Valve',
+  },
+
+  irrigation: {
+    badValveConfig: '%s valve config is missing required field: %s', // accessory name, field name
   },
 
   mqttClient: {

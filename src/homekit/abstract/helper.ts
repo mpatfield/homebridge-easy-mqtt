@@ -7,6 +7,7 @@ import { HomeKitAccessoryDependency, MQTTAccessoryDependency } from '../../model
 import * as Types from '../../model/types.js';
 
 import { GarageDoorAccessory } from '../garage.js';
+import { IrrigationSystemAccessory } from '../irrigation.js';
 import { LockMechanismAccessory } from '../lock.js';
 import { SecuritySystemAccessory } from '../security.js';
 import { ValveAccessory } from '../valve.js';
@@ -74,6 +75,8 @@ export function createHomeKitAccessory(
     return new HeaterCoolerAccessory(mqttDependency as MQTTAccessoryDependency<Types.HeaterCoolerConfig>);
   case AccessoryType.HumiditySensor:
     return new HumiditySensorAccessory(mqttDependency as MQTTAccessoryDependency<Types.HumiditySensorConfig>);
+  case AccessoryType.IrrigationSystem:
+    return new IrrigationSystemAccessory(mqttDependency as MQTTAccessoryDependency<Types.IrrigationSystemConfig>);
   case AccessoryType.LeakSensor:
     return new LeakSensorAccessory(mqttDependency as MQTTAccessoryDependency<Types.LeakSensorConfig>);
   case AccessoryType.Lightbulb:

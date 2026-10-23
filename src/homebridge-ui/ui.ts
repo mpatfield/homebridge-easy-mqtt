@@ -35,8 +35,15 @@ function updateAccessoryNames() {
   for(const legend of legends) {
     const fieldset = legend.closest('fieldset');
     const input = fieldset?.querySelector('input[type="text"][name="name"]') as HTMLInputElement | null;
-    if (input && legend.textContent !== (input.value || strings.accessory)) {
-      legend.textContent = input.value !== '' ? input.value : strings.accessory;
+
+    if (!input) {
+      continue;
+    }
+
+    const currentLabel = legend.textContent;
+    const desiredLabel = input.value !== '' ? input.value : (currentLabel === strings.valve ? strings.valve : strings.accessory);
+    if (currentLabel !== desiredLabel) {
+      legend.textContent = desiredLabel;
     }
 
     if (input && !input.dataset.accessoryNameListener) {
@@ -76,10 +83,19 @@ function updateConfigWithUUIDs(config: PlatformConfig) {
   let changed = false;
 
   config.accessories?.forEach( (accessoryConfig) => {
+
     if (accessoryConfig.info && !accessoryConfig.info.id) {
-      const id = generateUUID();
-      accessoryConfig.info.id = id;
+      accessoryConfig.info.id = generateUUID();
       changed = true;
+    }
+
+    if ('valves' in accessoryConfig && Array.isArray(accessoryConfig.valves)) {
+      accessoryConfig.valves.forEach( (valveConfig) => {
+        if (!valveConfig.id) {
+          valveConfig.id = generateUUID();
+          changed = true;
+        }
+      });
     }
   });
 

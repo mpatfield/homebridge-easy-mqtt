@@ -11,6 +11,7 @@ const i18n = [
   'support',
   'required',
   'thankYou',
+  'valve',
 ];
 
 const i18nReplacements = {

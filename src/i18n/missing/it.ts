@@ -59,6 +59,7 @@ const it = {
       homekit: 'HomeKit (Default)',
       hours: 'Hours',
       hsb: 'HSB (Default)',
+      irrigationSystem: 'Irrigation System',
       matter: 'Matter (Beta)',
       milliseconds: 'Milliseconds',
       minutes: 'Minutes',
@@ -104,7 +105,10 @@ const it = {
       valueSinglePress: 'Single Press',
       valueStatusActive: 'Status Active',
       valueUnmuted: 'Unmuted',
+      valve: 'Valve',
     },
+
+    valve: 'Valve',
   },
 
   doorbell: {
@@ -127,6 +131,10 @@ const it = {
     cleanupFailed: 'Unable to remove history for %s. Try manually removing the file %s from your Homebridge \'persist\' directory.', // accessory name, filename
     entry: '%s logging history entry:', // accessory name
     updatedCharacteristic: '%s updated %s with value %s', // accessory name, characteristic name, value
+  },
+
+  irrigation: {
+    badValveConfig: '%s valve config is missing required field: %s', // accessory name, field name
   },
 
   lightbulb: {

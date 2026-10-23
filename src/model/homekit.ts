@@ -63,6 +63,7 @@ export enum HKCharacteristicKey {
   PM10Density = 'PM10Density',
   PM2_5Density = 'PM2_5Density',
   PositionState = 'PositionState',
+  ProgramMode = 'ProgramMode',
   ProgrammableSwitchEvent = 'ProgrammableSwitchEvent',
   RemainingDuration = 'RemainingDuration',
   ResetFilterIndication = 'ResetFilterIndication',

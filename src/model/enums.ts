@@ -14,6 +14,7 @@ export enum AccessoryType {
   GarageDoorOpener = 'GarageDoorOpener',
   HeaterCooler = 'HeaterCooler',
   HumiditySensor = 'HumiditySensor',
+  IrrigationSystem = 'IrrigationSystem',
   LeakSensor = 'LeakSensor',
   Lightbulb = 'Lightbulb',
   LightSensor = 'LightSensor',
