@@ -23,14 +23,16 @@ function translateHtml() {
   });
 };
 
-function updateAccessoryNames() {
+function updateAccessoryNames(): boolean {
 
   const parentDocument = getParentDocument();
   if (!parentDocument) {
-    return;
+    return false;
   }
 
   const legends = Array.from(parentDocument.querySelectorAll('fieldset legend'));
+
+  let listenerAdded = false;
 
   for(const legend of legends) {
     const fieldset = legend.closest('fieldset');
@@ -49,8 +51,11 @@ function updateAccessoryNames() {
     if (input && !input.dataset.accessoryNameListener) {
       input.addEventListener('input', () => updateAccessoryNames());
       input.dataset.accessoryNameListener = 'true';
+      listenerAdded = true;
     }
   }
+
+  return listenerAdded;
 };
 
 function generateUUID() {
@@ -127,7 +132,9 @@ function showSettings() {
   if (parentDocument) {
 
     const observer = new MutationObserver(() => {
-      updateAccessoryNames();
+      if (updateAccessoryNames()) {
+        observer.disconnect();
+      }
     });
 
     observer.observe(
@@ -137,6 +144,8 @@ function showSettings() {
   }
 
   homebridge.addEventListener('configChanged', (evt: Event) => {
+    updateAccessoryNames();
+
     const configs = (evt as MessageEvent).data as PlatformConfig[];
     if (configs.length) {
       updateConfigWithUUIDs(configs[0]);
