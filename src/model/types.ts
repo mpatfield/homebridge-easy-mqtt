@@ -416,6 +416,7 @@ export type IrrigationValveConfig = {
   topicGetValveActive: string,
   topicGetValveInUse: string,
   topicSetValveActive: string,
+  topicGetValveRemainingDuration?: string,
 }
 
 export type IrrigationSystemConfig = BaseAccessoryConfig & {

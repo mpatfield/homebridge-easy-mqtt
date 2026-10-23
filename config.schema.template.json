@@ -146,6 +146,10 @@
           "topicGetValveInUse": {
             "type": "string",
             "title": "${config.title.topicGetValveInUse}"
+          },
+          "topicGetValveRemainingDuration": {
+            "type": "string",
+            "title": "${config.title.topicGetValveRemainingDuration}"
           }
         },
         "allOf": [
@@ -3485,11 +3489,15 @@
                       "items": [
                         {
                           "key": "accessories[].valves[].name",
-                          "flex": "0 0 50%"
+                          "flex": "0 0 34%"
                         },
                         {
                           "key": "accessories[].valves[].topicGetValveInUse",
-                          "flex": "0 0 50%"
+                          "flex": "0 0 33%"
+                        },
+                        {
+                          "key": "accessories[].valves[].topicGetValveRemainingDuration",
+                          "flex": "0 0 33%"
                         }
                       ]
                     },

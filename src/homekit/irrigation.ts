@@ -58,6 +58,7 @@ export class IrrigationSystemAccessory extends HomeKitAccessory<IrrigationSystem
         topicGetValveActive: config.topicGetValveActive,
         topicSetValveActive: config.topicSetValveActive,
         topicGetValveInUse: config.topicGetValveInUse,
+        topicGetValveRemainingDuration: config.topicGetValveRemainingDuration,
         valueActive: dependency.config.valueActive,
         valueInactive: dependency.config.valueInactive,
         valueInUse: dependency.config.valueInUse,
