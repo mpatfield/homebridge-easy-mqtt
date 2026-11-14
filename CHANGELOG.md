@@ -2,7 +2,7 @@
 
 All notable changes to homebridge-easy-mqtt will be documented in this file.
 
-## 2.2.1-beta.0 ()
+## 2.2.1-beta.1 ()
 
 ### Added
 - Temperature minimum/maximum setting for [TemperatureSensor](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/TemperatureSensor)
