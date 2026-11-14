@@ -3210,28 +3210,10 @@
                   ]
                 },
                 {
-                  "type": "div",
-                  "displayFlex": true,
-                  "flex-direction": "row",
-                  "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'TemperatureSensor';"
-                  },
-                  "items": [
-                    {
-                      "key": "accessories[].topicGetCurrentTemperature",
-                      "flex": "0 0 67%"
-                    },
-                    {
-                      "key": "accessories[].temperatureUnits",
-                      "flex": "0 0 33%"
-                    }
-                  ]
-                },
-                {
                   "type": "fieldset",
                   "notitle": true,
                   "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Thermostat';"
+                    "functionBody": "return ['Thermostat', 'TemperatureSensor'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {
@@ -3253,7 +3235,10 @@
                         },
                         {
                           "key": "accessories[].minimumStep",
-                          "flex": "0 0 25%"
+                          "flex": "0 0 25%",
+                          "condition": {
+                            "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Thermostat';"
+                          }
                         }
                       ]
                     },
@@ -3261,6 +3246,9 @@
                       "type": "div",
                       "displayFlex": true,
                       "flex-direction": "row",
+                      "condition": {
+                        "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Thermostat';"
+                      },
                       "items": [
                         {
                           "key": "accessories[].topicGetCurrentHeatingCoolingState",
@@ -3272,6 +3260,9 @@
                       "type": "div",
                       "displayFlex": true,
                       "flex-direction": "row",
+                      "condition": {
+                        "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Thermostat';"
+                      },
                       "items": [
                         {
                           "key": "accessories[].topicGetTargetHeatingCoolingState",
@@ -3287,6 +3278,9 @@
                       "type": "div",
                       "displayFlex": true,
                       "flex-direction": "row",
+                      "condition": {
+                        "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Thermostat';"
+                      },
                       "items": [
                         {
                           "key": "accessories[].topicGetCurrentTemperature",
@@ -3298,6 +3292,9 @@
                       "type": "div",
                       "displayFlex": true,
                       "flex-direction": "row",
+                      "condition": {
+                        "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Thermostat';"
+                      },
                       "items": [
                         {
                           "key": "accessories[].topicGetTargetTemperature",
@@ -3313,6 +3310,9 @@
                       "type": "div",
                       "displayFlex": true,
                       "flex-direction": "row",
+                      "condition": {
+                        "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Thermostat';"
+                      },
                       "items": [
                         {
                           "key": "accessories[].topicGetCurrentRelativeHumidity",
@@ -3325,6 +3325,9 @@
                       "type": "div",
                       "displayFlex": true,
                       "flex-direction": "row",
+                      "condition": {
+                        "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'Thermostat';"
+                      },
                       "items": [
                         {
                           "key": "accessories[].topicGetTargetRelativeHumidity",
@@ -3335,6 +3338,24 @@
                           "flex": "0 0 50%"
                         }
                       ]
+                    }
+                  ]
+                },
+                {
+                  "type": "div",
+                  "displayFlex": true,
+                  "flex-direction": "row",
+                  "condition": {
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.type === 'TemperatureSensor';"
+                  },
+                  "items": [
+                    {
+                      "key": "accessories[].topicGetCurrentTemperature",
+                      "flex": "0 0 67%"
+                    },
+                    {
+                      "key": "accessories[].temperatureUnits",
+                      "flex": "0 0 33%"
                     }
                   ]
                 },

@@ -219,6 +219,8 @@ export type SmokeSensorConfig = SensorConfig & AutoResetConfig & {
 }
 
 export type TemperatureSensorConfig = SensorConfig & TemperatureConfig & {
+  minimumTemperature?: number,
+  maximumTemperature?: number,
   topicGetCurrentTemperature: string,
 }
 
