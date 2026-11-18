@@ -149,6 +149,10 @@ export abstract class BaseMatterAccessory<C extends BaseAccessoryConfig = BaseAc
     return Properties.set(this.UUID, key, value, this.useStoredProperties);
   }
 
+  protected hasValue(key: keyof C): boolean {
+    return this.config[key] !== undefined;
+  }
+
   private assert(...keys: (keyof C)[]): boolean {
     return assert(this.log, this.displayName, this.config, ...keys);
   }
@@ -193,8 +197,16 @@ export abstract class BaseMatterAccessory<C extends BaseAccessoryConfig = BaseAc
     this.mqttClient?.teardown();
   }
 
-  protected setupGet(path: MatterClusterPath, defaultValue: MatterValue, getTopicKey: keyof C, getHandler: OnUpdateHandler) {
+  protected setupGet(path: MatterClusterPath, defaultValue: MatterValue, getTopicKey: keyof C, assertTopic: boolean, getHandler: OnUpdateHandler) {
     this.assertTopicKey(getTopicKey);
+
+    if (assertTopic) {
+      this.assert(getTopicKey);
+    }
+
+    if (this.config[getTopicKey] === undefined) {
+      return;
+    }
 
     const startingValue = !this.useStoredProperties ? defaultValue : (this.getProperty(path.valueKey) ?? defaultValue);
     this.onUpdate(path, startingValue);

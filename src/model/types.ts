@@ -394,6 +394,12 @@ export type DoorbellConfig = ButtonConfig & {
   valueUnmuted?: string,
 }
 
+export type ElectricalMeterConfig = BaseAccessoryConfig & {
+  topicGetCurrent?: string,
+  topicGetPower?: string,
+  topicGetVoltage?: string,
+}
+
 export type ValveConfig = BaseAccessoryConfig & {
   valveType?: ValveType,
   minimumDuration?: number,

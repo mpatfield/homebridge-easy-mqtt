@@ -27,13 +27,13 @@ export class MatterLightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
     if (this.isDimmer) {
       this.setupGet(
         this.currentLevelPath, this.maxLevel,
-        'topicGetBrightness', this.bindOnUpdateNumeric(this.currentLevelPath, 1, this.maxLevel, strings.lightbulb.brightnessValue),
+        'topicGetBrightness', false, this.bindOnUpdateNumeric(this.currentLevelPath, 1, this.maxLevel, strings.lightbulb.brightnessValue),
       );
     }
   }
 
   private get isDimmer(): boolean {
-    return this.config.topicGetBrightness !== undefined;
+    return this.hasValue('topicGetBrightness');
   }
 
   private get currentLevelPath(): MatterClusterPath {

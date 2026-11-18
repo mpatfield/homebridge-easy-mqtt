@@ -89,8 +89,9 @@ const en = {
       celsius: '°C',
       contactSensor: 'Contact Sensor',
       doorbell: 'Doorbell',
+      electricalMeter: 'Energy Meter (Matter)',
       fahrenheit: '°F',
-      fanv2: 'Fan (v2)',
+      fanv2: 'Fan',
       garageDoorOpener: 'Garage Door',
       heaterCooler: 'Heater/Cooler',
       homekit: 'HomeKit (Default)',
@@ -164,6 +165,7 @@ const en = {
       topicGetColorTemperature: 'Get Color Temperature',
       topicGetContactSensorState: 'Get Contact Detected*',
       topicGetCoolingThresholdTemperature: 'Get Cooling Threshold',
+      topicGetCurrent: 'Get Current (Amperes)',
       topicGetCurrentAmbientLightLevel: 'Get Current Light Level*',
       topicGetCurrentConsumption: 'Get Watts (Eve-only)',
       topicGetCurrentDoorState: 'Get Current Door State*',
@@ -199,6 +201,7 @@ const en = {
       topicGetPM10Density: 'Get PM10',
       topicGetPM2_5Density: 'Get PM2.5',
       topicGetPositionState: 'Get Position State*',
+      topicGetPower: 'Get Power (Milliwatts)',
       topicGetRGB: 'Get RGB',
       topicGetRotationDirection: 'Get Direction',
       topicGetRotationSpeed: 'Get Rotation Speed',
@@ -229,7 +232,8 @@ const en = {
       topicGetValveRemainingDuration: 'Get Duration Remaining',
       topicGetValveSetDuration: 'Get Duration',
       topicGetVOCDensity: 'Get VOC',
-      topicGetVoltage: 'Get Voltage (Eve-only)',
+      topicGetVoltage: 'Get Voltage (Millivolts)',
+      topicGetVoltageEve: 'Get Voltage (Eve-only)',
       topicGetVolume: 'Get Volume',
       topicGetWhite: 'Get White',
       topicResetFilterIndication: 'Reset Filter',
@@ -467,6 +471,12 @@ const en = {
     stateUnsecured: '%s is unlocked', // accessory name
     stateUnsecuredFuture: 'Unlocking %s…', // accessory name
     stateUnknown: '%s state is unknown', // accessory name
+  },
+
+  meter: {
+    current: '%s current is %d A', // accessory name, number (ampers)
+    power: '%s power is %d mW', // accessory name, number (milliwatts)
+    voltage: '%s power is %d mV', // accessory name, number (millivolts)
   },
 
   mqttClient: {

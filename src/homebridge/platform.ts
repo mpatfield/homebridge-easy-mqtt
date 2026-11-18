@@ -15,6 +15,7 @@ import { createMatterAccessory } from '../matter/helper.js';
 import { Protocol } from '../model/enums.js';
 import { History } from '../model/history.js';
 import { HomeKitAccessoryDependency } from '../model/homekit.js';
+import { MatterAccessoryType } from '../model/matter.js';
 import { BaseAccessoryConfig, PlatformConfig } from '../model/types.js';
 
 import { Log } from '../tools/log.js';
@@ -93,7 +94,11 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
       }
 
       if (accessoryConfig.info.protocol === undefined) {
-        accessoryConfig.info.protocol = Protocol.HomeKit;
+        if ([ MatterAccessoryType.ElectricalMeter ].includes(accessoryConfig.info.type) ) {
+          accessoryConfig.info.protocol = Protocol.Matter;
+        } else {
+          accessoryConfig.info.protocol = Protocol.HomeKit;
+        }
       }
 
       if (accessoryConfig.info.protocol === Protocol.HomeKit) {

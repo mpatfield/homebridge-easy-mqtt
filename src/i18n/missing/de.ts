@@ -14,6 +14,7 @@ const de = {
   config: {
 
     enumNames: {
+      electricalMeter: 'Energy Meter (Matter)',
       homekit: 'HomeKit (Default)',
       irrigationSystem: 'Irrigation System',
       matter: 'Matter (Beta)',
@@ -27,7 +28,10 @@ const de = {
       protocol: 'Protocol',
       simulateDuration: 'Simulate Duration',
       topicGetAvailable: 'Get Available/Reachable',
+      topicGetCurrent: 'Get Current (Amperes)',
+      topicGetPower: 'Get Power (Milliwatts)',
       topicGetStatusActive: 'Get Active Status',
+      topicGetVoltage: 'Get Voltage (Millivolts)',
       valueStatusActive: 'Status Active',
       valve: 'Valve',
     },
@@ -37,6 +41,12 @@ const de = {
 
   irrigation: {
     badValveConfig: '%s valve config is missing required field: %s', // accessory name, field name
+  },
+
+  meter: {
+    current: '%s current is %d A', // accessory name, number (ampers)
+    power: '%s power is %d mW', // accessory name, number (milliwatts)
+    voltage: '%s power is %d mV', // accessory name, number (millivolts)
   },
 
   mqttClient: {

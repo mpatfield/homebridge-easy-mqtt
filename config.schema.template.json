@@ -21,16 +21,15 @@
           "type": {
             "type": "string",
             "title": "${config.title.type}",
-            "enum": [ "AirPurifier", "AirQualitySensor", "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "Doorbell", "Fanv2", "GarageDoorOpener", "HeaterCooler", "HumiditySensor", "IrrigationSystem", "LeakSensor", "Lightbulb", "LightSensor", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "StatelessProgrammableSwitch", "Switch", "TemperatureSensor", "Thermostat", "Valve", "Window", "WindowCovering"],
-            "enumNames": ["${config.enumNames.airPurifier}", "${config.enumNames.airQualitySensor}", "${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.doorbell}", "${config.enumNames.fanv2}", "${config.enumNames.garageDoorOpener}", "${config.enumNames.heaterCooler}", "${config.enumNames.humiditySensor}", "${config.enumNames.irrigationSystem}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lightSensor}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.statelessSwitch}", "${config.enumNames.switch}", "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}", "${config.enumNames.valve}", "${config.enumNames.window}", "${config.enumNames.windowCovering}"],
+            "enum": [ "AirPurifier", "AirQualitySensor", "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "Doorbell", "ElectricalMeter", "Fanv2", "GarageDoorOpener", "HeaterCooler", "HumiditySensor", "IrrigationSystem", "LeakSensor", "Lightbulb", "LightSensor", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "StatelessProgrammableSwitch", "Switch", "TemperatureSensor", "Thermostat", "Valve", "Window", "WindowCovering"],
+            "enumNames": ["${config.enumNames.airPurifier}", "${config.enumNames.airQualitySensor}", "${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.doorbell}", "${config.enumNames.electricalMeter}", "${config.enumNames.fanv2}", "${config.enumNames.garageDoorOpener}", "${config.enumNames.heaterCooler}", "${config.enumNames.humiditySensor}", "${config.enumNames.irrigationSystem}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lightSensor}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.statelessSwitch}", "${config.enumNames.switch}", "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}", "${config.enumNames.valve}", "${config.enumNames.window}", "${config.enumNames.windowCovering}"],
             "required": true
           },
           "protocol": {
             "type": "string",
             "title": "${config.title.protocol}",
             "enum": [ "HomeKit", "Matter"],
-            "enumNames": ["${config.enumNames.homekit}", "${config.enumNames.matter}"],
-            "default": "HomeKit"
+            "enumNames": ["${config.enumNames.homekit}", "${config.enumNames.matter}"]
           },
           "group": {
             "type": "string",
@@ -632,6 +631,14 @@
               "type": "string",
               "title": "${config.title.topicSetTargetDoorState}"
             },
+            "topicGetCurrent": {
+              "type": "string",
+              "title": "${config.title.topicGetCurrent}"
+            },
+            "topicGetPower": {
+              "type": "string",
+              "title": "${config.title.topicGetPower}"
+            },
             "topicGetCurrentFanState": {
               "type": "string",
               "title": "${config.title.topicGetCurrentFanState}"
@@ -758,7 +765,7 @@
             },
             "topicGetVoltage": {
               "type": "string",
-              "title": "${config.title.topicGetVoltage}"
+              "title": "${config.title.topicGetVoltageEve}"
             },
             "valueAvailable": {
               "type": "string",
@@ -1721,6 +1728,26 @@
             {
               "if": {
                 "properties": {
+                  "info": {
+                    "properties": {
+                      "type" : {
+                        "const": "ElectricalMeter"
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "anyOf": [
+                  { "required": ["topicGetCurrent"] },
+                  { "required": ["topicGetPower"] },
+                  { "required": ["topicGetVoltage"] }
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
                   "topicGetCurrentFanState": {
                     "minLength": 1
                   }
@@ -1959,7 +1986,7 @@
                   "key": "accessories[].info.group",
                   "flex": "1 1 auto",
                   "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.protocol !== 'Matter';"
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.protocol !== 'Matter' && !['ElectricalMeter'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   }
                 }
               ]
@@ -2036,12 +2063,15 @@
               "flex-direction": "row",
               "items": [
                 {
-                  "key": "accessories[].resetOnRestart",
+                  "key": "accessories[].disableLogging",
                   "flex": "0 0 25%"
                 },
                 {
-                  "key": "accessories[].disableLogging",
-                  "flex": "0 0 25%"
+                  "key": "accessories[].resetOnRestart",
+                  "flex": "0 0 25%",
+                  "condition": {
+                    "functionBody": "return !['ElectricalMeter'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                  }
                 },
                 {
                   "key": "accessories[].history.enabled",
@@ -2997,6 +3027,42 @@
                   "type": "fieldset",
                   "notitle": true,
                   "condition": {
+                    "functionBody": "return ['ElectricalMeter'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                  },
+                  "items": [
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetCurrent",
+                          "flex": "0 0 50%"
+                        },
+                        {
+                          "key": "accessories[].topicGetPower",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "div",
+                      "displayFlex": true,
+                      "flex-direction": "row",
+                      "items": [
+                        {
+                          "key": "accessories[].topicGetVoltage",
+                          "title": "${config.title.topicGetVoltage}",
+                          "flex": "0 0 50%"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "fieldset",
+                  "notitle": true,
+                  "condition": {
                     "functionBody": "return ['AirPurifier', 'Fanv2', 'HeaterCooler'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
@@ -3443,7 +3509,7 @@
                   "displayFlex": true,
                   "flex-direction": "row",
                   "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.protocol !== 'Matter';"
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.protocol !== 'Matter' && !['ElectricalMeter'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {
@@ -3461,7 +3527,7 @@
                   "displayFlex": true,
                   "flex-direction": "row",
                   "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.protocol !== 'Matter';"
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.protocol !== 'Matter' && !['ElectricalMeter'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {
@@ -3533,7 +3599,7 @@
               "title": "${config.title.values}",
               "description": "${config.description.values}",
               "condition": {
-                "functionBody": "return model.accessories?.[arguments[1]]?.info?.type !== undefined;"
+                "functionBody": "return model.accessories?.[arguments[1]]?.info?.type !== undefined && !['ElectricalMeter'].includes(model.accessories?.[arguments[1]]?.info?.type);"
               },
               "items": [
                 {

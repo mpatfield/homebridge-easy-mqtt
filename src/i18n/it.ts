@@ -43,7 +43,7 @@ const it = {
       celsius: '°C',
       contactSensor: 'Sensore di contatto',
       fahrenheit: '°F',
-      fanv2: 'Ventilatore (v2)',
+      fanv2: 'Ventilatore',
       garageDoorOpener: 'Porta del garage',
       heaterCooler: 'Riscaldatore/Raffreddatore',
       humiditySensor: 'Sensore di umidità',

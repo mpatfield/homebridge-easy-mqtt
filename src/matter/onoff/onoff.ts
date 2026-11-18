@@ -12,7 +12,7 @@ export abstract class OnOffAccessory<C extends OnOffConfig = OnOffConfig> extend
 
     this.setupGet(
       this.onOffPath, false,
-      'topicGetOn', this.bindOnUpdateBoolean(this.onOffPath, 'valueOn', 'valueOff', strings.onOff.stateOn, strings.onOff.stateOff, MatterHandlerKey.off),
+      'topicGetOn', true, this.bindOnUpdateBoolean(this.onOffPath, 'valueOn', 'valueOff', strings.onOff.stateOn, strings.onOff.stateOff, MatterHandlerKey.off),
     );
   }
 

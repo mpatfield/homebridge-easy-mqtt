@@ -56,6 +56,7 @@ const it = {
 
     enumNames: {
       doorbell: 'Doorbell',
+      electricalMeter: 'Energy Meter (Matter)',
       homekit: 'HomeKit (Default)',
       hours: 'Hours',
       hsb: 'HSB (Default)',
@@ -83,13 +84,16 @@ const it = {
       time: 'Auto-Reset Delay',
       topicEventButtonPress: 'Button Press*',
       topicGetAvailable: 'Get Available/Reachable',
+      topicGetCurrent: 'Get Current (Amperes)',
       topicGetCurrentConsumption: 'Get Watts (Eve-only)',
       topicGetElectricCurrent: 'Get Amps (Eve-only)',
       topicGetMuted: 'Get Muted',
+      topicGetPower: 'Get Power (Milliwatts)',
       topicGetRGB: 'Get RGB',
       topicGetStatusActive: 'Get Active Status',
       topicGetTotalConsumption: 'Get kWh (Eve-only)',
-      topicGetVoltage: 'Get Voltage (Eve-only)',
+      topicGetVoltage: 'Get Voltage (Millivolts)',
+      topicGetVoltageEve: 'Get Voltage (Eve-only)',
       topicGetVolume: 'Get Volume',
       topicGetWhite: 'Get White',
       topicSetMuted: 'Set Muted',
@@ -150,6 +154,12 @@ const it = {
     brightnessValueFuture: 'Setting %s brightness to %d…', // accessory name, number
     rgbFuture: 'Setting %s RGB to %s…', // accessory name, value
     whiteFuture: 'Setting %s white to %s…', // accessory name, value
+  },
+
+  meter: {
+    current: '%s current is %d A', // accessory name, number (ampers)
+    power: '%s power is %d mW', // accessory name, number (milliwatts)
+    voltage: '%s power is %d mV', // accessory name, number (millivolts)
   },
 
   mqttClient: {
