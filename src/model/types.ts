@@ -1,6 +1,8 @@
 import { PlatformConfig as HBPlatformConfig, PrimitiveTypes } from 'homebridge';
 
-import { AccessoryType, ColorType, LabelType, Protocol, TimeUnits, ValveType } from './enums.js';
+import { ColorType, LabelType, Protocol, TimeUnits, ValveType } from './enums.js';
+import { HKAccessoryType } from './homekit.js';
+import { MatterAccessoryType } from './matter.js';
 
 import { TemperatureUnits } from '../tools/temperature.js';
 import { Assertable } from '../tools/validation.js';
@@ -9,6 +11,8 @@ export type OnUpdateHandler = (topic: string, value: PrimitiveTypes) => (Promise
 export type TopicHandler = { topic: string; handler: OnUpdateHandler; };
 
 export type PublishHandler = (topic: string, value: PrimitiveTypes) => void;
+
+type AccessoryType = HKAccessoryType & MatterAccessoryType;
 
 export type PlatformConfig = HBPlatformConfig & {
   accessories?: BaseAccessoryConfig[];

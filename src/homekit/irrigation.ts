@@ -4,8 +4,8 @@ import { ValveAccessory } from './valve.js';
 
 import { strings } from '../i18n/i18n.js';
 
-import { AccessoryType, ValveType } from '../model/enums.js';
-import { HKCharacteristicKey, MQTTAccessoryDependency } from '../model/homekit.js';
+import { ValveType } from '../model/enums.js';
+import { HKAccessoryType, HKCharacteristicKey, MQTTAccessoryDependency } from '../model/homekit.js';
 import { IrrigationSystemConfig, IrrigationValveConfig, ValveConfig } from '../model/types.js';
 
 import { assert } from '../tools/validation.js';
@@ -14,8 +14,8 @@ export class IrrigationSystemAccessory extends HomeKitAccessory<IrrigationSystem
 
   private readonly valveAccessories: ValveAccessory[] = [];
 
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.IrrigationSystem;
+  protected getAccessoryType(): HKAccessoryType {
+    return HKAccessoryType.IrrigationSystem;
   }
 
   constructor(dependency: MQTTAccessoryDependency<IrrigationSystemConfig>) {
@@ -47,7 +47,7 @@ export class IrrigationSystemAccessory extends HomeKitAccessory<IrrigationSystem
           ...(dependency.config.info),
           id: config.id ?? `${this.identifier}_${index + 1}`,
           name: config.name,
-          type: AccessoryType.Valve,
+          type: HKAccessoryType.Valve,
         },
         mqtt: dependency.config.mqtt,
         disableLogging: dependency.config.disableLogging,

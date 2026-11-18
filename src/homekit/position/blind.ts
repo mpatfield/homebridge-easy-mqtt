@@ -2,14 +2,13 @@ import { PositionAccessory } from './position.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType } from '../../model/enums.js';
-import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
+import { HKAccessoryType, HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
 import { BlindConfig } from '../../model/types.js';
 
 export class BlindAccessory extends PositionAccessory<BlindConfig> {
 
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.WindowCovering;
+  protected getAccessoryType(): HKAccessoryType {
+    return HKAccessoryType.WindowCovering;
   }
 
   constructor(

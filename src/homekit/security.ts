@@ -4,8 +4,7 @@ import { HomeKitAccessory } from './abstract/base.js';
 
 import { strings } from '../i18n/i18n.js';
 
-import { AccessoryType } from '../model/enums.js';
-import { HKCharacteristicKey, MQTTAccessoryDependency } from '../model/homekit.js';
+import { HKAccessoryType, HKCharacteristicKey, MQTTAccessoryDependency } from '../model/homekit.js';
 import { SecurityConfig } from '../model/types.js';
 
 import { LogType } from '../tools/log.js';
@@ -15,8 +14,8 @@ export class SecuritySystemAccessory extends HomeKitAccessory<SecurityConfig> {
   private readonly STATES: Map<keyof SecurityConfig, number>;
   private readonly CURRENT_STRINGS: Map<CharacteristicValue, string>;
 
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.SecuritySystem;
+  protected getAccessoryType(): HKAccessoryType {
+    return HKAccessoryType.SecuritySystem;
   }
 
   constructor(dependency: MQTTAccessoryDependency<SecurityConfig>) {

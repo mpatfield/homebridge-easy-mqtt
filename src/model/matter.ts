@@ -1,5 +1,11 @@
 export const MATTER_SERIAL_MAX_LEN = 32;
 
+export enum MatterAccessoryType {
+  Lightbulb = 'Lightbulb',
+  Outlet = 'Outlet',
+  Switch = 'Switch',
+}
+
 export enum MatterClusterKey {
   levelControl = 'levelControl',
   onOff = 'onOff',

@@ -6,17 +6,16 @@ import { EVE_EPOCH, EveCharacteristicKey } from '../characteristic/eve.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType } from '../../model/enums.js';
 import { HistoryType } from '../../model/history.js';
-import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
+import { HKAccessoryType, HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
 import { ContactSensorConfig, OnUpdateHandler } from '../../model/types.js';
 
 import { SECOND } from '../../tools/time.js';
 
 export class ContactSensorAccessory extends SensorAccessory<ContactSensorConfig> {
 
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.ContactSensor;
+  protected getAccessoryType(): HKAccessoryType {
+    return HKAccessoryType.ContactSensor;
   }
 
   private readonly CONTACT_DETECTED: number;

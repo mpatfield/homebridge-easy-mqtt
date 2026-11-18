@@ -4,8 +4,8 @@ import { HomeKitAccessory } from './abstract/base.js';
 
 import { strings } from '../i18n/i18n.js';
 
-import { AccessoryType, TimeUnits, ValveType } from '../model/enums.js';
-import { HKCharacteristicKey, MQTTAccessoryDependency } from '../model/homekit.js';
+import { TimeUnits, ValveType } from '../model/enums.js';
+import { HKAccessoryType, HKCharacteristicKey, MQTTAccessoryDependency } from '../model/homekit.js';
 import { ValveConfig } from '../model/types.js';
 
 import { LogType } from '../tools/log.js';
@@ -16,8 +16,8 @@ const DEFAULT_MAX_DURATION = 3600; // 1 hour
 
 export class ValveAccessory extends HomeKitAccessory<ValveConfig> {
 
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.Valve;
+  protected getAccessoryType(): HKAccessoryType {
+    return HKAccessoryType.Valve;
   }
 
   private durationFinishTime?: number;

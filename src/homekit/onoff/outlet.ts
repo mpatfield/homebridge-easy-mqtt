@@ -2,14 +2,13 @@ import { OnOffAccessory } from './onoff.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType } from '../../model/enums.js';
-import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
+import { HKAccessoryType, HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
 import { OutletConfig } from '../../model/types.js';
 
 export class OutletAccessory extends OnOffAccessory<OutletConfig> {
 
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.Outlet;
+  protected getAccessoryType(): HKAccessoryType {
+    return HKAccessoryType.Outlet;
   }
 
   constructor(dependency: MQTTAccessoryDependency<OutletConfig>) {

@@ -3,37 +3,6 @@ export enum Protocol {
   Matter = 'Matter',
 }
 
-export enum AccessoryType {
-  AirPurifier = 'AirPurifier',
-  AirQualitySensor = 'AirQualitySensor',
-  CarbonDioxideSensor = 'CarbonDioxideSensor',
-  CarbonMonoxideSensor = 'CarbonMonoxideSensor',
-  ContactSensor = 'ContactSensor',
-  Doorbell = 'Doorbell',
-  Fanv2 = 'Fanv2',
-  GarageDoorOpener = 'GarageDoorOpener',
-  HeaterCooler = 'HeaterCooler',
-  HumiditySensor = 'HumiditySensor',
-  IrrigationSystem = 'IrrigationSystem',
-  LeakSensor = 'LeakSensor',
-  Lightbulb = 'Lightbulb',
-  LightSensor = 'LightSensor',
-  LockMechanism = 'LockMechanism',
-  MotionSensor = 'MotionSensor',
-  OccupancySensor = 'OccupancySensor',
-  Outlet = 'Outlet',
-  SecuritySystem = 'SecuritySystem',
-  ServiceLabel = 'ServiceLabel',
-  SmokeSensor = 'SmokeSensor',
-  StatelessProgrammableSwitch = 'StatelessProgrammableSwitch',
-  Switch = 'Switch',
-  TemperatureSensor = 'TemperatureSensor',
-  Thermostat = 'Thermostat',
-  Valve = 'Valve',
-  Window = 'Window',
-  WindowCovering = 'WindowCovering',
-}
-
 export enum ColorType {
   HSB = 'HSB',
   RGB = 'RGB',

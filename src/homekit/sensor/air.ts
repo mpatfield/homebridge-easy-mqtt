@@ -2,16 +2,15 @@ import { SensorAccessory } from './sensor.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType } from '../../model/enums.js';
-import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
+import { HKAccessoryType, HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
 import { AirSensorConfig } from '../../model/types.js';
 
 const MAX_DENSITY = 5000;
 
 export class AirSensorAccessory extends SensorAccessory<AirSensorConfig> {
 
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.AirQualitySensor;
+  protected getAccessoryType(): HKAccessoryType {
+    return HKAccessoryType.AirQualitySensor;
   }
 
   constructor(dependency: MQTTAccessoryDependency<AirSensorConfig>) {

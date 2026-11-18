@@ -2,8 +2,8 @@ import { OnOffAccessory } from './onoff.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, ColorType } from '../../model/enums.js';
-import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
+import { ColorType } from '../../model/enums.js';
+import { HKAccessoryType, HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
 import { LightbulbConfig } from '../../model/types.js';
 
 import { parseCSVRGB, RGB, RGBtoHSB, HSBtoRGB, calculateWhiteFactor } from '../../tools/color.js';
@@ -15,8 +15,8 @@ const DEFAULT_COLD_WHITE: RGB = { red: 204, green: 219, blue: 255 };
 
 export class LightbulbAccessory extends OnOffAccessory<LightbulbConfig> {
 
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.Lightbulb;
+  protected getAccessoryType(): HKAccessoryType {
+    return HKAccessoryType.Lightbulb;
   }
 
   private cachedRGBW: { red?: number, green?: number, blue?: number, white?: number } = {};

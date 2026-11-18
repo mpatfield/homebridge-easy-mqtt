@@ -2,14 +2,13 @@ import { SensorAccessory } from './sensor.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType } from '../../model/enums.js';
-import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
+import { HKAccessoryType, HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
 import { LeakSensorConfig } from '../../model/types.js';
 
 export class LeakSensorAccessory extends SensorAccessory<LeakSensorConfig> {
 
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.LeakSensor;
+  protected getAccessoryType(): HKAccessoryType {
+    return HKAccessoryType.LeakSensor;
   }
 
   constructor(dependency: MQTTAccessoryDependency<LeakSensorConfig>) {

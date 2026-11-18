@@ -2,16 +2,15 @@ import { SensorAccessory } from './sensor.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType } from '../../model/enums.js';
-import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
+import { HKAccessoryType, HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
 import { HistoryType } from '../../model/history.js';
 import { TemperatureUnits, temperatureUnits, toCelsius } from '../../tools/temperature.js';
 import { TemperatureSensorConfig } from '../../model/types.js';
 
 export class TemperatureSensorAccessory extends SensorAccessory<TemperatureSensorConfig> {
 
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.TemperatureSensor;
+  protected getAccessoryType(): HKAccessoryType {
+    return HKAccessoryType.TemperatureSensor;
   }
 
   constructor(

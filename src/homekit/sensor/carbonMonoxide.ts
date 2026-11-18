@@ -2,14 +2,13 @@ import { SensorAccessory } from './sensor.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType } from '../../model/enums.js';
-import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
+import { HKAccessoryType, HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
 import { COSensorConfig } from '../../model/types.js';
 
 export class COSensorAccessory extends SensorAccessory<COSensorConfig> {
 
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.CarbonMonoxideSensor;
+  protected getAccessoryType(): HKAccessoryType {
+    return HKAccessoryType.CarbonMonoxideSensor;
   }
 
   constructor(dependency: MQTTAccessoryDependency<COSensorConfig>) {

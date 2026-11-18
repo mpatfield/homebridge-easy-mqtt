@@ -2,15 +2,14 @@ import { SensorAccessory } from './sensor.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType } from '../../model/enums.js';
 import { HistoryType } from '../../model/history.js';
-import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
+import { HKAccessoryType, HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
 import { HumiditySensorConfig } from '../../model/types.js';
 
 export class HumiditySensorAccessory extends SensorAccessory<HumiditySensorConfig> {
 
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.HumiditySensor;
+  protected getAccessoryType(): HKAccessoryType {
+    return HKAccessoryType.HumiditySensor;
   }
 
   constructor(

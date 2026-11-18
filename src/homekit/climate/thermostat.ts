@@ -2,8 +2,7 @@ import { TemperatureControlAccessory, DEFAULT_TEMPERATURE } from './temperatureC
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType } from '../../model/enums.js';
-import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
+import { HKAccessoryType, HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
 import { HistoryType } from '../../model/history.js';
 import { ThermostatConfig } from '../../model/types.js';
 
@@ -11,8 +10,8 @@ import { TemperatureUnits, toCelsius } from '../../tools/temperature.js';
 
 export class ThermostatAccessory extends TemperatureControlAccessory<ThermostatConfig> {
 
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.Thermostat;
+  protected getAccessoryType(): HKAccessoryType {
+    return HKAccessoryType.Thermostat;
   }
 
   constructor(dependency: MQTTAccessoryDependency<ThermostatConfig>) {

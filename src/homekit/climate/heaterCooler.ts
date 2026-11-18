@@ -4,14 +4,13 @@ import { FilterMaintenance } from '../addons/filter.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType } from '../../model/enums.js';
-import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
+import { HKAccessoryType, HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
 import { HeaterCoolerConfig } from '../../model/types.js';
 
 export class HeaterCoolerAccessory extends ActiveClimateAccessory<HeaterCoolerConfig> {
 
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.HeaterCooler;
+  protected getAccessoryType(): HKAccessoryType {
+    return HKAccessoryType.HeaterCooler;
   }
 
   constructor(dependency: MQTTAccessoryDependency<HeaterCoolerConfig>) {

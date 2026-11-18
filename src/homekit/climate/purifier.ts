@@ -4,14 +4,13 @@ import { FilterMaintenance } from '../addons/filter.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType } from '../../model/enums.js';
-import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
+import { HKAccessoryType, HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
 import { PurifierConfig } from '../../model/types.js';
 
 export class PurifierAccessory extends ActiveClimateAccessory<PurifierConfig> {
 
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.AirPurifier;
+  protected getAccessoryType(): HKAccessoryType {
+    return HKAccessoryType.AirPurifier;
   }
 
   constructor(dependency: MQTTAccessoryDependency<PurifierConfig>) {

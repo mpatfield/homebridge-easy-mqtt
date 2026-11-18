@@ -2,16 +2,15 @@ import { LockMechanismAccessory } from './lock.js';
 
 import { strings } from '../i18n/i18n.js';
 
-import { AccessoryType } from '../model/enums.js';
-import { HKCharacteristicKey, MQTTAccessoryDependency } from '../model/homekit.js';
+import { HKAccessoryType, HKCharacteristicKey, MQTTAccessoryDependency } from '../model/homekit.js';
 import { GarageDoorConfig } from '../model/types.js';
 
 import { LogType } from '../tools/log.js';
 
 export class GarageDoorAccessory extends LockMechanismAccessory<GarageDoorConfig> {
 
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.GarageDoorOpener;
+  protected getAccessoryType(): HKAccessoryType {
+    return HKAccessoryType.GarageDoorOpener;
   }
 
   constructor(dependency: MQTTAccessoryDependency<GarageDoorConfig>) {

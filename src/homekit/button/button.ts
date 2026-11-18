@@ -4,8 +4,8 @@ import { HomeKitAccessory } from '../abstract/base.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType, LabelType } from '../../model/enums.js';
-import { MQTTAccessoryDependency } from '../../model/homekit.js';
+import { LabelType } from '../../model/enums.js';
+import { HKAccessoryType, MQTTAccessoryDependency } from '../../model/homekit.js';
 import { ButtonConfig } from '../../model/types.js';
 
 import { toPrimitive } from '../../tools/primitive.js';
@@ -113,7 +113,7 @@ export abstract class ButtonAccessory<C extends ButtonConfig = ButtonConfig> ext
     }
   }
 
-  protected abstract getButtonAccessoryType(): AccessoryType;
+  protected abstract getButtonAccessoryType(): HKAccessoryType;
 
   private get isMultiButton(): boolean {
     return this.singlePressValues.length > 1 || this.doublePressValues.length > 1 || this.longPressValues.length > 1;
@@ -146,8 +146,8 @@ export abstract class ButtonAccessory<C extends ButtonConfig = ButtonConfig> ext
     return this._longPressValues;
   }
 
-  protected getAccessoryType(): AccessoryType {
-    return this.isMultiButton ? AccessoryType.ServiceLabel : this.getButtonAccessoryType();
+  protected getAccessoryType(): HKAccessoryType {
+    return this.isMultiButton ? HKAccessoryType.ServiceLabel : this.getButtonAccessoryType();
   }
 
   private async onPress(_topic: string, value: PrimitiveTypes) {

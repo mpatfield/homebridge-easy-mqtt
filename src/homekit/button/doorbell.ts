@@ -2,14 +2,13 @@ import { ButtonAccessory } from './button.js';
 
 import { strings } from '../../i18n/i18n.js';
 
-import { AccessoryType } from '../../model/enums.js';
-import { HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
+import { HKAccessoryType, HKCharacteristicKey, MQTTAccessoryDependency } from '../../model/homekit.js';
 import { DoorbellConfig } from '../../model/types.js';
 
 export class DoorbellAccessory extends ButtonAccessory<DoorbellConfig> {
 
-  protected getButtonAccessoryType(): AccessoryType {
-    return AccessoryType.Doorbell;
+  protected getButtonAccessoryType(): HKAccessoryType {
+    return HKAccessoryType.Doorbell;
   }
 
   constructor(dependency: MQTTAccessoryDependency<DoorbellConfig>) {

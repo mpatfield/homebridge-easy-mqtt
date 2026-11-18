@@ -4,16 +4,15 @@ import { HomeKitAccessory } from './abstract/base.js';
 
 import { strings } from '../i18n/i18n.js';
 
-import { AccessoryType } from '../model/enums.js';
-import { HKCharacteristicKey, MQTTAccessoryDependency } from '../model/homekit.js';
+import { HKAccessoryType, HKCharacteristicKey, MQTTAccessoryDependency } from '../model/homekit.js';
 import { LockConfig } from '../model/types.js';
 
 import { LogType } from '../tools/log.js';
 
 export class LockMechanismAccessory<C extends LockConfig = LockConfig> extends HomeKitAccessory<C> {
 
-  protected getAccessoryType(): AccessoryType {
-    return AccessoryType.LockMechanism;
+  protected getAccessoryType(): HKAccessoryType {
+    return HKAccessoryType.LockMechanism;
   }
 
   constructor(dependency: MQTTAccessoryDependency<C>, requireTopics: boolean = true) {
