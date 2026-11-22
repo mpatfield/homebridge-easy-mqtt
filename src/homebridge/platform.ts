@@ -94,7 +94,7 @@ export class HomebridgeEasyMQTT implements DynamicPlatformPlugin {
       }
 
       if (accessoryConfig.info.protocol === undefined) {
-        if ([ MatterAccessoryType.ElectricalMeter ].includes(accessoryConfig.info.type) ) {
+        if ([ MatterAccessoryType.ElectricalMeter, MatterAccessoryType.ElectricalSensor ].includes(accessoryConfig.info.type) ) {
           accessoryConfig.info.protocol = Protocol.Matter;
         } else {
           accessoryConfig.info.protocol = Protocol.HomeKit;

@@ -89,7 +89,8 @@ const en = {
       celsius: '°C',
       contactSensor: 'Contact Sensor',
       doorbell: 'Doorbell',
-      electricalMeter: 'Energy Meter (Matter)',
+      electricalMeter: 'Electrical Meter (Matter)',
+      electricalSensor: 'Electrical Sensor (Matter)',
       fahrenheit: '°F',
       fanv2: 'Fan',
       garageDoorOpener: 'Garage Door',
@@ -371,6 +372,12 @@ const en = {
     volumeValueFuture: 'Setting %s volume to %d…', // accessory name, number
   },
 
+  electrical: {
+    current: '%s current is %d A', // accessory name, number (ampers)
+    power: '%s power is %d mW', // accessory name, number (milliwatts)
+    voltage: '%s power is %d mV', // accessory name, number (millivolts)
+  },
+
   error: {
     hasFault: '%s has a fault', // accessory name
     isTampered: '%s has been tampered with', // accessory name
@@ -471,12 +478,6 @@ const en = {
     stateUnsecured: '%s is unlocked', // accessory name
     stateUnsecuredFuture: 'Unlocking %s…', // accessory name
     stateUnknown: '%s state is unknown', // accessory name
-  },
-
-  meter: {
-    current: '%s current is %d A', // accessory name, number (ampers)
-    power: '%s power is %d mW', // accessory name, number (milliwatts)
-    voltage: '%s power is %d mV', // accessory name, number (millivolts)
   },
 
   mqttClient: {

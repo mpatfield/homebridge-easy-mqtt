@@ -2,10 +2,11 @@
 
 All notable changes to homebridge-easy-mqtt will be documented in this file.
 
-## 2.3.0-beta.0 (2026-11-18)
+## 2.3.0-beta.1 ()
 
 ### Added
-- [ElectricalMeter](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/ElectricalMeter) accessory type (Matter only)
+- [ElectricalMeter](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/ElectricalAccessories) and [ElectricaSensor](https://github.com/mpatfield/homebridge-easy-mqtt/wiki/ElectricalAccessories) and  accessory types (Matter only)
+    - ⚠️ This required  changes to the Matter codebase. Please [open a ticket](https://github.com/mpatfield/homebridge-easy-mqtt/issues/new/choose) if you notice any issues.
 
 ### Changed
 - Updated dependencies

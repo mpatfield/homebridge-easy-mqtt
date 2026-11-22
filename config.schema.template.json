@@ -21,8 +21,8 @@
           "type": {
             "type": "string",
             "title": "${config.title.type}",
-            "enum": [ "AirPurifier", "AirQualitySensor", "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "Doorbell", "ElectricalMeter", "Fanv2", "GarageDoorOpener", "HeaterCooler", "HumiditySensor", "IrrigationSystem", "LeakSensor", "Lightbulb", "LightSensor", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "StatelessProgrammableSwitch", "Switch", "TemperatureSensor", "Thermostat", "Valve", "Window", "WindowCovering"],
-            "enumNames": ["${config.enumNames.airPurifier}", "${config.enumNames.airQualitySensor}", "${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.doorbell}", "${config.enumNames.electricalMeter}", "${config.enumNames.fanv2}", "${config.enumNames.garageDoorOpener}", "${config.enumNames.heaterCooler}", "${config.enumNames.humiditySensor}", "${config.enumNames.irrigationSystem}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lightSensor}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.statelessSwitch}", "${config.enumNames.switch}", "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}", "${config.enumNames.valve}", "${config.enumNames.window}", "${config.enumNames.windowCovering}"],
+            "enum": [ "AirPurifier", "AirQualitySensor", "CarbonMonoxideSensor", "CarbonDioxideSensor", "ContactSensor", "Doorbell", "ElectricalMeter", "ElectricalSensor", "Fanv2", "GarageDoorOpener", "HeaterCooler", "HumiditySensor", "IrrigationSystem", "LeakSensor", "Lightbulb", "LightSensor", "LockMechanism", "MotionSensor", "OccupancySensor", "Outlet", "SecuritySystem", "SmokeSensor", "StatelessProgrammableSwitch", "Switch", "TemperatureSensor", "Thermostat", "Valve", "Window", "WindowCovering"],
+            "enumNames": ["${config.enumNames.airPurifier}", "${config.enumNames.airQualitySensor}", "${config.enumNames.carbonMonoxideSensor}", "${config.enumNames.carbonDioxideSensor}", "${config.enumNames.contactSensor}", "${config.enumNames.doorbell}", "${config.enumNames.electricalMeter}", "${config.enumNames.electricalSensor}", "${config.enumNames.fanv2}", "${config.enumNames.garageDoorOpener}", "${config.enumNames.heaterCooler}", "${config.enumNames.humiditySensor}", "${config.enumNames.irrigationSystem}", "${config.enumNames.leakSensor}", "${config.enumNames.lightbulb}", "${config.enumNames.lightSensor}", "${config.enumNames.lockMechanism}", "${config.enumNames.motionSensor}", "${config.enumNames.occupancySensor}", "${config.enumNames.outlet}", "${config.enumNames.securitySystem}", "${config.enumNames.smokeSensor}", "${config.enumNames.statelessSwitch}", "${config.enumNames.switch}", "${config.enumNames.temperatureSensor}", "${config.enumNames.thermostat}", "${config.enumNames.valve}", "${config.enumNames.window}", "${config.enumNames.windowCovering}"],
             "required": true
           },
           "protocol": {
@@ -1731,7 +1731,7 @@
                   "info": {
                     "properties": {
                       "type" : {
-                        "const": "ElectricalMeter"
+                        "enum": ["ElectricalMeter", "ElectricalSensor"]
                       }
                     }
                   }
@@ -1986,7 +1986,7 @@
                   "key": "accessories[].info.group",
                   "flex": "1 1 auto",
                   "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.protocol !== 'Matter' && !['ElectricalMeter'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.protocol !== 'Matter' && !['ElectricalMeter','ElectricalSensor'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   }
                 }
               ]
@@ -2070,7 +2070,7 @@
                   "key": "accessories[].resetOnRestart",
                   "flex": "0 0 25%",
                   "condition": {
-                    "functionBody": "return !['ElectricalMeter'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                    "functionBody": "return !['ElectricalMeter','ElectricalSensor'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   }
                 },
                 {
@@ -3027,7 +3027,7 @@
                   "type": "fieldset",
                   "notitle": true,
                   "condition": {
-                    "functionBody": "return ['ElectricalMeter'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                    "functionBody": "return ['ElectricalMeter','ElectricalSensor'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {
@@ -3509,7 +3509,7 @@
                   "displayFlex": true,
                   "flex-direction": "row",
                   "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.protocol !== 'Matter' && !['ElectricalMeter'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.protocol !== 'Matter' && !['ElectricalMeter','ElectricalSensor'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {
@@ -3527,7 +3527,7 @@
                   "displayFlex": true,
                   "flex-direction": "row",
                   "condition": {
-                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.protocol !== 'Matter' && !['ElectricalMeter'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                    "functionBody": "return model.accessories?.[arguments[1]]?.info?.protocol !== 'Matter' && !['ElectricalMeter','ElectricalSensor'].includes(model.accessories?.[arguments[1]]?.info?.type);"
                   },
                   "items": [
                     {
@@ -3599,7 +3599,7 @@
               "title": "${config.title.values}",
               "description": "${config.description.values}",
               "condition": {
-                "functionBody": "return model.accessories?.[arguments[1]]?.info?.type !== undefined && !['ElectricalMeter'].includes(model.accessories?.[arguments[1]]?.info?.type);"
+                "functionBody": "return model.accessories?.[arguments[1]]?.info?.type !== undefined && !['ElectricalMeter','ElectricalSensor'].includes(model.accessories?.[arguments[1]]?.info?.type);"
               },
               "items": [
                 {

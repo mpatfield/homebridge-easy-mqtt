@@ -1,11 +1,11 @@
-import { BaseMatterAccessory, MatterAccessoryDependency } from './abstract/base.js';
+import { BaseMatterAccessory, MatterAccessoryDependency } from '../abstract/base.js';
 
-import { strings } from '../i18n/i18n.js';
+import { strings } from '../../i18n/i18n.js';
 
-import { MatterClusterKey, MatterClusterPath, MatterType, MatterValueKey } from '../model/matter.js';
-import { ElectricalMeterConfig } from '../model/types.js';
+import { MatterClusterKey, MatterClusterPath, MatterValueKey } from '../../model/matter.js';
+import { ElectricalConfig } from '../../model/types.js';
 
-export class MatterElectricalMeterAccessory<C extends ElectricalMeterConfig = ElectricalMeterConfig> extends BaseMatterAccessory<C> {
+export abstract class MatterElectricalAccessory<C extends ElectricalConfig = ElectricalConfig> extends BaseMatterAccessory<C> {
 
   constructor(dependency: MatterAccessoryDependency<C>) {
     super(dependency);
@@ -13,24 +13,20 @@ export class MatterElectricalMeterAccessory<C extends ElectricalMeterConfig = El
     const currentPath = MatterClusterPath(MatterClusterKey.electricalPowerMeasurement, MatterValueKey.activeCurrent);
     this.setupGet(
       currentPath, 0,
-      'topicGetCurrent', false, this.bindOnUpdateNumeric(currentPath, -Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, strings.meter.current),
+      'topicGetCurrent', false, this.bindOnUpdateNumeric(currentPath, -Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, strings.electrical.current),
     );
 
     const powerPath = MatterClusterPath(MatterClusterKey.electricalPowerMeasurement, MatterValueKey.activePower);
     this.setupGet(
       powerPath, 0,
-      'topicGetPower', false, this.bindOnUpdateNumeric(powerPath, -Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, strings.meter.power),
+      'topicGetPower', false, this.bindOnUpdateNumeric(powerPath, -Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, strings.electrical.power),
     );
 
     const voltagePath = MatterClusterPath(MatterClusterKey.electricalPowerMeasurement, MatterValueKey.voltage);
     this.setupGet(
       voltagePath, 0,
-      'topicGetVoltage', false, this.bindOnUpdateNumeric(voltagePath, -Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, strings.meter.voltage),
+      'topicGetVoltage', false, this.bindOnUpdateNumeric(voltagePath, -Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, strings.electrical.voltage),
     );
-  }
-
-  override getMatterType(): MatterType {
-    return MatterType.ElectricalMeter;
   }
 
   override get clusters() {

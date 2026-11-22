@@ -2,6 +2,7 @@ export const MATTER_SERIAL_MAX_LEN = 32;
 
 export enum MatterAccessoryType {
   ElectricalMeter = 'ElectricalMeter',
+  ElectricalSensor = 'ElectricalSensor',
   Lightbulb = 'Lightbulb',
   Outlet = 'Outlet',
   Switch = 'Switch',
@@ -25,6 +26,7 @@ export enum MatterValueKey {
 export enum MatterType {
   DimmableLight = 'DimmableLight',
   ElectricalMeter = 'ElectricalMeter',
+  ElectricalSensor = 'ElectricalSensor',
   OnOffLight = 'OnOffLight',
   OnOffOutlet = 'OnOffOutlet',
   OnOffSwitch = 'OnOffSwitch',

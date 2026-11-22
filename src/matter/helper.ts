@@ -5,7 +5,8 @@ import { strings } from '../i18n/i18n.js';
 import { MatterAccessoryType } from '../model/matter.js';
 import * as Types from '../model/types.js';
 
-import { MatterElectricalMeterAccessory } from './meter.js';
+import { MatterElectricalMeterAccessory } from './electrical/meter.js';
+import { MatterElectricalSensorAccessory } from './electrical/sensor.js';
 import { MatterLightbulbAccessory } from './onoff/lightbulb.js';
 import { MatterOutletAccessory } from './onoff/outlet.js';
 import { MatterSwitchAccessory } from './onoff/switch.js';
@@ -17,6 +18,8 @@ export function createMatterAccessory(
   switch(dependency.config.info.type) {
   case MatterAccessoryType.ElectricalMeter:
     return new MatterElectricalMeterAccessory(dependency as MatterAccessoryDependency<Types.ElectricalMeterConfig>);
+  case MatterAccessoryType.ElectricalSensor:
+    return new MatterElectricalSensorAccessory(dependency as MatterAccessoryDependency<Types.ElectricalSensorConfig>);
   case MatterAccessoryType.Lightbulb:
     return new MatterLightbulbAccessory(dependency as MatterAccessoryDependency<Types.LightbulbConfig>);
   case MatterAccessoryType.Outlet:

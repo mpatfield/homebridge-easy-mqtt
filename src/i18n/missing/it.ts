@@ -56,7 +56,8 @@ const it = {
 
     enumNames: {
       doorbell: 'Doorbell',
-      electricalMeter: 'Energy Meter (Matter)',
+      electricalMeter: 'Electrical Meter (Matter)',
+      electricalSensor: 'Electrical Sensor (Matter)',
       homekit: 'HomeKit (Default)',
       hours: 'Hours',
       hsb: 'HSB (Default)',
@@ -130,6 +131,12 @@ const it = {
     volumeValueFuture: 'Setting %s volume to %d…', // accessory name, number
   },
 
+  electrical: {
+    current: '%s current is %d A', // accessory name, number (ampers)
+    power: '%s power is %d mW', // accessory name, number (milliwatts)
+    voltage: '%s power is %d mV', // accessory name, number (millivolts)
+  },
+
   history: {
     cleanup: 'Removing history for %s', // accessory name
     cleanupFailed: 'Unable to remove history for %s. Try manually removing the file %s from your Homebridge \'persist\' directory.', // accessory name, filename
@@ -154,12 +161,6 @@ const it = {
     brightnessValueFuture: 'Setting %s brightness to %d…', // accessory name, number
     rgbFuture: 'Setting %s RGB to %s…', // accessory name, value
     whiteFuture: 'Setting %s white to %s…', // accessory name, value
-  },
-
-  meter: {
-    current: '%s current is %d A', // accessory name, number (ampers)
-    power: '%s power is %d mW', // accessory name, number (milliwatts)
-    voltage: '%s power is %d mV', // accessory name, number (millivolts)
   },
 
   mqttClient: {
